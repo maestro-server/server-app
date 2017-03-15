@@ -1,0 +1,14 @@
+{
+  "generator-kraken": {
+    "taskModule": "grunt",
+    "lintModule": "eslint",
+    "description": "Server app - Maestro",
+    "author": "Felipe Klerk Signorini <felipeklerk@yahoo.com.br>",
+    "templateModule": false,
+    "i18n": "i18n",
+    "componentPackager": false,
+    "cssModule": false,
+    "jsModule": false,
+    "useJson": null
+  }
+}
