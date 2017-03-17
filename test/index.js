@@ -17,8 +17,10 @@ describe('index', function () {
     beforeEach(function (done) {
         app = express();
         app.on('start', done);
+
+
         app.use(kraken({
-            basedir: path.resolve(__dirname, '..')
+            basedir: path.resolve(__dirname, '../app/')
         }));
 
         mock = app.listen(1337);
@@ -36,9 +38,9 @@ describe('index', function () {
             .get('/')
             .expect(200)
             .expect('Content-Type', /html/)
-            
-                .expect(/"name": "index"/)
-            
+
+                .expect("ok")
+
             .end(function (err, res) {
                 done(err);
             });

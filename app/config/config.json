@@ -1,22 +1,21 @@
 {
-
-    
-
-    
-
-    
     "i18n": {
         "contentPath": "path:./locales",
         "fallback": "en-US"
     },
-    
-
-    "specialization": {
-    },
 
     "middleware": {
-
-        
+        "appsec": {
+            "priority": 110,
+            "module": {
+                "name": "lusca",
+                "arguments": [
+                    {
+                        "csrf": false
+                    }
+                ]
+            }
+        },
 
         "static": {
             "module": {

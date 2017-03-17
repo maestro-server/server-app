@@ -14,7 +14,7 @@ require('babel-core/register');
 require("babel-polyfill");
 
 
-let app = require('./index');
+let app = require('./app/app');
 let http = require('http');
 
 let server;

@@ -12,10 +12,7 @@ module.exports = function eslint(grunt) {
         },
         target: ['index.js',
             'server.js',
-            'controllers/**/*.js',
-            'lib/**/*.js',
-            'models/**/*.js',
-            'public/js/**/*.js'
+            'app/**/*.js'
         ]
     };
 };
