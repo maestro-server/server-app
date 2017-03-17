@@ -1,5 +1,7 @@
 'use strict';
 
+import UserService from '../../services/usersService';
+
 
 module.exports = function (router) {
 
@@ -33,7 +35,7 @@ module.exports = function (router) {
 
     router.post('/', function (req, res) {
 
-        res.send("posdt users");
+        UserService.create(req.body);
 
     });
 

@@ -3,8 +3,12 @@
 import {Model} from 'mongorito';
 
 
-class UsersModel extends Model {
-    collection: 'users'
+class UserDao extends Model {
+
+    collection () {
+        return 'users';
+    }
+
 }
 
-module.exports = UsersModel;
+module.exports = UserDao;
