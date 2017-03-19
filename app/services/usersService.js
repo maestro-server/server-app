@@ -5,10 +5,22 @@ import UserRepository from '../repositories/usersRepository';
 class UsersService {
 
 
-    static create(user) {
+    static create(user, hook=null) {
 
-        let repository = new UserRepository();
-        repository.createUser(user);
+        let created = new Promise(function(resolve, reject) {
+
+            let promises = new UserRepository()
+                .createUser(user)
+                .then(function(users){
+                    resolve(users);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+
+        });
+
+        return created;
     }
 }
 

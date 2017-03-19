@@ -2,6 +2,7 @@
 
 import express from 'express';
 import kraken from 'kraken-js';
+import bodyParser from 'body-parser';
 
 import db_connect from './helpers/db_connect';
 
@@ -23,6 +24,7 @@ let options = {
 };
 
 let app = module.exports = express();
+
 app.use(kraken(options));
 
 

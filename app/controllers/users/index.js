@@ -33,9 +33,13 @@ module.exports = function (router) {
         });
 
 
-    router.post('/', function (req, res) {
+    router.post('/', function (req, res, next) {
 
-        UserService.create(req.body);
+        UserService.create(req.body)
+            .then(e => res.json(e))
+            .catch(function(e) {
+                next(e);
+            });
 
     });
 

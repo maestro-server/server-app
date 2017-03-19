@@ -27,6 +27,25 @@
             "module": {
                 "arguments": [{ "directory": "path:./controllers" }]
             }
+        },
+
+        "json": {
+            "enabled": true,
+            "priority": 30,
+            "module": {
+                "name": "body-parser",
+                "method": "json"
+            }
+        },
+
+        "notFound": {
+            "priority": 130,
+            "module": "path:./errors/404"
+        },
+
+        "errorResponse": {
+            "priority": 140,
+            "module": "path:./errors/500"
         }
 
     }
