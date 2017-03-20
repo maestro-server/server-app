@@ -1,7 +1,7 @@
 'use strict';
 
 import UserDao from './daos/user';
-import validator from 'validator';
+import validUsers from './validators/validUser';
 
 class UsersRepository {
 
@@ -19,10 +19,12 @@ class UsersRepository {
 
         let promises = new Promise(function(resolve, reject) {
 
-            let promises = new UserDao(user)
-                .save()
-                .then(function(users){
-                    resolve(users);
+            validUsers(user)
+                .then(
+                    new UserDao(user)
+                        .save()
+                ).then(function() {
+                    resolve(user);
                 })
                 .catch(function(err) {
                     reject(err);

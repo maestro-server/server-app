@@ -40,12 +40,12 @@
 
         "notFound": {
             "priority": 130,
-            "module": "path:./errors/404"
+            "module": "path:./middlewares/404"
         },
 
         "errorResponse": {
             "priority": 140,
-            "module": "path:./errors/500"
+            "module": "path:./middlewares/500"
         }
 
     }
