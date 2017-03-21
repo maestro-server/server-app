@@ -38,9 +38,33 @@
             }
         },
 
+        "url-encoded": {
+            "enabled": true,
+            "priority": 30,
+            "module": {
+                "name": "body-parser",
+                "method": "urlencoded",
+                "arguments": [{"extended":true}]
+            }
+        },
+
+        "filter": {
+            "enabled": true,
+            "priority": 40,
+            "module": {
+                "name": "content-filter",
+                "arguments": [{"dispatchToErrorHandler": true}]
+            }
+        },
+
         "notFound": {
             "priority": 130,
             "module": "path:./middlewares/404"
+        },
+
+        "validatorResponse": {
+            "priority": 135,
+            "module": "path:./middlewares/validatorResponse"
         },
 
         "errorResponse": {

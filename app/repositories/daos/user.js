@@ -2,7 +2,6 @@
 
 import {Model} from 'mongorito';
 
-
 class UserDao extends Model {
 
     collection () {

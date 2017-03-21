@@ -5,8 +5,9 @@ import ValidationError from '../../errors/validatorError';
 module.exports = function(vals) {
 
     let rules = (child) => {
-        //child('').required().isNumber().integer(); // pass
-        child('name').isString(); // fail
+        child('name').required().isString().isLength({min:4, max: 25});
+        child('email').required().isString().isEmail();
+        child('password').required().isString().isLength({min:4, max: 25});
     };
 
     return ValidFactory(

@@ -7,7 +7,7 @@ module.exports = function(rulesValidade, vals, msg="Validator error") {
 
         const validator = new Validator();
 
-        validator(vals).required().isObject(rulesValidade);
+        validator(vals).isObject(rulesValidade);
 
         const errors = validator.run();
 

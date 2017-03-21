@@ -2,10 +2,13 @@
 
 import UserDao from './daos/user';
 import validUsers from './validators/validUser';
+import filled from 'filter-object';
 
 class UsersRepository {
 
-    constructor() {}
+    constructor() {
+        this.filled = ['name', 'email', 'password', 'phone', 'company', 'avatar', 'job', 'country', 'city', 'address'];
+    }
 
     getUser(id) {
 
@@ -15,14 +18,16 @@ class UsersRepository {
 
     }
 
-    createUser(user) {
+    createUser(dirty) {
 
-        let promises = new Promise(function(resolve, reject) {
+        let promises = new Promise((resolve, reject) => {
+
+            let user = filled(dirty, this.filled);
 
             validUsers(user)
                 .then(
-                    new UserDao(user)
-                        .save()
+                    new UserDao(user).
+                    save()
                 ).then(function() {
                     resolve(user);
                 })
