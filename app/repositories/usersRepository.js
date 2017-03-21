@@ -10,6 +10,7 @@ class UsersRepository {
 
     constructor() {
         this.filled = ['name', 'email', 'password', 'phone', 'company', 'avatar', 'job', 'country', 'city', 'address'];
+        this.resFilled = ['_id', 'name', 'email'];
     }
 
     getUser(id) {
@@ -27,15 +28,19 @@ class UsersRepository {
 
             let user = filled(dirty, this.filled);
 
-
             validUsers(user)
-                .then(
-                    new UserDao(user).
+                //.then(() => {
+                //  return validDuplicate(user.email)
+                //})
+                .then(() => {
+                    return new UserDao(user).
                     save()
-                ).then(function() {
-                    resolve(user);
+                }).then((e) => {
+                    resolve(
+                      filled(e.attributes, this.resFilled)
+                    );
                 })
-                .catch(function(err) {
+                .catch((err) => {
                     reject(err);
                 });
 

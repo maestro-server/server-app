@@ -1,11 +1,11 @@
 'use strict'
 
-function ValidationError (errors, message='validator error') {
-    this.name = 'ValidationError'
+function ValidatorError (errors, message='validator error') {
+    this.name = 'ValidatorError'
     this.message = message;
     this.errors = errors;
 }
 
-ValidationError.prototype = Error.prototype;
+ValidatorError.prototype = Error.prototype;
 
-module.exports = ValidationError;
+module.exports = ValidatorError;

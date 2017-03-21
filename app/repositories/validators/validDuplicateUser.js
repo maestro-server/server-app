@@ -9,27 +9,23 @@ module.exports = function(val) {
 
     let promises = new Promise((resolve, reject) => {
 
-        throw new Error("dsfs");
-
-    });
-
-    return promises;
-    /*
-
-    let promises = new Promise(async function(resolve, reject) {
-
-        reject();
-        return;
-        let result = await UserDao.isDuplicate(val);
+      UserDao.isDuplicate(val)
+      .then(result => {
 
         if(result instanceof Object) {
             const err = {error: {failed: "user already"}};
-            throw new Error();
+            let errors = [{failed:val}];
+            throw new ConflictError(errors, "User already exist");
         }
 
+        resolve();
+      })
+      .catch(e => {
+        reject(e);
+      });
 
     });
 
     return promises;
-*/
+
 };

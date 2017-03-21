@@ -36,7 +36,7 @@ module.exports = function (router) {
     router.post('/', function (req, res, next) {
 
         UserService.create(req.body)
-            .then(e => res.json(e))
+            .then(e => res.status(201).json(e))
             .catch(function(e) {
                 next(e);
             });

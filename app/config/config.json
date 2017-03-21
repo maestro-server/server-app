@@ -67,6 +67,11 @@
             "module": "path:./middlewares/validatorResponse"
         },
 
+        "conflictResponse": {
+            "priority": 136,
+            "module": "path:./middlewares/conflicResponse"
+        },
+
         "errorResponse": {
             "priority": 140,
             "module": "path:./middlewares/500"

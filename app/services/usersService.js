@@ -12,10 +12,10 @@ class UsersService {
 
             let promises = new UserRepository()
                 .createUser(user)
-                .then(function(users){
+                .then((users) => {
                     resolve(users);
                 })
-                .catch(function(err) {
+                .catch((err) => {
                     reject(err);
                 });
 
