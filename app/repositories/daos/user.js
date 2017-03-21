@@ -8,6 +8,10 @@ class UserDao extends Model {
         return 'users';
     }
 
+    static isDuplicate (email) {
+        return UserDao.where('email', email).findOne();
+    }
+
 }
 
 module.exports = UserDao;

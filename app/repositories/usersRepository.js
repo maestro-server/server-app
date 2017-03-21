@@ -2,6 +2,8 @@
 
 import UserDao from './daos/user';
 import validUsers from './validators/validUser';
+import validDuplicate from './validators/validDuplicateUser';
+
 import filled from 'filter-object';
 
 class UsersRepository {
@@ -20,9 +22,11 @@ class UsersRepository {
 
     createUser(dirty) {
 
+
         let promises = new Promise((resolve, reject) => {
 
             let user = filled(dirty, this.filled);
+
 
             validUsers(user)
                 .then(

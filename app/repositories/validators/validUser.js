@@ -2,6 +2,8 @@ import Validator from 'better-validator';
 import ValidFactory from './validFactory';
 import ValidationError from '../../errors/validatorError';
 
+import UserDao from '../daos/user';
+
 module.exports = function(vals) {
 
     let rules = (child) => {
