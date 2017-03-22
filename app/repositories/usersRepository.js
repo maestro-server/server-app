@@ -1,12 +1,14 @@
 'use strict';
 
 import UserDao from './daos/user';
-import validNewUser from './validators/validNewUser';
 import validUser from './validators/validUser';
+import validNewUser from './validators/validNewUser';
+
 import validDuplicate from './validators/validDuplicateUser';
 import validFiltersPagination from './validators/validFiltersPagination';
 
 import filled from 'filter-object';
+import activeTransform from './transforms/activeTransform'
 
 class UsersRepository {
 
@@ -22,27 +24,25 @@ class UsersRepository {
         this.filterFilled = ['city'];
     }
 
-    find(dirty = null, limit = 20, skip = 0) {
+    find(filters = {}, limit = 20, skip = 0) {
 
         return new Promise((resolve, reject) => {
 
-            let filters = filled(dirty, this.filterFilled);
-
-            validFiltersPagination(filters)
-                .then(() => {
-                    return UserDao
-                        .limit(limit)
-                        .skip(skip)
-                        .sort('created_at', -1)
-                        .include(this.resFilled)
-                        .find(filters)
-                })
-                .then((e) => {
-                    resolve(e)
-                })
-                .catch((err) => {
-                    reject(err);
-                });
+          activeTransform.active(filters)
+            .then((filters) => {
+                return UserDao
+                    .limit(limit)
+                    .skip(skip)
+                    .sort('created_at', -1)
+                    .include(this.resFilled)
+                    .find(filters)
+            })
+            .then((e) => {
+                resolve(e)
+            })
+            .catch((err) => {
+                reject(err);
+            });
 
         });
 
@@ -52,33 +52,35 @@ class UsersRepository {
 
       return new Promise((resolve, reject) => {
 
-          UserDao.exclude('password')
-          .findOne(filter)
-              .then((e) => {
-                  resolve(e)
-              })
-              .catch((err) => {
-                  reject(err);
-              });
+        activeTransform.active(filter)
+          .then((filter) => {
+              return UserDao
+              .exclude('password')
+              .findOne(filter)
+          })
+          .then((e) => {
+              resolve(e)
+          })
+          .catch((err) => {
+              reject(err);
+          });
+
       });
 
     }
 
-    update(filter, dirty) {
+    update(id, dirty) {
 
       return new Promise((resolve, reject) => {
 
           let user = filled(dirty, this.filled);
 
-user._id = filter._id;
-
-          validUser(user)
-              .then(() => {
+          validUser(objs)
+              .then((user) => {
                   return new UserDao(user)
-                  .update();
+                  .updateById(id);
               })
               .then((e) => {
-                console.log(e)
                   resolve(
                       filled(e.attributes, this.resFilled)
                   )
@@ -91,8 +93,25 @@ user._id = filter._id;
 
     }
 
-    delete(filter) {
+    remove(_id) {
 
+      return new Promise((resolve, reject) => {
+
+          activeTransform.desactive({})
+              .then((user) => {
+                  return new UserDao(user)
+                  .updateById(_id);
+              })
+              .then((e) => {
+                  resolve(
+                      filled(e.attributes, this.resFilled)
+                  )
+              })
+              .catch((err) => {
+                  reject(err);
+              });
+
+      });
     }
 
     create(dirty) {
@@ -103,10 +122,13 @@ user._id = filter._id;
 
             validNewUser(user)
                 .then(() => {
-                    return validDuplicate(user.email)
+                    return validDuplicate(user.email);
                 })
                 .then(() => {
-                    return new UserDao(user).save()
+                    return activeTransform.active(user);
+                })
+                .then((e) => {
+                    return new UserDao(e).save()
                 })
                 .then((e) => {
                     resolve(

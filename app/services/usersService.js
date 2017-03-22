@@ -44,8 +44,8 @@ class UsersService {
 
       return new Promise(function(resolve, reject) {
 
-          let promises = new UserRepository()
-              .update({_id}, user)
+          new UserRepository()
+              .update(_id, user)
               .then((users) => {
                   resolve(users);
               })
@@ -56,12 +56,12 @@ class UsersService {
       });
     }
 
-    static delete(_id) {
+    static remove(_id) {
 
       return new Promise(function(resolve, reject) {
 
           let promises = new UserRepository()
-              .delete({_id})
+              .remove(_id)
               .then((result) => {
                   resolve(result);
               })

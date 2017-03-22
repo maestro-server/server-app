@@ -27,7 +27,7 @@ module.exports = function (router) {
 
         })
 
-        .put('/:id', function (req, res) {
+        .put('/:id', function (req, res, next) {
 
             UserService.update(req.params.id, req.body)
                 .then(e => res.status(201).json(e))
@@ -40,8 +40,8 @@ module.exports = function (router) {
 
         .delete('/:id', function (req, res) {
 
-            UserService.delete(req.params.id)
-                .then(e => res.json(e))
+            UserService.remove(req.params.id)
+                .then(e => res.status(204).json(e))
                 .catch(function(e) {
                     next(e);
                 });

@@ -1,18 +1,20 @@
 'use strict';
 
-import {Model} from 'mongorito';
+import Dao from './dao';
 import bcrypt from 'bcrypt';
 import crypto from '../../helpers/crypto';
 
+import {Model} from 'mongorito';
 
-class UserDao extends Model {
+class UserDao extends Dao {
 
     collection () {
         return 'users';
     }
 
     configure () {
-        this.before('create', 'passHash');
+      super.configure();
+      this.before('create', 'passHash');
     }
 
     passHash () {

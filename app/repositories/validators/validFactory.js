@@ -13,8 +13,8 @@ module.exports = function (rulesValidade, vals, msg = "Validator error") {
         if (errors.length) {
             throw new ValidatorError(errors, msg);
         }
-
-        resolve();
+        
+        resolve(vals);
 
     });
 

@@ -1,16 +1,13 @@
-import Validator from 'better-validator';
-import ValidFactory from './validFactory';
-import ValidationError from '../../errors/validatorError';
 
-import UserDao from '../daos/user';
+import ValidFactory from './validFactory';
 
 module.exports = function(vals) {
 
     let rules = (child) => {
-        child('name').required().isString().isLength({min:4, max: 25});
-        child('email').required().isString().isEmail();
-        child('password').required().isString().isLength({min:4, max: 25});
+        child('name').isString().isLength({min:4, max: 25});
+        child('email').isString().isEmail();
     };
+
 
     return ValidFactory(
         rules,

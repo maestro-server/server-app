@@ -1,8 +1,5 @@
-import Validator from 'better-validator';
-import ValidFactory from './validFactory';
-import ValidationError from '../../errors/validatorError';
 
-import UserDao from '../daos/user';
+import ValidFactory from './validFactory';
 
 module.exports = function(vals) {
 
