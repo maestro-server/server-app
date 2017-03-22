@@ -5,7 +5,7 @@
 'use strict';
 
 var crypto = function() {
-    var cryptLevel = -1;
+    let cryptLevel = 6;
     this.getCryptLevel = function() {
         return cryptLevel;
     };
