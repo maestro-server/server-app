@@ -17,7 +17,6 @@ class UserDao extends Model {
 
     passHash (next) {
         this.attributes.password = bcrypt.hashSync(this.attributes.password, crypto.getCryptLevel());
-console.log(this.attributes.password);
     }
 
     static isDuplicate (email) {

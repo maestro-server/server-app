@@ -1,6 +1,5 @@
 
 import run from '../../helpers/db_run';
-import co from 'co';
 
 import UserDao from '../daos/user';
 import ConflictError from '../../errors/conflictError';

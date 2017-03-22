@@ -9,26 +9,43 @@ module.exports = function (router) {
 
         .get('/', function (req, res) {
 
-            res.send("get user ");
+            UserService.find(req.query)
+                .then(e => res.json(e))
+                .catch(function(e) {
+                    console.log(e)
+                    next(e);
+                });
 
         })
 
         .get('/:id', function (req, res) {
 
-            res.send("get user id ");
+            UserService.findOne(req.params.id)
+                .then(e => res.json(e))
+                .catch(function(e) {
+                    next(e);
+                });
 
         })
 
         .put('/:id', function (req, res) {
 
-            res.send("put user id ");
+            UserService.update(req.body)
+                .then(e => res.status(201).json(e))
+                .catch(function(e) {
+                    next(e);
+                });
 
         })
 
 
         .delete('/:id', function (req, res) {
 
-            res.send("delete user id ");
+            UserService.delete(req.params.id)
+                .then(e => res.json(e))
+                .catch(function(e) {
+                    next(e);
+                });
 
         });
 
