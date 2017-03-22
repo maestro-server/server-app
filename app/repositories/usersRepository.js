@@ -74,8 +74,8 @@ user._id = filter._id;
 
           validUser(user)
               .then(() => {
-                  return UserDao
-                  .update(user)
+                  return new UserDao(user)
+                  .update();
               })
               .then((e) => {
                 console.log(e)
