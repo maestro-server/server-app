@@ -15,7 +15,7 @@ class UserDao extends Model {
         this.before('create', 'passHash');
     }
 
-    passHash (next) {
+    passHash () {
         this.attributes.password = bcrypt.hashSync(this.attributes.password, crypto.getCryptLevel());
     }
 

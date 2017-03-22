@@ -6,7 +6,6 @@ import UserService from '../../services/usersService';
 module.exports = function (router) {
 
     router
-
         .get('/', function (req, res) {
 
             UserService.find(req.query)
@@ -30,7 +29,7 @@ module.exports = function (router) {
 
         .put('/:id', function (req, res) {
 
-            UserService.update(req.body)
+            UserService.update(req.params.id, req.body)
                 .then(e => res.status(201).json(e))
                 .catch(function(e) {
                     next(e);

@@ -2,6 +2,12 @@
 
 'use strict';
 
+/*
+ * Babel hook
+ */
+require('babel-core/register');
+require("babel-polyfill");
+
 
 var kraken = require('kraken-js'),
     express = require('express'),

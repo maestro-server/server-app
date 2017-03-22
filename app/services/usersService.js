@@ -25,16 +25,51 @@ class UsersService {
 
     }
 
-    static findOne(id) {
+    static findOne(_id) {
+      return new Promise(function(resolve, reject) {
 
+          let promises = new UserRepository()
+              .findOne({_id})
+              .then((result) => {
+                  resolve(result);
+              })
+              .catch((err) => {
+                  reject(err);
+              });
+
+      });
     }
 
-    static update(id, user) {
+    static update(_id, user) {
 
+      return new Promise(function(resolve, reject) {
+
+          let promises = new UserRepository()
+              .update({_id}, user)
+              .then((users) => {
+                  resolve(users);
+              })
+              .catch((err) => {
+                  reject(err);
+              });
+
+      });
     }
 
-    static delete(id) {
+    static delete(_id) {
 
+      return new Promise(function(resolve, reject) {
+
+          let promises = new UserRepository()
+              .delete({_id})
+              .then((result) => {
+                  resolve(result);
+              })
+              .catch((err) => {
+                  reject(err);
+              });
+
+      });
     }
 
     static create(user) {
@@ -42,7 +77,7 @@ class UsersService {
         return new Promise(function(resolve, reject) {
 
             let promises = new UserRepository()
-                .createUser(user)
+                .create(user)
                 .then((users) => {
                     resolve(users);
                 })

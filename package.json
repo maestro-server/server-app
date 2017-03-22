@@ -8,6 +8,8 @@
     "server": "nodemon server.js",
     "test": "grunt test",
     "build": "grunt build",
+    "lint": "grunt eslint",
+    "qa": "grunt watch",
     "all": "npm run build && npm run test"
   },
   "dependencies": {
@@ -38,6 +40,7 @@
     "grunt-cli": "^0.1.13",
     "grunt-config-dir": "^0.3.2",
     "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-watch": "^1.0.0",
     "grunt-copy-browser-modules": "^6.0.0",
     "grunt-copy-to": "0.0.10",
     "grunt-eslint": "^17.3.2",

@@ -17,5 +17,4 @@ module.exports = function (grunt) {
 
     grunt.registerTask('qa', [ 'eslint', 'mochacli' ]);
 
-
 };
