@@ -9,6 +9,12 @@ import filled from 'filter-object';
 
 class UsersRepository {
 
+    /**
+     *
+     * filled = fields usgin to create a new entiti
+     * resFilled = fields with show to result
+     * filterFilled = fields using to filters find
+     */
     constructor() {
         this.filled = ['name', 'email', 'password', 'phone', 'company', 'avatar', 'job', 'country', 'city', 'address'];
         this.resFilled = ['_id', 'name', 'email'];
@@ -27,6 +33,7 @@ class UsersRepository {
                     return UserDao
                         .limit(limit)
                         .skip(skip)
+                        .sort('created_at', -1)
                         .find(filters)
                 })
                 .then((e) => {
