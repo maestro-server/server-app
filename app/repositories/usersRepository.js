@@ -7,9 +7,8 @@ import validNewUser from './validators/validNewUser';
 import validDuplicate from './validators/validDuplicateUser';
 import validFiltersPagination from './validators/validFiltersPagination';
 
-import filled from 'filter-object';
-import filledTransform from './transforms/filledTransform'
-import activeTransform from './transforms/activeTransform'
+import filledTransform from './transforms/filledTransform';
+import activeTransform from './transforms/activeTransform';
 
 class UsersRepository {
 

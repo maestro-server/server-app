@@ -4,7 +4,8 @@ import UserDao from './daos/user';
 import validUsers from './validators/validUser';
 import validDuplicate from './validators/validDuplicateUser';
 
-import filled from 'filter-object';
+import filledTransform from './transforms/filledTransform';
+import activeTransform from './transforms/activeTransform';
 
 class TeamsRepository {
 
