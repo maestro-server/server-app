@@ -6,7 +6,8 @@ import validDuplicate from './validators/validDuplicateUser';
 
 import filled from 'filter-object';
 
-class TeamsRepository {
+class ProjectsRepository {
+
 
     /**
      *
@@ -15,9 +16,9 @@ class TeamsRepository {
      * filterFilled = fields using to filters find
      */
     constructor() {
-        this.filled = ['name', 'email', 'url', 'avatar', 'owner', 'members', 'access', 'qtds'];
+        this.filled = ['name', 'email', 'password', 'phone', 'company', 'avatar', 'job', 'country', 'city', 'address'];
         this.resFilled = ['_id', 'name', 'email'];
-        this.filterFilled = ['ow'];
+        this.filterFilled = ['city'];
     }
 
     find(filters = {}, limit = 20, skip = 0) {
@@ -114,11 +115,11 @@ class TeamsRepository {
         });
     }
 
-    create(team) {
+    create(user) {
 
         return new Promise((resolve, reject) => {
 
-            filledTransform(team, this.filled)
+            filledTransform(user, this.filled)
                 .then((e) => {
                     return validNewUser(e);
                 })
@@ -145,4 +146,4 @@ class TeamsRepository {
     }
 }
 
-module.exports = TeamsRepository;
+module.exports = ProjectsRepository;

@@ -1,9 +1,9 @@
 'use strict';
 
-import UserRepository from '../repositories/usersRepository';
+import TeamRepository from '../repositories/teamsRepository';
 import Promises from 'bluebird';
 
-class UsersService {
+class TeamsService {
 
     static find(query) {
 
@@ -12,7 +12,7 @@ class UsersService {
             let limit = parseInt(query.limit) || 20;
             let skip = parseInt(query.skip) || 0;
 
-            let promises = new UserRepository()
+            let promises = new TeamRepository()
                 .find(query, limit, skip)
                 .then((result) => {
                     resolve(result);
@@ -28,7 +28,7 @@ class UsersService {
     static findOne(_id) {
       return new Promise(function(resolve, reject) {
 
-          let promises = new UserRepository()
+          let promises = new TeamRepository()
               .findOne({_id})
               .then((result) => {
                   resolve(result);
@@ -40,14 +40,14 @@ class UsersService {
       });
     }
 
-    static update(_id, user) {
+    static update(_id, team) {
 
       return new Promise(function(resolve, reject) {
 
-          new UserRepository()
-              .update(_id, user)
-              .then((users) => {
-                  resolve(users);
+          new TeamRepository()
+              .update(_id, team)
+              .then((result) => {
+                  resolve(result);
               })
               .catch((err) => {
                   reject(err);
@@ -60,7 +60,7 @@ class UsersService {
 
       return new Promise(function(resolve, reject) {
 
-          let promises = new UserRepository()
+          let promises = new TeamRepository()
               .remove(_id)
               .then((result) => {
                   resolve(result);
@@ -72,14 +72,14 @@ class UsersService {
       });
     }
 
-    static create(user) {
+    static create(team) {
 
         return new Promise(function(resolve, reject) {
 
-            let promises = new UserRepository()
-                .create(user)
-                .then((result) => {
-                    resolve(result);
+            let promises = new TeamRepository()
+                .create(team)
+                .then((e) => {
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -90,4 +90,4 @@ class UsersService {
     }
 }
 
-module.exports = UsersService;
+module.exports = TeamsService;

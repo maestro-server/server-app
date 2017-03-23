@@ -1,9 +1,9 @@
 'use strict';
 
-import UserRepository from '../repositories/usersRepository';
+import AccessRepository from '../repositories/accessRepository';
 import Promises from 'bluebird';
 
-class UsersService {
+class AccessService {
 
     static find(query) {
 
@@ -78,8 +78,8 @@ class UsersService {
 
             let promises = new UserRepository()
                 .create(user)
-                .then((result) => {
-                    resolve(result);
+                .then((users) => {
+                    resolve(users);
                 })
                 .catch((err) => {
                     reject(err);
@@ -90,4 +90,4 @@ class UsersService {
     }
 }
 
-module.exports = UsersService;
+module.exports = AccessService;
