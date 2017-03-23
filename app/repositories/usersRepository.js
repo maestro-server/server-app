@@ -8,6 +8,7 @@ import validDuplicate from './validators/validDuplicateUser';
 import validFiltersPagination from './validators/validFiltersPagination';
 
 import filled from 'filter-object';
+import filledTransform from './transforms/filledTransform'
 import activeTransform from './transforms/activeTransform'
 
 class UsersRepository {
@@ -69,16 +70,20 @@ class UsersRepository {
 
     }
 
-    update(id, dirty) {
+    update(id, user) {
 
       return new Promise((resolve, reject) => {
 
-          let user = filled(dirty, this.filled);
-
-          validUser(objs)
-              .then((user) => {
-                  return new UserDao(user)
-                  .updateById(id);
+          filledTransform(user, this.filled)
+              .then((e) => {
+                  return validUser(e)
+              })
+              .then((e) => {
+                  return validDuplicate(e);
+              })
+              .then((e) => {
+                  return new UserDao(e)
+                      .updateById(id);
               })
               .then((e) => {
                   resolve(
@@ -114,18 +119,19 @@ class UsersRepository {
       });
     }
 
-    create(dirty) {
+    create(user) {
 
         return new Promise((resolve, reject) => {
 
-            let user = filled(dirty, this.filled);
-
-            validNewUser(user)
-                .then(() => {
-                    return validDuplicate(user.email);
+            filledTransform(user, this.filled)
+                .then((e) => {
+                    return validNewUser(e);
                 })
-                .then(() => {
-                    return activeTransform.active(user);
+                .then((e) => {
+                    return validDuplicate(e);
+                })
+                .then((e) => {
+                    return activeTransform.active(e);
                 })
                 .then((e) => {
                     return new UserDao(e).save()
