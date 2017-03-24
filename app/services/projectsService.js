@@ -12,7 +12,7 @@ class ProjectsService {
             let limit = parseInt(query.limit) || 20;
             let skip = parseInt(query.skip) || 0;
 
-            let promises = new UserRepository()
+            let promises = new ProjectRepository()
                 .find(query, limit, skip)
                 .then((result) => {
                     resolve(result);
@@ -28,7 +28,7 @@ class ProjectsService {
     static findOne(_id) {
       return new Promise(function(resolve, reject) {
 
-          let promises = new UserRepository()
+          let promises = new ProjectRepository()
               .findOne({_id})
               .then((result) => {
                   resolve(result);
@@ -40,14 +40,14 @@ class ProjectsService {
       });
     }
 
-    static update(_id, user) {
+    static update(_id, project) {
 
       return new Promise(function(resolve, reject) {
 
-          new UserRepository()
-              .update(_id, user)
-              .then((users) => {
-                  resolve(users);
+          new ProjectRepository()
+              .update(_id, project)
+              .then((e) => {
+                  resolve(e);
               })
               .catch((err) => {
                   reject(err);
@@ -60,7 +60,7 @@ class ProjectsService {
 
       return new Promise(function(resolve, reject) {
 
-          let promises = new UserRepository()
+          let promises = new ProjectRepository()
               .remove(_id)
               .then((result) => {
                   resolve(result);
@@ -72,14 +72,14 @@ class ProjectsService {
       });
     }
 
-    static create(user) {
+    static create(project) {
 
         return new Promise(function(resolve, reject) {
 
-            let promises = new UserRepository()
-                .create(user)
-                .then((users) => {
-                    resolve(users);
+            let promises = new ProjectRepository()
+                .create(project)
+                .then((e) => {
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);

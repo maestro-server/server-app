@@ -1,11 +1,11 @@
 'use strict';
 
-import UserDao from './daos/user';
-import validUsers from './validators/validUser';
-import validDuplicate from './validators/validDuplicateUser';
+import TeamDao from './daos/team';
+import validTeam from './validators/validTeam';
 
 import filledTransform from './transforms/filledTransform';
 import activeTransform from './transforms/activeTransform';
+
 
 class TeamsRepository {
 
@@ -17,8 +17,7 @@ class TeamsRepository {
      */
     constructor() {
         this.filled = ['name', 'email', 'url', 'avatar', 'owner', 'members', 'access', 'qtds'];
-        this.resFilled = ['_id', 'name', 'email'];
-        this.filterFilled = ['ow'];
+        this.resFilled = ['_id', 'name', 'email', 'url', 'avatar', 'owner', 'qtds'];
     }
 
     find(filters = {}, limit = 20, skip = 0) {
@@ -27,7 +26,7 @@ class TeamsRepository {
 
             activeTransform.active(filters)
                 .then((filters) => {
-                    return UserDao
+                    return TeamDao
                         .limit(limit)
                         .skip(skip)
                         .sort('created_at', -1)
@@ -50,10 +49,9 @@ class TeamsRepository {
         return new Promise((resolve, reject) => {
 
             activeTransform.active(filter)
-                .then((filter) => {
-                    return UserDao
-                        .exclude('password')
-                        .findOne(filter)
+                .then((e) => {
+                    return TeamDao
+                        .findOne(e)
                 })
                 .then((e) => {
                     resolve(e)
@@ -72,19 +70,17 @@ class TeamsRepository {
 
             filledTransform(user, this.filled)
                 .then((e) => {
-                    return validUser(e)
+                    return validTeam(e)
                 })
                 .then((e) => {
-                    return validDuplicate(e);
-                })
-                .then((e) => {
-                    return new UserDao(e)
+                    return new TeamDao(e)
                         .updateById(id);
                 })
                 .then((e) => {
-                    resolve(
-                        filled(e.attributes, this.resFilled)
-                    )
+                    return filledTransform(e.get(), this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e)
                 })
                 .catch((err) => {
                     reject(err);
@@ -99,14 +95,15 @@ class TeamsRepository {
         return new Promise((resolve, reject) => {
 
             activeTransform.desactive({})
-                .then((user) => {
-                    return new UserDao(user)
+                .then((e) => {
+                    return new TeamDao(e)
                         .updateById(_id);
                 })
                 .then((e) => {
-                    resolve(
-                        filled(e.attributes, this.resFilled)
-                    )
+                    return filledTransform(e.get(), this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e)
                 })
                 .catch((err) => {
                     reject(err);
@@ -121,21 +118,19 @@ class TeamsRepository {
 
             filledTransform(team, this.filled)
                 .then((e) => {
-                    return validNewUser(e);
-                })
-                .then((e) => {
-                    return validDuplicate(e);
+                    return validTeam(e);
                 })
                 .then((e) => {
                     return activeTransform.active(e);
                 })
                 .then((e) => {
-                    return new UserDao(e).save()
+                    return new TeamDao(e).save()
                 })
                 .then((e) => {
-                    resolve(
-                        filled(e.attributes, this.resFilled)
-                    )
+                    return filledTransform(e.get(), this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e)
                 })
                 .catch((err) => {
                     reject(err);

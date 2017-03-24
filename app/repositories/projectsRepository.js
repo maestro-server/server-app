@@ -1,8 +1,7 @@
 'use strict';
 
-import UserDao from './daos/user';
-import validUsers from './validators/validUser';
-import validDuplicate from './validators/validDuplicateUser';
+import ProjectDao from './daos/project';
+import validProject from './validators/validProject';
 
 import filledTransform from './transforms/filledTransform';
 import activeTransform from './transforms/activeTransform';
@@ -17,9 +16,8 @@ class ProjectsRepository {
      * filterFilled = fields using to filters find
      */
     constructor() {
-        this.filled = ['name', 'email', 'password', 'phone', 'company', 'avatar', 'job', 'country', 'city', 'address'];
-        this.resFilled = ['_id', 'name', 'email'];
-        this.filterFilled = ['city'];
+        this.filled = ['name', 'owner', 'servers', 'applications'];
+        this.resFilled = ['_id', 'name', 'owner', 'servers', 'applications'];
     }
 
     find(filters = {}, limit = 20, skip = 0) {
@@ -28,7 +26,7 @@ class ProjectsRepository {
 
             activeTransform.active(filters)
                 .then((filters) => {
-                    return UserDao
+                    return ProjectDao
                         .limit(limit)
                         .skip(skip)
                         .sort('created_at', -1)
@@ -52,8 +50,7 @@ class ProjectsRepository {
 
             activeTransform.active(filter)
                 .then((filter) => {
-                    return UserDao
-                        .exclude('password')
+                    return ProjectDao
                         .findOne(filter)
                 })
                 .then((e) => {
@@ -73,19 +70,17 @@ class ProjectsRepository {
 
             filledTransform(user, this.filled)
                 .then((e) => {
-                    return validUser(e)
+                    return validProject(e)
                 })
                 .then((e) => {
-                    return validDuplicate(e);
-                })
-                .then((e) => {
-                    return new UserDao(e)
+                    return new ProjectDao(e)
                         .updateById(id);
                 })
                 .then((e) => {
-                    resolve(
-                        filled(e.attributes, this.resFilled)
-                    )
+                    return filledTransform(e.get(), this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e)
                 })
                 .catch((err) => {
                     reject(err);
@@ -101,13 +96,14 @@ class ProjectsRepository {
 
             activeTransform.desactive({})
                 .then((user) => {
-                    return new UserDao(user)
+                    return new ProjectDao(user)
                         .updateById(_id);
                 })
                 .then((e) => {
-                    resolve(
-                        filled(e.attributes, this.resFilled)
-                    )
+                    return filledTransform(e.get(), this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -122,21 +118,19 @@ class ProjectsRepository {
 
             filledTransform(user, this.filled)
                 .then((e) => {
-                    return validNewUser(e);
-                })
-                .then((e) => {
-                    return validDuplicate(e);
+                    return validProject(e);
                 })
                 .then((e) => {
                     return activeTransform.active(e);
                 })
                 .then((e) => {
-                    return new UserDao(e).save()
+                    return new ProjectDao(e).save()
                 })
                 .then((e) => {
-                    resolve(
-                        filled(e.attributes, this.resFilled)
-                    )
+                    return filledTransform(e.get(), this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);

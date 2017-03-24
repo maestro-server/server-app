@@ -14,8 +14,8 @@ class TeamsService {
 
             let promises = new TeamRepository()
                 .find(query, limit, skip)
-                .then((result) => {
-                    resolve(result);
+                .then((e) => {
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -30,8 +30,8 @@ class TeamsService {
 
           let promises = new TeamRepository()
               .findOne({_id})
-              .then((result) => {
-                  resolve(result);
+              .then((e) => {
+                  resolve(e);
               })
               .catch((err) => {
                   reject(err);
@@ -46,8 +46,8 @@ class TeamsService {
 
           new TeamRepository()
               .update(_id, team)
-              .then((result) => {
-                  resolve(result);
+              .then((e) => {
+                  resolve(e);
               })
               .catch((err) => {
                   reject(err);
@@ -62,8 +62,8 @@ class TeamsService {
 
           let promises = new TeamRepository()
               .remove(_id)
-              .then((result) => {
-                  resolve(result);
+              .then((e) => {
+                  resolve(e);
               })
               .catch((err) => {
                   reject(err);

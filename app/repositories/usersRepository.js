@@ -85,9 +85,10 @@ class UsersRepository {
                       .updateById(id);
               })
               .then((e) => {
-                  resolve(
-                      filled(e.attributes, this.resFilled)
-                  )
+                  return filledTransform(e.get(), this.resFilled);
+              })
+              .then((e) => {
+                  resolve(e)
               })
               .catch((err) => {
                   reject(err);
@@ -102,14 +103,15 @@ class UsersRepository {
       return new Promise((resolve, reject) => {
 
           activeTransform.desactive({})
-              .then((user) => {
-                  return new UserDao(user)
+              .then((e) => {
+                  return new UserDao(e)
                   .updateById(_id);
               })
               .then((e) => {
-                  resolve(
-                      filled(e.attributes, this.resFilled)
-                  )
+                  return filledTransform(e.get(), this.resFilled);
+              })
+              .then((e) => {
+                  resolve(e)
               })
               .catch((err) => {
                   reject(err);
@@ -136,9 +138,10 @@ class UsersRepository {
                     return new UserDao(e).save()
                 })
                 .then((e) => {
-                    resolve(
-                        filled(e.attributes, this.resFilled)
-                    )
+                    return filledTransform(e.get(), this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e)
                 })
                 .catch((err) => {
                     reject(err);

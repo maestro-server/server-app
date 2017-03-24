@@ -14,8 +14,8 @@ class UsersService {
 
             let promises = new UserRepository()
                 .find(query, limit, skip)
-                .then((result) => {
-                    resolve(result);
+                .then((e) => {
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -30,8 +30,8 @@ class UsersService {
 
           let promises = new UserRepository()
               .findOne({_id})
-              .then((result) => {
-                  resolve(result);
+              .then((e) => {
+                  resolve(e);
               })
               .catch((err) => {
                   reject(err);
@@ -46,8 +46,8 @@ class UsersService {
 
           new UserRepository()
               .update(_id, user)
-              .then((users) => {
-                  resolve(users);
+              .then((e) => {
+                  resolve(e);
               })
               .catch((err) => {
                   reject(err);
@@ -62,8 +62,8 @@ class UsersService {
 
           let promises = new UserRepository()
               .remove(_id)
-              .then((result) => {
-                  resolve(result);
+              .then((e) => {
+                  resolve(e);
               })
               .catch((err) => {
                   reject(err);
@@ -78,8 +78,8 @@ class UsersService {
 
             let promises = new UserRepository()
                 .create(user)
-                .then((result) => {
-                    resolve(result);
+                .then((e) => {
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);

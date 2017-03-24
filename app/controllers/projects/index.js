@@ -1,6 +1,6 @@
 'use strict';
 
-import UserService from '../../services/usersService';
+import ProjectService from '../../services/projectsService';
 
 
 module.exports = function (router) {
@@ -8,7 +8,7 @@ module.exports = function (router) {
     router
         .get('/', function (req, res) {
 
-            UserService.find(req.query)
+            ProjectService.find(req.query)
                 .then(e => res.json(e))
                 .catch(function(e) {
                     console.log(e)
@@ -19,7 +19,7 @@ module.exports = function (router) {
 
         .get('/:id', function (req, res) {
 
-            UserService.findOne(req.params.id)
+            ProjectService.findOne(req.params.id)
                 .then(e => res.json(e))
                 .catch(function(e) {
                     next(e);
@@ -29,7 +29,7 @@ module.exports = function (router) {
 
         .put('/:id', function (req, res, next) {
 
-            UserService.update(req.params.id, req.body)
+            ProjectService.update(req.params.id, req.body)
                 .then(e => res.status(201).json(e))
                 .catch(function(e) {
                     next(e);
@@ -40,7 +40,7 @@ module.exports = function (router) {
 
         .delete('/:id', function (req, res) {
 
-            UserService.remove(req.params.id)
+            ProjectService.remove(req.params.id)
                 .then(e => res.status(204).json(e))
                 .catch(function(e) {
                     next(e);
@@ -51,7 +51,7 @@ module.exports = function (router) {
 
     router.post('/', function (req, res, next) {
 
-        UserService.create(req.body)
+        ProjectService.create(req.body)
             .then(e => res.status(201).json(e))
             .catch(function(e) {
                 next(e);
