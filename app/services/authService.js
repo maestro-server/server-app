@@ -15,7 +15,6 @@ class AuthService {
             new UserRepository()
                 .authenticate(body)
                 .then((e) => {
-                    console.log(e);
                     return tokenTransform(e);
                 })
                 .then((e) => {

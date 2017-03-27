@@ -6,7 +6,7 @@ import ConflictError from '../../errors/conflictError';
 
 module.exports = function(vals) {
 
-    let promises = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
 
       UserDao.isDuplicate(vals.email)
       .then(result => {
@@ -25,6 +25,5 @@ module.exports = function(vals) {
 
     });
 
-    return promises;
 
 };

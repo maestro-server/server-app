@@ -6,6 +6,7 @@ import validNewUser from './validators/validNewUser';
 
 import validAuth from './validators/validAuth';
 import validDuplicate from './validators/validDuplicateUser';
+import validPassMatch from './validators/validPassMatch';
 import validFiltersPagination from './validators/validFiltersPagination';
 
 import filledTransform from './transforms/filledTransform';
@@ -58,10 +59,14 @@ class UsersRepository {
 
             validAuth(body)
                 .then((e) => {
-                    return UserDao.findOne({email})
+                    return UserDao
+                    .findOne({email})
                 })
                 .then((e) => {
-                    return e.passwordMatches(password)
+                    return validPassMatch(password, e)
+                })
+                .then((e) => {
+                    return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
                     resolve(e);
