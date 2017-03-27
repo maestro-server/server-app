@@ -1,7 +1,6 @@
 'use strict';
 
 import AccessRepository from '../repositories/accessRepository';
-import Promises from 'bluebird';
 
 class AccessService {
 
@@ -12,10 +11,10 @@ class AccessService {
             let limit = parseInt(query.limit) || 20;
             let skip = parseInt(query.skip) || 0;
 
-            let promises = new UserRepository()
+            let promises = new AccessRepository()
                 .find(query, limit, skip)
-                .then((result) => {
-                    resolve(result);
+                .then((e) => {
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -28,10 +27,10 @@ class AccessService {
     static findOne(_id) {
       return new Promise(function(resolve, reject) {
 
-          let promises = new UserRepository()
+          let promises = new AccessRepository()
               .findOne({_id})
-              .then((result) => {
-                  resolve(result);
+              .then((e) => {
+                  resolve(e);
               })
               .catch((err) => {
                   reject(err);
@@ -44,10 +43,10 @@ class AccessService {
 
       return new Promise(function(resolve, reject) {
 
-          new UserRepository()
+          new AccessRepository()
               .update(_id, user)
-              .then((users) => {
-                  resolve(users);
+              .then((e) => {
+                  resolve(e);
               })
               .catch((err) => {
                   reject(err);
@@ -60,10 +59,10 @@ class AccessService {
 
       return new Promise(function(resolve, reject) {
 
-          let promises = new UserRepository()
+          let promises = new AccessRepository()
               .remove(_id)
-              .then((result) => {
-                  resolve(result);
+              .then((e) => {
+                  resolve(e);
               })
               .catch((err) => {
                   reject(err);
@@ -72,14 +71,14 @@ class AccessService {
       });
     }
 
-    static create(user) {
+    static create(access) {
 
         return new Promise(function(resolve, reject) {
 
-            let promises = new UserRepository()
-                .create(user)
-                .then((users) => {
-                    resolve(users);
+            let promises = new AccessRepository()
+                .create(access)
+                .then((e) => {
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);

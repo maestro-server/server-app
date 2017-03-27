@@ -4,6 +4,7 @@ import UserDao from './daos/user';
 import validUser from './validators/validUser';
 import validNewUser from './validators/validNewUser';
 
+import validAuth from './validators/validAuth';
 import validDuplicate from './validators/validDuplicateUser';
 import validFiltersPagination from './validators/validFiltersPagination';
 
@@ -46,6 +47,30 @@ class UsersRepository {
 
         });
 
+    }
+
+    authenticate(body) {
+
+        return new Promise((resolve, reject) => {
+
+            let {email} = body;
+            let {password} = body;
+
+            validAuth(body)
+                .then((e) => {
+                    return UserDao.findOne({email})
+                })
+                .then((e) => {
+                    return e.passwordMatches(password)
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
     }
 
     findOne(filter) {

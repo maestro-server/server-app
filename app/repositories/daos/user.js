@@ -18,7 +18,15 @@ class UserDao extends Dao {
     }
 
     passHash () {
-        this.attributes.password = bcrypt.hashSync(this.attributes.password, crypto.getCryptLevel());
+        this.attributes.password = UserDao.makeHash(this.get('password'));
+    }
+
+    passwordMatches (matcher) {
+        return bcrypt.compareSync(matcher, this.get('password'));
+    }
+
+    static makeHash (string) {
+        return bcrypt.hashSync(string, crypto.getCryptLevel());
     }
 
     static isDuplicate (email) {

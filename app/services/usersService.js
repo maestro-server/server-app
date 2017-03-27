@@ -1,7 +1,6 @@
 'use strict';
 
 import UserRepository from '../repositories/usersRepository';
-import Promises from 'bluebird';
 
 class UsersService {
 

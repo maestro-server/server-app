@@ -1,7 +1,6 @@
 'use strict';
 
 import ProjectRepository from '../repositories/projectsRepository';
-import Promises from 'bluebird';
 
 class ProjectsService {
 
@@ -30,8 +29,8 @@ class ProjectsService {
 
           let promises = new ProjectRepository()
               .findOne({_id})
-              .then((result) => {
-                  resolve(result);
+              .then((e) => {
+                  resolve(e);
               })
               .catch((err) => {
                   reject(err);
@@ -62,8 +61,8 @@ class ProjectsService {
 
           let promises = new ProjectRepository()
               .remove(_id)
-              .then((result) => {
-                  resolve(result);
+              .then((e) => {
+                  resolve(e);
               })
               .catch((err) => {
                   reject(err);

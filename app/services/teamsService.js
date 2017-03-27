@@ -1,7 +1,6 @@
 'use strict';
 
 import TeamRepository from '../repositories/teamsRepository';
-import Promises from 'bluebird';
 
 class TeamsService {
 

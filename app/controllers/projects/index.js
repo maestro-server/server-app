@@ -11,7 +11,6 @@ module.exports = function (router) {
             ProjectService.find(req.query)
                 .then(e => res.json(e))
                 .catch(function(e) {
-                    console.log(e)
                     next(e);
                 });
 

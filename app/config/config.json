@@ -57,6 +57,15 @@
             }
         },
 
+        "authenticated": {
+            "enabled": true,
+            "priority": 120,
+            "module": {
+                "name": "path:./middlewares/auth",
+                "method": "initialize"
+            }
+        },
+
         "notFound": {
             "priority": 130,
             "module": "path:./middlewares/404"

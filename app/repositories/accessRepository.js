@@ -1,8 +1,7 @@
 'use strict';
 
-import UserDao from './daos/user';
-import validUsers from './validators/validUser';
-import validDuplicate from './validators/validDuplicateUser';
+import AccessDao from './daos/access';
+import validAccess from './validators/validAccess';
 
 import filledTransform from './transforms/filledTransform';
 import activeTransform from './transforms/activeTransform';
@@ -17,9 +16,8 @@ class AccessRepository {
      * filterFilled = fields using to filters find
      */
     constructor() {
-        this.filled = ['name', 'email', 'password', 'phone', 'company', 'avatar', 'job', 'country', 'city', 'address'];
-        this.resFilled = ['_id', 'name', 'email'];
-        this.filterFilled = ['city'];
+        this.filled = ['name', 'owner', 'roles'];
+        this.resFilled = ['_id', 'name', 'owner'];
     }
 
     find(filters = {}, limit = 20, skip = 0) {
@@ -28,7 +26,7 @@ class AccessRepository {
 
             activeTransform.active(filters)
                 .then((filters) => {
-                    return UserDao
+                    return AccessDao
                         .limit(limit)
                         .skip(skip)
                         .sort('created_at', -1)
@@ -52,8 +50,7 @@ class AccessRepository {
 
             activeTransform.active(filter)
                 .then((filter) => {
-                    return UserDao
-                        .exclude('password')
+                    return AccessDao
                         .findOne(filter)
                 })
                 .then((e) => {
@@ -73,19 +70,17 @@ class AccessRepository {
 
             filledTransform(user, this.filled)
                 .then((e) => {
-                    return validUser(e)
+                    return validAccess(e)
                 })
                 .then((e) => {
-                    return validDuplicate(e);
-                })
-                .then((e) => {
-                    return new UserDao(e)
+                    return new AccessDao(e)
                         .updateById(id);
                 })
                 .then((e) => {
-                    resolve(
-                        filled(e.attributes, this.resFilled)
-                    )
+                    return filledTransform(e.get(), this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e)
                 })
                 .catch((err) => {
                     reject(err);
@@ -101,13 +96,14 @@ class AccessRepository {
 
             activeTransform.desactive({})
                 .then((user) => {
-                    return new UserDao(user)
+                    return new AccessDao(user)
                         .updateById(_id);
                 })
                 .then((e) => {
-                    resolve(
-                        filled(e.attributes, this.resFilled)
-                    )
+                    return filledTransform(e.get(), this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e)
                 })
                 .catch((err) => {
                     reject(err);
@@ -122,21 +118,19 @@ class AccessRepository {
 
             filledTransform(user, this.filled)
                 .then((e) => {
-                    return validNewUser(e);
-                })
-                .then((e) => {
-                    return validDuplicate(e);
+                    return validAccess(e);
                 })
                 .then((e) => {
                     return activeTransform.active(e);
                 })
                 .then((e) => {
-                    return new UserDao(e).save()
+                    return new AccessDao(e).save()
                 })
                 .then((e) => {
-                    resolve(
-                        filled(e.attributes, this.resFilled)
-                    )
+                    return filledTransform(e.get(), this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e)
                 })
                 .catch((err) => {
                     reject(err);
