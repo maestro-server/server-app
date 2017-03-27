@@ -23,6 +23,16 @@
             }
         },
 
+        "tokenization": {
+            "enabled": true,
+            "priority": 30,
+            "module": {
+                "name": "path:./middlewares/tokenization",
+                "method": "initialize"
+            }
+        },
+
+
         "router": {
             "module": {
                 "arguments": [{ "directory": "path:./controllers" }]
@@ -54,15 +64,6 @@
             "module": {
                 "name": "content-filter",
                 "arguments": [{"dispatchToErrorHandler": true}]
-            }
-        },
-
-        "authenticated": {
-            "enabled": true,
-            "priority": 120,
-            "module": {
-                "name": "path:./middlewares/auth",
-                "method": "initialize"
             }
         },
 

@@ -4,13 +4,7 @@ import UserRepository from "../repositories/usersRepository";
 
 import config from '../helpers/auth_config';
 
-
-module.exports = function (res, req) {
-    return middleAuth().initialize();
-    next();
-};
-
-function middleAuth() {
+module.exports = function() {
     let strategy = new Strategy(config.jwtSecret, function (payload, done) {
 
         let _id = payload.id;
@@ -30,12 +24,11 @@ function middleAuth() {
     passport.use(strategy);
 
     return {
-        initialize: function () {
+        initialize: () => {
             return passport.initialize();
         },
-        authenticate: function () {
+        authenticate: () => {
             return passport.authenticate("jwt", config.jwtSession);
         }
     };
-}
-;
+};

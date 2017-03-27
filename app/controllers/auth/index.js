@@ -17,5 +17,12 @@ module.exports = function (router) {
 
         });
 
+    router
+        .post('/forgot', function (req, res, next) {
+
+      
+
+        });
+
 
 };

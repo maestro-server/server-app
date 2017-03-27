@@ -2,11 +2,13 @@
 
 import UserService from '../../services/usersService';
 
+import middleAuth from '../../helpers/auth_conector';
+
 
 module.exports = function (router) {
 
     router
-        .get('/', function (req, res) {
+        .get('/', middleAuth().authenticate(), function (req, res) {
 
             UserService.find(req.query)
                 .then(e => res.json(e))
