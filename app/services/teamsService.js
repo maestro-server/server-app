@@ -2,17 +2,40 @@
 
 import TeamRepository from '../repositories/teamsRepository';
 
+import merger from '../repositories/transforms/mergeTransform';
+import collectionTransform from './transforms/collectionTransform';
+
 class TeamsService {
 
-    static find(query) {
+    static find(query, owner) {
 
         return new Promise(function(resolve, reject) {
 
             let limit = parseInt(query.limit) || 20;
             let skip = parseInt(query.skip) || 0;
 
-            let promises = new TeamRepository()
-                .find(query, limit, skip)
+            merger(query, {"owner._id": owner._id})
+                .then((e) => {
+                  return Promise.all([
+                    new TeamRepository().find(e, limit, skip),
+                    new TeamRepository().count(e)
+                  ]);
+                })
+                .then((e) => {
+                  return collectionTransform(e, limit, skip);
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+            merger(query, {"owner._id": owner._id})
+                .then((e) => {
+                    return new TeamRepository()
+                        .count(e);
+                })
                 .then((e) => {
                     resolve(e);
                 })
@@ -27,7 +50,7 @@ class TeamsService {
     static findOne(_id) {
       return new Promise(function(resolve, reject) {
 
-          let promises = new TeamRepository()
+          new TeamRepository()
               .findOne({_id})
               .then((e) => {
                   resolve(e);
@@ -71,12 +94,15 @@ class TeamsService {
       });
     }
 
-    static create(team) {
+    static create(team, owner) {
 
         return new Promise(function(resolve, reject) {
 
-            let promises = new TeamRepository()
-                .create(team)
+            merger(team, {owner})
+                .then((e) => {
+                    return new TeamRepository()
+                        .create(e)
+                })
                 .then((e) => {
                     resolve(e);
                 })

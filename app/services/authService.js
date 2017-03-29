@@ -1,6 +1,6 @@
 'use strict';
 
-import tokenTransform from '../repositories/transforms/tokenTransform';
+import tokenTransform from './transforms/tokenTransform';
 import UserRepository from '../repositories/usersRepository';
 import config from '../helpers/auth_config';
 import jwt from "jwt-simple";

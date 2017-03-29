@@ -1,5 +1,5 @@
 
-import PermissionError from '../../errors/PermissionError';
+import PermissionError from '../../errors/permissionError';
 
 module.exports = function(password, obj) {
 

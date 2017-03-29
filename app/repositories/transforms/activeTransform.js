@@ -1,15 +1,12 @@
 
+import merger from './mergeTransform';
 
 exports.active = function (trans={}) {
 
-  return new Promise((resolve, reject) => {
-      resolve(Object.assign(trans, {active:true}));
-  });
+  return merger(trans, {active:true});
 };
 
 exports.desactive = function (trans={}) {
 
-  return new Promise((resolve, reject) => {
-      resolve(Object.assign(trans, {active:false}));
-  });
+  return merger(trans, {active:false});
 };

@@ -13,18 +13,28 @@ class TeamsRepository {
      *
      * filled = fields usgin to create a new entiti
      * resFilled = fields with show to result
-     * filterFilled = fields using to filters find
      */
-    constructor() {
-        this.filled = ['name', 'email', 'url', 'avatar', 'owner', 'members', 'access', 'qtds'];
-        this.resFilled = ['_id', 'name', 'email', 'url', 'avatar', 'owner', 'qtds'];
+    constructor(resFilled=null, filled=null) {
+        this.setFilled(filled || ['name', 'email', 'url', 'avatar', 'owner', 'members', 'access', 'qtds']);
+        this.setResFilled(resFilled || ['_id', 'name', 'email', 'url', 'avatar', 'owner', 'qtds']);
+    }
+
+    setFilled (val) {
+      this.filled = val;
+    }
+
+    setResFilled (val) {
+      this.resFilled = val;
     }
 
     find(filters = {}, limit = 20, skip = 0) {
 
         return new Promise((resolve, reject) => {
 
-            activeTransform.active(filters)
+            filledTransform(filters, this.filled)
+                .then((e) => {
+                    return activeTransform.active(e);
+                })
                 .then((filters) => {
                     return TeamDao
                         .limit(limit)
@@ -34,7 +44,30 @@ class TeamsRepository {
                         .find(filters)
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+
+    }
+
+    count(filters = {}) {
+
+        return new Promise((resolve, reject) => {
+
+            filledTransform(filters, this.filled)
+                .then((e) => {
+                    return activeTransform.active(e);
+                })
+                .then((filters) => {
+                    return TeamDao
+                        .count(filters)
+                })
+                .then((e) => {
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);

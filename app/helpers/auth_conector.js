@@ -16,7 +16,7 @@ module.exports = function(req, res, next) {
                 .findOne({_id})
                 .then(e => {
                     if (e) {
-                        return done(null, e);
+                        return done(null, e.get());
                     }
 
                     return done(new Error("User not found"), false);

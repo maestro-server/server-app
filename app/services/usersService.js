@@ -28,7 +28,7 @@ class UsersService {
     static findOne(_id) {
       return new Promise(function(resolve, reject) {
 
-          new UserRepository()
+          new UserRepository([])
               .findOne({_id})
               .then((e) => {
                   resolve(e);

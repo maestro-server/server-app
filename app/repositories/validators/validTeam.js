@@ -7,7 +7,6 @@ module.exports = function(vals) {
         child('name').required().isString().isLength({min:2, max: 25});
         child('email').isString().isEmail();
         child('url').isString().isURL();
-        child('owner').required();
     };
 
 

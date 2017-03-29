@@ -13,11 +13,18 @@ class AccessRepository {
      *
      * filled = fields usgin to create a new entiti
      * resFilled = fields with show to result
-     * filterFilled = fields using to filters find
      */
-    constructor() {
-        this.filled = ['name', 'owner', 'roles'];
-        this.resFilled = ['_id', 'name', 'owner'];
+    constructor(resFilled=null, filled=null) {
+        this.setFilled(filled || ['name', 'owner', 'roles']);
+        this.setResFilled(resFilled || ['_id', 'name', 'owner']);
+    }
+
+    setFilled (val) {
+      this.filled = val;
+    }
+
+    setResFilled (val) {
+      this.resFilled = val;
     }
 
     find(filters = {}, limit = 20, skip = 0) {

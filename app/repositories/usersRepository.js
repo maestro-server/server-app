@@ -7,7 +7,6 @@ import validNewUser from './validators/validNewUser';
 import validAuth from './validators/validAuth';
 import validDuplicate from './validators/validDuplicateUser';
 import validPassMatch from './validators/validPassMatch';
-import validFiltersPagination from './validators/validFiltersPagination';
 
 import filledTransform from './transforms/filledTransform';
 import activeTransform from './transforms/activeTransform';
@@ -18,12 +17,18 @@ class UsersRepository {
      *
      * filled = fields usgin to create a new entiti
      * resFilled = fields with show to result
-     * filterFilled = fields using to filters find
      */
-    constructor() {
-        this.filled = ['name', 'email', 'password', 'phone', 'company', 'avatar', 'job', 'country', 'city', 'address'];
-        this.resFilled = ['_id', 'name', 'email'];
-        this.filterFilled = ['city'];
+    constructor(resFilled=null, filled=null) {
+        this.setFilled(filled || ['name', 'email', 'password', 'phone', 'company', 'avatar', 'job', 'country', 'city', 'address']);
+        this.setResFilled(resFilled || ['_id', 'name', 'email']);
+    }
+
+    setFilled (val) {
+      this.filled = val;
+    }
+
+    setResFilled (val) {
+      this.resFilled = val;
     }
 
     find(filters = {}, limit = 20, skip = 0) {
@@ -85,7 +90,7 @@ class UsersRepository {
         activeTransform.active(filter)
           .then((filter) => {
               return UserDao
-              .exclude('password')
+              .include(this.resFilled)
               .findOne(filter)
           })
           .then((e) => {
