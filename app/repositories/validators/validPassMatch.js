@@ -1,5 +1,5 @@
 
-import AccessError from '../../errors/accessError';
+import PermissionError from '../../errors/PermissionError';
 
 module.exports = function(password, obj) {
 
@@ -10,7 +10,7 @@ module.exports = function(password, obj) {
         return;
       }
 
-      throw new AccessError("Invalid username or password");
+      throw new PermissionError("Invalid username or password");
 
     });
 

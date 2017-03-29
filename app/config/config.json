@@ -23,15 +23,6 @@
             }
         },
 
-        "tokenization": {
-            "enabled": true,
-            "priority": 30,
-            "module": {
-                "name": "path:./middlewares/tokenization",
-                "method": "initialize"
-            }
-        },
-
 
         "router": {
             "module": {
@@ -40,7 +31,6 @@
         },
 
         "json": {
-            "enabled": true,
             "priority": 30,
             "module": {
                 "name": "body-parser",
@@ -48,8 +38,8 @@
             }
         },
 
+
         "url-encoded": {
-            "enabled": true,
             "priority": 30,
             "module": {
                 "name": "body-parser",
@@ -65,6 +55,11 @@
                 "name": "content-filter",
                 "arguments": [{"dispatchToErrorHandler": true}]
             }
+        },
+
+        "tokenization": {
+            "priority": 45,
+            "module": "path:./middlewares/tokenization"
         },
 
         "notFound": {

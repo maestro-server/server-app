@@ -8,11 +8,12 @@ class UsersService {
 
         return new Promise(function(resolve, reject) {
 
-            let limit = parseInt(query.limit) || 20;
-            let skip = parseInt(query.skip) || 0;
+            const limit = parseInt(query.limit) || 20;
+            const skip = parseInt(query.skip) || 0;
+            const filters = query.filters || {};
 
-            let promises = new UserRepository()
-                .find(query, limit, skip)
+            new UserRepository()
+                .find(filters, limit, skip)
                 .then((e) => {
                     resolve(e);
                 })
@@ -27,7 +28,7 @@ class UsersService {
     static findOne(_id) {
       return new Promise(function(resolve, reject) {
 
-          let promises = new UserRepository()
+          new UserRepository()
               .findOne({_id})
               .then((e) => {
                   resolve(e);
@@ -59,7 +60,7 @@ class UsersService {
 
       return new Promise(function(resolve, reject) {
 
-          let promises = new UserRepository()
+          new UserRepository()
               .remove(_id)
               .then((e) => {
                   resolve(e);
@@ -75,7 +76,7 @@ class UsersService {
 
         return new Promise(function(resolve, reject) {
 
-            let promises = new UserRepository()
+            new UserRepository()
                 .create(user)
                 .then((e) => {
                     resolve(e);

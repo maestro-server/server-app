@@ -1,7 +1,7 @@
 
 import middleAuth from '../helpers/auth_conector';
 
-module.exports = function (res, req) {
+module.exports = function (req, res, next) {
     return middleAuth().authenticate();
     next();
 };
