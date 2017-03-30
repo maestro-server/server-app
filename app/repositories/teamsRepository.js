@@ -107,7 +107,7 @@ class TeamsRepository {
                 })
                 .then((e) => {
                     return new TeamDao(e)
-                        .updateById(id);
+                        .updateAndModify(id);
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);
@@ -131,7 +131,7 @@ class TeamsRepository {
             activeTransform.desactive({})
                 .then((e) => {
                     return new TeamDao(e)
-                        .updateById(_id);
+                        .updateAndModify(_id);
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);

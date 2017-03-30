@@ -81,7 +81,7 @@ class ProjectsRepository {
                 })
                 .then((e) => {
                     return new ProjectDao(e)
-                        .updateById(id);
+                        .updateAndModify(id);
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);
@@ -104,7 +104,7 @@ class ProjectsRepository {
             activeTransform.desactive({})
                 .then((user) => {
                     return new ProjectDao(user)
-                        .updateById(_id);
+                        .updateAndModify(_id);
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);

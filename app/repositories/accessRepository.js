@@ -81,7 +81,7 @@ class AccessRepository {
                 })
                 .then((e) => {
                     return new AccessDao(e)
-                        .updateById(id);
+                        .updateAndModify(id);
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);
@@ -104,7 +104,7 @@ class AccessRepository {
             activeTransform.desactive({})
                 .then((user) => {
                     return new AccessDao(user)
-                        .updateById(_id);
+                        .updateAndModify(_id);
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);

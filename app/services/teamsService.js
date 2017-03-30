@@ -1,6 +1,7 @@
 'use strict';
 
 import TeamRepository from '../repositories/teamsRepository';
+import TeamMembersRepository from '../repositories/teamMembersRepository';
 
 import merger from '../repositories/transforms/mergeTransform';
 import collectionTransform from './transforms/collectionTransform';
@@ -16,6 +17,7 @@ class TeamsService {
             const limit = parseInt(query.limit) || 20;
             const page = parseInt(query.page) || 1;
             const skip = limit * (page-1);
+
 
             merger(query, {"owner._id": owner._id})
                 .then((e) => {
@@ -120,11 +122,8 @@ class TeamsService {
 
         return new Promise(function(resolve, reject) {
 
-            merger(team, {owner})
-                .then((e) => {
-                    return new TeamRepository()
-                        .update(_id, e)
-                })
+            new TeamMembersRepository()
+                .add(_id, member)
                 .then((e) => {
                     resolve(e);
                 })

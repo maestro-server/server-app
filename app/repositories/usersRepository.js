@@ -117,7 +117,7 @@ class UsersRepository {
               })
               .then((e) => {
                   return new UserDao(e)
-                      .updateById(id);
+                      .updateAndModify(id);
               })
               .then((e) => {
                   return filledTransform(e.get(), this.resFilled);
@@ -140,7 +140,7 @@ class UsersRepository {
           activeTransform.desactive({})
               .then((e) => {
                   return new UserDao(e)
-                  .updateById(_id);
+                  .updateAndModify(_id);
               })
               .then((e) => {
                   return filledTransform(e.get(), this.resFilled);

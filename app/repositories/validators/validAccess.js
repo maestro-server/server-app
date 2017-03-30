@@ -4,15 +4,15 @@ import ValidFactory from './validFactory';
 module.exports = function(vals) {
 
     let rules = (child) => {
-        child('name').required().isString().isLength({min:2, max: 25});
-        child('owner').required();
+        child('id').required().isString().isLength({min:12, max: 24});
+        child('role').isString();
     };
 
 
     return ValidFactory(
         rules,
         vals,
-        "Access Role validator error"
+        "Access Format validator error"
     );
 
 };
