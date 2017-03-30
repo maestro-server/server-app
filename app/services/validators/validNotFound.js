@@ -1,5 +1,4 @@
 
-import NotFoundError from '../../errors/notFoundError';
 
 module.exports = function (data, limit, page) {
 

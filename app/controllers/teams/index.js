@@ -46,17 +46,51 @@ module.exports = function (router) {
                     next(e);
                 });
 
+        })
+
+        .post('/', authenticate(), function (req, res, next) {
+
+            TeamService.create(req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function(e) {
+                    next(e);
+                });
+
         });
 
+    /**
+     *
+     * Members
+     */
+    router
+        .get('/:id/members', authenticate(), function (req, res, next) {
 
-    router.post('/', authenticate(), function (req, res, next) {
+            TeamService.getMembers(req.params.id, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function(e) {
+                    next(e);
+                });
 
-        TeamService.create(req.body, req.user)
-            .then(e => res.status(201).json(e))
-            .catch(function(e) {
-                next(e);
-            });
+        })
 
-    });
+        .post('/:id/members', authenticate(), function (req, res, next) {
+
+            TeamService.addMember(req.params.id, req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function(e) {
+                    next(e);
+                });
+
+        })
+
+        .delete('/:id/members', authenticate(), function (req, res, next) {
+
+            TeamService.deleteMember(req.params.id, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function(e) {
+                    next(e);
+                });
+
+        });
 
 };

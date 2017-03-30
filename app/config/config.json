@@ -79,7 +79,7 @@
 
         "errorResponse": {
             "priority": 140,
-            "module": "path:./middlewares/500"
+            "module": "path:./middlewares/errorCatcher"
         }
 
     }

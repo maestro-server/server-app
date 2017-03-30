@@ -111,6 +111,34 @@ class TeamsService {
         });
 
     }
+
+    static getMembers(_id, user) {
+
+    }
+
+    static addMember(_id, member, user) {
+
+        return new Promise(function(resolve, reject) {
+
+            merger(team, {owner})
+                .then((e) => {
+                    return new TeamRepository()
+                        .update(_id, e)
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+
+    }
+
+    static deleteMember(_id, user) {
+
+    }
 }
 
 module.exports = TeamsService;

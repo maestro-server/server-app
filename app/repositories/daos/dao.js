@@ -25,7 +25,8 @@ class Dao extends Model {
     }
 
     updateById (id) {
-      let _id = toObjectId(id);
+        let _id = toObjectId(id);
+
 
       return this.updateAndModify({_id});
     }
