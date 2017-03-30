@@ -5,14 +5,17 @@ import TeamRepository from '../repositories/teamsRepository';
 import merger from '../repositories/transforms/mergeTransform';
 import collectionTransform from './transforms/collectionTransform';
 
+import validNotFound from './validators/validNotFound';
+
 class TeamsService {
 
     static find(query, owner) {
 
         return new Promise(function(resolve, reject) {
 
-            let limit = parseInt(query.limit) || 20;
-            let skip = parseInt(query.skip) || 0;
+            const limit = parseInt(query.limit) || 20;
+            const page = parseInt(query.page) || 1;
+            const skip = limit * (page-1);
 
             merger(query, {"owner._id": owner._id})
                 .then((e) => {
@@ -22,7 +25,10 @@ class TeamsService {
                   ]);
                 })
                 .then((e) => {
-                  return collectionTransform(e, limit, skip);
+                    return validNotFound(e, limit, page);
+                })
+                .then((e) => {
+                  return collectionTransform(e, limit, page, 'teams');
                 })
                 .then((e) => {
                     resolve(e);
@@ -31,17 +37,6 @@ class TeamsService {
                     reject(err);
                 });
 
-            merger(query, {"owner._id": owner._id})
-                .then((e) => {
-                    return new TeamRepository()
-                        .count(e);
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
 
         });
 
@@ -62,12 +57,15 @@ class TeamsService {
       });
     }
 
-    static update(_id, team) {
+    static update(_id, team, owner) {
 
       return new Promise(function(resolve, reject) {
 
-          new TeamRepository()
-              .update(_id, team)
+          merger(team, {owner})
+              .then((e) => {
+                  return new TeamRepository()
+                      .update(_id, e)
+              })
               .then((e) => {
                   resolve(e);
               })
