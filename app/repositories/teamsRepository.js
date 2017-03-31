@@ -6,6 +6,10 @@ import validTeam from './validators/validTeam';
 import filledTransform from './transforms/filledTransform';
 import activeTransform from './transforms/activeTransform';
 
+import merger from './transforms/mergeTransform';
+
+import formatRefsCollection from './format/formatRefsCollection';
+
 
 class TeamsRepository {
 
@@ -15,8 +19,8 @@ class TeamsRepository {
      * resFilled = fields with show to result
      */
     constructor(resFilled=null, filled=null) {
-        this.setFilled(filled || ['name', 'email', 'url', 'avatar', 'owner', 'members', 'access', 'qtds']);
-        this.setResFilled(resFilled || ['_id', 'name', 'email', 'url', 'avatar', 'owner', 'qtds']);
+        this.setFilled(filled || ['name', 'email', 'url', 'avatar', 'owner', 'members.role', 'access', 'qtds']);
+        this.setResFilled(resFilled || ['_id', 'name', 'email', 'url', 'avatar', 'owner', 'qtds', 'members']);
     }
 
     setFilled (val) {
@@ -156,6 +160,9 @@ class TeamsRepository {
                 })
                 .then((e) => {
                     return activeTransform.active(e);
+                })
+                .then((e) => {
+                    return merger(e, formatRefsCollection(e.owner._id, 'users', 'members', {role: 'admin'}, true));
                 })
                 .then((e) => {
                     return new TeamDao(e).save()

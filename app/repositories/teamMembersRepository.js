@@ -6,6 +6,9 @@ import validAccess from './validators/validAccess';
 import filledTransform from './transforms/filledTransform';
 import merger from './transforms/mergeTransform';
 
+import formatRefsCollection from './format/formatRefsCollection';
+import formatDelCollection from './format/formatDelCollection';
+
 
 class TeamMembersRepository {
 
@@ -22,9 +25,10 @@ class TeamMembersRepository {
       this.filled = val;
     }
 
+
+
     add (id, member) {
 
-      //        let member = { $push: { <field1>: <value1>, ... } };
       return new Promise((resolve, reject) => {
 
           filledTransform(member, this.filled)
@@ -32,14 +36,10 @@ class TeamMembersRepository {
                   return validAccess(e);
               })
               .then((e) => {
-                  let arr = {members: [e]};
+                  const arr = formatRefsCollection(e.id, 'users', 'members', {role: e.role});
 
-                  console.log(arr);
                   return new TeamDao(arr)
-                      .updateByPush(id);
-              })
-              .then((e) => {
-                  return filledTransform(e.get(), this.resFilled);
+                      .updateByPushUnique(id);
               })
               .then((e) => {
                   resolve(e)
@@ -51,6 +51,24 @@ class TeamMembersRepository {
         });
     }
 
+
+    remove (id, idu, member) {
+
+        return new Promise((resolve, reject) => {
+
+            const arr = formatDelCollection(idu, 'members');
+
+            new TeamDao(arr)
+                .updateByPull(id)
+                .then((e) => {
+                    resolve(e)
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+    }
 
 
 }

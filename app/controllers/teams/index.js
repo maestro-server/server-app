@@ -83,10 +83,10 @@ module.exports = function (router) {
 
         })
 
-        .delete('/:id/members', authenticate(), function (req, res, next) {
+        .delete('/:id/members/:idu', authenticate(), function (req, res, next) {
 
-            TeamService.deleteMember(req.params.id, req.user)
-                .then(e => res.status(201).json(e))
+            TeamService.deleteMember(req.params.id, req.params.idu, req.user)
+                .then(e => res.status(204).json(e))
                 .catch(function(e) {
                     next(e);
                 });

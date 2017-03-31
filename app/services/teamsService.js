@@ -5,6 +5,7 @@ import TeamMembersRepository from '../repositories/teamMembersRepository';
 
 import merger from '../repositories/transforms/mergeTransform';
 import collectionTransform from './transforms/collectionTransform';
+import collectionRefsTransform from './transforms/collectionRefsTransform';
 
 import validNotFound from './validators/validNotFound';
 
@@ -49,6 +50,9 @@ class TeamsService {
 
           new TeamRepository()
               .findOne({_id})
+              .then((e) => {
+                  return collectionRefsTransform(e.get('members'), _id, 'teams', e);
+              })
               .then((e) => {
                   resolve(e);
               })
@@ -116,6 +120,21 @@ class TeamsService {
 
     static getMembers(_id, user) {
 
+        return new Promise(function(resolve, reject) {
+
+            new TeamRepository()
+                .findOne({_id})
+                .then((e) => {
+                    return collectionRefsTransform(e.get('members'), _id, 'teams');
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
     }
 
     static addMember(_id, member, user) {
@@ -124,6 +143,9 @@ class TeamsService {
 
             new TeamMembersRepository()
                 .add(_id, member)
+                .then((e) => {
+                    return collectionRefsTransform([e.get('members')], _id, 'teams');
+                })
                 .then((e) => {
                     resolve(e);
                 })
@@ -135,8 +157,19 @@ class TeamsService {
 
     }
 
-    static deleteMember(_id, user) {
+    static deleteMember(_id, _idu, user) {
+        return new Promise(function(resolve, reject) {
 
+            new TeamMembersRepository()
+                .remove(_id, _idu)
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
     }
 }
 
