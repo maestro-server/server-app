@@ -66,7 +66,7 @@ module.exports = function (router) {
         .get('/:id/members', authenticate(), function (req, res, next) {
 
             TeamService.getMembers(req.params.id, req.user)
-                .then(e => res.status(201).json(e))
+                .then(e => res.json(e))
                 .catch(function(e) {
                     next(e);
                 });

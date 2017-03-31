@@ -42,7 +42,7 @@ class TeamMembersRepository {
                       .updateByPushUnique(id);
               })
               .then((e) => {
-                  resolve(e)
+                  resolve(e.get('members'))
               })
               .catch((err) => {
                   reject(err);
@@ -61,7 +61,7 @@ class TeamMembersRepository {
             new TeamDao(arr)
                 .updateByPull(id)
                 .then((e) => {
-                    resolve(e)
+                    resolve(e.get())
                 })
                 .catch((err) => {
                     reject(err);
@@ -69,7 +69,6 @@ class TeamMembersRepository {
 
         });
     }
-
 
 }
 

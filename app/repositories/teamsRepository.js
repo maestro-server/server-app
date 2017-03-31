@@ -5,6 +5,7 @@ import validTeam from './validators/validTeam';
 
 import filledTransform from './transforms/filledTransform';
 import activeTransform from './transforms/activeTransform';
+import clearDaoTransform from './transforms/clearDaoTransform';
 
 import merger from './transforms/mergeTransform';
 
@@ -46,6 +47,9 @@ class TeamsRepository {
                         .sort('created_at', -1)
                         .include(this.resFilled)
                         .find(filters)
+                })
+                .then((e) => {
+                    return clearDaoTransform(e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -91,7 +95,7 @@ class TeamsRepository {
                         .findOne(e)
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e.get())
                 })
                 .catch((err) => {
                     reject(err);

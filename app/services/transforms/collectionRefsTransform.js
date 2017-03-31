@@ -1,46 +1,35 @@
 
-
-import createLinkPagination from '../helpers/createLinkPagination';
-import insertHateoasCollection from '../helpers/insertHateoasCollection';
-
+import transform from '../helpers/transformAdapter';
+import insertHateoasArray from '../helpers/insertHateoasArray';
 import BASE from '../../helpers/base_url';
 
-module.exports = function (collection, _id=null, uri=null, parent={}) {
+module.exports = function (collection, _id=false, uri=false) {
 
     return new Promise((resolve, reject) => {
 
-        collection.map(function(err) {
-            err._links = {
-               'self': {
-                    'href': `${BASE}/${err._ref}/${err._id}`,
-                   'method': 'GET'
-                }
-            };
+        const items = insertHateoasArray(collection);
 
-            return err;
+        const _links = transform(_id, (e) => {
+          return {
+              '_parent': {
+                  'href': `${BASE}/${uri}/${_id}`,
+                  'method': 'GET'
+              },
+              '_root': {
+                  'href': `${BASE}/${uri}`,
+                  'method': 'GET'
+              },
+          }
         });
 
-        const link = {
-            '_parent': {
-                'href': `${BASE}/${uri}/${_id}`,
-                'method': 'GET'
-            },
-            '_root': {
-                'href': `${BASE}/${uri}`,
-                'method': 'GET'
-            },
-        };
+        const found = items.length;
 
-        const result = {
-            'found': collection.length,
-            'items': collection,
-            '_links':  link
-        };
 
-        resolve(
-            Object.assign(parent, result)
-        );
-
+        resolve({
+           found,
+           items,
+          _links
+        });
 
     });
 };

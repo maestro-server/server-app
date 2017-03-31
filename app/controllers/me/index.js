@@ -7,7 +7,7 @@ import authenticate from '../../middlewares/authenticate';
 module.exports = function (router) {
 
     router
-        .get('/', authenticate(), function (req, res) {
+        .get('/', authenticate(), function (req, res, next) {
 
             UserService.findOne(req.user._id)
                 .then(e => res.json(e))

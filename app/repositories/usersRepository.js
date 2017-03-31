@@ -10,6 +10,7 @@ import validPassMatch from './validators/validPassMatch';
 
 import filledTransform from './transforms/filledTransform';
 import activeTransform from './transforms/activeTransform';
+import clearDaoTransform from './transforms/clearDaoTransform';
 
 class UsersRepository {
 
@@ -25,10 +26,20 @@ class UsersRepository {
 
     setFilled (val) {
       this.filled = val;
+      return this;
+    }
+
+    excludeFilled (val) {
+      this.setFilled(
+        this.filled.filter((e) => e!=val)
+      );
+
+      return this;
     }
 
     setResFilled (val) {
       this.resFilled = val;
+      return this;
     }
 
     find(filters = {}, limit = 20, skip = 0) {
@@ -43,6 +54,9 @@ class UsersRepository {
                     .sort('created_at', -1)
                     .include(this.resFilled)
                     .find(filters)
+            })
+            .then((e) => {
+                return clearDaoTransform(e);
             })
             .then((e) => {
                 resolve(e)
@@ -94,7 +108,7 @@ class UsersRepository {
               .findOne(filter)
           })
           .then((e) => {
-              resolve(e)
+              resolve(e.get());
           })
           .catch((err) => {
               reject(err);
@@ -108,12 +122,12 @@ class UsersRepository {
 
       return new Promise((resolve, reject) => {
 
+          this.excludeFilled('email');
+          this.excludeFilled('password');
+
           filledTransform(user, this.filled)
               .then((e) => {
                   return validUser(e)
-              })
-              .then((e) => {
-                  return validDuplicate(e);
               })
               .then((e) => {
                   return new UserDao(e)

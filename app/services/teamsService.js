@@ -4,6 +4,8 @@ import TeamRepository from '../repositories/teamsRepository';
 import TeamMembersRepository from '../repositories/teamMembersRepository';
 
 import merger from '../repositories/transforms/mergeTransform';
+import refsTransform from './transforms/refsTransform';
+import singleTransform from './transforms/singleTransform';
 import collectionTransform from './transforms/collectionTransform';
 import collectionRefsTransform from './transforms/collectionRefsTransform';
 
@@ -28,10 +30,10 @@ class TeamsService {
                   ]);
                 })
                 .then((e) => {
-                    return validNotFound(e, limit, page);
+                    return validNotFound(e, e[1], limit, page);
                 })
                 .then((e) => {
-                  return collectionTransform(e, limit, page, 'teams');
+                    return collectionTransform(e[0], e[1], 'teams', limit, page);
                 })
                 .then((e) => {
                     resolve(e);
@@ -51,7 +53,7 @@ class TeamsService {
           new TeamRepository()
               .findOne({_id})
               .then((e) => {
-                  return collectionRefsTransform(e.get('members'), _id, 'teams', e);
+                  return refsTransform(e, 'members');
               })
               .then((e) => {
                   resolve(e);
@@ -71,6 +73,9 @@ class TeamsService {
               .then((e) => {
                   return new TeamRepository()
                       .update(_id, e)
+              })
+              .then((e) => {
+                  return singleTransform(e, 'teams');
               })
               .then((e) => {
                   resolve(e);
@@ -108,6 +113,12 @@ class TeamsService {
                         .create(e)
                 })
                 .then((e) => {
+                    return refsTransform(e, 'members');
+                })
+                .then((e) => {
+                    return singleTransform(e, 'teams');
+                })
+                .then((e) => {
                     resolve(e);
                 })
                 .catch((err) => {
@@ -125,7 +136,7 @@ class TeamsService {
             new TeamRepository()
                 .findOne({_id})
                 .then((e) => {
-                    return collectionRefsTransform(e.get('members'), _id, 'teams');
+                    return collectionRefsTransform(e.members, _id, 'teams');
                 })
                 .then((e) => {
                     resolve(e);
@@ -144,7 +155,7 @@ class TeamsService {
             new TeamMembersRepository()
                 .add(_id, member)
                 .then((e) => {
-                    return collectionRefsTransform([e.get('members')], _id, 'teams');
+                    return collectionRefsTransform([e], _id, 'teams');
                 })
                 .then((e) => {
                     resolve(e);

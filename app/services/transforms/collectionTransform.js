@@ -2,18 +2,18 @@
 import createLinkPagination from '../helpers/createLinkPagination';
 import insertHateoasCollection from '../helpers/insertHateoasCollection';
 
-module.exports = function (data, limit, page, uri) {
+module.exports = function (data, count, uri="", limit=20, page=1) {
 
     return new Promise((resolve, reject) => {
 
-        const pages = Math.round(data[1]/limit);
+        const pages = Math.round(count/limit);
 
         const trans = {
-            'found': data[1],
+            'found': count,
             'limit': limit,
             'total_pages': pages,
             'current_page': page,
-            'itens': insertHateoasCollection(data[0], uri),
+            'items': insertHateoasCollection(data, uri),
             '_links': createLinkPagination(uri, limit, pages, page)
         };
 
