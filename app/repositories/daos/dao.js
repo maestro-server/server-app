@@ -13,16 +13,14 @@ class Dao extends Model {
         return this.updateFactory(filter, {$set: this.get()});
     }
 
-    updateByPushUnique(id) {
-        let _id = toObjectId(id);
+    updateByPushUnique(filter) {
 
-        return this.updateFactory({_id}, {$addToSet: this.get()});
+        return this.updateFactory(filter, {$addToSet: this.get()});
     }
 
-    updateByPull(id) {
-        let _id = toObjectId(id);
+    updateByPull(filter) {
 
-        return this.updateFactory({_id}, {$pull: this.get()});
+        return this.updateFactory(filter, {$pull: this.get()});
     }
 
     updateFactory(entity, entry, options) {

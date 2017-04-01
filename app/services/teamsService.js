@@ -76,7 +76,6 @@ class TeamsService {
 
             accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
                 .then((e) => {
-
                     return new TeamRepository()
                         .update(e, team)
                 })
@@ -138,13 +137,19 @@ class TeamsService {
 
     }
 
-    static getMembers(_id, user) {
+    static getMembers(_id, owner) {
 
         return new Promise(function (resolve, reject) {
 
-            new TeamRepository()
-                .findOne({_id})
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_READ)
                 .then((e) => {
+                    return new TeamRepository()
+                        .findOne(e);
+                })
+                .then((e) => {
+                    if (!e)
+                        reject();
+
                     return collectionRefsTransform(e.members, _id, 'teams');
                 })
                 .then((e) => {
@@ -157,12 +162,15 @@ class TeamsService {
         });
     }
 
-    static addMember(_id, member, user) {
+    static addMember(_id, member, owner) {
 
         return new Promise(function (resolve, reject) {
 
-            new TeamMembersRepository()
-                .add(_id, member)
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_ADMIN)
+                .then((e) => {
+                    return new TeamMembersRepository()
+                        .add(e, member);
+                })
                 .then((e) => {
                     return collectionRefsTransform([e], _id, 'teams');
                 })
@@ -177,11 +185,14 @@ class TeamsService {
 
     }
 
-    static deleteMember(_id, _idu, user) {
+    static deleteMember(_id, _idu, owner) {
         return new Promise(function (resolve, reject) {
 
-            new TeamMembersRepository()
-                .remove(_id, _idu)
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_ADMIN)
+                .then((e) => {
+                    return new TeamMembersRepository()
+                        .remove(e, _idu);
+                })
                 .then((e) => {
                     resolve(e);
                 })

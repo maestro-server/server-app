@@ -2,6 +2,7 @@
 
 import TeamDao from './daos/team';
 import validAccess from './validators/validAccess';
+import validAccessUpdater from './validators/validAccessUpdater';
 
 import filledTransform from './transforms/filledTransform';
 import merger from './transforms/mergeTransform';
@@ -26,7 +27,7 @@ class TeamMembersRepository {
     }
 
 
-    add(id, member) {
+    add(filter, member) {
 
         return new Promise((resolve, reject) => {
 
@@ -38,7 +39,10 @@ class TeamMembersRepository {
                     const arr = formatRefsCollection(e.id, 'users', 'members', {role: e.role});
 
                     return new TeamDao(arr)
-                        .updateByPushUnique(id);
+                        .updateByPushUnique(filter);
+                })
+                .then((e) => {
+                    return validAccessUpdater(e);
                 })
                 .then((e) => {
                     resolve(e.get('members'))
@@ -59,6 +63,9 @@ class TeamMembersRepository {
 
             new TeamDao(arr)
                 .updateByPull(id)
+                .then((e) => {
+                    return validAccessUpdater(e);
+                })
                 .then((e) => {
                     resolve(e.get())
                 })
