@@ -5,6 +5,8 @@ import UserRepository from "../repositories/usersRepository";
 
 import config from '../helpers/auth_config';
 
+import permissionError from '../errors/permissionError';
+
 
 module.exports = function(req, res, next) {
     let strategy = new Strategy(config.jwtSecret, function (payload, done) {
@@ -19,7 +21,7 @@ module.exports = function(req, res, next) {
                         return done(null, e);
                     }
 
-                    return done(new Error("User not found"), false);
+                    return done(new permissionError("User not found"), false);
                 })
                 .catch(error => done(error, null));
         }

@@ -17,42 +17,41 @@ class TeamMembersRepository {
      * filled = fields usgin to create a new entiti
      * resFilled = fields with show to result
      */
-    constructor(resFilled=null, filled=null) {
+    constructor(resFilled = null, filled = null) {
         this.setFilled(filled || ['id', 'role']);
     }
 
-    setFilled (val) {
-      this.filled = val;
+    setFilled(val) {
+        this.filled = val;
     }
 
 
+    add(id, member) {
 
-    add (id, member) {
+        return new Promise((resolve, reject) => {
 
-      return new Promise((resolve, reject) => {
+            filledTransform(member, this.filled)
+                .then((e) => {
+                    return validAccess(e);
+                })
+                .then((e) => {
+                    const arr = formatRefsCollection(e.id, 'users', 'members', {role: e.role});
 
-          filledTransform(member, this.filled)
-              .then((e) => {
-                  return validAccess(e);
-              })
-              .then((e) => {
-                  const arr = formatRefsCollection(e.id, 'users', 'members', {role: e.role});
-
-                  return new TeamDao(arr)
-                      .updateByPushUnique(id);
-              })
-              .then((e) => {
-                  resolve(e.get('members'))
-              })
-              .catch((err) => {
-                  reject(err);
-              });
+                    return new TeamDao(arr)
+                        .updateByPushUnique(id);
+                })
+                .then((e) => {
+                    resolve(e.get('members'))
+                })
+                .catch((err) => {
+                    reject(err);
+                });
 
         });
     }
 
 
-    remove (id, idu, member) {
+    remove(id, idu, member) {
 
         return new Promise((resolve, reject) => {
 

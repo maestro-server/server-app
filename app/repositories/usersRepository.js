@@ -1,5 +1,7 @@
 'use strict';
 
+import Repository from './Repository';
+
 import UserDao from './daos/user';
 import validUser from './validators/validUser';
 import validNewUser from './validators/validNewUser';
@@ -12,58 +14,42 @@ import filledTransform from './transforms/filledTransform';
 import activeTransform from './transforms/activeTransform';
 import clearDaoTransform from './transforms/clearDaoTransform';
 
-class UsersRepository {
+class UsersRepository extends Repository {
 
     /**
      *
      * filled = fields usgin to create a new entiti
      * resFilled = fields with show to result
      */
-    constructor(resFilled=null, filled=null) {
+    constructor(resFilled = null, filled = null) {
+        super();
         this.setFilled(filled || ['name', 'email', 'password', 'phone', 'company', 'avatar', 'job', 'country', 'city', 'address']);
         this.setResFilled(resFilled || ['_id', 'name', 'email']);
     }
 
-    setFilled (val) {
-      this.filled = val;
-      return this;
-    }
-
-    excludeFilled (val) {
-      this.setFilled(
-        this.filled.filter((e) => e!=val)
-      );
-
-      return this;
-    }
-
-    setResFilled (val) {
-      this.resFilled = val;
-      return this;
-    }
 
     find(filters = {}, limit = 20, skip = 0) {
 
         return new Promise((resolve, reject) => {
 
-          activeTransform.active(filters)
-            .then((filters) => {
-                return UserDao
-                    .limit(limit)
-                    .skip(skip)
-                    .sort('created_at', -1)
-                    .include(this.resFilled)
-                    .find(filters)
-            })
-            .then((e) => {
-                return clearDaoTransform(e);
-            })
-            .then((e) => {
-                resolve(e)
-            })
-            .catch((err) => {
-                reject(err);
-            });
+            activeTransform.active(filters)
+                .then((filters) => {
+                    return UserDao
+                        .limit(limit)
+                        .skip(skip)
+                        .sort('created_at', -1)
+                        .include(this.resFilled)
+                        .find(filters)
+                })
+                .then((e) => {
+                    return clearDaoTransform(e);
+                })
+                .then((e) => {
+                    resolve(e)
+                })
+                .catch((err) => {
+                    reject(err);
+                });
 
         });
 
@@ -79,7 +65,7 @@ class UsersRepository {
             validAuth(body)
                 .then((e) => {
                     return UserDao
-                    .findOne({email})
+                        .findOne({email})
                 })
                 .then((e) => {
                     return validPassMatch(password, e)
@@ -99,74 +85,80 @@ class UsersRepository {
 
     findOne(filter) {
 
-      return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
 
-        activeTransform.active(filter)
-          .then((filter) => {
-              return UserDao
-              .include(this.resFilled)
-              .findOne(filter)
-          })
-          .then((e) => {
-              resolve(e.get());
-          })
-          .catch((err) => {
-              reject(err);
-          });
+            activeTransform.active(filter)
+                .then((filter) => {
+                    return UserDao
+                        .include(this.resFilled)
+                        .findOne(filter)
+                })
+                .then((e) => {
+                    if (e)
+                        e = e.get()
 
-      });
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
 
     }
 
     update(id, user) {
 
-      return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
 
-          this.excludeFilled('email');
-          this.excludeFilled('password');
+            this.excludeFilled('email');
+            this.excludeFilled('password');
 
-          filledTransform(user, this.filled)
-              .then((e) => {
-                  return validUser(e)
-              })
-              .then((e) => {
-                  return new UserDao(e)
-                      .updateAndModify(id);
-              })
-              .then((e) => {
-                  return filledTransform(e.get(), this.resFilled);
-              })
-              .then((e) => {
-                  resolve(e)
-              })
-              .catch((err) => {
-                  reject(err);
-              });
+            filledTransform(user, this.filled)
+                .then((e) => {
+                    return validUser(e)
+                })
+                .then((e) => {
+                    return new UserDao(e)
+                        .updateAndModify(id);
+                })
+                .then((e) => {
+                    if (e)
+                        e = e.get()
 
-      });
+                    return filledTransform(e, this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e)
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
 
     }
 
     remove(_id) {
 
-      return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
 
-          activeTransform.desactive({})
-              .then((e) => {
-                  return new UserDao(e)
-                  .updateAndModify(_id);
-              })
-              .then((e) => {
-                  return filledTransform(e.get(), this.resFilled);
-              })
-              .then((e) => {
-                  resolve(e)
-              })
-              .catch((err) => {
-                  reject(err);
-              });
+            activeTransform.desactive({})
+                .then((e) => {
+                    return new UserDao(e)
+                        .updateAndModify(_id);
+                })
+                .then((e) => {
+                    return filledTransform(e.get(), this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e)
+                })
+                .catch((err) => {
+                    reject(err);
+                });
 
-      });
+        });
     }
 
     create(user) {

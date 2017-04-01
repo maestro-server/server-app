@@ -7,27 +7,29 @@ import merger from '../repositories/transforms/mergeTransform';
 import refsTransform from './transforms/refsTransform';
 import singleTransform from './transforms/singleTransform';
 import collectionTransform from './transforms/collectionTransform';
+import accessMergeTransform from './transforms/accessMergeTransform';
 import collectionRefsTransform from './transforms/collectionRefsTransform';
 
 import validNotFound from './validators/validNotFound';
+
+import Access from '../entities/accessRole';
 
 class TeamsService {
 
     static find(query, owner) {
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             const limit = parseInt(query.limit) || 20;
             const page = parseInt(query.page) || 1;
-            const skip = limit * (page-1);
+            const skip = limit * (page - 1);
 
-
-            merger(query, {"owner._id": owner._id})
+            accessMergeTransform(owner, "members", query)
                 .then((e) => {
-                  return Promise.all([
-                    new TeamRepository().find(e, limit, skip),
-                    new TeamRepository().count(e)
-                  ]);
+                    return Promise.all([
+                        new TeamRepository().find(e, limit, skip),
+                        new TeamRepository().count(e)
+                    ]);
                 })
                 .then((e) => {
                     return validNotFound(e, e[1], limit, page);
@@ -47,65 +49,72 @@ class TeamsService {
 
     }
 
-    static findOne(_id) {
-      return new Promise(function(resolve, reject) {
+    static findOne(_id, owner) {
+        return new Promise(function (resolve, reject) {
 
-          new TeamRepository()
-              .findOne({_id})
-              .then((e) => {
-                  return refsTransform(e, 'members');
-              })
-              .then((e) => {
-                  resolve(e);
-              })
-              .catch((err) => {
-                  reject(err);
-              });
+            accessMergeTransform(owner, "members", {_id})
+                .then((e) => {
+                    return new TeamRepository()
+                        .findOne(e)
+                })
+                .then((e) => {
+                    return refsTransform(e, 'members');
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
 
-      });
+        });
     }
 
     static update(_id, team, owner) {
 
-      return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
-          merger(team, {owner})
-              .then((e) => {
-                  return new TeamRepository()
-                      .update(_id, e)
-              })
-              .then((e) => {
-                  return singleTransform(e, 'teams');
-              })
-              .then((e) => {
-                  resolve(e);
-              })
-              .catch((err) => {
-                  reject(err);
-              });
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
+                .then((e) => {
 
-      });
+                    return new TeamRepository()
+                        .update(e, team)
+                })
+                .then((e) => {
+                    return singleTransform(e, 'teams');
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
     }
 
-    static remove(_id) {
+    static remove(_id, owner) {
 
-      return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
-          let promises = new TeamRepository()
-              .remove(_id)
-              .then((e) => {
-                  resolve(e);
-              })
-              .catch((err) => {
-                  reject(err);
-              });
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_ADMIN)
+                .then((e) => {
+                    return new TeamRepository()
+                        .remove(e)
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
 
-      });
+        });
     }
 
     static create(team, owner) {
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             merger(team, {owner})
                 .then((e) => {
@@ -131,7 +140,7 @@ class TeamsService {
 
     static getMembers(_id, user) {
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             new TeamRepository()
                 .findOne({_id})
@@ -150,7 +159,7 @@ class TeamsService {
 
     static addMember(_id, member, user) {
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             new TeamMembersRepository()
                 .add(_id, member)
@@ -169,7 +178,7 @@ class TeamsService {
     }
 
     static deleteMember(_id, _idu, user) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             new TeamMembersRepository()
                 .remove(_id, _idu)

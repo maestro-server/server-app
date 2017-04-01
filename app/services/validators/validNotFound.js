@@ -6,7 +6,7 @@ module.exports = function (flow, count, limit, page) {
 
         const pages = Math.ceil(count/limit);
 
-        if (page > pages)
+        if (page > pages && count > 0)
             reject();
 
         resolve(flow);

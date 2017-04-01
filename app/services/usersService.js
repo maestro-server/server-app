@@ -2,6 +2,8 @@
 
 import UserRepository from '../repositories/usersRepository';
 
+import singleTransform from './transforms/singleTransform';
+
 class UsersService {
 
     static find(query) {
@@ -78,6 +80,9 @@ class UsersService {
 
             new UserRepository()
                 .create(user)
+                .then((e) => {
+                    return singleTransform(e, 'users');
+                })
                 .then((e) => {
                     resolve(e);
                 })

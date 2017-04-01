@@ -1,7 +1,11 @@
 'use strict';
 
+import Repository from './Repository';
+
+
 import TeamDao from './daos/team';
 import validTeam from './validators/validTeam';
+import validAccessUpdater from './validators/validAccessUpdater';
 
 import filledTransform from './transforms/filledTransform';
 import activeTransform from './transforms/activeTransform';
@@ -11,26 +15,22 @@ import merger from './transforms/mergeTransform';
 
 import formatRefsCollection from './format/formatRefsCollection';
 
+import Access from '../entities/accessRole';
 
-class TeamsRepository {
+
+class TeamsRepository extends Repository {
 
     /**
      *
      * filled = fields usgin to create a new entiti
      * resFilled = fields with show to result
      */
-    constructor(resFilled=null, filled=null) {
-        this.setFilled(filled || ['name', 'email', 'url', 'avatar', 'owner', 'members.role', 'access', 'qtds']);
+    constructor(resFilled = null, filled = null) {
+        super();
+        this.setFilled(filled || ['name', 'email', 'url', 'avatar', 'owner', 'members', 'qtds']);
         this.setResFilled(resFilled || ['_id', 'name', 'email', 'url', 'avatar', 'owner', 'qtds', 'members']);
     }
 
-    setFilled (val) {
-      this.filled = val;
-    }
-
-    setResFilled (val) {
-      this.resFilled = val;
-    }
 
     find(filters = {}, limit = 20, skip = 0) {
 
@@ -95,7 +95,10 @@ class TeamsRepository {
                         .findOne(e)
                 })
                 .then((e) => {
-                    resolve(e.get())
+                    if (e)
+                        e = e.get()
+
+                    resolve(e)
                 })
                 .catch((err) => {
                     reject(err);
@@ -105,17 +108,25 @@ class TeamsRepository {
 
     }
 
-    update(id, user) {
+    update(filter, team) {
 
         return new Promise((resolve, reject) => {
 
-            filledTransform(user, this.filled)
+            this.excludeFilled('members');
+            this.excludeFilled('qtds');
+            this.excludeFilled('owner');
+
+
+            filledTransform(team, this.filled)
                 .then((e) => {
                     return validTeam(e)
                 })
                 .then((e) => {
                     return new TeamDao(e)
-                        .updateAndModify(id);
+                        .updateAndModify(filter);
+                })
+                .then((e) => {
+                    return validAccessUpdater(e);
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);
@@ -132,17 +143,17 @@ class TeamsRepository {
     }
 
 
-    remove(_id) {
+    remove(filter) {
 
         return new Promise((resolve, reject) => {
 
             activeTransform.desactive({})
                 .then((e) => {
                     return new TeamDao(e)
-                        .updateAndModify(_id);
+                        .updateAndModify(filter);
                 })
                 .then((e) => {
-                    return filledTransform(e.get(), this.resFilled);
+                    return validAccessUpdater(e);
                 })
                 .then((e) => {
                     resolve(e)
@@ -166,7 +177,7 @@ class TeamsRepository {
                     return activeTransform.active(e);
                 })
                 .then((e) => {
-                    return merger(e, formatRefsCollection(e.owner._id, 'users', 'members', {role: 'admin'}, true));
+                    return merger(e, formatRefsCollection(e.owner._id, 'users', 'members', {role: Access.ROLE_ADMIN}, true));
                 })
                 .then((e) => {
                     return new TeamDao(e).save()

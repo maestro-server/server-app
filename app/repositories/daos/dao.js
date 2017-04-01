@@ -6,42 +6,38 @@ import toObjectId from 'mongorito/util/to-objectid';
 
 class Dao extends Model {
 
-    updateAndModify (id) {
-      let _id = toObjectId(id);
 
-      this.set('updated_at', new Date());
+    updateAndModify(filter) {
+        this.set('updated_at', new Date());
 
-      return this.updateFactory({_id}, {$set: this.get()});
+        return this.updateFactory(filter, {$set: this.get()});
     }
 
-    updateByPushUnique (id) {
-      let _id = toObjectId(id);
+    updateByPushUnique(id) {
+        let _id = toObjectId(id);
 
-      return this.updateFactory({_id}, {$addToSet: this.get()});
+        return this.updateFactory({_id}, {$addToSet: this.get()});
     }
 
-    updateByPull (id) {
+    updateByPull(id) {
         let _id = toObjectId(id);
 
         return this.updateFactory({_id}, {$pull: this.get()});
     }
 
-    updateFactory (entity, entry, options) {
+    updateFactory(entity, entry, options) {
 
-      return this._collection()
-        .tap(() => {
-          return this._runHooks('before', 'update', options);
-        })
-        .then((collection) => {
-          console.log(entry);
-          console.log(entity);
-          return collection.update(entity, entry);
-        })
-        .then(() => {
-
-          return this._runHooks('after', 'update', options);
-        })
-        .return(this);
+        return this._collection()
+            .tap(() => {
+                return this._runHooks('before', 'update', options);
+            })
+            .then((collection) => {
+                return collection.update(entity, entry);
+            })
+            .then((e) => {
+                return this.isUpdater = e.result;
+            })
+            .return(this);
     }
 
 }

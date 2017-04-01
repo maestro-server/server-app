@@ -19,7 +19,7 @@ module.exports = function (router) {
 
         .get('/:id', authenticate(), function (req, res, next) {
 
-            TeamService.findOne(req.params.id)
+            TeamService.findOne(req.params.id, req.user)
                 .then(e => res.json(e))
                 .catch(function(e) {
                     next(e);
@@ -27,10 +27,10 @@ module.exports = function (router) {
 
         })
 
-        .put('/:id', authenticate(), function (req, res, next) {
+        .patch('/:id', authenticate(), function (req, res, next) {
 
             TeamService.update(req.params.id, req.body, req.user)
-                .then(e => res.status(201).json(e))
+                .then(e => res.status(202).json(e))
                 .catch(function(e) {
                     next(e);
                 });
@@ -40,7 +40,7 @@ module.exports = function (router) {
 
         .delete('/:id', authenticate(), function (req, res, next) {
 
-            TeamService.remove(req.params.id)
+            TeamService.remove(req.params.id, req.user)
                 .then(e => res.status(204).json(e))
                 .catch(function(e) {
                     next(e);
