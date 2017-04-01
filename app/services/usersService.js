@@ -3,19 +3,30 @@
 import UserRepository from '../repositories/usersRepository';
 
 import singleTransform from './transforms/singleTransform';
+import collectionTransform from './transforms/collectionTransform';
+
+import validNotFound from './validators/validNotFound';
 
 class UsersService {
 
     static find(query) {
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             const limit = parseInt(query.limit) || 20;
-            const skip = parseInt(query.skip) || 0;
-            const filters = query.filters || {};
+            const page = parseInt(query.page) || 1;
+            const skip = limit * (page - 1);
 
-            new UserRepository()
-                .find(filters, limit, skip)
+            Promise.all([
+                    new UserRepository().find(query, limit, skip),
+                    new UserRepository().count(query)
+                ])
+                .then((e) => {
+                    return validNotFound(e, e[1], limit, page);
+                })
+                .then((e) => {
+                    return collectionTransform(e[0], e[1], 'teams', limit, page);
+                })
                 .then((e) => {
                     resolve(e);
                 })
@@ -28,55 +39,70 @@ class UsersService {
     }
 
     static findOne(_id) {
-      return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
-          new UserRepository([])
-              .findOne({_id})
-              .then((e) => {
-                  resolve(e);
-              })
-              .catch((err) => {
-                  reject(err);
-              });
+            new UserRepository([])
+                .findOne({_id})
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
 
-      });
+        });
+    }
+
+    static publicFindOne(_id) {
+        return new Promise(function (resolve, reject) {
+
+            new UserRepository()
+                .find({_id}, 1, 0)
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
     }
 
     static update(_id, user) {
 
-      return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
-          new UserRepository()
-              .update(_id, user)
-              .then((e) => {
-                  resolve(e);
-              })
-              .catch((err) => {
-                  reject(err);
-              });
+            new UserRepository()
+                .update(_id, user)
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
 
-      });
+        });
     }
 
     static remove(_id) {
 
-      return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
-          new UserRepository()
-              .remove(_id)
-              .then((e) => {
-                  resolve(e);
-              })
-              .catch((err) => {
-                  reject(err);
-              });
+            new UserRepository()
+                .remove(_id)
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
 
-      });
+        });
     }
 
     static create(user) {
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             new UserRepository()
                 .create(user)

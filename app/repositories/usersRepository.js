@@ -24,7 +24,7 @@ class UsersRepository extends Repository {
     constructor(resFilled = null, filled = null) {
         super();
         this.setFilled(filled || ['name', 'email', 'password', 'phone', 'company', 'avatar', 'job', 'country', 'city', 'address']);
-        this.setResFilled(resFilled || ['_id', 'name', 'email']);
+        this.setResFilled(resFilled || ['_id', 'name', 'avatar']);
     }
 
 
@@ -32,7 +32,10 @@ class UsersRepository extends Repository {
 
         return new Promise((resolve, reject) => {
 
-            activeTransform.active(filters)
+            filledTransform(filters, this.filled)
+                .then((e) => {
+                    return activeTransform.active(e);
+                })
                 .then((filters) => {
                     return UserDao
                         .limit(limit)
@@ -45,7 +48,30 @@ class UsersRepository extends Repository {
                     return clearDaoTransform(e);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+
+    }
+
+    count(filters = {}) {
+
+        return new Promise((resolve, reject) => {
+
+            filledTransform(filters, this.filled)
+                .then((e) => {
+                    return activeTransform.active(e);
+                })
+                .then((filters) => {
+                    return UserDao
+                        .count(filters)
+                })
+                .then((e) => {
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
