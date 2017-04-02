@@ -1,6 +1,7 @@
 'use strict';
 
 import TeamService from '../../services/teamsService';
+import ProjectsService from '../../services/projectsService';
 
 import authenticate from '../../middlewares/authenticate';
 
@@ -86,6 +87,60 @@ module.exports = function (router) {
         .delete('/:id/members/:idu', authenticate(), function (req, res, next) {
 
             TeamService.deleteMember(req.params.id, req.params.idu, req.user)
+                .then(e => res.status(204).json(e))
+                .catch(function(e) {
+                    next(e);
+                });
+
+        });
+
+
+    /**
+     *
+     * Projects
+     */
+    router
+        .get('/:id/projects', authenticate(), function (req, res, next) {
+
+            ProjectsService.findTeamProject(req.params.id, req.query, req.user)
+                .then(e => res.json(e))
+                .catch(function(e) {
+                    next(e);
+                });
+
+        })
+
+        .get('/:id/projects/:idu', authenticate(), function (req, res, next) {
+
+            ProjectsService.findOneTeamProject(req.params.id, req.params.idu, req.query, req.user)
+                .then(e => res.json(e))
+                .catch(function(e) {
+                    next(e);
+                });
+
+        })
+
+        .post('/:id/projects', authenticate(), function (req, res, next) {
+
+            ProjectsService.createTeamProject(req.params.id, req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function(e) {
+                    next(e);
+                });
+        })
+
+        .patch('/:id/projects/:idu', authenticate(), function (req, res, next) {
+
+            ProjectsService.updateTeamProject(req.params.id, req.params.idu, req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function(e) {
+                    next(e);
+                });
+        })
+
+        .delete('/:id/projects/:idu', authenticate(), function (req, res, next) {
+
+            ProjectsService.deleteTeamProject(req.params.id, req.params.idu, req.user)
                 .then(e => res.status(204).json(e))
                 .catch(function(e) {
                     next(e);

@@ -16,7 +16,7 @@ import Access from '../entities/accessRole';
 
 class TeamsService {
 
-    static find(query, owner) {
+    static find(query, owner, access=Access.ROLE_READ) {
 
         return new Promise(function (resolve, reject) {
 
@@ -24,7 +24,7 @@ class TeamsService {
             const page = parseInt(query.page) || 1;
             const skip = limit * (page - 1);
 
-            accessMergeTransform(owner, "members", query)
+            accessMergeTransform(owner, "members", query, access)
                 .then((e) => {
                     return Promise.all([
                         new TeamRepository().find(e, limit, skip),
@@ -49,10 +49,10 @@ class TeamsService {
 
     }
 
-    static findOne(_id, owner) {
+    static findOne(_id, owner, access=Access.ROLE_READ) {
         return new Promise(function (resolve, reject) {
 
-            accessMergeTransform(owner, "members", {_id})
+            accessMergeTransform(owner, "members", {_id}, access)
                 .then((e) => {
                     return new TeamRepository()
                         .findOne(e)

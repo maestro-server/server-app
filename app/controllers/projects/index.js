@@ -2,13 +2,15 @@
 
 import ProjectService from '../../services/projectsService';
 
+import authenticate from '../../middlewares/authenticate';
+
 
 module.exports = function (router) {
 
     router
-        .get('/', function (req, res) {
+        .get('/', authenticate(), function (req, res, next) {
 
-            ProjectService.find(req.query)
+            ProjectService.find(req.query, req.user)
                 .then(e => res.json(e))
                 .catch(function(e) {
                     next(e);
@@ -16,9 +18,9 @@ module.exports = function (router) {
 
         })
 
-        .get('/:id', function (req, res) {
+        .get('/:id', authenticate(), function (req, res, next) {
 
-            ProjectService.findOne(req.params.id)
+            ProjectService.findOne(req.params.id, req.user)
                 .then(e => res.json(e))
                 .catch(function(e) {
                     next(e);
@@ -26,9 +28,9 @@ module.exports = function (router) {
 
         })
 
-        .put('/:id', function (req, res, next) {
+        .put('/:id', authenticate(), function (req, res, next) {
 
-            ProjectService.update(req.params.id, req.body)
+            ProjectService.update(req.params.id, req.body, req.user)
                 .then(e => res.status(201).json(e))
                 .catch(function(e) {
                     next(e);
@@ -37,9 +39,9 @@ module.exports = function (router) {
         })
 
 
-        .delete('/:id', function (req, res) {
+        .delete('/:id', authenticate(), function (req, res, next) {
 
-            ProjectService.remove(req.params.id)
+            ProjectService.remove(req.params.id, req.user)
                 .then(e => res.status(204).json(e))
                 .catch(function(e) {
                     next(e);
@@ -48,9 +50,9 @@ module.exports = function (router) {
         });
 
 
-    router.post('/', function (req, res, next) {
+    router.post('/', authenticate(), function (req, res, next) {
 
-        ProjectService.create(req.body)
+        ProjectService.create(req.body, req.user)
             .then(e => res.status(201).json(e))
             .catch(function(e) {
                 next(e);

@@ -1,13 +1,23 @@
 'use strict';
 
+import Repository from './Repository';
+
 import ProjectDao from './daos/project';
 import validProject from './validators/validProject';
+import validAccessUpdater from './validators/validAccessUpdater';
 
 import filledTransform from './transforms/filledTransform';
 import activeTransform from './transforms/activeTransform';
+import clearDaoTransform from './transforms/clearDaoTransform';
 
-class ProjectsRepository {
+import merger from './transforms/mergeTransform';
 
+import formatRefsCollection from './format/formatRefsCollection';
+
+import Access from '../entities/accessRole';
+
+
+class ProjectsRepository extends Repository {
 
     /**
      *
@@ -15,23 +25,20 @@ class ProjectsRepository {
      * resFilled = fields with show to result
      */
     constructor(resFilled = null, filled = null) {
-        this.setFilled(filled || ['name', 'owner', 'servers', 'applications']);
-        this.setResFilled(resFilled || ['_id', 'name', 'owner', 'servers', 'applications']);
+        super();
+        this.setFilled(filled || ['name', 'owner', 'owner._id', 'url', 'qtds']);
+        this.setResFilled(resFilled || ['_id', 'name', 'owner', 'url', 'qtds']);
     }
 
-    setFilled(val) {
-        this.filled = val;
-    }
-
-    setResFilled(val) {
-        this.resFilled = val;
-    }
 
     find(filters = {}, limit = 20, skip = 0) {
 
         return new Promise((resolve, reject) => {
 
-            activeTransform.active(filters)
+            filledTransform(filters, this.filled)
+                .then((e) => {
+                    return activeTransform.active(e);
+                })
                 .then((filters) => {
                     return ProjectDao
                         .limit(limit)
@@ -41,7 +48,33 @@ class ProjectsRepository {
                         .find(filters)
                 })
                 .then((e) => {
-                    resolve(e)
+                    return clearDaoTransform(e);
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+
+    }
+
+    count(filters = {}) {
+
+        return new Promise((resolve, reject) => {
+
+            filledTransform(filters, this.filled)
+                .then((e) => {
+                    return activeTransform.active(e);
+                })
+                .then((filters) => {
+                    return ProjectDao
+                        .count(filters)
+                })
+                .then((e) => {
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -56,11 +89,14 @@ class ProjectsRepository {
         return new Promise((resolve, reject) => {
 
             activeTransform.active(filter)
-                .then((filter) => {
+                .then((e) => {
                     return ProjectDao
-                        .findOne(filter)
+                        .findOne(e)
                 })
                 .then((e) => {
+                    if (e)
+                        e = e.get()
+
                     resolve(e)
                 })
                 .catch((err) => {
@@ -71,17 +107,25 @@ class ProjectsRepository {
 
     }
 
-    update(id, user) {
+    update(filter, team) {
 
         return new Promise((resolve, reject) => {
 
-            filledTransform(user, this.filled)
+            this.excludeFilled('members');
+            this.excludeFilled('qtds');
+            this.excludeFilled('owner');
+
+
+            filledTransform(team, this.filled)
                 .then((e) => {
                     return validProject(e)
                 })
                 .then((e) => {
                     return new ProjectDao(e)
-                        .updateAndModify(id);
+                        .updateAndModify(filter);
+                })
+                .then((e) => {
+                    return validAccessUpdater(e);
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);
@@ -97,20 +141,21 @@ class ProjectsRepository {
 
     }
 
-    remove(_id) {
+
+    remove(filter) {
 
         return new Promise((resolve, reject) => {
 
             activeTransform.desactive({})
-                .then((user) => {
-                    return new ProjectDao(user)
-                        .updateAndModify(_id);
+                .then((e) => {
+                    return new ProjectDao(e)
+                        .updateAndModify(filter);
                 })
                 .then((e) => {
-                    return filledTransform(e.get(), this.resFilled);
+                    return validAccessUpdater(e);
                 })
                 .then((e) => {
-                    resolve(e);
+                    resolve(e)
                 })
                 .catch((err) => {
                     reject(err);
@@ -119,11 +164,11 @@ class ProjectsRepository {
         });
     }
 
-    create(user) {
+    create(project) {
 
         return new Promise((resolve, reject) => {
 
-            filledTransform(user, this.filled)
+            filledTransform(project, this.filled)
                 .then((e) => {
                     return validProject(e);
                 })
@@ -137,7 +182,7 @@ class ProjectsRepository {
                     return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
-                    resolve(e);
+                    resolve(e)
                 })
                 .catch((err) => {
                     reject(err);
