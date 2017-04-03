@@ -3,6 +3,9 @@
 import TeamService from '../../services/teamsService';
 import ProjectsService from '../../services/projectsService';
 
+import ArchitecturesService from '../../services/architecturesService';
+import ApplicationsService from '../../services/applicationsService';
+
 import authenticate from '../../middlewares/authenticate';
 
 module.exports = function (router) {
@@ -147,5 +150,36 @@ module.exports = function (router) {
                 });
 
         });
+
+
+
+      /**
+       *
+       * Architectures
+       */
+      router
+            .post('/:id/architectures', authenticate(), function (req, res, next) {
+
+                ArchitecturesService.createTeamArchitectures(req.params.id, req.body, req.user)
+                    .then(e => res.status(201).json(e))
+                    .catch(function(e) {
+                        next(e);
+                    });
+            });
+
+
+      /**
+       *
+       * Applications
+       */
+      router
+            .post('/:id/applications', authenticate(), function (req, res, next) {
+
+                ApplicationsService.createTeamApplication(req.params.id, req.body, req.user)
+                    .then(e => res.status(201).json(e))
+                    .catch(function(e) {
+                        next(e);
+                    });
+            });
 
 };
