@@ -80,9 +80,6 @@ class TeamsService {
                         .update(e, team)
                 })
                 .then((e) => {
-                    return singleTransform(e, 'teams');
-                })
-                .then((e) => {
                     resolve(e);
                 })
                 .catch((err) => {
