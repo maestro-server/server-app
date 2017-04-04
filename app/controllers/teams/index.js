@@ -177,6 +177,25 @@ module.exports = function (router) {
 
         })
 
+        .patch('/:id/architectures/:idu', authenticate(), function (req, res, next) {
+
+            ArchitecturesService.updateTeamArchitectures(req.params.id, req.params.idu, req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function (e) {
+                    next(e);
+                });
+        })
+
+        .delete('/:id/architectures/:idu', authenticate(), function (req, res, next) {
+
+            ArchitecturesService.deleteTeamArchitectures(req.params.id, req.params.idu, req.user)
+                .then(e => res.status(204).json(e))
+                .catch(function (e) {
+                    next(e);
+                });
+
+        })
+
         .post('/:id/architectures', authenticate(), function (req, res, next) {
 
             req.user._refs = "teams";
@@ -194,6 +213,45 @@ module.exports = function (router) {
      * Applications
      */
     router
+          .get('/:id/applications', authenticate(), function (req, res, next) {
+
+              ApplicationsService.findTeamApplication(req.params.id, req.query, req.user)
+                  .then(e => res.json(e))
+                  .catch(function (e) {
+                      next(e);
+                  });
+
+          })
+
+          .get('/:id/applications/:idu', authenticate(), function (req, res, next) {
+
+              ApplicationsService.findOneTeamApplication(req.params.id, req.params.idu, req.query, req.user)
+                  .then(e => res.json(e))
+                  .catch(function (e) {
+                      next(e);
+                  });
+
+          })
+
+          .patch('/:id/applications/:idu', authenticate(), function (req, res, next) {
+
+              ApplicationsService.updateTeamApplication(req.params.id, req.params.idu, req.body, req.user)
+                  .then(e => res.status(201).json(e))
+                  .catch(function (e) {
+                      next(e);
+                  });
+          })
+
+          .delete('/:id/applications/:idu', authenticate(), function (req, res, next) {
+
+              ApplicationsService.deleteTeamApplication(req.params.id, req.params.idu, req.user)
+                  .then(e => res.status(204).json(e))
+                  .catch(function (e) {
+                      next(e);
+                  });
+
+          })
+
         .post('/:id/applications', authenticate(), function (req, res, next) {
 
             ApplicationsService.createTeamApplication(req.params.id, req.body, req.user)

@@ -115,7 +115,6 @@ class ArchitecturesRepository extends Repository {
             this.excludeFilled('owner');
             this.excludeFilled('roles');
 
-
             filledTransform(team, this.filled)
                 .then((e) => {
                     return validArchitectures(e)

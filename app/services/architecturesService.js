@@ -198,6 +198,64 @@ class ArchitecturesService {
     }
 
 
+    static updateTeamArchitectures(_id, _idu, arch, owner) {
+
+        return new Promise(function (resolve, reject) {
+
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_READ)
+                .then((e) => {
+                    return new TeamRepository()
+                        .findOne(e)
+                })
+                .then((e) => {
+                    return validAccessService(e);
+                })
+                .then((e) => {
+                    const owners = [e, owner]; //merge team access + users access, to determine great then roles
+
+                    return ArchitecturesService
+                        .update(_idu, arch, owners)
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+
+        });
+    }
+
+    static deleteTeamArchitectures(_id, _idu, owner) {
+
+        return new Promise(function (resolve, reject) {
+
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_READ)
+                .then((e) => {
+                    return new TeamRepository()
+                        .findOne(e)
+                })
+                .then((e) => {
+                    return validAccessService(e);
+                })
+                .then((e) => {
+                    const owners = [e, owner]; //merge team access + users access, to determine great then roles
+
+                    return ArchitecturesService
+                        .remove(_idu, owners)
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+    }
+
+
     static createTeamArchitectures(_id, arch, owner) {
 
         return new Promise(function (resolve, reject) {
