@@ -25,7 +25,16 @@ module.exports = function (owner, fielder, trans = {}, access=Access.ROLE_READ) 
                 }
             }};
 
+        const merge2 = {
+            [fielder]:  {
+                $elemMatch: {
+                    '_id': toObjectId("58def13c3d9a10a39f8a8901"),
+                    'role': {$gte: access}
+                }
+            }};
 
-        resolve(Object.assign(trans, merge));
+            const a = {$or:[merge, merge2]};
+
+        resolve(Object.assign(trans, a));
     });
 };

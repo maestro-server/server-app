@@ -15,7 +15,7 @@ module.exports = function (router) {
 
             TeamService.find(req.query, req.user)
                 .then(e => res.json(e))
-                .catch(function(e) {
+                .catch(function (e) {
                     next(e);
                 });
 
@@ -25,7 +25,7 @@ module.exports = function (router) {
 
             TeamService.findOne(req.params.id, req.user)
                 .then(e => res.json(e))
-                .catch(function(e) {
+                .catch(function (e) {
                     next(e);
                 });
 
@@ -35,7 +35,7 @@ module.exports = function (router) {
 
             TeamService.update(req.params.id, req.body, req.user)
                 .then(e => res.status(202).json(e))
-                .catch(function(e) {
+                .catch(function (e) {
                     next(e);
                 });
 
@@ -46,7 +46,7 @@ module.exports = function (router) {
 
             TeamService.remove(req.params.id, req.user)
                 .then(e => res.status(204).json(e))
-                .catch(function(e) {
+                .catch(function (e) {
                     next(e);
                 });
 
@@ -56,7 +56,7 @@ module.exports = function (router) {
 
             TeamService.create(req.body, req.user)
                 .then(e => res.status(201).json(e))
-                .catch(function(e) {
+                .catch(function (e) {
                     next(e);
                 });
 
@@ -71,7 +71,7 @@ module.exports = function (router) {
 
             TeamService.getMembers(req.params.id, req.user)
                 .then(e => res.json(e))
-                .catch(function(e) {
+                .catch(function (e) {
                     next(e);
                 });
 
@@ -81,7 +81,7 @@ module.exports = function (router) {
 
             TeamService.addMember(req.params.id, req.body, req.user)
                 .then(e => res.status(201).json(e))
-                .catch(function(e) {
+                .catch(function (e) {
                     next(e);
                 });
 
@@ -91,7 +91,7 @@ module.exports = function (router) {
 
             TeamService.deleteMember(req.params.id, req.params.idu, req.user)
                 .then(e => res.status(204).json(e))
-                .catch(function(e) {
+                .catch(function (e) {
                     next(e);
                 });
 
@@ -107,7 +107,7 @@ module.exports = function (router) {
 
             ProjectsService.findTeamProject(req.params.id, req.query, req.user)
                 .then(e => res.json(e))
-                .catch(function(e) {
+                .catch(function (e) {
                     next(e);
                 });
 
@@ -117,7 +117,7 @@ module.exports = function (router) {
 
             ProjectsService.findOneTeamProject(req.params.id, req.params.idu, req.query, req.user)
                 .then(e => res.json(e))
-                .catch(function(e) {
+                .catch(function (e) {
                     next(e);
                 });
 
@@ -127,7 +127,7 @@ module.exports = function (router) {
 
             ProjectsService.createTeamProject(req.params.id, req.body, req.user)
                 .then(e => res.status(201).json(e))
-                .catch(function(e) {
+                .catch(function (e) {
                     next(e);
                 });
         })
@@ -136,7 +136,7 @@ module.exports = function (router) {
 
             ProjectsService.updateTeamProject(req.params.id, req.params.idu, req.body, req.user)
                 .then(e => res.status(201).json(e))
-                .catch(function(e) {
+                .catch(function (e) {
                     next(e);
                 });
         })
@@ -145,41 +145,62 @@ module.exports = function (router) {
 
             ProjectsService.deleteTeamProject(req.params.id, req.params.idu, req.user)
                 .then(e => res.status(204).json(e))
-                .catch(function(e) {
+                .catch(function (e) {
                     next(e);
                 });
 
         });
 
 
+    /**
+     *
+     * Architectures
+     */
+    router
+        .get('/:id/architectures', authenticate(), function (req, res, next) {
 
-      /**
-       *
-       * Architectures
-       */
-      router
-            .post('/:id/architectures', authenticate(), function (req, res, next) {
+            ArchitecturesService.findTeamArchitectures(req.params.id, req.query, req.user)
+                .then(e => res.json(e))
+                .catch(function (e) {
+                    next(e);
+                });
 
-                ArchitecturesService.createTeamArchitectures(req.params.id, req.body, req.user)
-                    .then(e => res.status(201).json(e))
-                    .catch(function(e) {
-                        next(e);
-                    });
-            });
+        })
+
+        .get('/:id/architectures/:idu', authenticate(), function (req, res, next) {
+
+            ArchitecturesService.findOneTeamArchitectures(req.params.id, req.params.idu, req.query, req.user)
+                .then(e => res.json(e))
+                .catch(function (e) {
+                    next(e);
+                });
+
+        })
+
+        .post('/:id/architectures', authenticate(), function (req, res, next) {
+
+            req.user._refs = "teams";
+
+            ArchitecturesService.createTeamArchitectures(req.params.id, req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function (e) {
+                    next(e);
+                });
+        });
 
 
-      /**
-       *
-       * Applications
-       */
-      router
-            .post('/:id/applications', authenticate(), function (req, res, next) {
+    /**
+     *
+     * Applications
+     */
+    router
+        .post('/:id/applications', authenticate(), function (req, res, next) {
 
-                ApplicationsService.createTeamApplication(req.params.id, req.body, req.user)
-                    .then(e => res.status(201).json(e))
-                    .catch(function(e) {
-                        next(e);
-                    });
-            });
+            ApplicationsService.createTeamApplication(req.params.id, req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function (e) {
+                    next(e);
+                });
+        });
 
 };
