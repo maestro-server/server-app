@@ -8,7 +8,7 @@ import jwt from "jwt-simple";
 
 class AuthService {
 
-    static authenticate(body) {
+    static authenticate (body) {
 
         return new Promise(function(resolve, reject) {
 
@@ -25,6 +25,14 @@ class AuthService {
                 });
 
         });
+
+    }
+
+    static forgot (body) {
+
+    }
+
+    static changePassword (body, header) {
 
     }
 }

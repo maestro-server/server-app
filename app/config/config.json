@@ -17,13 +17,6 @@
             }
         },
 
-        "static": {
-            "module": {
-                "arguments": [ "path:./.build" ]
-            }
-        },
-
-
         "router": {
             "module": {
                 "arguments": [{ "directory": "path:./controllers" }]
@@ -37,7 +30,6 @@
                 "method": "json"
             }
         },
-
 
         "url-encoded": {
             "priority": 30,

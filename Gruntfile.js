@@ -9,9 +9,8 @@ module.exports = function (grunt) {
     });
 
 
-
     // Register group tasks
-    grunt.registerTask('build', ['eslint', 'copyto']);
+    grunt.registerTask('build', ['eslint']);
 
     grunt.registerTask('test', [ 'mochacli' ]);
 
