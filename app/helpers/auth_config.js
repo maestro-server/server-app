@@ -2,7 +2,7 @@ import {ExtractJwt} from "passport-jwt";
 
 module.exports = {
     jwtSecret: {
-        secretOrKey: 'sdfs',
+        secretOrKey: process.env.SECRETJWT,
         jwtFromRequest: ExtractJwt.fromAuthHeader()
     },
     jwtSession: {
