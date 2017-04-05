@@ -32,10 +32,12 @@ class AuthService {
         return new Promise(function(resolve, reject) {
 
             new mailerService()
-                .sender("felipeklerk@yahoo.com.br", "teste sender", "ola mundo")
+                .sender(
+                  "felipeklerk@yahoo.com.br",
+                  "Maestro Server - Recovery Password",
+                  "forgot",
+                  body)
                 .then((e) => {
-
-                    console.log(e);
                     resolve(e);
                 })
                 .catch((err) => {
