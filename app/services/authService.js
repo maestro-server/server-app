@@ -3,13 +3,20 @@
 import tokenTransform from './transforms/tokenTransform';
 import UserRepository from '../repositories/usersRepository';
 
+import validToken from '../repositories/validators/validToken';
+import validNotFound from './validators/validNotFound';
+import validForgotEmail from '../repositories/validators/validForgotEmail';
+
+import forgotEmailTransform from './transforms/forgotEmailTransform';
+import decodePassForgot from './libs/decodePassForgot';
+
 import mailerService from './libs/mailerService';
 
 class AuthService {
 
-    static authenticate (body) {
+    static authenticate(body) {
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             new UserRepository()
                 .authenticate(body)
@@ -27,16 +34,31 @@ class AuthService {
 
     }
 
-    static forgot (body) {
+    static forgot(body) {
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
-            new mailerService()
-                .sender(
-                  "felipeklerk@yahoo.com.br",
-                  "Maestro Server - Recovery Password",
-                  "forgot",
-                  body)
+            validForgotEmail(body)
+                .then((e) => {
+                    const {email} = e;
+
+                    return new UserRepository(['_id', 'email'])
+                        .findOne({email});
+                })
+                .then((e) => {
+                    if (!e)
+                        reject();
+
+                    return forgotEmailTransform(e, body);
+                })
+                .then((e) => {
+                    return new mailerService()
+                        .sender(
+                            e.email,
+                            "Maestro Server - Recovery Password",
+                            "forgot",
+                            e)
+                })
                 .then((e) => {
                     resolve(e);
                 })
@@ -45,13 +67,30 @@ class AuthService {
                 });
 
 
-
-            resolve();
         });
     }
 
-    static changePassword (body, header) {
+    static changePassword(body, header) {
 
+        return new Promise(function (resolve, reject) {
+
+            validToken(body)
+                .then((e) => {
+                    return decodePassForgot(e);
+                })
+                .then((e) => {
+                    return new UserRepository(['_id', 'email'])
+                        .findOne(e);
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+
+        });
     }
 }
 

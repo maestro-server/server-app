@@ -4,8 +4,6 @@ import mailerConnector from '../../repositories/smtp/mailerConnector';
 class mailerService {
 
     constructor() {
-        this.template;
-
         return this;
     }
 

@@ -27,7 +27,7 @@ class mailerConnector {
                   reject(err);
                 }
 
-                resolve();
+                resolve(true);
               }
             );
 

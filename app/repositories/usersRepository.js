@@ -112,7 +112,7 @@ class UsersRepository extends Repository {
     findOne(filter) {
 
         return new Promise((resolve, reject) => {
-
+            console.log(filter);
             activeTransform.active(filter)
                 .then((filter) => {
                     return UserDao

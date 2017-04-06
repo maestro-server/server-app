@@ -12,14 +12,15 @@ module.exports = function (router) {
 
           AuthService
               .forgot(req.body)
-              .then(e => res.status(202).json(e))
+              .then(e => res.status(204).json(e))
               .catch(function (e) {
                   next(e);
               });
 
         })
 
-        .put('/pass', function (req, res, next) {
+        .put('/change', function (req, res, next) {
+
 
           AuthService
               .changePassword(req.body, req.header)
