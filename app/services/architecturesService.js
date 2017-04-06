@@ -269,7 +269,6 @@ class ArchitecturesService {
                     return validAccessService(e);
                 })
                 .then((e) => {
-                    console.log(e);
                     return ArchitecturesService.create(arch, formatFactoryRefs(e, 'teams'));
                 })
                 .then((e) => {

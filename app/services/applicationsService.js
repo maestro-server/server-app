@@ -266,7 +266,6 @@ class ApplicationsService {
                     return validAccessService(e);
                 })
                 .then((e) => {
-                    console.log(e);
                     return ApplicationsService.create(arch, formatFactoryRefs(e, 'teams'));
                 })
                 .then((e) => {

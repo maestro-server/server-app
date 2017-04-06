@@ -4,7 +4,7 @@ import tokenTransform from './transforms/tokenTransform';
 import UserRepository from '../repositories/usersRepository';
 
 import validToken from '../repositories/validators/validToken';
-import validNotFound from './validators/validNotFound';
+import validAccessService from './validators/validAccessService';
 import validForgotEmail from '../repositories/validators/validForgotEmail';
 
 import forgotEmailTransform from './transforms/forgotEmailTransform';
@@ -46,12 +46,14 @@ class AuthService {
                         .findOne({email});
                 })
                 .then((e) => {
-                    if (!e)
-                        reject();
-
+                    return validAccessService(e);
+                })
+                .then((e) => {
                     return forgotEmailTransform(e, body);
                 })
                 .then((e) => {
+
+                  return e;
                     return new mailerService()
                         .sender(
                             e.email,
@@ -88,7 +90,6 @@ class AuthService {
                 .catch((err) => {
                     reject(err);
                 });
-
 
         });
     }

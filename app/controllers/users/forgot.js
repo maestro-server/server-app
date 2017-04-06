@@ -21,7 +21,6 @@ module.exports = function (router) {
 
         .put('/change', function (req, res, next) {
 
-
           AuthService
               .changePassword(req.body, req.header)
               .then(e => res.status(202).json(e))

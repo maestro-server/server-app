@@ -28,7 +28,6 @@ class ProjectsService {
 
             accessMergeCollectionTransform([owner._id], 'owner._id', query)
                 .then((e) => {
-                    console.log(e);
                     return Promise.all([
                         new ProjectRepository().find(e, limit, skip),
                         new ProjectRepository().count(e)
