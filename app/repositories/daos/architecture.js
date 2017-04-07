@@ -1,8 +1,8 @@
 'use strict';
 
-import Dao from './dao';
+const Dao = require('./dao');
 
-import {Model} from 'mongorito';
+const {Model} = require('mongorito');
 
 class ArchitectureDao extends Dao {
 

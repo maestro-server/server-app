@@ -1,8 +1,8 @@
 
-import run from '../../helpers/db_run';
+const run = require('../../helpers/db_run');
 
-import UserDao from '../daos/user';
-import ConflictError from '../../errors/conflictError';
+const UserDao = require('../daos/user');
+const ConflictError = require('../../errors/conflictError');
 
 module.exports = function(vals) {
 

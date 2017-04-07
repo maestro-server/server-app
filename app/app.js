@@ -1,10 +1,10 @@
 'use strict';
 
-import express from 'express';
-import kraken from 'kraken-js';
-import bodyParser from 'body-parser';
+const express = require('express');
+const kraken = require('kraken-js');
+const bodyParser = require('body-parser');
 
-import db_connect from './helpers/db_connect';
+const db_connect = require('./helpers/db_connect');
 
 /*
  * Create and configure application. Also exports application instance for use by tests.

@@ -1,5 +1,5 @@
-import jwt from 'jwt-simple';
-import config from '../../helpers/auth_config';
+const jwt = require('jwt-simple');
+const config = require('../../helpers/auth_config');
 
 module.exports = function (user) {
 

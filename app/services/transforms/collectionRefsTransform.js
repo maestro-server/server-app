@@ -1,7 +1,7 @@
 
-import transform from '../helpers/transformAdapter';
-import insertHateoasArray from '../helpers/insertHateoasArray';
-import BASE from '../../helpers/base_url';
+const transform = require('../helpers/transformAdapter');
+const insertHateoasArray = require('../helpers/insertHateoasArray');
+const BASE = require('../../helpers/base_url');
 
 module.exports = function (collection, _id=false, uri=false) {
 

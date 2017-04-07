@@ -1,14 +1,14 @@
 'use strict';
 
-import TeamDao from './daos/team';
-import validAccess from './validators/validAccess';
-import validAccessUpdater from './validators/validAccessUpdater';
+const TeamDao = require('./daos/team');
+const validAccess = require('./validators/validAccess');
+const validAccessUpdater = require('./validators/validAccessUpdater');
 
-import filledTransform from './transforms/filledTransform';
-import merger from './transforms/mergeTransform';
+const filledTransform = require('./transforms/filledTransform');
+const merger = require('./transforms/mergeTransform');
 
-import formatRefsCollection from './format/formatRefsCollection';
-import formatDelCollection from './format/formatDelCollection';
+const formatRefsCollection = require('./format/formatRefsCollection');
+const formatDelCollection = require('./format/formatDelCollection');
 
 
 class TeamMembersRepository {

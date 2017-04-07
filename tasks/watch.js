@@ -7,9 +7,9 @@ module.exports = function mochacli(grunt) {
 
     // Options
     return {
-      scripts: {
-        files: ['Gruntfile.js', 'app/**/*.js', 'tests/**/*.js'],
-        tasks: ['test']
-      }
+        scripts: {
+            files: ['Gruntfile.js', 'app/**/*.js', 'tests/**/*.js'],
+            tasks: ['test']
+        }
     };
 };

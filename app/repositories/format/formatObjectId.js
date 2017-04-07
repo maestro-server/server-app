@@ -1,4 +1,4 @@
-import toObjectId from 'mongorito/util/to-objectid';
+const toObjectId = require('mongorito/util/to-objectid');
 
 module.exports = function (trans = {}) {
 

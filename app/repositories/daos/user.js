@@ -1,10 +1,10 @@
 'use strict';
 
-import Dao from './dao';
-import bcrypt from 'bcrypt';
-import crypto from '../../helpers/crypto';
+const Dao = require('./dao');
+const bcrypt = require('bcrypt');
+const crypto = require('../../helpers/crypto');
 
-import {Model} from 'mongorito';
+const {Model} = require('mongorito');
 
 class UserDao extends Dao {
 

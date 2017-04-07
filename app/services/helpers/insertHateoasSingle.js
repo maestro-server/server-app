@@ -1,5 +1,5 @@
 
-import BASE from '../../helpers/base_url';
+const BASE = require('../../helpers/base_url');
 
 module.exports = function (collection, uri) {
 

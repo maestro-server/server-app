@@ -6,14 +6,6 @@
 require('dotenv').config();
 
 
-
-/*
- * Babel hook
- */
-require('babel-core/register');
-require("babel-polyfill");
-
-
 let app = require('./app/app');
 let http = require('http');
 

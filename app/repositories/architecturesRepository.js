@@ -1,21 +1,21 @@
 'use strict';
 
-import Repository from './Repository';
+const Repository = require('./Repository');
 
 
-import ArchitecturesDao from './daos/architecture';
-import validArchitectures from './validators/validArchitectures';
-import validAccessUpdater from './validators/validAccessUpdater';
+const ArchitecturesDao = require('./daos/architecture');
+const validArchitectures = require('./validators/validArchitectures');
+const validAccessUpdater = require('./validators/validAccessUpdater');
 
-import filledTransform from './transforms/filledTransform';
-import activeTransform from './transforms/activeTransform';
-import clearDaoTransform from './transforms/clearDaoTransform';
+const filledTransform = require('./transforms/filledTransform');
+const activeTransform = require('./transforms/activeTransform');
+const clearDaoTransform = require('./transforms/clearDaoTransform');
 
-import merger from './transforms/mergeTransform';
+const merger = require('./transforms/mergeTransform');
 
-import formatRefsCollection from './format/formatRefsCollection';
+const formatRefsCollection = require('./format/formatRefsCollection');
 
-import Access from '../entities/accessRole';
+const Access = require('../entities/accessRole');
 
 
 class ArchitecturesRepository extends Repository {

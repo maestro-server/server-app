@@ -1,8 +1,8 @@
-import {ExtractJwt} from "passport-jwt";
+const {ExtractJwt} = require('passport-jwt');
 
 module.exports = {
     jwtSecret: {
-        secretOrKey: process.env.SECRETJWT_FORGOT,
+        secretOrKey: process.env.SECRETJWT_FORGOT || "developerTOKEN",
         jwtFromRequest: ExtractJwt.fromAuthHeader()
     },
     jwtSession: {

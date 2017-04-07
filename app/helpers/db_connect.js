@@ -1,7 +1,7 @@
 'use strict';
 
-import run from './db_run';
-import Mongorito from 'mongorito';
+const run = require('./db_run');
+const Mongorito = require('mongorito');
 
 /*
  * Run a generator function and print errors if any

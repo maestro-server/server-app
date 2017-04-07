@@ -1,5 +1,5 @@
 
-import filled from 'filter-object';
+const filled = require('filter-object');
 
 module.exports = function (obj1={}, obj2={}) {
 

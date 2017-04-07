@@ -1,5 +1,5 @@
 
-import merger from './mergeTransform';
+const merger = require('./mergeTransform');
 
 exports.active = function (trans={}) {
 

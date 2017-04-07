@@ -1,21 +1,21 @@
 'use strict';
 
-import Repository from './Repository';
+const Repository = require('./Repository');
 
 
-import TeamDao from './daos/team';
-import validTeam from './validators/validTeam';
-import validAccessUpdater from './validators/validAccessUpdater';
+const TeamDao = require('./daos/team');
+const validTeam = require('./validators/validTeam');
+const validAccessUpdater = require('./validators/validAccessUpdater');
 
-import filledTransform from './transforms/filledTransform';
-import activeTransform from './transforms/activeTransform';
-import clearDaoTransform from './transforms/clearDaoTransform';
+const filledTransform = require('./transforms/filledTransform');
+const activeTransform = require('./transforms/activeTransform');
+const clearDaoTransform = require('./transforms/clearDaoTransform');
 
-import merger from './transforms/mergeTransform';
+const merger = require('./transforms/mergeTransform');
 
-import formatRefsCollection from './format/formatRefsCollection';
+const formatRefsCollection = require('./format/formatRefsCollection');
 
-import Access from '../entities/accessRole';
+const Access = require('../entities/accessRole');
 
 
 class TeamsRepository extends Repository {

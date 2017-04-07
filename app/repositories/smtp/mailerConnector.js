@@ -52,4 +52,4 @@ class mailerConnector {
 const instance = new mailerConnector();
 Object.freeze(instance);
 
-export default instance;
+module.exports = instance;

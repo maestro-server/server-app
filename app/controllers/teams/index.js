@@ -1,12 +1,12 @@
 'use strict';
 
-import TeamService from '../../services/teamsService';
-import ProjectsService from '../../services/projectsService';
+const TeamService = require('../../services/teamsService');
+const ProjectsService = require('../../services/projectsService');
 
-import ArchitecturesService from '../../services/architecturesService';
-import ApplicationsService from '../../services/applicationsService';
+const ArchitecturesService = require('../../services/architecturesService');
+const ApplicationsService = require('../../services/applicationsService');
 
-import authenticate from '../../middlewares/authenticate';
+const authenticate = require('../../middlewares/authenticate');
 
 module.exports = function (router) {
 

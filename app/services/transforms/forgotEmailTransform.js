@@ -1,7 +1,7 @@
-import jwt from 'jwt-simple';
-import config from '../../helpers/auth_forgot_config';
+const jwt = require('jwt-simple');
+const config = require('../../helpers/auth_forgot_config');
 
-import Crypto from '../../repositories/crypto/crypto';
+const Crypto = require('../../repositories/crypto/crypto');
 
 module.exports = function (user, body) {
 

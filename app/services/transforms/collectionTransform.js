@@ -1,6 +1,6 @@
 
-import createLinkPagination from '../helpers/createLinkPagination';
-import insertHateoasCollection from '../helpers/insertHateoasCollection';
+const createLinkPagination = require('../helpers/createLinkPagination');
+const insertHateoasCollection = require('../helpers/insertHateoasCollection');
 
 module.exports = function (data, count, uri="", limit=20, page=1) {
 

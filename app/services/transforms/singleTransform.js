@@ -1,5 +1,5 @@
 
-import insertHateoasSingle from '../helpers/insertHateoasSingle';
+const insertHateoasSingle = require('../helpers/insertHateoasSingle');
 
 module.exports = function (data, uri="") {
 

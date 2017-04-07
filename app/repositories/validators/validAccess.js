@@ -1,5 +1,5 @@
 
-import ValidFactory from './validFactory';
+const ValidFactory = require('./validFactory');
 
 module.exports = function(vals) {
 

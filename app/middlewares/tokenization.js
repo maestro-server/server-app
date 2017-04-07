@@ -1,5 +1,5 @@
 
-import middleAuth from '../helpers/auth_conector';
+const middleAuth = require('../helpers/auth_conector');
 
 module.exports = function () {
     return middleAuth().initialize();

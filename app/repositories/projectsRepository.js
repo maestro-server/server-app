@@ -1,20 +1,20 @@
 'use strict';
 
-import Repository from './Repository';
+const Repository = require('./Repository');
 
-import ProjectDao from './daos/project';
-import validProject from './validators/validProject';
-import validAccessUpdater from './validators/validAccessUpdater';
+const ProjectDao = require('./daos/project');
+const validProject = require('./validators/validProject');
+const validAccessUpdater = require('./validators/validAccessUpdater');
 
-import filledTransform from './transforms/filledTransform';
-import activeTransform from './transforms/activeTransform';
-import clearDaoTransform from './transforms/clearDaoTransform';
+const filledTransform = require('./transforms/filledTransform');
+const activeTransform = require('./transforms/activeTransform');
+const clearDaoTransform = require('./transforms/clearDaoTransform');
 
-import merger from './transforms/mergeTransform';
+const merger = require('./transforms/mergeTransform');
 
-import formatRefsCollection from './format/formatRefsCollection';
+const formatRefsCollection = require('./format/formatRefsCollection');
 
-import Access from '../entities/accessRole';
+const Access = require('../entities/accessRole');
 
 
 class ProjectsRepository extends Repository {

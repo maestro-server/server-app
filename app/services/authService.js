@@ -1,16 +1,16 @@
 'use strict';
 
-import tokenTransform from './transforms/tokenTransform';
-import UserRepository from '../repositories/usersRepository';
+const tokenTransform = require('./transforms/tokenTransform');
+const UserRepository = require('../repositories/usersRepository');
 
-import validToken from '../repositories/validators/validToken';
-import validAccessService from './validators/validAccessService';
-import validForgotEmail from '../repositories/validators/validForgotEmail';
+const validToken = require('../repositories/validators/validToken');
+const validAccessService = require('./validators/validAccessService');
+const validForgotEmail = require('../repositories/validators/validForgotEmail');
 
-import forgotEmailTransform from './transforms/forgotEmailTransform';
-import decodePassForgot from './libs/decodePassForgot';
+const forgotEmailTransform = require('./transforms/forgotEmailTransform');
+const decodePassForgot = require('./libs/decodePassForgot');
 
-import mailerService from './libs/mailerService';
+const mailerService = require('./libs/mailerService');
 
 class AuthService {
 

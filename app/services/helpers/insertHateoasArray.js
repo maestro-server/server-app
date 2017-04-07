@@ -1,6 +1,6 @@
 
-import transform from './transformAdapter';
-import BASE from '../../helpers/base_url';
+const transform = require('./transformAdapter');
+const BASE = require('../../helpers/base_url');
 
 function createCollectionLink (collection) {
 

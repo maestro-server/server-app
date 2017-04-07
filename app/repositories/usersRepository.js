@@ -1,20 +1,20 @@
 'use strict';
 
-import Repository from './Repository';
+const Repository = require('./Repository');
 
-import UserDao from './daos/user';
-import validUser from './validators/validUser';
-import validNewUser from './validators/validNewUser';
-import validAccessUpdater from './validators/validAccessUpdater';
+const UserDao = require('./daos/user');
+const validUser = require('./validators/validUser');
+const validNewUser = require('./validators/validNewUser');
+const validAccessUpdater = require('./validators/validAccessUpdater');
 
-import validAuth from './validators/validAuth';
-import validDuplicate from './validators/validDuplicateUser';
-import validPassMatch from './validators/validPassMatch';
+const validAuth = require('./validators/validAuth');
+const validDuplicate = require('./validators/validDuplicateUser');
+const validPassMatch = require('./validators/validPassMatch');
 
-import filledTransform from './transforms/filledTransform';
-import activeTransform from './transforms/activeTransform';
-import clearDaoTransform from './transforms/clearDaoTransform';
-import formatObjectId from './format/formatObjectId';
+const filledTransform = require('./transforms/filledTransform');
+const activeTransform = require('./transforms/activeTransform');
+const clearDaoTransform = require('./transforms/clearDaoTransform');
+const formatObjectId = require('./format/formatObjectId');
 
 class UsersRepository extends Repository {
 

@@ -1,5 +1,5 @@
 
-import insertHateoasArray from '../helpers/insertHateoasArray';
+const insertHateoasArray = require('../helpers/insertHateoasArray');
 
 module.exports = function (item, fielder) {
 

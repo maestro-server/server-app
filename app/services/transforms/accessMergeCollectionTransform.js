@@ -1,6 +1,6 @@
-import toObjectId from 'mongorito/util/to-objectid';
+const toObjectId = require('mongorito/util/to-objectid');
 
-import Access from '../../entities/accessRole';
+const Access = require('../../entities/accessRole');
 
 module.exports = function (ids, fielder, trans = {}, access=Access.ROLE_READ) {
 

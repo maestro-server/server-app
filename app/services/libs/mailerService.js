@@ -1,5 +1,5 @@
 
-import mailerConnector from '../../repositories/smtp/mailerConnector';
+const mailerConnector = require('../../repositories/smtp/mailerConnector');
 
 class mailerService {
 

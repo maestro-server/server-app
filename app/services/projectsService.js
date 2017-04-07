@@ -1,20 +1,20 @@
 'use strict';
 
-import TeamRepository from '../repositories/teamsRepository';
-import ProjectRepository from '../repositories/projectsRepository';
+const TeamRepository = require('../repositories/teamsRepository');
+const ProjectRepository = require('../repositories/projectsRepository');
 
-import merger from '../repositories/transforms/mergeTransform';
-import refsTransform from './transforms/refsTransform';
-import singleTransform from './transforms/singleTransform';
-import collectionTransform from './transforms/collectionTransform';
-import accessMergeTransform from './transforms/accessMergeTransform';
-import accessMergeCollectionTransform from './transforms/accessMergeCollectionTransform';
+const merger = require('../repositories/transforms/mergeTransform');
+const refsTransform = require('./transforms/refsTransform');
+const singleTransform = require('./transforms/singleTransform');
+const collectionTransform = require('./transforms/collectionTransform');
+const accessMergeTransform = require('./transforms/accessMergeTransform');
+const accessMergeCollectionTransform = require('./transforms/accessMergeCollectionTransform');
 
-import validAccessService from './validators/validAccessService';
-import validNotFound from './validators/validNotFound';
-import formatFactoryRefs from './helpers/formatFactoryRefs';
+const validAccessService = require('./validators/validAccessService');
+const validNotFound = require('./validators/validNotFound');
+const formatFactoryRefs = require('./helpers/formatFactoryRefs');
 
-import Access from '../entities/accessRole';
+const Access = require('../entities/accessRole');
 
 class ProjectsService {
 

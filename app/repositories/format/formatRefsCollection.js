@@ -1,6 +1,6 @@
 
-import toObjectId from 'mongorito/util/to-objectid';
-import merger from '../transforms/mergeTransform';
+const toObjectId = require('mongorito/util/to-objectid');
+const merger = require('../transforms/mergeTransform');
 
 module.exports = function (_id, collection, fielder, entity={}, create=false) {
 

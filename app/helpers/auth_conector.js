@@ -1,11 +1,11 @@
 
-import passport from "passport";
-import {Strategy, ExtractJwt} from "passport-jwt";
-import UserRepository from "../repositories/usersRepository";
+const passport = require('passport');
+const {Strategy, ExtractJwt} = require('passport-jwt');
+const UserRepository = require('../repositories/usersRepository');
 
-import config from '../helpers/auth_config';
+const config = require('../helpers/auth_config');
 
-import permissionError from '../errors/permissionError';
+const permissionError = require('../errors/permissionError');
 
 
 module.exports = function(req, res, next) {

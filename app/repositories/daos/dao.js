@@ -1,7 +1,7 @@
 'use strict';
 
-import {Model} from 'mongorito';
-import toObjectId from 'mongorito/util/to-objectid';
+const {Model} = require('mongorito');
+const toObjectId = require('mongorito/util/to-objectid');
 
 
 class Dao extends Model {

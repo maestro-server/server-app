@@ -1,11 +1,11 @@
 'use strict';
 
-import UserRepository from '../repositories/usersRepository';
+const UserRepository = require('../repositories/usersRepository');
 
-import singleTransform from './transforms/singleTransform';
-import collectionTransform from './transforms/collectionTransform';
+const singleTransform = require('./transforms/singleTransform');
+const collectionTransform = require('./transforms/collectionTransform');
 
-import validNotFound from './validators/validNotFound';
+const validNotFound = require('./validators/validNotFound');
 
 class UsersService {
 

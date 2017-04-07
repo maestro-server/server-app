@@ -1,6 +1,6 @@
-import toObjectId from 'mongorito/util/to-objectid';
+const toObjectId = require('mongorito/util/to-objectid');
 
-import Access from '../../entities/accessRole';
+const Access = require('../../entities/accessRole');
 
 function makeAccess (owner, fielder, access) {
   const {_id} = owner;

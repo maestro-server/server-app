@@ -1,9 +1,9 @@
 
-import Validator from 'better-validator';
-import ValidFactory from './validFactory';
-import ValidationError from '../../errors/validatorError';
+const Validator = require('better-validator');
+const ValidFactory = require('./validFactory');
+const ValidationError = require('../../errors/validatorError');
 
-import UserDao from '../daos/user';
+const UserDao = require('../daos/user');
 
 
 module.exports = function(vals) {

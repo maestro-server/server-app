@@ -1,5 +1,5 @@
 
-import PermissionError from '../../errors/permissionError';
+const PermissionError = require('../../errors/permissionError');
 
 module.exports = function(password, obj) {
 

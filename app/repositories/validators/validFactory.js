@@ -1,5 +1,5 @@
-import Validator from 'better-validator';
-import ValidatorError from '../../errors/validatorError';
+const Validator = require('better-validator');
+const ValidatorError = require('../../errors/validatorError');
 
 module.exports = function (rulesValidade, vals, msg = "Validator error") {
 
@@ -13,7 +13,7 @@ module.exports = function (rulesValidade, vals, msg = "Validator error") {
         if (errors.length) {
             throw new ValidatorError(errors, msg);
         }
-        
+
         resolve(vals);
 
     });

@@ -1,6 +1,6 @@
 'use strict';
 
-import co from 'co';
+const co = require('co');
 
 /*
  * Run a generator function and print errors if any

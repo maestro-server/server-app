@@ -1,8 +1,8 @@
 'use strict';
 
-import ApplicationsService from '../../services/applicationsService';
+const ApplicationsService = require('../../services/applicationsService');
 
-import authenticate from '../../middlewares/authenticate';
+const authenticate = require('../../middlewares/authenticate');
 
 module.exports = function (router) {
 
