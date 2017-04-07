@@ -166,7 +166,38 @@ class TeamsService {
             accessMergeTransform(owner, "members", {_id}, Access.ROLE_ADMIN)
                 .then((e) => {
                     return new TeamMembersRepository()
-                        .add(e, member);
+                        .save(e, member);
+                })
+                .then((e) => {
+                    return collectionRefsTransform([e], _id, 'teams');
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+
+    }
+
+
+    static updateMember(_id, _idu, member, owner) {
+
+        return new Promise(function (resolve, reject) {
+
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_ADMIN)
+                .then((e) => {
+                    return new TeamMembersRepository()
+                        .remove(e, _idu);
+                })
+                .then((e) => {
+
+                    Object.assign(member, {id: _idu});
+
+                    return new TeamMembersRepository()
+                        .save(e, member);
                 })
                 .then((e) => {
                     return collectionRefsTransform([e], _id, 'teams');

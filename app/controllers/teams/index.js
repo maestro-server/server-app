@@ -87,6 +87,16 @@ module.exports = function (router) {
 
         })
 
+        .patch('/:id/members/:idu', authenticate(), function (req, res, next) {
+
+            TeamService.updateMember(req.params.id, req.params.idu, req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function (e) {
+                    next(e);
+                });
+
+        })
+
         .delete('/:id/members/:idu', authenticate(), function (req, res, next) {
 
             TeamService.deleteMember(req.params.id, req.params.idu, req.user)

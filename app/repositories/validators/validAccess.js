@@ -5,7 +5,7 @@ module.exports = function(vals) {
 
     let rules = (child) => {
         child('id').required().isString().isLength({min:12, max: 24});
-        child('role').isString();
+        child('role').required().isString().isMatch(/^[1|3|7]$/);
     };
 
 

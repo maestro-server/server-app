@@ -9,7 +9,8 @@ const merger = require('./transforms/mergeTransform');
 
 const formatRefsCollection = require('./format/formatRefsCollection');
 const formatDelCollection = require('./format/formatDelCollection');
-
+const formatNotEqual = require('./format/formatNotEqual');
+const formatObjectId = require('./format/formatObjectId');
 
 class TeamMembersRepository {
 
@@ -26,21 +27,41 @@ class TeamMembersRepository {
         this.filled = val;
     }
 
+    save(filter, member) {
+
+      return new Promise((resolve, reject) => {
+        
+          filledTransform(member, this.filled)
+              .then((e) => {
+                  return validAccess(e);
+              })
+              .then((e) => {
+                  const role = parseInt(e.role);
+                  const {id} = formatObjectId(e);
+
+                  const arr = formatRefsCollection(id, 'users', 'members', {role});
+                  formatNotEqual(filter, "members._id", id);
+
+                  return this.add(filter, arr);
+              })
+              .then((e) => {
+                  resolve(e)
+              })
+              .catch((err) => {
+                  reject(err);
+              });
+
+      });
+
+    }
+
 
     add(filter, member) {
 
         return new Promise((resolve, reject) => {
 
-            filledTransform(member, this.filled)
-                .then((e) => {
-                    return validAccess(e);
-                })
-                .then((e) => {
-                    const arr = formatRefsCollection(e.id, 'users', 'members', {role: e.role});
-
-                    return new TeamDao(arr)
-                        .updateByPushUnique(filter);
-                })
+            new TeamDao(member)
+                .updateByPushUnique(filter)
                 .then((e) => {
                     return validAccessUpdater(e);
                 })
@@ -55,6 +76,7 @@ class TeamMembersRepository {
     }
 
 
+
     remove(id, idu, member) {
 
         return new Promise((resolve, reject) => {
@@ -67,7 +89,7 @@ class TeamMembersRepository {
                     return validAccessUpdater(e);
                 })
                 .then((e) => {
-                    resolve(e.get())
+                    resolve(id)
                 })
                 .catch((err) => {
                     reject(err);
