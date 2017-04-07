@@ -52,8 +52,6 @@ class AuthService {
                     return forgotEmailTransform(e, body);
                 })
                 .then((e) => {
-
-                  return e;
                     return new mailerService()
                         .sender(
                             e.email,
@@ -81,8 +79,11 @@ class AuthService {
                     return decodePassForgot(e);
                 })
                 .then((e) => {
-                    return new UserRepository(['_id', 'email'])
-                        .findOne(e);
+                    return new UserRepository()
+                        .changePass(e, body);
+                })
+                .then((e) => {
+                    return validAccessService(e);
                 })
                 .then((e) => {
                     resolve(e);

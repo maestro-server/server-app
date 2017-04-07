@@ -14,11 +14,12 @@ class UserDao extends Dao {
 
     configure () {
       super.configure();
-      this.before('create', 'passHash');
+      this.before('save', 'passHash');
     }
 
     passHash () {
-        this.attributes.password = UserDao.makeHash(this.get('password'));
+        if (this.get('password'))
+            this.set('password', UserDao.makeHash(this.get('password')));
     }
 
     passwordMatches (matcher) {

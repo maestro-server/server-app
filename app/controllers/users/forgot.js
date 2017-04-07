@@ -23,12 +23,11 @@ module.exports = function (router) {
 
           AuthService
               .changePassword(req.body, req.header)
-              .then(e => res.status(202).json(e))
+              .then(e => res.status(204).json(e))
               .catch(function (e) {
                   next(e);
               });
 
         });
-
 
 };

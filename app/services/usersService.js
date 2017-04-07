@@ -73,7 +73,7 @@ class UsersService {
         return new Promise(function (resolve, reject) {
 
             new UserRepository()
-                .update(_id, user)
+                .update({_id}, user)
                 .then((e) => {
                     resolve(e);
                 })

@@ -5,6 +5,7 @@ import Repository from './Repository';
 import UserDao from './daos/user';
 import validUser from './validators/validUser';
 import validNewUser from './validators/validNewUser';
+import validAccessUpdater from './validators/validAccessUpdater';
 
 import validAuth from './validators/validAuth';
 import validDuplicate from './validators/validDuplicateUser';
@@ -13,6 +14,7 @@ import validPassMatch from './validators/validPassMatch';
 import filledTransform from './transforms/filledTransform';
 import activeTransform from './transforms/activeTransform';
 import clearDaoTransform from './transforms/clearDaoTransform';
+import formatObjectId from './format/formatObjectId';
 
 class UsersRepository extends Repository {
 
@@ -112,7 +114,7 @@ class UsersRepository extends Repository {
     findOne(filter) {
 
         return new Promise((resolve, reject) => {
-          
+
             activeTransform.active(filter)
                 .then((filter) => {
                     return UserDao
@@ -140,6 +142,7 @@ class UsersRepository extends Repository {
             this.excludeFilled('email');
             this.excludeFilled('password');
 
+
             filledTransform(user, this.filled)
                 .then((e) => {
                     return validUser(e)
@@ -149,10 +152,10 @@ class UsersRepository extends Repository {
                         .updateAndModify(id);
                 })
                 .then((e) => {
-                    if (e)
-                        e = e.get()
-
-                    return filledTransform(e, this.resFilled);
+                    return validAccessUpdater(e);
+                })
+                .then((e) => {
+                    return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
                     resolve(e)
@@ -206,6 +209,37 @@ class UsersRepository extends Repository {
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e)
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+
+    }
+
+
+    changePass(id, user) {
+
+        return new Promise((resolve, reject) => {
+
+            this.setFilled(['password']);
+
+            filledTransform(user, this.filled)
+                .then((e) => {
+                    id = formatObjectId(id);
+
+                    return new UserDao(e)
+                        .updateAndModify(id);
+                })
+                .then((e) => {
+                    return validAccessUpdater(e);
+                })
+                .then((e) => {
+                     return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
                     resolve(e)
