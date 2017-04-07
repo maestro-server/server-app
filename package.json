@@ -21,7 +21,6 @@
     "construx-copier": "^1.0.0",
     "content-filter": "^1.1.1",
     "dotenv": "^4.0.0",
-    "eslint": "^1.10.3",
     "express": "^4.12.2",
     "filter-object": "^2.1.0",
     "jwt-simple": "^0.5.1",
