@@ -3,6 +3,9 @@
 const TeamRepository = require('../repositories/teamsRepository');
 const TeamMembersRepository = require('../repositories/teamMembersRepository');
 
+const RolesService = require('./libs/rolesService');
+const TeamDAO = require('../repositories/daos/team');
+
 const merger = require('../repositories/transforms/mergeTransform');
 const refsTransform = require('./transforms/refsTransform');
 const singleTransform = require('./transforms/singleTransform');
@@ -77,7 +80,7 @@ class TeamsService {
             accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
                 .then((e) => {
                     return new TeamRepository()
-                        .update(e, team)
+                        .update(e, team);
                 })
                 .then((e) => {
                     resolve(e);
@@ -96,7 +99,7 @@ class TeamsService {
             accessMergeTransform(owner, "members", {_id}, Access.ROLE_ADMIN)
                 .then((e) => {
                     return new TeamRepository()
-                        .remove(e)
+                        .remove(e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -115,7 +118,7 @@ class TeamsService {
             merger(team, {owner})
                 .then((e) => {
                     return new TeamRepository()
-                        .create(e)
+                        .create(e);
                 })
                 .then((e) => {
                     return refsTransform(e, 'members');
@@ -134,101 +137,22 @@ class TeamsService {
 
     }
 
-    static getMembers(_id, owner) {
-
-        return new Promise(function (resolve, reject) {
-
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_READ)
-                .then((e) => {
-                    return new TeamRepository()
-                        .findOne(e);
-                })
-                .then((e) => {
-                    if (!e)
-                        reject();
-
-                    return collectionRefsTransform(e.members, _id, 'teams');
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
-    }
-
     static addMember(_id, member, owner) {
 
-        return new Promise(function (resolve, reject) {
-
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_ADMIN)
-                .then((e) => {
-                    return new TeamMembersRepository()
-                        .save(e, member);
-                })
-                .then((e) => {
-                    return collectionRefsTransform([e], _id, 'teams');
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
-
+        return new RolesService(TeamDAO)
+            .addRoles(_id, member, owner);
     }
-
 
     static updateMember(_id, _idu, member, owner) {
 
-        return new Promise(function (resolve, reject) {
-
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_ADMIN)
-                .then((e) => {
-                    return new TeamMembersRepository()
-                        .remove(e, _idu);
-                })
-                .then((e) => {
-
-                    Object.assign(member, {id: _idu});
-
-                    return new TeamMembersRepository()
-                        .save(e, member);
-                })
-                .then((e) => {
-                    return collectionRefsTransform([e], _id, 'teams');
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
-
+        return new RolesService(TeamDAO)
+            .updateRoles(_id, _idu, member, owner);
     }
 
     static deleteMember(_id, _idu, owner) {
-        return new Promise(function (resolve, reject) {
 
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_ADMIN)
-                .then((e) => {
-                    return new TeamMembersRepository()
-                        .remove(e, _idu);
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
+        return new RolesService(TeamDAO)
+            .deleteRoles(_id, _idu, owner);
     }
 }
 

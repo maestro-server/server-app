@@ -92,13 +92,13 @@ class TeamsRepository extends Repository {
             activeTransform.active(filter)
                 .then((e) => {
                     return TeamDao
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     if (e)
                         e = e.get()
 
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);

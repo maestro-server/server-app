@@ -4,6 +4,8 @@ const TeamService = require('../../services/teamsService');
 const ProjectsService = require('../../services/projectsService');
 
 const ArchitecturesService = require('../../services/architecturesService');
+const ArchitecturesTeamService = require('../../services/architecturesTeamService');
+
 const ApplicationsService = require('../../services/applicationsService');
 
 const authenticate = require('../../middlewares/authenticate');
@@ -67,16 +69,6 @@ module.exports = function (router) {
      * Members
      */
     router
-        .get('/:id/members', authenticate(), function (req, res, next) {
-
-            TeamService.getMembers(req.params.id, req.user)
-                .then(e => res.json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        })
-
         .post('/:id/members', authenticate(), function (req, res, next) {
 
             TeamService.addMember(req.params.id, req.body, req.user)
@@ -169,7 +161,7 @@ module.exports = function (router) {
     router
         .get('/:id/architectures', authenticate(), function (req, res, next) {
 
-            ArchitecturesService.findTeamArchitectures(req.params.id, req.query, req.user)
+            ArchitecturesTeamService.findTeamArchitectures(req.params.id, req.query, req.user)
                 .then(e => res.json(e))
                 .catch(function (e) {
                     next(e);
@@ -179,7 +171,7 @@ module.exports = function (router) {
 
         .get('/:id/architectures/:idu', authenticate(), function (req, res, next) {
 
-            ArchitecturesService.findOneTeamArchitectures(req.params.id, req.params.idu, req.query, req.user)
+            ArchitecturesTeamService.findOneTeamArchitectures(req.params.id, req.params.idu, req.query, req.user)
                 .then(e => res.json(e))
                 .catch(function (e) {
                     next(e);
@@ -189,7 +181,7 @@ module.exports = function (router) {
 
         .patch('/:id/architectures/:idu', authenticate(), function (req, res, next) {
 
-            ArchitecturesService.updateTeamArchitectures(req.params.id, req.params.idu, req.body, req.user)
+            ArchitecturesTeamService.updateTeamArchitectures(req.params.id, req.params.idu, req.body, req.user)
                 .then(e => res.status(201).json(e))
                 .catch(function (e) {
                     next(e);
@@ -198,7 +190,7 @@ module.exports = function (router) {
 
         .delete('/:id/architectures/:idu', authenticate(), function (req, res, next) {
 
-            ArchitecturesService.deleteTeamArchitectures(req.params.id, req.params.idu, req.user)
+            ArchitecturesTeamService.deleteTeamArchitectures(req.params.id, req.params.idu, req.user)
                 .then(e => res.status(204).json(e))
                 .catch(function (e) {
                     next(e);
@@ -210,12 +202,43 @@ module.exports = function (router) {
 
             req.user._refs = "teams";
 
+            ArchitecturesTeamService.createTeamArchitectures(req.params.id, req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function (e) {
+                    next(e);
+                });
+        })
+
+
+        .post('/:id/architectures/roles', authenticate(), function (req, res, next) {
+
+
             ArchitecturesService.createTeamArchitectures(req.params.id, req.body, req.user)
                 .then(e => res.status(201).json(e))
                 .catch(function (e) {
                     next(e);
                 });
+        })
+
+        .patch('/:id/architectures/roles/:idu', authenticate(), function (req, res, next) {
+
+            ArchitecturesService.updateTeamArchitectures(req.params.id, req.params.idu, req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function (e) {
+                    next(e);
+                });
+        })
+
+        .delete('/:id/architectures/roles:idu', authenticate(), function (req, res, next) {
+
+            ArchitecturesService.deleteTeamArchitectures(req.params.id, req.params.idu, req.user)
+                .then(e => res.status(204).json(e))
+                .catch(function (e) {
+                    next(e);
+                });
+
         });
+
 
 
     /**
