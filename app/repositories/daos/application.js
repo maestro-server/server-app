@@ -13,7 +13,7 @@ class ApplicationDao extends Dao {
     }
 
     collection () {
-        return ArchitectureDao.db;
+        return ApplicationDao.db;
     }
 
 

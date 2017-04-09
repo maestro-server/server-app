@@ -1,7 +1,8 @@
 'use strict';
 
-const TeamRepository = require('../repositories/teamsRepository');
+const ApplicationDao = require('../repositories/daos/application');
 const ApplicationsRepository = require('../repositories/applicationsRepository');
+const RolesService = require('./libs/rolesService');
 
 const merger = require('../repositories/transforms/mergeTransform');
 const refsTransform = require('./transforms/refsTransform');
@@ -10,9 +11,7 @@ const collectionTransform = require('./transforms/collectionTransform');
 const accessMergeTransform = require('./transforms/accessMergeTransform');
 const collectionRefsTransform = require('./transforms/collectionRefsTransform');
 
-const validAccessService = require('./validators/validAccessService');
 const validNotFound = require('./validators/validNotFound');
-const formatFactoryRefs = require('./helpers/formatFactoryRefs');
 
 const Access = require('../entities/accessRole');
 
@@ -136,149 +135,23 @@ class ApplicationsService {
 
     }
 
+    static addRoles(_id, member, owner) {
 
-    static findTeamApplication(_id, query, owner) {
-
-        return new Promise(function (resolve, reject) {
-
-            const limit = parseInt(query.limit) || 20;
-            const page = parseInt(query.page) || 1;
-            const skip = limit * (page - 1);
-
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
-                .then((e) => {
-                    return new TeamRepository()
-                        .findOne(e)
-                })
-                .then((e) => {
-                    return validAccessService(e);
-                })
-                .then((e) => {
-                    return ApplicationsService.find(query, e)
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
+        return new RolesService(ApplicationDao)
+            .addRoles(_id, member, owner);
     }
 
-    static findOneTeamApplication(_id, _idu, query, owner) {
+    static updateRoles(_id, _idu, member, owner) {
 
-        return new Promise(function (resolve, reject) {
-
-            const limit = parseInt(query.limit) || 20;
-            const page = parseInt(query.page) || 1;
-            const skip = limit * (page - 1);
-
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
-                .then((e) => {
-                    return new TeamRepository()
-                        .findOne(e)
-                })
-                .then((e) => {
-                    return validAccessService(e);
-                })
-                .then((e) => {
-                    return ApplicationsService.findOne(_idu, e)
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
+        return new RolesService(ApplicationDao)
+            .updateRoles(_id, _idu, member, owner);
     }
 
+    static deleteRoles(_id, _idu, owner) {
 
-    static updateTeamApplication(_id, _idu, arch, owner) {
-
-        return new Promise(function (resolve, reject) {
-
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_READ)
-                .then((e) => {
-                    return new TeamRepository()
-                        .findOne(e)
-                })
-                .then((e) => {
-                    return validAccessService(e);
-                })
-                .then((e) => {
-                    const owners = [e, owner]; //merge team access + users access, to determine great then roles
-
-                    return ApplicationsService
-                        .update(_idu, arch, owners)
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-
-        });
+        return new RolesService(ApplicationDao)
+            .deleteRoles(_id, _idu, owner);
     }
-
-    static deleteTeamApplication(_id, _idu, owner) {
-
-        return new Promise(function (resolve, reject) {
-
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_READ)
-                .then((e) => {
-                    return new TeamRepository()
-                        .findOne(e)
-                })
-                .then((e) => {
-                    return validAccessService(e);
-                })
-                .then((e) => {
-                    const owners = [e, owner]; //merge team access + users access, to determine great then roles
-
-                    return ApplicationsService
-                        .remove(_idu, owners)
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
-    }
-
-    static createTeamApplication(_id, arch, owner) {
-
-        return new Promise(function (resolve, reject) {
-
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
-                .then((e) => {
-                    return new TeamRepository()
-                        .findOne(e)
-                })
-                .then((e) => {
-                    return validAccessService(e);
-                })
-                .then((e) => {
-                    return ApplicationsService.create(arch, formatFactoryRefs(e, 'teams'));
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
-
-    }
-
 
 
 }

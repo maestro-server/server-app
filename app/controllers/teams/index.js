@@ -3,8 +3,8 @@
 const TeamService = require('../../services/teamsService');
 const ProjectsService = require('../../services/projectsService');
 
-const ArchitecturesService = require('../../services/architecturesService');
 const ArchitecturesTeamService = require('../../services/architecturesTeamService');
+const ApplicationTeamService = require('../../services/applicationsTeamService');
 
 const ApplicationsService = require('../../services/applicationsService');
 
@@ -251,7 +251,7 @@ module.exports = function (router) {
     router
           .get('/:id/applications', authenticate(), function (req, res, next) {
 
-              ApplicationsService.findTeamApplication(req.params.id, req.query, req.user)
+              ApplicationTeamService.findTeamApplication(req.params.id, req.query, req.user)
                   .then(e => res.json(e))
                   .catch(function (e) {
                       next(e);
@@ -261,7 +261,7 @@ module.exports = function (router) {
 
           .get('/:id/applications/:idu', authenticate(), function (req, res, next) {
 
-              ApplicationsService.findOneTeamApplication(req.params.id, req.params.idu, req.query, req.user)
+              ApplicationTeamService.findOneTeamApplication(req.params.id, req.params.idu, req.query, req.user)
                   .then(e => res.json(e))
                   .catch(function (e) {
                       next(e);
@@ -271,7 +271,7 @@ module.exports = function (router) {
 
           .patch('/:id/applications/:idu', authenticate(), function (req, res, next) {
 
-              ApplicationsService.updateTeamApplication(req.params.id, req.params.idu, req.body, req.user)
+              ApplicationTeamService.updateTeamApplication(req.params.id, req.params.idu, req.body, req.user)
                   .then(e => res.status(201).json(e))
                   .catch(function (e) {
                       next(e);
@@ -280,7 +280,7 @@ module.exports = function (router) {
 
           .delete('/:id/applications/:idu', authenticate(), function (req, res, next) {
 
-              ApplicationsService.deleteTeamApplication(req.params.id, req.params.idu, req.user)
+              ApplicationTeamService.deleteTeamApplication(req.params.id, req.params.idu, req.user)
                   .then(e => res.status(204).json(e))
                   .catch(function (e) {
                       next(e);
@@ -290,11 +290,44 @@ module.exports = function (router) {
 
         .post('/:id/applications', authenticate(), function (req, res, next) {
 
-            ApplicationsService.createTeamApplication(req.params.id, req.body, req.user)
+            ApplicationTeamService.createTeamApplication(req.params.id, req.body, req.user)
                 .then(e => res.status(201).json(e))
                 .catch(function (e) {
                     next(e);
                 });
+        })
+
+        /**
+         * Roles
+         */
+
+        .post('/:id/applications/:idu/roles', authenticate(), function (req, res, next) {
+
+
+            ApplicationTeamService.addRolesTeamApplication(req.params.id, req.params.idu, req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function (e) {
+                    next(e);
+                });
+        })
+
+        .patch('/:id/applications/:idu/roles/:ida', authenticate(), function (req, res, next) {
+
+            ApplicationTeamService.updateRolesTeamApplication(req.params.id, req.params.idu, req.params.ida, req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function (e) {
+                    next(e);
+                });
+        })
+
+        .delete('/:id/applications/:idu/roles/:ida', authenticate(), function (req, res, next) {
+
+            ApplicationTeamService.deleteRolesTeamApplication(req.params.id, req.params.idu, req.params.ida, req.user)
+                .then(e => res.status(204).json(e))
+                .catch(function (e) {
+                    next(e);
+                });
+
         });
 
 };

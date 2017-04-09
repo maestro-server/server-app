@@ -1,163 +1,33 @@
 'use strict';
 
 const TeamRepository = require('../repositories/teamsRepository');
-const ProjectRepository = require('../repositories/projectsRepository');
 
-const merger = require('../repositories/transforms/mergeTransform');
-const refsTransform = require('./transforms/refsTransform');
-const singleTransform = require('./transforms/singleTransform');
-const collectionTransform = require('./transforms/collectionTransform');
+const ApplicationsService = require('./applicationsService');
+
 const accessMergeTransform = require('./transforms/accessMergeTransform');
-const accessMergeCollectionTransform = require('./transforms/accessMergeCollectionTransform');
 
 const validAccessService = require('./validators/validAccessService');
-const validNotFound = require('./validators/validNotFound');
 const formatFactoryRefs = require('./helpers/formatFactoryRefs');
 
 const Access = require('../entities/accessRole');
 
-class ProjectsService {
+class ApplicationsTeamService {
 
-    static find(query, owner) {
-
-        return new Promise(function (resolve, reject) {
-
-            const limit = parseInt(query.limit) || 20;
-            const page = parseInt(query.page) || 1;
-            const skip = limit * (page - 1);
-
-            accessMergeCollectionTransform([owner._id], 'owner._id', query)
-                .then((e) => {
-                    return Promise.all([
-                        new ProjectRepository().find(e, limit, skip),
-                        new ProjectRepository().count(e)
-                    ]);
-                })
-                .then((e) => {
-                    return validNotFound(e, e[1], limit, page);
-                })
-                .then((e) => {
-                    return collectionTransform(e[0], e[1], 'projects', limit, page);
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
-
-    }
-
-    static findOne(_id, owner) {
-        return new Promise(function (resolve, reject) {
-
-            accessMergeCollectionTransform([owner._id], 'owner._id', {_id})
-                .then((e) => {
-                    return new ProjectRepository()
-                        .findOne(e)
-                })
-                .then((e) => {
-                    return refsTransform(e, 'members');
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
-    }
-
-    static update(_id, project, owner) {
+    static findTeamApplication(_id, query, owner) {
 
         return new Promise(function (resolve, reject) {
 
-            accessMergeCollectionTransform([owner._id], 'owner._id', {_id})
-                .then((e) => {
-                    return new ProjectRepository()
-                        .update(e, project)
-                })
-                .then((e) => {
-                    return singleTransform(e, 'teams');
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-
-        });
-    }
-
-    static remove(_id, owner) {
-
-        return new Promise(function (resolve, reject) {
-
-            accessMergeCollectionTransform([owner._id], 'owner._id', {_id})
-                .then((e) => {
-                    return new ProjectRepository()
-                        .remove(e)
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
-    }
-
-    static create(project, owner) {
-
-        return new Promise(function (resolve, reject) {
-
-            if (owner.hasOwnProperty('_ref'))
-                owner._ref = 'users';
-
-            merger(project, {owner})
-                .then((e) => {
-                    return new ProjectRepository()
-                        .create(e)
-                })
-                .then((e) => {
-                    return singleTransform(e, 'projects');
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
-
-    }
-
-
-    static findTeamProject(_id, query, owner) {
-
-        return new Promise(function (resolve, reject) {
-
-            const limit = parseInt(query.limit) || 20;
-            const page = parseInt(query.page) || 1;
-            const skip = limit * (page - 1);
 
             accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
                 .then((e) => {
                     return new TeamRepository()
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     return validAccessService(e);
                 })
                 .then((e) => {
-                    return ProjectsService.find(query, e)
+                    return ApplicationsService.find(query, e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -169,62 +39,7 @@ class ProjectsService {
         });
     }
 
-    static findOneTeamProject(_id, _idu, query, owner) {
-
-        return new Promise(function (resolve, reject) {
-
-            const limit = parseInt(query.limit) || 20;
-            const page = parseInt(query.page) || 1;
-            const skip = limit * (page - 1);
-
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
-                .then((e) => {
-                    return new TeamRepository()
-                        .findOne(e)
-                })
-                .then((e) => {
-                    return validAccessService(e);
-                })
-                .then((e) => {
-                    return ProjectsService.findOne(_idu, e)
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
-    }
-
-    static createTeamProject(_id, project, owner) {
-
-        return new Promise(function (resolve, reject) {
-
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
-                .then((e) => {
-                    return new TeamRepository()
-                        .findOne(e)
-                })
-                .then((e) => {
-                    return validAccessService(e);
-                })
-                .then((e) => {
-                    return ProjectsService.create(project, formatFactoryRefs(e, 'teams'))
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
-
-    }
-
-    static updateTeamProject(_id, _idu, project, owner) {
+    static findOneTeamApplication(_id, _idu, query, owner) {
 
         return new Promise(function (resolve, reject) {
 
@@ -237,8 +52,7 @@ class ProjectsService {
                     return validAccessService(e);
                 })
                 .then((e) => {
-                    return ProjectsService
-                        .update(_idu, project, e);
+                    return ApplicationsService.findOne(_idu, e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -247,15 +61,15 @@ class ProjectsService {
                     reject(err);
                 });
 
-
         });
     }
 
-    static deleteTeamProject(_id, _idu, owner) {
+
+    static updateTeamApplication(_id, _idu, arch, owner) {
 
         return new Promise(function (resolve, reject) {
 
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_ADMIN)
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_READ)
                 .then((e) => {
                     return new TeamRepository()
                         .findOne(e)
@@ -264,8 +78,39 @@ class ProjectsService {
                     return validAccessService(e);
                 })
                 .then((e) => {
-                    return ProjectsService
-                        .remove(_idu, e)
+                    const owners = [e, owner]; //merge team access + users access, to determine great then roles
+
+                    return ApplicationsService
+                        .update(_idu, arch, owners)
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+
+        });
+    }
+
+    static deleteTeamApplication(_id, _idu, owner) {
+
+        return new Promise(function (resolve, reject) {
+
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_READ)
+                .then((e) => {
+                    return new TeamRepository()
+                        .findOne(e)
+                })
+                .then((e) => {
+                    return validAccessService(e);
+                })
+                .then((e) => {
+                    const owners = [e, owner]; //merge team access + users access, to determine great then roles
+
+                    return ApplicationsService
+                        .remove(_idu, owners)
                 })
                 .then((e) => {
                     resolve(e);
@@ -276,6 +121,115 @@ class ProjectsService {
 
         });
     }
+
+    static createTeamApplication(_id, arch, owner) {
+
+        return new Promise(function (resolve, reject) {
+
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
+                .then((e) => {
+                    return new TeamRepository()
+                        .findOne(e)
+                })
+                .then((e) => {
+                    return validAccessService(e);
+                })
+                .then((e) => {
+                    return ApplicationsService.create(arch, formatFactoryRefs(e, 'teams'));
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+
+    }
+
+    static addRolesTeamApplication(_id, _idu, roles, owner) {
+
+        return new Promise(function (resolve, reject) {
+
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
+                .then((e) => {
+                    return new TeamRepository()
+                        .findOne(e);
+                })
+                .then((e) => {
+                    return validAccessService(e);
+                })
+                .then((e) => {
+                    return ApplicationsService
+                        .addRoles(_idu, roles, e);
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+
+    }
+
+    static updateRolesTeamApplication(_id, _idu, _ida, roles, owner) {
+
+        return new Promise(function (resolve, reject) {
+
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
+                .then((e) => {
+                    return new TeamRepository()
+                        .findOne(e);
+                })
+                .then((e) => {
+                    return validAccessService(e);
+                })
+                .then((e) => {
+                    return ApplicationsService
+                        .updateRoles(_idu, _ida, roles, e);
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+    }
+
+    static deleteRolesTeamApplication(_id, _idu, _ida, owner) {
+
+        return new Promise(function (resolve, reject) {
+
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
+                .then((e) => {
+                    return new TeamRepository()
+                        .findOne(e);
+                })
+                .then((e) => {
+                    return validAccessService(e);
+                })
+                .then((e) => {
+                    return ApplicationsService
+                        .deleteRoles(_idu, _ida, e);
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+
+    }
+
+
+
 }
 
-module.exports = ProjectsService;
+module.exports = ApplicationsTeamService;
