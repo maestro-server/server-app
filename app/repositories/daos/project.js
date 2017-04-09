@@ -2,12 +2,15 @@
 
 const Dao = require('./dao');
 
-const {Model} = require('mongorito');
-
 class ProjectDao extends Dao {
 
-    collection () {
+    static get db() {
         return 'projects';
+    }
+
+
+    collection () {
+        return ProjectDao.db;
     }
 
 

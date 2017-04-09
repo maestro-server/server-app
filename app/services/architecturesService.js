@@ -1,17 +1,17 @@
 'use strict';
 
 const ArchitecturesRepository = require('../repositories/architecturesRepository');
+const RolesService = require('./libs/rolesService');
+
+const ArchitectureDao = require('../repositories/daos/architecture');
 
 const merger = require('../repositories/transforms/mergeTransform');
 const refsTransform = require('./transforms/refsTransform');
 const singleTransform = require('./transforms/singleTransform');
 const collectionTransform = require('./transforms/collectionTransform');
 const accessMergeTransform = require('./transforms/accessMergeTransform');
-const collectionRefsTransform = require('./transforms/collectionRefsTransform');
 
-const validAccessService = require('./validators/validAccessService');
 const validNotFound = require('./validators/validNotFound');
-const formatFactoryRefs = require('./helpers/formatFactoryRefs');
 
 const Access = require('../entities/accessRole');
 
@@ -57,7 +57,7 @@ class ArchitecturesService {
             accessMergeTransform(owner, "roles", {_id}, access)
                 .then((e) => {
                     return new ArchitecturesRepository()
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     return refsTransform(e, 'roles');
@@ -79,7 +79,7 @@ class ArchitecturesService {
             accessMergeTransform(owner, "roles", {_id}, Access.ROLE_WRITER)
                 .then((e) => {
                     return new ArchitecturesRepository()
-                        .update(e, team)
+                        .update(e, team);
                 })
                 .then((e) => {
                     resolve(e);
@@ -98,7 +98,7 @@ class ArchitecturesService {
             accessMergeTransform(owner, "roles", {_id}, Access.ROLE_ADMIN)
                 .then((e) => {
                     return new ArchitecturesRepository()
-                        .remove(e)
+                        .remove(e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -118,7 +118,7 @@ class ArchitecturesService {
             merger(arch, {owner})
                 .then((e) => {
                     return new ArchitecturesRepository()
-                        .create(e)
+                        .create(e);
                 })
                 .then((e) => {
                     return refsTransform(e, 'roles');
@@ -135,6 +135,24 @@ class ArchitecturesService {
 
         });
 
+    }
+
+    static addRoles(_id, member, owner) {
+
+        return new RolesService(ArchitectureDao)
+            .addRoles(_id, member, owner);
+    }
+
+    static updateRoles(_id, _idu, member, owner) {
+
+        return new RolesService(ArchitectureDao)
+            .updateRoles(_id, _idu, member, owner);
+    }
+
+    static deleteRoles(_id, _idu, owner) {
+
+        return new RolesService(ArchitectureDao)
+            .deleteRoles(_id, _idu, owner);
     }
 
 

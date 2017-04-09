@@ -38,8 +38,9 @@ class RolesRepository extends Repository {
               .then((e) => {
                   const role = parseInt(e.role);
                   const {id} = formatObjectId(e);
+                  const {refs} = e;
 
-                  const arr = formatRefsCollection(id, this.dao.db, this.dao.role, {role});
+                  const arr = formatRefsCollection(id, refs, this.dao.role, {role});
                   formatNotEqual(filter, `${this.dao.role}._id`, id);
 
                   return this.add(filter, arr);

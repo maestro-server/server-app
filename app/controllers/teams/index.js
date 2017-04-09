@@ -209,29 +209,32 @@ module.exports = function (router) {
                 });
         })
 
+        /**
+         * Roles
+         */
 
-        .post('/:id/architectures/roles', authenticate(), function (req, res, next) {
+        .post('/:id/architectures/:idu/roles', authenticate(), function (req, res, next) {
 
 
-            ArchitecturesService.createTeamArchitectures(req.params.id, req.body, req.user)
+            ArchitecturesTeamService.addRolesTeamArchitectures(req.params.id, req.params.idu, req.body, req.user)
                 .then(e => res.status(201).json(e))
                 .catch(function (e) {
                     next(e);
                 });
         })
 
-        .patch('/:id/architectures/roles/:idu', authenticate(), function (req, res, next) {
+        .patch('/:id/architectures/:idu/roles/:ida', authenticate(), function (req, res, next) {
 
-            ArchitecturesService.updateTeamArchitectures(req.params.id, req.params.idu, req.body, req.user)
+            ArchitecturesTeamService.updateRolesTeamArchitectures(req.params.id, req.params.idu, req.params.ida, req.body, req.user)
                 .then(e => res.status(201).json(e))
                 .catch(function (e) {
                     next(e);
                 });
         })
 
-        .delete('/:id/architectures/roles:idu', authenticate(), function (req, res, next) {
+        .delete('/:id/architectures/:idu/roles/:ida', authenticate(), function (req, res, next) {
 
-            ArchitecturesService.deleteTeamArchitectures(req.params.id, req.params.idu, req.user)
+            ArchitecturesTeamService.deleteRolesTeamArchitectures(req.params.id, req.params.idu, req.params.ida, req.user)
                 .then(e => res.status(204).json(e))
                 .catch(function (e) {
                     next(e);

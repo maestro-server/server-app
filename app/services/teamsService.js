@@ -1,7 +1,6 @@
 'use strict';
 
 const TeamRepository = require('../repositories/teamsRepository');
-const TeamMembersRepository = require('../repositories/teamMembersRepository');
 
 const RolesService = require('./libs/rolesService');
 const TeamDAO = require('../repositories/daos/team');
