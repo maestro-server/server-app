@@ -1,3 +1,4 @@
+'use strict';
 
 const BASE = require('../../helpers/base_url');
 

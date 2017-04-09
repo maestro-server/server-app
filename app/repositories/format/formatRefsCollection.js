@@ -1,3 +1,4 @@
+'use strict';
 
 module.exports = function (_id, collection, fielder, entity={}, create=false) {
 

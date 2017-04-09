@@ -1,3 +1,4 @@
+'use strict';
 
 const toObjectId = require('mongorito/util/to-objectid');
 

@@ -1,3 +1,4 @@
+'use strict';
 
 const createLinkPagination = require('../helpers/createLinkPagination');
 const insertHateoasCollection = require('../helpers/insertHateoasCollection');

@@ -1,3 +1,4 @@
+'use strict';
 
 
 module.exports = function (flow, count, limit, page) {

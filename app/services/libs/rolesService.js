@@ -1,3 +1,4 @@
+'use strict';
 
 const RolesRepository = require('../../repositories/rolesRepository');
 

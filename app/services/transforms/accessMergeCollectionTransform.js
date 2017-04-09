@@ -1,3 +1,5 @@
+'use strict';
+
 const toObjectId = require('mongorito/util/to-objectid');
 
 module.exports = function (ids, fielder, trans = {}) {

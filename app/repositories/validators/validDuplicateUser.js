@@ -1,4 +1,4 @@
-
+'use strict';
 
 const UserDao = require('../daos/user');
 const ConflictError = require('../../errors/conflictError');

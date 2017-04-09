@@ -1,3 +1,4 @@
+'use strict';
 
 const PermissionError = require('../../errors/permissionError');
 

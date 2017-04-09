@@ -1,3 +1,4 @@
+'use strict';
 
 const transform = require('./transformAdapter');
 const BASE = require('../../helpers/base_url');

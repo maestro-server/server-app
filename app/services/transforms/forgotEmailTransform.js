@@ -1,3 +1,5 @@
+'use strict';
+
 const jwt = require('jwt-simple');
 const config = require('../../helpers/auth_forgot_config');
 

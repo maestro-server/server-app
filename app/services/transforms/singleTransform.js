@@ -1,3 +1,4 @@
+'use strict';
 
 const insertHateoasSingle = require('../helpers/insertHateoasSingle');
 

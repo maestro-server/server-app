@@ -1,3 +1,5 @@
+'use strict';
+
 const {ExtractJwt} = require('passport-jwt');
 
 module.exports = {

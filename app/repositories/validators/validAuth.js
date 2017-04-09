@@ -1,4 +1,6 @@
 
+'use strict';
+
 const ValidFactory = require('./validFactory');
 
 module.exports = function(vals) {

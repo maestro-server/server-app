@@ -1,3 +1,4 @@
+'use strict';
 
 const filled = require('filter-object');
 

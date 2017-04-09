@@ -1,3 +1,4 @@
+'use strict';
 
 const mailerConnector = require('../../repositories/smtp/mailerConnector');
 

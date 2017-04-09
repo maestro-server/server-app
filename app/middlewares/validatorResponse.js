@@ -1,4 +1,6 @@
-module.exports = function () {
+ 'use strict';
+
+ module.exports = function () {
     return function (err, req, res, next) {
 
         if(err.name === 'ValidatorError') {

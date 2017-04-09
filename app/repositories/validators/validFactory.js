@@ -1,3 +1,5 @@
+'use strict';
+
 const Validator = require('better-validator');
 const ValidatorError = require('../../errors/validatorError');
 
