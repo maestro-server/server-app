@@ -38,6 +38,27 @@ class UsersService {
 
     }
 
+    static autocomplete(query) {
+
+        return new Promise(function (resolve, reject) {
+
+            let  email;
+            if (query.hasOwnProperty('complete')) {
+                email = {$regex:query.complete};
+            }
+
+            UsersService
+                .find({email})
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+    }
+
     static findOne(_id) {
         return new Promise(function (resolve, reject) {
 
