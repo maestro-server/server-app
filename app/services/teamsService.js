@@ -10,7 +10,6 @@ const refsTransform = require('./transforms/refsTransform');
 const singleTransform = require('./transforms/singleTransform');
 const collectionTransform = require('./transforms/collectionTransform');
 const accessMergeTransform = require('./transforms/accessMergeTransform');
-const collectionRefsTransform = require('./transforms/collectionRefsTransform');
 
 const validNotFound = require('./validators/validNotFound');
 
@@ -57,7 +56,7 @@ class TeamsService {
             accessMergeTransform(owner, "members", {_id}, access)
                 .then((e) => {
                     return new TeamRepository()
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     return refsTransform(e, 'members');

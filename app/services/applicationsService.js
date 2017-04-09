@@ -9,7 +9,6 @@ const refsTransform = require('./transforms/refsTransform');
 const singleTransform = require('./transforms/singleTransform');
 const collectionTransform = require('./transforms/collectionTransform');
 const accessMergeTransform = require('./transforms/accessMergeTransform');
-const collectionRefsTransform = require('./transforms/collectionRefsTransform');
 
 const validNotFound = require('./validators/validNotFound');
 
@@ -56,7 +55,7 @@ class ApplicationsService {
             accessMergeTransform(owner, "roles", {_id}, access)
                 .then((e) => {
                     return new ApplicationsRepository()
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     return refsTransform(e, 'roles');
@@ -78,7 +77,7 @@ class ApplicationsService {
             accessMergeTransform(owner, "roles", {_id}, Access.ROLE_WRITER)
                 .then((e) => {
                     return new ApplicationsRepository()
-                        .update(e, team)
+                        .update(e, team);
                 })
                 .then((e) => {
                     resolve(e);
@@ -97,7 +96,7 @@ class ApplicationsService {
             accessMergeTransform(owner, "roles", {_id}, Access.ROLE_ADMIN)
                 .then((e) => {
                     return new ApplicationsRepository()
-                        .remove(e)
+                        .remove(e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -116,7 +115,7 @@ class ApplicationsService {
             merger(app, {owner})
                 .then((e) => {
                     return new ApplicationsRepository()
-                        .create(e)
+                        .create(e);
                 })
                 .then((e) => {
                     return refsTransform(e, 'roles');

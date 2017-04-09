@@ -2,12 +2,6 @@
 
 'use strict';
 
-/*
- * Babel hook
- */
-require('babel-core/register');
-require("babel-polyfill");
-
 
 var kraken = require('kraken-js'),
     express = require('express'),
@@ -47,7 +41,7 @@ describe('index', function () {
 
                 .expect("ok")
 
-            .end(function (err, res) {
+            .end(function (err) {
                 done(err);
             });
     });

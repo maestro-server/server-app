@@ -40,13 +40,13 @@ class ArchitecturesRepository extends Repository {
                 .then((e) => {
                     return activeTransform.active(e);
                 })
-                .then((filters) => {
+                .then((e) => {
                     return ArchitecturesDao
                         .limit(limit)
                         .skip(skip)
                         .sort('created_at', -1)
                         .include(this.resFilled)
-                        .find(filters)
+                        .find(e);
                 })
                 .then((e) => {
                     return clearDaoTransform(e);
@@ -70,9 +70,9 @@ class ArchitecturesRepository extends Repository {
                 .then((e) => {
                     return activeTransform.active(e);
                 })
-                .then((filters) => {
+                .then((e) => {
                     return ArchitecturesDao
-                        .count(filters)
+                        .count(e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -92,13 +92,13 @@ class ArchitecturesRepository extends Repository {
             activeTransform.active(filter)
                 .then((e) => {
                     return ArchitecturesDao
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     if (e)
-                        e = e.get()
+                        e = e.get();
 
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -117,7 +117,7 @@ class ArchitecturesRepository extends Repository {
 
             filledTransform(team, this.filled)
                 .then((e) => {
-                    return validArchitectures(e)
+                    return validArchitectures(e);
                 })
                 .then((e) => {
                     return new ArchitecturesDao(e)
@@ -130,7 +130,7 @@ class ArchitecturesRepository extends Repository {
                     return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -154,7 +154,7 @@ class ArchitecturesRepository extends Repository {
                     return validAccessUpdater(e);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -178,13 +178,13 @@ class ArchitecturesRepository extends Repository {
                     return merger(e, formatRefsCollection(e.owner._id, e.owner._refs, 'roles', {role: Access.ROLE_ADMIN}, true));
                 })
                 .then((e) => {
-                    return new ArchitecturesDao(e).save()
+                    return new ArchitecturesDao(e).save();
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);

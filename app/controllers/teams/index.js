@@ -6,7 +6,6 @@ const ProjectsService = require('../../services/projectsService');
 const ArchitecturesTeamService = require('../../services/architecturesTeamService');
 const ApplicationTeamService = require('../../services/applicationsTeamService');
 
-const ApplicationsService = require('../../services/applicationsService');
 
 const authenticate = require('../../middlewares/authenticate');
 

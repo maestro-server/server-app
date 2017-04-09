@@ -40,13 +40,13 @@ class TeamsRepository extends Repository {
                 .then((e) => {
                     return activeTransform.active(e);
                 })
-                .then((filters) => {
+                .then((e) => {
                     return TeamDao
                         .limit(limit)
                         .skip(skip)
                         .sort('created_at', -1)
                         .include(this.resFilled)
-                        .find(filters)
+                        .find(e);
                 })
                 .then((e) => {
                     return clearDaoTransform(e);
@@ -70,9 +70,9 @@ class TeamsRepository extends Repository {
                 .then((e) => {
                     return activeTransform.active(e);
                 })
-                .then((filters) => {
+                .then((e) => {
                     return TeamDao
-                        .count(filters)
+                        .count(e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -96,7 +96,7 @@ class TeamsRepository extends Repository {
                 })
                 .then((e) => {
                     if (e)
-                        e = e.get()
+                        e = e.get();
 
                     resolve(e);
                 })
@@ -119,7 +119,7 @@ class TeamsRepository extends Repository {
 
             filledTransform(team, this.filled)
                 .then((e) => {
-                    return validTeam(e)
+                    return validTeam(e);
                 })
                 .then((e) => {
                     return new TeamDao(e)
@@ -132,7 +132,7 @@ class TeamsRepository extends Repository {
                     return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -156,7 +156,7 @@ class TeamsRepository extends Repository {
                     return validAccessUpdater(e);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -180,13 +180,13 @@ class TeamsRepository extends Repository {
                     return merger(e, formatRefsCollection(e.owner._id, 'users', 'members', {role: Access.ROLE_ADMIN}, true));
                 })
                 .then((e) => {
-                    return new TeamDao(e).save()
+                    return new TeamDao(e).save();
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);

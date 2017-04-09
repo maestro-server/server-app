@@ -2,8 +2,6 @@
 
 const AuthService = require('../../services/authService');
 
-const authenticate = require('../../middlewares/authenticate');
-
 
 module.exports = function (router) {
 

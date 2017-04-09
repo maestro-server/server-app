@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 function ValidatorError (errors, message='validator error') {
     this.name = 'ValidatorError';

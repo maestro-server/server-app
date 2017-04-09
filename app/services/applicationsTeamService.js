@@ -72,7 +72,7 @@ class ApplicationsTeamService {
             accessMergeTransform(owner, "members", {_id}, Access.ROLE_READ)
                 .then((e) => {
                     return new TeamRepository()
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     return validAccessService(e);
@@ -81,7 +81,7 @@ class ApplicationsTeamService {
                     const owners = [e, owner]; //merge team access + users access, to determine great then roles
 
                     return ApplicationsService
-                        .update(_idu, arch, owners)
+                        .update(_idu, arch, owners);
                 })
                 .then((e) => {
                     resolve(e);
@@ -101,7 +101,7 @@ class ApplicationsTeamService {
             accessMergeTransform(owner, "members", {_id}, Access.ROLE_READ)
                 .then((e) => {
                     return new TeamRepository()
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     return validAccessService(e);
@@ -110,7 +110,7 @@ class ApplicationsTeamService {
                     const owners = [e, owner]; //merge team access + users access, to determine great then roles
 
                     return ApplicationsService
-                        .remove(_idu, owners)
+                        .remove(_idu, owners);
                 })
                 .then((e) => {
                     resolve(e);
@@ -129,7 +129,7 @@ class ApplicationsTeamService {
             accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
                 .then((e) => {
                     return new TeamRepository()
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     return validAccessService(e);

@@ -10,11 +10,6 @@ const filledTransform = require('./transforms/filledTransform');
 const activeTransform = require('./transforms/activeTransform');
 const clearDaoTransform = require('./transforms/clearDaoTransform');
 
-const merger = require('./transforms/mergeTransform');
-
-const formatRefsCollection = require('./format/formatRefsCollection');
-
-const Access = require('../entities/accessRole');
 
 
 class ProjectsRepository extends Repository {
@@ -39,13 +34,13 @@ class ProjectsRepository extends Repository {
                 .then((e) => {
                     return activeTransform.active(e);
                 })
-                .then((filters) => {
+                .then((e) => {
                     return ProjectDao
                         .limit(limit)
                         .skip(skip)
                         .sort('created_at', -1)
                         .include(this.resFilled)
-                        .find(filters)
+                        .find(e);
                 })
                 .then((e) => {
                     return clearDaoTransform(e);
@@ -69,9 +64,9 @@ class ProjectsRepository extends Repository {
                 .then((e) => {
                     return activeTransform.active(e);
                 })
-                .then((filters) => {
+                .then((e) => {
                     return ProjectDao
-                        .count(filters)
+                        .count(e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -91,13 +86,13 @@ class ProjectsRepository extends Repository {
             activeTransform.active(filter)
                 .then((e) => {
                     return ProjectDao
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     if (e)
-                        e = e.get()
+                        e = e.get();
 
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -118,7 +113,7 @@ class ProjectsRepository extends Repository {
 
             filledTransform(team, this.filled)
                 .then((e) => {
-                    return validProject(e)
+                    return validProject(e);
                 })
                 .then((e) => {
                     return new ProjectDao(e)
@@ -131,7 +126,7 @@ class ProjectsRepository extends Repository {
                     return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -155,7 +150,7 @@ class ProjectsRepository extends Repository {
                     return validAccessUpdater(e);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -176,13 +171,13 @@ class ProjectsRepository extends Repository {
                     return activeTransform.active(e);
                 })
                 .then((e) => {
-                    return new ProjectDao(e).save()
+                    return new ProjectDao(e).save();
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);

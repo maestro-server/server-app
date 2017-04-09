@@ -4,7 +4,6 @@ const Dao = require('./dao');
 const bcrypt = require('bcrypt');
 const crypto = require('../../helpers/crypto');
 
-const {Model} = require('mongorito');
 
 class UserDao extends Dao {
 

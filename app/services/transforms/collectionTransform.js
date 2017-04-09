@@ -4,7 +4,7 @@ const insertHateoasCollection = require('../helpers/insertHateoasCollection');
 
 module.exports = function (data, count, uri="", limit=20, page=1) {
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
 
         const pages = Math.round(count/limit);
 

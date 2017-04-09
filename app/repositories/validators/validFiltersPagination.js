@@ -1,9 +1,5 @@
 
-const Validator = require('better-validator');
 const ValidFactory = require('./validFactory');
-const ValidationError = require('../../errors/validatorError');
-
-const UserDao = require('../daos/user');
 
 
 module.exports = function(vals) {

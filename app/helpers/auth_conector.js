@@ -1,14 +1,14 @@
 
 const passport = require('passport');
-const {Strategy, ExtractJwt} = require('passport-jwt');
+const {Strategy} = require('passport-jwt');
 const UserRepository = require('../repositories/usersRepository');
 
 const config = require('../helpers/auth_config');
 
-const permissionError = require('../errors/permissionError');
+const PermissionError = require('../errors/permissionError');
 
 
-module.exports = function(req, res, next) {
+module.exports = function() {
     let strategy = new Strategy(config.jwtSecret, function (payload, done) {
 
         let _id = payload._id;
@@ -21,7 +21,7 @@ module.exports = function(req, res, next) {
                         return done(null, e);
                     }
 
-                    return done(new permissionError("User not found"), false);
+                    return done(new PermissionError("User not found"), false);
                 })
                 .catch(error => done(error, null));
         }

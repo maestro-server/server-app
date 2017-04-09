@@ -3,7 +3,7 @@ const ValidatorError = require('../../errors/validatorError');
 
 module.exports = function (rulesValidade, vals, msg = "Validator error") {
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         const validator = new Validator();
 
         validator(vals).isObject(rulesValidade);

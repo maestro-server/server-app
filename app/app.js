@@ -2,7 +2,6 @@
 
 const express = require('express');
 const kraken = require('kraken-js');
-const bodyParser = require('body-parser');
 
 const db_connect = require('./helpers/db_connect');
 

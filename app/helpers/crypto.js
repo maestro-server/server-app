@@ -4,15 +4,10 @@
  */
 'use strict';
 
-var crypto = function() {
+let crypto = function() {
     let cryptLevel = 6;
     this.getCryptLevel = function() {
         return cryptLevel;
-    };
-    this.setCryptLevel = function(level) {
-        if (cryptLevel === -1) {
-            cryptLevel = level;
-        }
     };
 };
 

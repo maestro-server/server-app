@@ -1,10 +1,8 @@
 const toObjectId = require('mongorito/util/to-objectid');
 
-const Access = require('../../entities/accessRole');
+module.exports = function (ids, fielder, trans = {}) {
 
-module.exports = function (ids, fielder, trans = {}, access=Access.ROLE_READ) {
-
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
 
         if (trans.hasOwnProperty('_id'))
             trans._id = toObjectId(trans._id);
@@ -23,5 +21,3 @@ module.exports = function (ids, fielder, trans = {}, access=Access.ROLE_READ) {
         resolve(Object.assign(trans, merge));
     });
 };
-
-//{ 'owner._id': { $in: [ObjectId('58dfe24bba33b91f2b1171fd')] }}

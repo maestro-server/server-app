@@ -1,5 +1,4 @@
 
-const run = require('../../helpers/db_run');
 
 const UserDao = require('../daos/user');
 const ConflictError = require('../../errors/conflictError');
@@ -12,7 +11,6 @@ module.exports = function(vals) {
       .then(result => {
 
         if(result instanceof Object) {
-            const err = {error: {failed: "user already"}};
             let errors = [{failed:vals.email}];
             throw new ConflictError(errors, "User already exist");
         }

@@ -40,13 +40,13 @@ class ApplicationsRepository extends Repository {
                 .then((e) => {
                     return activeTransform.active(e);
                 })
-                .then((filters) => {
+                .then((e) => {
                     return ApplicationsDao
                         .limit(limit)
                         .skip(skip)
                         .sort('created_at', -1)
                         .include(this.resFilled)
-                        .find(filters)
+                        .find(e);
                 })
                 .then((e) => {
                     return clearDaoTransform(e);
@@ -70,9 +70,9 @@ class ApplicationsRepository extends Repository {
                 .then((e) => {
                     return activeTransform.active(e);
                 })
-                .then((filters) => {
+                .then((e) => {
                     return ApplicationsDao
-                        .count(filters)
+                        .count(e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -92,13 +92,13 @@ class ApplicationsRepository extends Repository {
             activeTransform.active(filter)
                 .then((e) => {
                     return ApplicationsDao
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     if (e)
-                        e = e.get()
+                        e = e.get();
 
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -118,7 +118,7 @@ class ApplicationsRepository extends Repository {
 
             filledTransform(team, this.filled)
                 .then((e) => {
-                    return validApplications(e)
+                    return validApplications(e);
                 })
                 .then((e) => {
                     return new ApplicationsDao(e)
@@ -131,7 +131,7 @@ class ApplicationsRepository extends Repository {
                     return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -155,7 +155,7 @@ class ApplicationsRepository extends Repository {
                     return validAccessUpdater(e);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -179,13 +179,13 @@ class ApplicationsRepository extends Repository {
                     return merger(e, formatRefsCollection(e.owner._id, e.owner._refs, 'roles', {role: Access.ROLE_ADMIN}, true));
                 })
                 .then((e) => {
-                    return new ApplicationsDao(e).save()
+                    return new ApplicationsDao(e).save();
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);

@@ -7,7 +7,7 @@ class factoryMailer {
         this.options = {viewPath: process.cwd()+"/templates/emkts/", extName: ".hbs"};
 
         this.connected = false;
-        this.transporter;
+        this.transporter = null;
         return this;
     }
 

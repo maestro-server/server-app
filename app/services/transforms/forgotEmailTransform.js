@@ -5,7 +5,7 @@ const Crypto = require('../../repositories/crypto/crypto');
 
 module.exports = function (user, body) {
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
 
         const crypt = Crypto.encrypt(
             JSON.stringify(user)

@@ -38,13 +38,13 @@ class UsersRepository extends Repository {
                 .then((e) => {
                     return activeTransform.active(e);
                 })
-                .then((filters) => {
+                .then((e) => {
                     return UserDao
                         .limit(limit)
                         .skip(skip)
                         .sort('created_at', -1)
                         .include(this.resFilled)
-                        .find(filters)
+                        .find(e);
                 })
                 .then((e) => {
                     return clearDaoTransform(e);
@@ -68,9 +68,9 @@ class UsersRepository extends Repository {
                 .then((e) => {
                     return activeTransform.active(e);
                 })
-                .then((filters) => {
+                .then((e) => {
                     return UserDao
-                        .count(filters)
+                        .count(e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -91,12 +91,12 @@ class UsersRepository extends Repository {
             let {password} = body;
 
             validAuth(body)
-                .then((e) => {
+                .then(() => {
                     return UserDao
-                        .findOne({email})
+                        .findOne({email});
                 })
                 .then((e) => {
-                    return validPassMatch(password, e)
+                    return validPassMatch(password, e);
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);
@@ -116,14 +116,14 @@ class UsersRepository extends Repository {
         return new Promise((resolve, reject) => {
 
             activeTransform.active(filter)
-                .then((filter) => {
+                .then((e) => {
                     return UserDao
                         .include(this.resFilled)
-                        .findOne(filter)
+                        .findOne(e);
                 })
                 .then((e) => {
                     if (e)
-                        e = e.get()
+                        e = e.get();
 
                     resolve(e);
                 })
@@ -145,7 +145,7 @@ class UsersRepository extends Repository {
 
             filledTransform(user, this.filled)
                 .then((e) => {
-                    return validUser(e)
+                    return validUser(e);
                 })
                 .then((e) => {
                     return new UserDao(e)
@@ -158,7 +158,7 @@ class UsersRepository extends Repository {
                     return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -181,7 +181,7 @@ class UsersRepository extends Repository {
                     return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -205,13 +205,13 @@ class UsersRepository extends Repository {
                     return activeTransform.active(e);
                 })
                 .then((e) => {
-                    return new UserDao(e).save()
+                    return new UserDao(e).save();
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);
@@ -242,7 +242,7 @@ class UsersRepository extends Repository {
                      return filledTransform(e.get(), this.resFilled);
                 })
                 .then((e) => {
-                    resolve(e)
+                    resolve(e);
                 })
                 .catch((err) => {
                     reject(err);

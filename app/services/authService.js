@@ -57,7 +57,7 @@ class AuthService {
                             e.email,
                             "Maestro Server - Recovery Password",
                             "forgot",
-                            e)
+                            e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -70,7 +70,7 @@ class AuthService {
         });
     }
 
-    static changePassword(body, header) {
+    static changePassword(body) {
 
         return new Promise(function (resolve, reject) {
 

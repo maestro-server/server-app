@@ -1,7 +1,6 @@
 'use strict';
 
 const {Model} = require('mongorito');
-const toObjectId = require('mongorito/util/to-objectid');
 
 
 class Dao extends Model {

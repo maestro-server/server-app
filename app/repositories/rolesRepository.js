@@ -21,6 +21,7 @@ class RolesRepository extends Repository {
      */
     constructor(dao, resFilled = null, filled = null) {
         super();
+        this.setResFilled(resFilled);
         this.setFilled(filled || ['id', 'role', 'refs']);
 
         this.dao = dao;

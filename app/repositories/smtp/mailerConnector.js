@@ -4,7 +4,7 @@ const Mailer = require('./factoryMailer');
 class mailerConnector {
 
     constructor() {
-        this.mailer = new Mailer()
+        this.mailer = new Mailer();
 
         this.mailer
             .connect()

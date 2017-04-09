@@ -56,7 +56,7 @@ class ProjectsService {
             accessMergeCollectionTransform([owner._id], 'owner._id', {_id})
                 .then((e) => {
                     return new ProjectRepository()
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     return refsTransform(e, 'members');
@@ -78,7 +78,7 @@ class ProjectsService {
             accessMergeCollectionTransform([owner._id], 'owner._id', {_id})
                 .then((e) => {
                     return new ProjectRepository()
-                        .update(e, project)
+                        .update(e, project);
                 })
                 .then((e) => {
                     return singleTransform(e, 'teams');
@@ -101,7 +101,7 @@ class ProjectsService {
             accessMergeCollectionTransform([owner._id], 'owner._id', {_id})
                 .then((e) => {
                     return new ProjectRepository()
-                        .remove(e)
+                        .remove(e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -123,7 +123,7 @@ class ProjectsService {
             merger(project, {owner})
                 .then((e) => {
                     return new ProjectRepository()
-                        .create(e)
+                        .create(e);
                 })
                 .then((e) => {
                     return singleTransform(e, 'projects');
@@ -144,20 +144,16 @@ class ProjectsService {
 
         return new Promise(function (resolve, reject) {
 
-            const limit = parseInt(query.limit) || 20;
-            const page = parseInt(query.page) || 1;
-            const skip = limit * (page - 1);
-
             accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
                 .then((e) => {
                     return new TeamRepository()
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     return validAccessService(e);
                 })
                 .then((e) => {
-                    return ProjectsService.find(query, e)
+                    return ProjectsService.find(query, e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -173,20 +169,17 @@ class ProjectsService {
 
         return new Promise(function (resolve, reject) {
 
-            const limit = parseInt(query.limit) || 20;
-            const page = parseInt(query.page) || 1;
-            const skip = limit * (page - 1);
 
             accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
                 .then((e) => {
                     return new TeamRepository()
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     return validAccessService(e);
                 })
                 .then((e) => {
-                    return ProjectsService.findOne(_idu, e)
+                    return ProjectsService.findOne(_idu, e);
                 })
                 .then((e) => {
                     resolve(e);
@@ -205,13 +198,13 @@ class ProjectsService {
             accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
                 .then((e) => {
                     return new TeamRepository()
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     return validAccessService(e);
                 })
                 .then((e) => {
-                    return ProjectsService.create(project, formatFactoryRefs(e, 'teams'))
+                    return ProjectsService.create(project, formatFactoryRefs(e, 'teams'));
                 })
                 .then((e) => {
                     resolve(e);
@@ -258,14 +251,14 @@ class ProjectsService {
             accessMergeTransform(owner, "members", {_id}, Access.ROLE_ADMIN)
                 .then((e) => {
                     return new TeamRepository()
-                        .findOne(e)
+                        .findOne(e);
                 })
                 .then((e) => {
                     return validAccessService(e);
                 })
                 .then((e) => {
                     return ProjectsService
-                        .remove(_idu, e)
+                        .remove(_idu, e);
                 })
                 .then((e) => {
                     resolve(e);

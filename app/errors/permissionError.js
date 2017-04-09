@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 function PermissionError (message='permission error') {
-    this.name = 'PermissionError'
+    this.name = 'PermissionError';
     this.message = message;
 }
 
