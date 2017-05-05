@@ -9,6 +9,6 @@ const Mongorito = require('mongorito');
 module.exports =  function connect() {
     run(function *() {
         yield Mongorito.connect(process.env.MONGO_URL);
-        console.log('connecting DONE');
+        console.log('connecting MongoAPI DONE');
     });
 };
