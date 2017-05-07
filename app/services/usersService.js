@@ -78,7 +78,10 @@ class UsersService {
         return new Promise(function (resolve, reject) {
 
             new UserRepository()
-                .find({_id}, 1, 0)
+                .findOne({_id})
+                .then((e) => {
+                    return validNotFound(e);
+                })
                 .then((e) => {
                     resolve(e);
                 })

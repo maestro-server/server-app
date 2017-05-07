@@ -9,9 +9,7 @@ module.exports = function (router) {
 
     router
         .get('/', authenticate(), function (req, res, next) {
-
             next(req);
-
         })
 
         .post('/', function (req, res, next) {
