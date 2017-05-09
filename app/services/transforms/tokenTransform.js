@@ -8,7 +8,8 @@ module.exports = function (user) {
     return new Promise((resolve) => {
         resolve(
           {
-            token: jwt.encode(user, config.jwtSecret.secretOrKey)
+            token: jwt.encode(user, config.jwtSecret.secretOrKey),
+            user
           }
         );
 
