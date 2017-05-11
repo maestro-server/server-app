@@ -6,7 +6,7 @@ module.exports = function(password, obj) {
 
     return new Promise((resolve) => {
 
-      if(obj.passwordMatches(password)) {
+      if(obj && obj.passwordMatches(password)) {
         resolve(obj);
         return;
       }
