@@ -118,7 +118,7 @@ class UsersRepository extends Repository {
             activeTransform.active(filter)
                 .then((e) => {
                     return UserDao
-                        .include(this.resFilled)
+                        .exclude(['password', 'created_at', 'updated_at'])
                         .findOne(e);
                 })
                 .then((e) => {
