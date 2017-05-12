@@ -10,6 +10,7 @@ const refsTransform = require('./transforms/refsTransform');
 const singleTransform = require('./transforms/singleTransform');
 const collectionTransform = require('./transforms/collectionTransform');
 const accessMergeTransform = require('./transforms/accessMergeTransform');
+const filledTransform = require('../repositories/transforms/filledTransform');
 
 const validNotFound = require('./validators/validNotFound');
 
@@ -109,11 +110,14 @@ class TeamsService {
         });
     }
 
-    static create(team, owner) {
+    static create(team, user) {
 
         return new Promise(function (resolve, reject) {
 
-            merger(team, {owner})
+          filledTransform(user, ['_id', 'name', 'email'])
+                .then((owner) => {
+                  return merger(team, {owner});
+                })
                 .then((e) => {
                     return new TeamRepository()
                         .create(e);
