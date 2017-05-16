@@ -26,7 +26,7 @@ class UsersRepository extends Repository {
     constructor(resFilled = null, filled = null) {
         super();
         this.setFilled(filled || ['name', 'fullname', 'email', 'password', 'phone', 'company', 'avatar', 'job', 'country', 'city', 'address']);
-        this.setResFilled(resFilled || ['_id', 'name', 'avatar']);
+        this.setResFilled(resFilled || ['_id', 'name', 'email', 'avatar']);
     }
 
 
