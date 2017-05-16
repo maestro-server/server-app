@@ -1,13 +1,12 @@
 'use strict';
 
-module.exports = function (_id, collection, fielder, entity={}, create=false) {
+module.exports = function (items, _ref, fielder, entity={}, create=false) {
 
     let enc = {
-        "_ref" : collection,
-        '_id': _id,
+        _ref
     };
 
-    enc = Object.assign(enc, entity);
+    enc = Object.assign(enc, items, entity);
 
     if (create)
         enc = [enc, ];

@@ -177,7 +177,7 @@ class TeamsRepository extends Repository {
                     return activeTransform.active(e);
                 })
                 .then((e) => {
-                    return merger(e, formatRefsCollection(e.owner._id, 'users', 'members', {role: Access.ROLE_ADMIN}, true));
+                    return merger(e, formatRefsCollection(e.owner, 'users', 'members', {role: Access.ROLE_ADMIN}, true));
                 })
                 .then((e) => {
                     return new TeamDao(e).save();
