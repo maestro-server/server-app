@@ -28,7 +28,7 @@ module.exports = function (router) {
 
         })
 
-        .put('/:id', authenticate(), function (req, res, next) {
+        .patch('/:id', authenticate(), function (req, res, next) {
 
             ProjectService.update(req.params.id, req.body, req.user)
                 .then(e => res.status(201).json(e))

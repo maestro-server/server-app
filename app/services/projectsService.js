@@ -1,11 +1,13 @@
 'use strict';
 
+const _ = require('lodash');
 const TeamRepository = require('../repositories/teamsRepository');
 const ProjectRepository = require('../repositories/projectsRepository');
 
 const merger = require('../repositories/transforms/mergeTransform');
 const refsTransform = require('./transforms/refsTransform');
 const singleTransform = require('./transforms/singleTransform');
+const filledTransform = require('../repositories/transforms/filledTransform');
 const collectionTransform = require('./transforms/collectionTransform');
 const accessMergeTransform = require('./transforms/accessMergeTransform');
 const accessMergeCollectionTransform = require('./transforms/accessMergeCollectionTransform');
@@ -113,14 +115,16 @@ class ProjectsService {
         });
     }
 
-    static create(project, owner) {
+    static create(project, user) {
 
         return new Promise(function (resolve, reject) {
 
-            if (owner.hasOwnProperty('_ref'))
-                owner._ref = 'users';
+          user = _.defaults(user, {'_ref': 'users'});
 
-            merger(project, {owner})
+          filledTransform(user, ['_id', 'name', 'email', '_ref'])
+                .then((owner) => {
+                  return merger(project, {owner});
+                })
                 .then((e) => {
                     return new ProjectRepository()
                         .create(e);

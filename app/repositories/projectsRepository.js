@@ -109,11 +109,11 @@ class ProjectsRepository extends Repository {
             this.excludeFilled('members');
             this.excludeFilled('qtds');
             this.excludeFilled('owner');
-
+            this.excludeFilled('owner._id');
 
             filledTransform(team, this.filled)
                 .then((e) => {
-                    return validProject(e);
+                  return validProject(e);
                 })
                 .then((e) => {
                     return new ProjectDao(e)
