@@ -76,7 +76,7 @@ class TeamsService {
 
         return new Promise(function (resolve, reject) {
 
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_ADMIN)
                 .then((e) => {
                     return new TeamRepository()
                         .update(e, team);

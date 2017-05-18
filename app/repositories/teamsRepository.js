@@ -10,6 +10,7 @@ const validAccessUpdater = require('./validators/validAccessUpdater');
 const filledTransform = require('./transforms/filledTransform');
 const activeTransform = require('./transforms/activeTransform');
 const clearDaoTransform = require('./transforms/clearDaoTransform');
+const membersTransform = require('./transforms/membersTransform.js');
 
 const merger = require('./transforms/mergeTransform');
 
@@ -112,7 +113,6 @@ class TeamsRepository extends Repository {
 
         return new Promise((resolve, reject) => {
 
-            this.excludeFilled('members');
             this.excludeFilled('qtds');
             this.excludeFilled('owner');
 
@@ -120,6 +120,9 @@ class TeamsRepository extends Repository {
             filledTransform(team, this.filled)
                 .then((e) => {
                     return validTeam(e);
+                })
+                .then((e) => {
+                    return membersTransform(e);
                 })
                 .then((e) => {
                     return new TeamDao(e)
