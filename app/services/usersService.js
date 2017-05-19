@@ -1,6 +1,7 @@
 'use strict';
 
 const UserRepository = require('../repositories/usersRepository');
+const uploaderService = require('./libs/uploaderService');
 
 const singleTransform = require('./transforms/singleTransform');
 const collectionTransform = require('./transforms/collectionTransform');
@@ -133,6 +134,22 @@ class UsersService {
                 .then((e) => {
                     return singleTransform(e, 'users');
                 })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+
+    }
+
+    static uploadAvatar(query, owner) {
+
+        return new Promise(function (resolve, reject) {
+            new uploaderService(UserRepository)
+                .uploadImage(owner._id, query.filetype)
                 .then((e) => {
                     resolve(e);
                 })
