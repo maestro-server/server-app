@@ -52,6 +52,27 @@ class ProjectsService {
 
     }
 
+    static autocomplete(query, owner) {
+
+        return new Promise(function (resolve, reject) {
+
+            let  name;
+            if (query.hasOwnProperty('complete')) {
+                name = {$regex:query.complete};
+            }
+
+            ProjectsService
+                .find({name}, owner)
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+    }
+
     static findOne(_id, owner) {
         return new Promise(function (resolve, reject) {
 

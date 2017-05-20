@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const TeamRepository = require('../repositories/teamsRepository');
 
 const RolesService = require('./libs/rolesService');
@@ -49,6 +50,27 @@ class TeamsService {
 
         });
 
+    }
+
+    static autocomplete(query, owner) {
+
+        return new Promise(function (resolve, reject) {
+
+            let  name;
+            if (query.hasOwnProperty('complete')) {
+                name = {$regex:query.complete, '$options' : 'i'};
+            }
+
+            TeamsService
+                .find({name}, owner)
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
     }
 
     static findOne(_id, owner, access=Access.ROLE_READ) {
