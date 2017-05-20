@@ -1,7 +1,6 @@
 'use strict';
 
 const UserService = require('../../services/usersService');
-
 const authenticate = require('../../middlewares/authenticate');
 
 
@@ -18,7 +17,16 @@ module.exports = function (router) {
 
         })
 
-        .get('/:id', function (req, res, next) {
+        .get('/upload', authenticate(), function (req, res, next) {
+
+            UserService.uploadAvatar(req.query, req.user)
+                .then(e => res.json(e))
+                .catch(function(e) {
+                    next(e);
+                });
+        })
+
+        .get('/:id', authenticate(), function (req, res, next) {
 
             UserService.publicFindOne(req.params.id)
                 .then(e => res.json(e))
