@@ -139,13 +139,14 @@ class UsersRepository extends Repository {
 
         return new Promise((resolve, reject) => {
 
-            this.excludeFilled('email');
             this.excludeFilled('password');
-
 
             filledTransform(user, this.filled)
                 .then((e) => {
                     return validUser(e);
+                })
+                .then((e) => {
+                  return e.email ? validDuplicate(e) : e;
                 })
                 .then((e) => {
                     return new UserDao(e)
@@ -221,37 +222,6 @@ class UsersRepository extends Repository {
 
     }
 
-    changeEmail(user) {
-
-        return new Promise((resolve, reject) => {
-
-            filledTransform(user, this.filled)
-                .then((e) => {
-                    return validNewUser(e);
-                })
-                .then((e) => {
-                    return validDuplicate(e);
-                })
-                .then((e) => {
-                    return activeTransform.active(e);
-                })
-                .then((e) => {
-                    return new UserDao(e).save();
-                })
-                .then((e) => {
-                    return filledTransform(e.get(), this.resFilled);
-                })
-                .then((e) => {
-                    resolve(e);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-
-        });
-
-    }
-
 
     changePass(id, user) {
 
@@ -262,7 +232,6 @@ class UsersRepository extends Repository {
             filledTransform(user, this.filled)
                 .then((e) => {
                     id = formatObjectId(id);
-
                     return new UserDao(e)
                         .updateAndModify(id);
                 })

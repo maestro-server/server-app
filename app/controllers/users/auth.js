@@ -12,6 +12,16 @@ module.exports = function (router) {
             next(req);
         })
 
+        .patch('/pass', authenticate(), function (req, res, next) {
+
+            AuthService.updateExistPassword(req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(function(e) {
+                    next(e);
+                });
+
+        })
+
         .post('/', function (req, res, next) {
 
             AuthService

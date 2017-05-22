@@ -20,7 +20,7 @@ module.exports = function (router) {
         .put('/change', function (req, res, next) {
 
           AuthService
-              .changePassword(req.body, req.header)
+              .updateForgotPassword(req.body, req.header)
               .then(e => res.status(204).json(e))
               .catch(function (e) {
                   next(e);

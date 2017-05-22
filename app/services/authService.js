@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const tokenTransform = require('./transforms/tokenTransform');
 const UserRepository = require('../repositories/usersRepository');
 
@@ -70,7 +71,7 @@ class AuthService {
         });
     }
 
-    static changePassword(body) {
+    static updateForgotPassword(body) {
 
         return new Promise(function (resolve, reject) {
 
@@ -81,6 +82,30 @@ class AuthService {
                 .then((e) => {
                     return new UserRepository()
                         .changePass(e, body);
+                })
+                .then((e) => {
+                    return validAccessService(e);
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+    }
+
+    static updateExistPassword(body) {
+
+        return new Promise(function (resolve, reject) {
+
+            AuthService
+                .authenticate(body)
+                .then((e) => {
+                    const data = {'password': _.get(body, 'newpass')};
+                    return new UserRepository()
+                        .changePass(_.get(e, 'user'), data);
                 })
                 .then((e) => {
                     return validAccessService(e);
