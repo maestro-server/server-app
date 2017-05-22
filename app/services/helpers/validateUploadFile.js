@@ -1,5 +1,7 @@
 'use strict';
 
+const ValidatorError = require('../../errors/validatorError');
+
 class validateFile {
 
     constructor(file, opts) {
@@ -38,15 +40,23 @@ class validateFile {
     }
 
     pass() {
-        if(
-            this.sizeValidate() &&
-            this.typeValidate()
-        )
-        {
+        if (this.sizeValidate() && this.typeValidate()) {
             return true;
         }
 
         return false;
+    }
+
+    check() {
+        return new Promise((resolve) => {
+
+            if (!this.typeValidate()) {
+                const message = this.error.reduce((a, b) => `${a}, ${b}`);
+                throw new ValidatorError(message);
+            }
+
+            resolve();
+        });
     }
 }
 

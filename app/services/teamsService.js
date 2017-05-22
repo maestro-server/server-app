@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 const TeamRepository = require('../repositories/teamsRepository');
+const uploaderService = require('./libs/uploaderService');
 
 const RolesService = require('./libs/rolesService');
 const TeamDAO = require('../repositories/daos/team');
@@ -177,6 +178,22 @@ class TeamsService {
 
         return new RolesService(TeamDAO)
             .deleteRoles(_id, _idu, owner);
+    }
+
+    static uploadAvatar(query, owner) {
+
+        return new Promise(function (resolve, reject) {
+            new uploaderService("teams")
+                .uploadImage(owner._id, query.filetype)
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+
     }
 }
 

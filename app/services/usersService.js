@@ -19,9 +19,9 @@ class UsersService {
             const skip = limit * (page - 1);
 
             Promise.all([
-                    new UserRepository().find(query, limit, skip),
-                    new UserRepository().count(query)
-                ])
+                new UserRepository().find(query, limit, skip),
+                new UserRepository().count(query)
+            ])
                 .then((e) => {
                     return validNotFound(e, e[1], limit, page);
                 })
@@ -43,9 +43,9 @@ class UsersService {
 
         return new Promise(function (resolve, reject) {
 
-            let  email;
+            let email;
             if (query.hasOwnProperty('complete')) {
-                email = {$regex:query.complete};
+                email = {$regex: query.complete};
             }
 
             UsersService
@@ -148,7 +148,7 @@ class UsersService {
     static uploadAvatar(query, owner) {
 
         return new Promise(function (resolve, reject) {
-            new uploaderService(UserRepository)
+            new uploaderService("users")
                 .uploadImage(owner._id, query.filetype)
                 .then((e) => {
                     resolve(e);

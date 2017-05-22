@@ -22,6 +22,15 @@ module.exports = function (router) {
 
         })
 
+        .get('/upload', authenticate(), function (req, res, next) {
+
+            TeamService.uploadAvatar(req.query, req.user)
+                .then(e => res.json(e))
+                .catch(function(e) {
+                    next(e);
+                });
+        })
+
         .get('/:id', authenticate(), function (req, res, next) {
 
             TeamService.findOne(req.params.id, req.user)

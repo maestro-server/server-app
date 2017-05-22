@@ -221,6 +221,37 @@ class UsersRepository extends Repository {
 
     }
 
+    changeEmail(user) {
+
+        return new Promise((resolve, reject) => {
+
+            filledTransform(user, this.filled)
+                .then((e) => {
+                    return validNewUser(e);
+                })
+                .then((e) => {
+                    return validDuplicate(e);
+                })
+                .then((e) => {
+                    return activeTransform.active(e);
+                })
+                .then((e) => {
+                    return new UserDao(e).save();
+                })
+                .then((e) => {
+                    return filledTransform(e.get(), this.resFilled);
+                })
+                .then((e) => {
+                    resolve(e);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
+
+    }
+
 
     changePass(id, user) {
 
