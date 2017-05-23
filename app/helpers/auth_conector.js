@@ -24,7 +24,7 @@ module.exports = function() {
 
                     return done(new PermissionError("User not found"), false);
                 })
-                .catch(error => done(error, null));
+                .catch(error => {done(error, null)});
         }
 
     });
