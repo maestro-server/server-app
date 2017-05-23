@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const TeamRepository = require('../repositories/teamsRepository');
 const uploaderService = require('./libs/uploaderService');
 

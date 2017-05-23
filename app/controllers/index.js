@@ -4,9 +4,7 @@
 module.exports = function (router) {
 
     router.get('/', function (req, res) {
-
-        res.send('ok');
-
+      res.json({app:"Maestro Server", version: "0.1.0"})
     });
 
 };

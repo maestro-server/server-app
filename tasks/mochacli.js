@@ -12,7 +12,7 @@ module.exports = function mochacli(grunt) {
             timeout: 6000,
             'check-leaks': true,
             ui: 'bdd',
-            reporter: 'nyan' //spec, tap
+            reporter: 'spec' //spec, tap
         }
     };
 };

@@ -15,16 +15,17 @@ describe('index', function () {
 
 
     beforeEach(function (done) {
-        app = express();
-        app.on('start', done);
+      require('dotenv').config();
+      process.env.NODE_ENV = 'test';
 
+       app = require('../app/app');
 
-        app.use(kraken({
-            basedir: path.resolve(__dirname, '../app/')
-        }));
+       app.use(kraken({
+           basedir: path.resolve(__dirname, '../app/')
+       }));
 
-        mock = app.listen(1337);
-
+       app.once('start', done);
+       mock = app.listen(1337);
     });
 
 
@@ -35,14 +36,13 @@ describe('index', function () {
 
     it('should have model name "index"', function (done) {
         request(mock)
-            .get('/')
+            .get('/users')
             .expect(200)
-            .expect('Content-Type', /html/)
-
-                .expect("ok")
-
+            .expect('Content-Type', /json/)
+            .expect(/Maestro/)
             .end(function (err) {
-                done(err);
+              if (err) return done(err);
+              done(err);
             });
     });
 
