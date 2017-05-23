@@ -1,11 +1,11 @@
 'use strict';
 
-const toObjectId = require('mongorito/util/to-objectid');
+const {ObjectId} = require('mongorito');
 
 module.exports = function (_id, fielder) {
 
     let enc = {
-        '_id': toObjectId(_id),
+        '_id': ObjectId(_id),
     };
 
 

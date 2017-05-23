@@ -1,6 +1,6 @@
 'use strict';
 
-const toObjectId = require('mongorito/util/to-objectid');
+const {ObjectId} = require('mongorito');
 
 const Access = require('../../entities/accessRole');
 
@@ -10,7 +10,7 @@ function makeAccess (owner, fielder, access) {
   if (!_id)
     return false;
 
-  const newId = toObjectId(_id);
+  const newId = ObjectId(_id);
 
   return {
     [fielder]:  {
@@ -27,7 +27,7 @@ module.exports = function (owner, fielder, trans = {}, access=Access.ROLE_READ) 
         let merge = false;
 
         if (trans.hasOwnProperty('_id'))
-            trans._id = toObjectId(trans._id);
+            trans._id = ObjectId(trans._id);
 
         if (Array.isArray(owner)) {
           const roles = owner.map((e) => makeAccess(e, fielder, access));

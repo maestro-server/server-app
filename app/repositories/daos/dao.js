@@ -10,7 +10,6 @@ class Dao extends Model {
     }
 
     updateAndModify(filter) {
-        this.set('updated_at', new Date());
 
         return this.updateFactory(filter, '$set');
     }
@@ -26,6 +25,7 @@ class Dao extends Model {
     }
 
     updateFactory(entity, entry, options) {
+        this.set('updated_at', new Date());
 
         return this._collection()
             .tap(() => {
