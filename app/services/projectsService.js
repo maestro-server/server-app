@@ -169,7 +169,7 @@ class ProjectsService {
 
         return new Promise(function (resolve, reject) {
 
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_READ)
                 .then((e) => {
                     return new TeamRepository()
                         .findOne(e);
@@ -195,7 +195,7 @@ class ProjectsService {
         return new Promise(function (resolve, reject) {
 
 
-            accessMergeTransform(owner, "members", {_id}, Access.ROLE_WRITER)
+            accessMergeTransform(owner, "members", {_id}, Access.ROLE_READ)
                 .then((e) => {
                     return new TeamRepository()
                         .findOne(e);
