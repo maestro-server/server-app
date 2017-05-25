@@ -1,17 +1,15 @@
 'use strict';
 
-module.exports = function eslint(grunt) {
-    // Load task
-    grunt.loadNpmTasks('grunt-eslint');
+let gulp = require('gulp'),
+    eslint = require('gulp-eslint');
 
-    // Options
-    return {
-        options: {
-            configFile: '.eslintrc'
-        },
-        target: ['index.js',
-            'server.js',
-            'app/**/*.js'
-        ]
-    };
+
+module.exports = function (gulp, $) {
+
+    gulp.task('eslint', function () {
+        return gulp.src(['**/*.js','!node_modules/**'])
+            .pipe(eslint())
+            .pipe(eslint.format())
+            .pipe(eslint.failAfterError());
+    });
 };

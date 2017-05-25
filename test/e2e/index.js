@@ -9,10 +9,9 @@ let kraken = require('kraken-js'),
     request = require('supertest');
 
 
-describe('build - server up', function () {
+describe('index', function () {
 
     let app, mock;
-
 
     beforeEach(function (done) {
       require('dotenv').config();
@@ -21,7 +20,7 @@ describe('build - server up', function () {
        app = express();
 
        app.use(kraken({
-           basedir: path.resolve(__dirname, '../app/')
+           basedir: path.resolve(__dirname, '../../app/')
        }));
 
        app.once('start', done);
@@ -34,7 +33,7 @@ describe('build - server up', function () {
     });
 
 
-    it('Welcome mensagem', function (done) {
+    it('should have model name "index"', function (done) {
         request(mock)
             .get('/')
             .expect(200)
