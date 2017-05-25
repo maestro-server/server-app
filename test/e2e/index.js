@@ -15,13 +15,11 @@ describe('e2e - server up', function () {
 
 
     before(function (done) {
-        require('dotenv').config();
-        process.env.NODE_ENV = 'test';
-
+        require('dotenv').config({path: '.env.test'});
         app = express();
 
         app.use(kraken({
-            basedir: path.resolve(__dirname, '../app/')
+            basedir: path.resolve(__dirname, '../../app/')
         }));
 
         app.once('start', done);
