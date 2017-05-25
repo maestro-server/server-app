@@ -9,39 +9,40 @@ let kraken = require('kraken-js'),
     request = require('supertest');
 
 
-describe('index', function () {
+describe('e2e - server up', function () {
 
     let app, mock;
 
-    beforeEach(function (done) {
-      require('dotenv').config();
-      process.env.NODE_ENV = 'test';
 
-       app = express();
+    before(function (done) {
+        require('dotenv').config();
+        process.env.NODE_ENV = 'test';
 
-       app.use(kraken({
-           basedir: path.resolve(__dirname, '../../app/')
-       }));
+        app = express();
 
-       app.once('start', done);
-       mock = app.listen(1337);
+        app.use(kraken({
+            basedir: path.resolve(__dirname, '../app/')
+        }));
+
+        app.once('start', done);
+        mock = app.listen(1337);
     });
 
 
-    afterEach(function (done) {
+    after(function (done) {
         mock.close(done);
     });
 
 
-    it('should have model name "index"', function (done) {
+    it('Welcome msg', function (done) {
         request(mock)
             .get('/')
             .expect(200)
             .expect('Content-Type', /json/)
-            .expect(/Maestro/)
+            .expect(/Maestro\ Server/)
             .end(function (err) {
-              if (err) return done(err);
-              done(err);
+                if (err) return done(err);
+                done(err);
             });
     });
 
