@@ -12,8 +12,7 @@ module.exports = function (gulp, $) {
             .pipe(mocha({
                 timeout: 6000,
                 'check-leaks': true,
-                ui: 'bdd',
-                reporter: 'tap' //spec, tap
+                ui: 'bdd'
             }));
     });
 };
