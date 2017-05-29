@@ -8,6 +8,7 @@ const collectionTransform = require('./transforms/collectionTransform');
 
 const validNotFound = require('./validators/validNotFound');
 
+
 class UsersService {
 
     static find(query) {
@@ -112,6 +113,7 @@ class UsersService {
     static remove(_id) {
 
         return new Promise(function (resolve, reject) {
+
 
             new UserRepository()
                 .remove(_id)

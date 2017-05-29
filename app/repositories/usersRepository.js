@@ -16,6 +16,9 @@ const activeTransform = require('./transforms/activeTransform');
 const clearDaoTransform = require('./transforms/clearDaoTransform');
 const formatObjectId = require('./format/formatObjectId');
 
+
+const {ObjectId} = require('mongorito');
+
 class UsersRepository extends Repository {
 
     /**
@@ -173,10 +176,14 @@ class UsersRepository extends Repository {
 
         return new Promise((resolve, reject) => {
 
+
+            _id = ObjectId(_id);
+
+
             activeTransform.desactive({})
                 .then((e) => {
                     return new UserDao(e)
-                        .updateAndModify(_id);
+                        .updateAndModify({_id});
                 })
                 .then((e) => {
                     return filledTransform(e.get(), this.resFilled);

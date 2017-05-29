@@ -3,8 +3,8 @@
 const express = require('express');
 const kraken = require('kraken-js');
 
-const db_connect = require('./helpers/db_connect');
-
+const db_connect = require('./helpers/db_run');
+const Mongorito = require('mongorito');
 /*
  * Create and configure application. Also exports application instance for use by tests.
  * See https://github.com/krakenjs/kraken-js#options for additional configuration options.
@@ -16,13 +16,16 @@ let options = {
          * `confit` (https://github.com/krakenjs/confit/) configuration object.
          */
 
-        db_connect(); // connect with mongorito
-
-        next(null, config);
+        db_connect(function *() {
+            yield Mongorito.connect(process.env.MONGO_URL);
+            next(null, config);
+            console.log("Mongo online");
+        });
     }
 };
 
 let app = module.exports = express();
+
 app.use(kraken(options));
 
 

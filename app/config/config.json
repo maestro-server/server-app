@@ -3,7 +3,6 @@
         "contentPath": "path:./locales",
         "fallback": "en-US"
     },
-
     "middleware": {
         "appsec": {
             "priority": 110,
@@ -16,13 +15,15 @@
                 ]
             }
         },
-
         "router": {
             "module": {
-                "arguments": [{ "directory": "path:./controllers" }]
+                "arguments": [
+                    {
+                        "directory": "path:./controllers"
+                    }
+                ]
             }
         },
-
         "json": {
             "priority": 30,
             "module": {
@@ -30,60 +31,57 @@
                 "method": "json"
             }
         },
-
         "cors": {
             "priority": 45,
             "module": "path:./middlewares/cors"
         },
-
         "url-encoded": {
             "priority": 30,
             "module": {
                 "name": "body-parser",
                 "method": "urlencoded",
-                "arguments": [{"extended":true}]
+                "arguments": [
+                    {
+                        "extended": true
+                    }
+                ]
             }
         },
-
         "filter": {
             "enabled": true,
             "priority": 40,
             "module": {
                 "name": "content-filter",
-                "arguments": [{"dispatchToErrorHandler": true}]
+                "arguments": [
+                    {
+                        "dispatchToErrorHandler": true
+                    }
+                ]
             }
         },
-
         "tokenization": {
             "priority": 45,
             "module": "path:./middlewares/tokenization"
         },
-
         "notFound": {
             "priority": 130,
             "module": "path:./middlewares/404"
         },
-
-
         "validatorResponse": {
             "priority": 135,
             "module": "path:./middlewares/validatorResponse"
         },
-
         "permissionResponse": {
             "priority": 136,
             "module": "path:./middlewares/permissionResponse"
         },
-
         "conflictResponse": {
             "priority": 138,
             "module": "path:./middlewares/conflicResponse"
         },
-
         "errorResponse": {
             "priority": 140,
             "module": "path:./middlewares/errorCatcher"
         }
-
     }
 }
