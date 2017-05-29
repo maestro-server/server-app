@@ -18,12 +18,18 @@ class factoryMailer {
         let smtpConfig = {
             host: process.env.SMTP_HOST,
             port: process.env.SMTP_PORT,
-            secure: process.env.SMTP_USETSL,
-            auth: {
-                user: process.env.SMTP_USERNAME,
-                pass: process.env.SMTP_PASSWORD
-            }
+            ignoreTLS: process.env.SMTP_IGNORE
         };
+
+        if(process.env.SMTP_USETSL) {
+            Object.assign(smtpConfig, {
+                secure: process.env.SMTP_USETSL,
+                auth: {
+                    user: process.env.SMTP_USERNAME,
+                    pass: process.env.SMTP_PASSWORD
+                }
+            });
+        }
 
 
         return new Promise((resolve, reject) => {

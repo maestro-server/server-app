@@ -27,7 +27,7 @@ module.exports = function (router) {
 
         })
 
-        .delete('/', authenticate(), function (req, res) {
+        .delete('/', authenticate(), function (req, res, next) {
 
             UserService.remove(req.user._id)
                 .then(e => res.status(204).json(e))

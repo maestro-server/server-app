@@ -33,6 +33,8 @@
     "passport-jwt": "^2.2.1"
   },
   "devDependencies": {
+    "chai": "^4.0.0",
+    "database-cleaner": "^1.2.0",
     "eslint": "^3.19.0",
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.1",
