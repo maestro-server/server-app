@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  maildev:
+    image: djfarrelly/maildev
+    ports:
+      - "1025:25"
+      - "1080:80"

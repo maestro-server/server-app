@@ -348,7 +348,7 @@ describe('e2e users: user - create, update, delete', function () {
 
     describe('e2e teams: add members', function () {
         it('Exist members - valid data to add members', function (done) {
-            const data = {role: "3", id: friend._id, refs: "users"};
+            const data = Object.assign(friend, {role: "3", id: friend._id, refs: "users"});
 
             request(mock)
                 .post('/teams/'+teams[0]._id+'/members')
@@ -426,7 +426,13 @@ describe('e2e users: user - create, update, delete', function () {
     });
 
     describe('e2e teams: delete team', function () {
-
+      request(mock)
+          .delete('/teams/'+teams[0]._id)
+          .expect(204)
+          .end(function (err) {
+              if (err) return done(err);
+              done(err);
+          });
     });
 
     describe('e2e teams: confirm to delete team', function () {
