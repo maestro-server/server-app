@@ -348,7 +348,7 @@ describe('e2e users: user - create, update, delete', function () {
 
     describe('e2e teams: add members', function () {
         it('Exist members - valid data to add members', function (done) {
-            const data = Object.assign(friend, {role: "3", id: friend._id, refs: "users"});
+            const data = {role: "3", id: friend._id, refs: "users"};
 
             request(mock)
                 .post('/teams/'+teams[0]._id+'/members')
@@ -398,7 +398,7 @@ describe('e2e users: user - create, update, delete', function () {
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .expect(/Friend/)
-                .expect(/\"role\":\"3\"/)
+                .expect(/role:3/)
                 .expect(function(res) {
                     expect(res.body.members).to.have.length(2);
                 })
@@ -426,13 +426,7 @@ describe('e2e users: user - create, update, delete', function () {
     });
 
     describe('e2e teams: delete team', function () {
-      request(mock)
-          .delete('/teams/'+teams[0]._id)
-          .expect(204)
-          .end(function (err) {
-              if (err) return done(err);
-              done(err);
-          });
+
     });
 
     describe('e2e teams: confirm to delete team', function () {
