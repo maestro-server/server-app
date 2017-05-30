@@ -1,0 +1,7 @@
+{
+  "name": "API-Server Maestro",
+  "version": "0.1.0",
+  "description": "API documentation - RestFull",
+  "title": "API - Maestro Server",
+  "url" : "https://localhost:8888/apidocs/v1"
+}

@@ -7,6 +7,7 @@ const authenticate = require('../../middlewares/authenticate');
 
 module.exports = function (router) {
 
+
     router
         .get('/', authenticate(), function (req, res, next) {
             next(req);
@@ -21,6 +22,21 @@ module.exports = function (router) {
                 });
 
         })
+
+        /**
+         * @api {post} /users/auth Login User
+         * @apiName Auth
+         * @apiGroup Auth
+         *
+         * @apiParam {String} username Your e-mail-address.
+         * @apiParam {String} password Your password.
+         *
+         *
+         * @apiSuccess {String} name Team name.
+         * @apiSuccess {String} email Team email.
+         * @apiSuccess {String} url Team url.
+         * @apiSuccess {Object} members Members.
+         */
 
         .post('/', function (req, res, next) {
 
