@@ -22,7 +22,7 @@ class RolesRepository extends Repository {
     constructor(dao, resFilled = null, filled = null) {
         super();
         this.setResFilled(resFilled);
-        this.setFilled(filled || ['id', 'role', 'refs']);
+        this.setFilled(filled || ['id', 'role', 'refs', 'name', 'email']);
 
         this.dao = dao;
     }
@@ -38,7 +38,7 @@ class RolesRepository extends Repository {
               })
               .then((e) => {
                   const role = parseInt(e.role);
-                  const id = e._id;
+                  const id = e.id;
                   const {refs} = e;
 
                   const arr = formatRefsCollection(id, refs, this.dao.role, {role});
