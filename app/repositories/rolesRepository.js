@@ -10,7 +10,7 @@ const filledTransform = require('./transforms/filledTransform');
 const formatRefsCollection = require('./format/formatRefsCollection');
 const formatDelCollection = require('./format/formatDelCollection');
 const formatNotEqual = require('./format/formatNotEqual');
-const formatObjectId = require('./format/formatObjectId');
+const {ObjectId} = require('mongorito');
 
 class RolesRepository extends Repository {
 
@@ -38,7 +38,7 @@ class RolesRepository extends Repository {
               })
               .then((e) => {
                   const role = parseInt(e.role);
-                  const {id} = formatObjectId(e);
+                  const id = e._id;
                   const {refs} = e;
 
                   const arr = formatRefsCollection(id, refs, this.dao.role, {role});
