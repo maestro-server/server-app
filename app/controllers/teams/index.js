@@ -11,6 +11,27 @@ const authenticate = require('../../middlewares/authenticate');
 
 module.exports = function (router) {
 
+  /**
+   * @api {get} /teams/:id Get list of yours teams
+   * @apiName Get Teams
+   * @apiGroup Teams
+   *
+   * @apiParam (Query) {String} [email] Filter by email.
+   * @apiParam (Query) {String} [name] Filter by name.
+   * @apiParam (Query) {String} [url] Filter by url.
+   *
+   * @apiPermission JWT
+   * @apiHeader (Auth) {String} Authorization JWT {Token}
+   *
+   * @apiError (Error) Unauthorized Invalid Token
+   *
+   * @apiSuccessExample {json} Success-Response:
+   *     HTTP/1.1 200 OK
+   *     {
+   *       "firstname": "John",
+   *       "lastname": "Doe"
+   *     }
+   */
     router
         .get('/', authenticate(), function (req, res, next) {
 
@@ -30,7 +51,26 @@ module.exports = function (router) {
                     next(e);
                 });
         })
-
+        /**
+         * @api {get} /teams/:id Get team information
+         * @apiName Get Single Team
+         * @apiGroup Teams
+         *
+         * @apiParam (Param) {String} id Teams unique ID.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token dont have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *       "firstname": "John",
+         *       "lastname": "Doe"
+         *     }
+         */
         .get('/:id', authenticate(), function (req, res, next) {
 
             TeamService.findOne(req.params.id, req.user)
@@ -51,7 +91,22 @@ module.exports = function (router) {
 
         })
 
-
+        /**
+         * @api {delete} /teams/:id Delete team
+         * @apiName Delete Single Team
+         * @apiGroup Teams
+         *
+         * @apiParam (Param) {String} id Teams unique ID.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token dont have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 204 OK
+         */
         .delete('/:id', authenticate(), function (req, res, next) {
 
             TeamService.remove(req.params.id, req.user)
@@ -96,7 +151,23 @@ module.exports = function (router) {
                 });
 
         })
-
+        /**
+         * @api {delete} /teams/:id/members/:idu Delete member team
+         * @apiName Delete Single Member of Team
+         * @apiGroup Teams
+         *
+         * @apiParam (Param) {String} id Teams unique ID.
+         * @apiParam (Param) {String} id Member unique ID.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token dont have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 204 OK
+         */
         .delete('/:id/members/:idu', authenticate(), function (req, res, next) {
 
             TeamService.deleteMember(req.params.id, req.params.idu, req.user)
@@ -150,7 +221,23 @@ module.exports = function (router) {
                     next(e);
                 });
         })
-
+        /**
+         * @api {delete} /teams/:id/projects/:idu Delete project team
+         * @apiName Delete Single Project of Team
+         * @apiGroup Teams
+         *
+         * @apiParam (Param) {String} id Teams unique ID.
+         * @apiParam (Param) {String} idu Project unique ID.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token dont have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 204 OK
+         */
         .delete('/:id/projects/:idu', authenticate(), function (req, res, next) {
 
             ProjectsService.deleteTeamProject(req.params.id, req.params.idu, req.user)
@@ -195,7 +282,23 @@ module.exports = function (router) {
                     next(e);
                 });
         })
-
+        /**
+         * @api {delete} /teams/:id/architectures/:idu Delete architectures team
+         * @apiName Delete Single Architectures of Team
+         * @apiGroup Teams
+         *
+         * @apiParam (Param) {String} id Teams unique ID.
+         * @apiParam (Param) {String} idu Member unique ID.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token dont have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 204 OK
+         */
         .delete('/:id/architectures/:idu', authenticate(), function (req, res, next) {
 
             ArchitecturesTeamService.deleteTeamArchitectures(req.params.id, req.params.idu, req.user)
@@ -239,7 +342,24 @@ module.exports = function (router) {
                     next(e);
                 });
         })
-
+        /**
+         * @api {delete} /teams/:id/architectures/:idu/roles/:ida Delete role architectures team
+         * @apiName Delete Role of architectures team
+         * @apiGroup Teams
+         *
+         * @apiParam (Param) {String} id Teams unique ID.
+         * @apiParam (Param) {String} idu Architecture unique ID.
+         * @apiParam (Param) {String} ida Role unique ID.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token dont have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 204 OK
+         */
         .delete('/:id/architectures/:idu/roles/:ida', authenticate(), function (req, res, next) {
 
             ArchitecturesTeamService.deleteRolesTeamArchitectures(req.params.id, req.params.idu, req.params.ida, req.user)
@@ -285,7 +405,23 @@ module.exports = function (router) {
                       next(e);
                   });
           })
-
+          /**
+           * @api {delete} /teams/:id/applications/:idu Delete application of team
+           * @apiName Delete Single application of Team
+           * @apiGroup Teams
+           *
+           * @apiParam (Param) {String} id Team unique ID.
+           * @apiParam (Param) {String} idu Application unique ID.
+           *
+           * @apiPermission JWT
+           * @apiHeader (Auth) {String} Authorization JWT {Token}
+           *
+           * @apiError (Error) PermissionError Token dont have permission
+           * @apiError (Error) Unauthorized Invalid Token
+           *
+           * @apiSuccessExample {json} Success-Response:
+           *     HTTP/1.1 204 OK
+           */
           .delete('/:id/applications/:idu', authenticate(), function (req, res, next) {
 
               ApplicationTeamService.deleteTeamApplication(req.params.id, req.params.idu, req.user)
@@ -327,7 +463,24 @@ module.exports = function (router) {
                     next(e);
                 });
         })
-
+        /**
+         * @api {delete} /teams/:id/projects/:idu Delete role of application team
+         * @apiName Delete Role of application Team
+         * @apiGroup Teams
+         *
+         * @apiParam (Param) {String} id Teams unique ID.
+         * @apiParam (Param) {String} idu Application unique ID.
+         * @apiParam (Param) {String} ida Role unique ID.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token dont have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 204 OK
+         */
         .delete('/:id/applications/:idu/roles/:ida', authenticate(), function (req, res, next) {
 
             ApplicationTeamService.deleteRolesTeamApplication(req.params.id, req.params.idu, req.params.ida, req.user)
