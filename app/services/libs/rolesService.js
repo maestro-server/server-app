@@ -52,8 +52,6 @@ class rolesService {
 
             accessMergeTransform(owner, this.entity.role, {_id}, Access.ROLE_ADMIN)
                 .then((e) => {
-
-
                     return this.repository
                         .save(e, roles);
                 })
