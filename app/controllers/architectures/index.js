@@ -73,7 +73,7 @@ module.exports = function (router) {
                 });
         })
 
-        .patch('/:id/roles/:idu', authenticate(), function (req, res, next) {
+        .put('/:id/roles/:idu', authenticate(), function (req, res, next) {
 
             ArchitecturesService.updateRoles(req.params.id, req.params.idu, req.body, req.user)
                 .then(e => res.status(201).json(e))
