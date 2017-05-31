@@ -354,7 +354,6 @@ describe('e2e users: user - create, update, delete', function () {
                 .post('/teams/'+teams[0]._id+'/members')
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
-                .expect((e) => console.log(e.body))
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .expect(/\"_ref\":\"users\"/)
