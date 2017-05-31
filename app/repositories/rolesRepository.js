@@ -50,6 +50,7 @@ class RolesRepository extends Repository {
                   const cc = _.pick(roles, 'name', 'email');
                   const clean = _.merge(cc, {_id});
 
+
                   const arr = formatRefsCollection(clean, refs, this.dao.role, {role});
                   formatNotEqual(filter, `${this.dao.role}._id`, _id);
 
