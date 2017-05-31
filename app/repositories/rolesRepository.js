@@ -10,7 +10,9 @@ const filledTransform = require('./transforms/filledTransform');
 const formatRefsCollection = require('./format/formatRefsCollection');
 const formatDelCollection = require('./format/formatDelCollection');
 const formatNotEqual = require('./format/formatNotEqual');
-const {ObjectId} = require('mongorito');
+
+const _ = require('lodash');
+const formtObjectId = require('./format/formatObjectId');
 
 class RolesRepository extends Repository {
 
@@ -37,12 +39,19 @@ class RolesRepository extends Repository {
                   return validAccess(e);
               })
               .then((e) => {
+                  roles = formtObjectId(roles);
+                  e = formtObjectId(e);
+
                   const role = parseInt(e.role);
-                  const id = e.id;
+                  const _id = e.id;
                   const {refs} = e;
 
-                  const arr = formatRefsCollection(id, refs, this.dao.role, {role});
-                  formatNotEqual(filter, `${this.dao.role}._id`, id);
+
+                  const cc = _.pick(roles, 'name', 'email');
+                  const clean = _.merge(cc, {_id});
+
+                  const arr = formatRefsCollection(clean, refs, this.dao.role, {role});
+                  formatNotEqual(filter, `${this.dao.role}._id`, _id);
 
                   return this.add(filter, arr);
               })
@@ -79,19 +88,19 @@ class RolesRepository extends Repository {
 
 
 
-    remove(id, idu) {
+    remove(filter, idu) {
 
         return new Promise((resolve, reject) => {
 
             const arr = formatDelCollection(idu, this.dao.role);
 
             new this.dao(arr)
-                .updateByPull(id)
+                .updateByPull(filter)
                 .then((e) => {
                     return validAccessUpdater(e);
                 })
                 .then(() => {
-                    resolve(id);
+                    resolve(filter);
                 })
                 .catch((err) => {
                     reject(err);
