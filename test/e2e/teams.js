@@ -348,7 +348,7 @@ describe('e2e users: user - create, update, delete', function () {
 
     describe('e2e teams: add members', function () {
         it('Exist members - valid data to add members', function (done) {
-            const data = {role: "3", id: friend._id, refs: "users"};
+            const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)
                 .post('/teams/'+teams[0]._id+'/members')
@@ -398,9 +398,9 @@ describe('e2e users: user - create, update, delete', function () {
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .expect(/Friend/)
-                .expect(/role:3/)
+                .expect(/\"role\"\:3/)
                 .expect(function(res) {
-                    expect(res.body.members).to.have.length(2);
+                    expect(res.body.members)  .to.have.length(2);
                 })
                 .end(function (err) {
                     if (err) return done(err);
@@ -410,27 +410,119 @@ describe('e2e users: user - create, update, delete', function () {
     });
 
     describe('e2e teams: update members', function () {
+        it('Exist members - update role member', function (done) {
+            request(mock)
+                .put('/teams/'+teams[0]._id+"/members/"+friend._id)
+                .send({role: "1", refs: "users", name: friend.name, email: friend.email})
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .expect(/\"role\"\:1/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
 
+        it('Exist members - update role member without token', function (done) {
+            request(mock)
+                .put('/teams/'+teams[0]._id+"/members/"+friend._id)
+                .send({role: "1", refs: "users", name: friend.name, email: friend.email})
+                .expect(401)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
     describe('e2e teams: confirm update members', function () {
-
+        it('Exist members - confirm my news members', function (done) {
+            request(mock)
+                .get('/teams/'+teams[0]._id)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .expect(/Friend/)
+                .expect(/\"role\"\:1/)
+                .expect(function(res) {
+                    expect(res.body.members)  .to.have.length(2);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
     describe('e2e teams: delete members', function () {
+        it('Exist members - delete member', function (done) {
+            request(mock)
+                .delete('/teams/'+teams[0]._id+"/members/"+friend._id)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(204)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
 
+        it('Exist members - delete member without token', function (done) {
+            request(mock)
+                .delete('/teams/'+teams[0]._id+"/members/"+friend._id)
+                .expect(401)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
     describe('e2e teams: confirm delete members', function () {
-
+        it('Exist members - confirm my news members', function (done) {
+            request(mock)
+                .get('/teams/'+teams[0]._id)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .expect(function(res) {
+                    expect(res.body.members)  .to.have.length(1);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
     describe('e2e teams: delete team', function () {
-
+        it('Exist members - delete my team', function (done) {
+            request(mock)
+                .delete('/teams/'+teams[0]._id)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(204)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
     describe('e2e teams: confirm to delete team', function () {
-
+        it('Exist members - delete my team', function (done) {
+            request(mock)
+                .get('/teams/')
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .expect(function(res) {
+                    expect(res.body.items).to.have.length(1);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
 });

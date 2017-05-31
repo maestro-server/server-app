@@ -30,7 +30,6 @@ class rolesService {
 
                     Object.assign(roles, {id: _idu});
 
-
                     return this.repository
                         .save(e, roles);
                 })

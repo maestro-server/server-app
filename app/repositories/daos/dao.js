@@ -21,7 +21,6 @@ class Dao extends Model {
     }
 
     updateByPull(filter) {
-
         return this.updateFactory(filter, '$pull');
     }
 
