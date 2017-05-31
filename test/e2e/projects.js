@@ -25,6 +25,12 @@ describe('e2e users: user - create, update, delete', function () {
         _id: null
     };
 
+    let projects = [{
+        name: "MyProject"
+    }, {
+        name: "SecondProject"
+    }];
+
 
     before(function (done) {
         require('dotenv').config({path: '.env.test'});
@@ -80,6 +86,285 @@ describe('e2e users: user - create, update, delete', function () {
                     done(err);
                 });
         });
+    });
+
+    describe('e2e projects: create project', function () {
+      it('Create project - create project', function (done) {
+          request(mock)
+              .post('/projects')
+              .send(projects[0])
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(201)
+              .expect('Content-Type', /json/)
+              .expect(/MyProject/)
+              .expect(/_id/)
+              .end(function (err) {
+                  if (err) return done(projecterr);
+                  done(err);
+              });
+      });
+
+      it('Create project - create project without token', function (done) {
+          request(mock)
+              .post('/projects')
+              .send(projects[0])
+              .expect(401)
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+
+      it('Create project - create second project', function (done) {
+          request(mock)
+              .post('/projects')
+              .send(projects[1])
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(201)
+              .expect('Content-Type', /json/)
+              .expect(/name/)
+              .expect(/_id/)
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+
+      it('Create project - validate fail project', function (done) {
+          request(mock)
+              .post('/projects')
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(422)
+              .expect('Content-Type', /json/)
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+    });
+
+    describe('e2e projects: read project', function () {
+      it('Exist project - list my project', function (done) {
+          request(mock)
+              .get('/projects')
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(200)
+              .expect('Content-Type', /json/)
+              .expect(/\"name\":\"MyProject\"/)
+              .expect(/_id/)
+              .expect(function(res) {
+                  expect(res.body.items).to.have.length(2);
+              })
+              .expect(function(res) {
+                  Object.assign(projects[0], res.body.items[0]);
+                  Object.assign(projects[1], res.body.items[1]);
+              })
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+
+      it('Exist project - list my project without token', function (done) {
+          request(mock)
+              .get('/projects')
+              .expect(401)
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+
+      it('Exist project - list my project with filter', function (done) {
+          request(mock)
+              .get('/projects')
+              .query({name: projects[0].name})
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(200)
+              .expect('Content-Type', /json/)
+              .expect(/name"/)
+              .expect(/_id/)
+              .expect(function(res) {
+                  expect(res.body.items).to.have.length(1);
+              })
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+
+      it('Exist project - see my new project', function (done) {
+          request(mock)
+              .get('/projects/'+projects[0]._id)
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(200)
+              .expect('Content-Type', /json/)
+              .expect(/name/)
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+
+      it('Exist project - see my new project without token', function (done) {
+          request(mock)
+              .get('/projects/'+projects[0]._id)
+              .expect(401)
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+
+      it('Exist project -  autocomplete', function (done) {
+          request(mock)
+              .get('/projects/autocomplete')
+              .query({complete: "My"})
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(200)
+              .expect('Content-Type', /json/)
+              .expect(/name"/)
+              .expect(/_id/)
+              .expect(function(res) {
+                  expect(res.body.items).to.have.length(1);
+              })
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+
+      it('Exist project -  autocomplete without token', function (done) {
+          request(mock)
+              .get('/projects/autocomplete')
+              .query({complete: "second"})
+              .expect(401)
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+    });
+
+    describe('e2e projects: update project', function () {
+      it('Exist project - update project with valid data', function (done) {
+          const data = Object.assign(projects[0], {name: "ChangeName"});
+
+          request(mock)
+              .patch('/projects/'+projects[0]._id)
+              .send(data)
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(202)
+              .expect('Content-Type', /json/)
+              .expect(/\"name\":\"ChangeName\"/)
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+
+      it('Exist project - invalid data to update project', function (done) {
+          request(mock)
+              .patch('/projects/'+projects[0]._id)
+              .send({})
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(422)
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+
+      it('Exist project - try to update project without token', function (done) {
+          const data = Object.assign(projects[0], {name: "ChangeName"});
+
+          request(mock)
+              .patch('/projects/'+projects[0]._id)
+              .send(data)
+              .expect(401)
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+    });
+
+    describe('e2e projects: confirm update project', function () {
+      it('Exist projects - confirm my changes', function (done) {
+          request(mock)
+              .get('/projects/'+projects[0]._id)
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(200)
+              .expect('Content-Type', /json/)
+              .expect(/ChangeName/)
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+
+      it('Exist project - confirm if my update dont create a new project', function (done) {
+          request(mock)
+              .get('/projects')
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(200)
+              .expect('Content-Type', /json/)
+              .expect(/\"name\":\"MyProject\"/)
+              .expect(/_id/)
+              .expect(function(res) {
+                  expect(res.body.items).to.have.length(2);
+              })
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+    });
+
+    describe('e2e projects: delete project', function () {
+      it('Exist members - delete my project', function (done) {
+          request(mock)
+              .delete('/projects/'+projects[0]._id)
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(204)
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+    });
+
+    describe('e2e projects: confirm delete project', function () {
+      it('Exist members - delete my project', function (done) {
+          request(mock)
+              .get('/projects/')
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(200)
+              .expect('Content-Type', /json/)
+              .expect(function(res) {
+                  expect(res.body.items).to.have.length(1);
+              })
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
+
+      it('Exist project -  autocomplete', function (done) {
+          request(mock)
+              .get('/projects/autocomplete')
+              .query({complete: "Second"})
+              .set('Authorization', `JWT ${user.token}`)
+              .expect(200)
+              .expect('Content-Type', /json/)
+              .expect(function(res) {
+                  expect(res.body.items).to.have.length(0);
+              })
+              .end(function (err) {
+                  if (err) return done(err);
+                  done(err);
+              });
+      });
     });
 
 });

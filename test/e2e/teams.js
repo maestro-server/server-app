@@ -344,6 +344,21 @@ describe('e2e users: user - create, update, delete', function () {
                     done(err);
                 });
         });
+
+        it('Exist team - confirm if my update dont create new team', function (done) {
+            request(mock)
+                .get('/teams')
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .expect(function(res) {
+                    expect(res.body.items).to.have.length(2);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
     describe('e2e teams: add members', function () {
