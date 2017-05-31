@@ -12,7 +12,7 @@ let kraken = require('kraken-js'),
 
 
 
-describe('e2e users: user - create, update, delete', function () {
+describe('e2e projects', function () {
 
     let app, mock;
 
@@ -88,7 +88,13 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e projects: create project', function () {
+    /**
+    *
+    * Create project
+    * @depends create project
+    * @description I like to create a new project
+    */
+    describe('create project', function () {
       it('Create project - create project', function (done) {
           request(mock)
               .post('/projects')
@@ -143,7 +149,13 @@ describe('e2e users: user - create, update, delete', function () {
       });
     });
 
-    describe('e2e projects: read project', function () {
+    /**
+    *
+    * Read project
+    * @depends read project
+    * @description I like to see my projects
+    */
+    describe('read project', function () {
       it('Exist project - list my project', function (done) {
           request(mock)
               .get('/projects')
@@ -246,7 +258,13 @@ describe('e2e users: user - create, update, delete', function () {
       });
     });
 
-    describe('e2e projects: update project', function () {
+    /**
+    *
+    * Update project
+    * @depends update project
+    * @description I like to update my project
+    */
+    describe('update project', function () {
       it('Exist project - update project with valid data', function (done) {
           const data = Object.assign(projects[0], {name: "ChangeName"});
 
@@ -289,7 +307,7 @@ describe('e2e users: user - create, update, delete', function () {
       });
     });
 
-    describe('e2e projects: confirm update project', function () {
+    describe('confirm update project', function () {
       it('Exist projects - confirm my changes', function (done) {
           request(mock)
               .get('/projects/'+projects[0]._id)
@@ -321,7 +339,13 @@ describe('e2e users: user - create, update, delete', function () {
       });
     });
 
-    describe('e2e projects: delete project', function () {
+    /**
+    *
+    * Delete project
+    * @depends delete project
+    * @description I like to delete my project
+    */
+    describe('delete project', function () {
       it('Exist members - delete my project', function (done) {
           request(mock)
               .delete('/projects/'+projects[0]._id)
@@ -334,7 +358,7 @@ describe('e2e users: user - create, update, delete', function () {
       });
     });
 
-    describe('e2e projects: confirm delete project', function () {
+    describe('confirm delete project', function () {
       it('Exist members - delete my project', function (done) {
           request(mock)
               .get('/projects/')

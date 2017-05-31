@@ -176,7 +176,7 @@ class ApplicationsRepository extends Repository {
                     return activeTransform.active(e);
                 })
                 .then((e) => {
-                    return merger(e, formatRefsCollection(e.owner._id, e.owner._refs, 'roles', {role: Access.ROLE_ADMIN}, true));
+                    return merger(e, formatRefsCollection({_id: e.owner._id}, e.owner._refs, 'roles', {role: Access.ROLE_ADMIN}, true));
                 })
                 .then((e) => {
                     return new ApplicationsDao(e).save();

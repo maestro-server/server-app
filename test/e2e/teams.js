@@ -1,5 +1,3 @@
-/*global describe:false, it:false, beforeEach:false, afterEach:false*/
-
 'use strict';
 
 
@@ -11,7 +9,7 @@ let kraken = require('kraken-js'),
     {expect} = chai;
 
 
-describe('e2e users: user - create, update, delete', function () {
+describe('e2e teams', function () {
 
     let app, mock;
 
@@ -60,7 +58,7 @@ describe('e2e users: user - create, update, delete', function () {
     });
 
 
-    describe('e2e teams: create new user', function () {
+    describe('create new user', function () {
         it('Create account - success', function (done) {
             request(mock)
                 .post('/users')
@@ -94,7 +92,7 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e teams: get token', function () {
+    describe('get token', function () {
         it('Exist user - get my token', function (done) {
             request(mock)
                 .post('/users/auth')
@@ -115,7 +113,13 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e teams: create team', function () {
+    /**
+    *
+    * Create teams
+    * @depends get token and create new user
+    * @description I like to create a new team
+    */
+    describe('create team', function () {
         it('Create team - create team', function (done) {
             request(mock)
                 .post('/teams')
@@ -172,7 +176,14 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e teams: read team', function () {
+
+    /**
+    *
+    * Get teams
+    * @depends create team
+    * @description I like to see my news teams
+    */
+    describe('read team', function () {
         it('Exist team - list my team', function (done) {
             request(mock)
                 .get('/teams')
@@ -212,9 +223,25 @@ describe('e2e users: user - create, update, delete', function () {
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
-                .expect(/name"/)
+                .expect(/name/)
                 .expect(/url/)
                 .expect(/_id/)
+                .expect(function(res) {
+                    expect(res.body.items).to.have.length(1);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Exist team - test pagination list', function (done) {
+            request(mock)
+                .get('/teams')
+                .query({limit:1, page: 2})
+                .expect(/MyTeam/)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
                 .expect(function(res) {
                     expect(res.body.items).to.have.length(1);
                 })
@@ -280,8 +307,13 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-
-    describe('e2e teams: update team', function () {
+    /**
+    *
+    * Update team
+    * @depends create team
+    * @description I like to update my team witch name ChangeName
+    */
+    describe('update team', function () {
         it('Exist team - update team with valid data', function (done) {
             const data = Object.assign(teams[0], {name: "ChangeName", email: "changeemail@email.com", url: "http://changeurl.com.br"});
 
@@ -328,7 +360,7 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e teams: confirm update team', function () {
+    describe('confirm update team', function () {
 
         it('Exist team - confirm my changes', function (done) {
             request(mock)
@@ -361,7 +393,13 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e teams: add members', function () {
+    /**
+    *
+    * Create members
+    * @depends create team members
+    * @description I like to add new members into my SecondTeam
+    */
+    describe('add members', function () {
         it('Exist members - valid data to add members', function (done) {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
@@ -404,7 +442,13 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e teams: get members', function () {
+    /**
+    *
+    * Get members
+    * @depends create members
+    * @description I like to see my members
+    */
+    describe('get members', function () {
         it('Exist members - confirm my news members', function (done) {
             request(mock)
                 .get('/teams/'+teams[0]._id)
@@ -423,7 +467,13 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e teams: update members', function () {
+    /**
+    *
+    * Update members
+    * @depends create member
+    * @description I like to update the role team member
+    */
+    describe('update members', function () {
         it('Exist members - update role member', function (done) {
             request(mock)
                 .put('/teams/'+teams[0]._id+"/members/"+friend._id)
@@ -450,7 +500,7 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e teams: confirm update members', function () {
+    describe('confirm update members', function () {
         it('Exist members - confirm my news members', function (done) {
             request(mock)
                 .get('/teams/'+teams[0]._id)
@@ -469,7 +519,14 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e teams: delete members', function () {
+
+    /**
+    *
+    * Delete members
+    * @depends create team
+    * @description I have SecondTeam, and ai like to delete on member
+    */
+    describe('delete members', function () {
         it('Exist members - delete member', function (done) {
             request(mock)
                 .delete('/teams/'+teams[0]._id+"/members/"+friend._id)
@@ -492,7 +549,7 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e teams: confirm delete members', function () {
+    describe('confirm delete members', function () {
         it('Exist members - confirm my news members', function (done) {
             request(mock)
                 .get('/teams/'+teams[0]._id)
@@ -509,7 +566,14 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e teams: delete team', function () {
+
+    /**
+    *
+    * Delete teams
+    * @depends create 2
+    * @description I have 2 teams, i like to delete SecondTeam.
+    */
+    describe('delete team', function () {
         it('Exist members - delete my team', function (done) {
             request(mock)
                 .delete('/teams/'+teams[0]._id)
@@ -522,7 +586,7 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e teams: confirm to delete team', function () {
+    describe('confirm to delete team', function () {
         it('Exist members - delete my team', function (done) {
             request(mock)
                 .get('/teams/')
