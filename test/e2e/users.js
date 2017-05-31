@@ -12,7 +12,7 @@ let kraken = require('kraken-js'),
 
 
 
-describe('e2e users: user - create, update, delete', function () {
+describe('e2e users', function () {
 
     let app, mock;
 
@@ -46,7 +46,7 @@ describe('e2e users: user - create, update, delete', function () {
     });
 
 
-    describe('e2e users: create new user', function () {
+    describe('create new user', function () {
         it('Create account - success', function (done) {
             request(mock)
                 .post('/users')
@@ -63,7 +63,7 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e users: get token', function () {
+    describe('get token', function () {
         it('Exist user - get my token', function (done) {
             request(mock)
                 .post('/users/auth')
@@ -84,7 +84,13 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e users: get users, autocomplete', function () {
+    /**
+    *
+    * Get user
+    * @depends create user
+    * @description I like to see my account
+    */
+    describe('get users, autocomplete', function () {
         it('Exist user - see my changes - /me', function (done) {
             request(mock)
                 .get('/me')
@@ -118,7 +124,13 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e users: update my account', function () {
+    /**
+    *
+    * Update user
+    * @depends update my account
+    * @description I like to change my account
+    */
+    describe('update my account', function () {
 
         it('Exist user - update my account without token', function (done) {
             const data = {
@@ -174,7 +186,7 @@ describe('e2e users: user - create, update, delete', function () {
     });
 
 
-    describe('e2e users: see my updates', function () {
+    describe('see my updates', function () {
         it('Exist user - see my changes - /me', function (done) {
             request(mock)
                 .get('/me')
@@ -206,7 +218,13 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e users: change password', function () {
+    /**
+    *
+    * Change password
+    * @depends create user
+    * @description I like to change my password
+    */
+    describe('change password', function () {
         it('Existe user - change my password', function (done) {
 
             request(mock)
@@ -221,7 +239,13 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e users: change email', function () {
+    /**
+    *
+    * Change email
+    * @depends create user
+    * @description I like to change my email
+    */
+    describe('change email', function () {
         it('Existe user - change my email', function (done) {
             const data = Object.assign(user, {email: user.newemail});
 
@@ -240,7 +264,7 @@ describe('e2e users: user - create, update, delete', function () {
 
 
 
-    describe('e2e users: test my new email and password', function () {
+    describe('test my new email and password', function () {
         it('Existe user - test with same pass and email', function (done) {
             request(mock)
                 .post('/users/auth')
@@ -270,7 +294,13 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e users: forgot my password', function () {
+    /**
+    *
+    * Forgot my password
+    * @depends create user
+    * @description I forgot my password, i like to recovery
+    */
+    describe('forgot my password', function () {
         it('Existe user - forgot callback url', function (done) {
             request(mock)
                 .post('/users/forgot')
@@ -305,7 +335,13 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e users: delete account', function () {
+    /**
+    *
+    * Delete user
+    * @depends create user
+    * @description I like to close my account
+    */
+    describe('delete account', function () {
         it('Existe user - delete my account', function (done) {
             request(mock)
                 .delete('/me')
@@ -318,7 +354,7 @@ describe('e2e users: user - create, update, delete', function () {
         });
     });
 
-    describe('e2e users: confirm if i am deleted', function () {
+    describe('confirm if i am deleted', function () {
         it('Deleted user - confirm', function (done) {
             request(mock)
                 .get('/me')
