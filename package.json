@@ -12,6 +12,7 @@
     "tdd": "gulp tdd"
   },
   "dependencies": {
+    "app-module-path": "^2.2.0",
     "aws-sdk": "^2.54.0",
     "bcrypt": "^1.0.2",
     "better-validator": "^2.1.3",
