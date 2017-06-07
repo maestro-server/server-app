@@ -19,7 +19,9 @@ module.exports = {
     },
 
     single: (req, res, next) => {
-        Arch.findOne(req.params.id, req.user)
+
+        PersistenceServices(Architecture)
+            .find(req.params.id, req.user)
             .then(e => res.json(e))
             .catch(function(e) {
                 next(e);
@@ -39,8 +41,9 @@ module.exports = {
     create: (req, res, next) => {
         req.user._refs = "users";
 
-        Arch.create(req.body, req.user)
-            .then(e => res.status(201).json(e))
+        PersistenceServices(Architecture)
+            .create(req.body, req.user)
+            .then(e => res.json(e))
             .catch(function(e) {
                 next(e);
             });

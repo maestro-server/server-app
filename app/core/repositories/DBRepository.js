@@ -1,10 +1,16 @@
 'use strict';
 
+const _ = require('lodash');
+
 const Dao = require('./daos/DBConnector');
 const findFilledFormat = require('./format/findFilledFormat');
 const ClosurePromesify = require('libs/factoryPromisefy');
 
 const clearDaoTransform = require('./transforms/clearDaoTransform');
+const formatRefsCollection = require('./format/formatRefsCollection');
+const filledTransform = require('./transforms/filledTransform');
+
+const Access = require('entities/accessRole');
 
 
 const DBRepository = (Entity) => {
@@ -35,10 +41,28 @@ const DBRepository = (Entity) => {
 
         count (filters = {}) {
             return ClosurePromesify(() => {
+
                 filters = findFilledFormat(filters, this.filled);
 
                 return DB.count(filters);
             });
+        },
+
+        create(post) {
+
+            return ClosurePromesify(() => {
+                post = findFilledFormat(post, this.filled);
+
+                post = _.merge(post, formatRefsCollection({_id: post.owner._id}, post.owner._refs, 'roles', {role: Access.ROLE_ADMIN}, true));
+
+                return new DB(post)
+                    .save()
+                    .then((e) => {
+                        return filledTransform(e.get(), this.resFilled);
+                    });
+
+            });
+
         }
     }
 

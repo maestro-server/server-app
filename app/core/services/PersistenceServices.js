@@ -1,5 +1,7 @@
 'use strict';
 
+const _ = require('lodash');
+
 const FactoryDBRepository = require('repositories/DBRepository');
 const Access = require('entities/accessRole');
 
@@ -7,6 +9,8 @@ const accessMergeTransform = require('./roles/accessMergeTransform');
 
 const validNotFound = require('./validators/validNotFound');
 const collectionTransform = require('./transforms/collectionTransform');
+const refsTransform = require('./transforms/refsTransform');
+const singleTransform = require('./transforms/singleTransform');
 
 const ClosurePromesify = require('libs/factoryPromisefy');
 
@@ -17,7 +21,7 @@ const Persistence = (Entity) => {
 
     return {
 
-        find: (query, owner, access = Access.ROLE_READ) => {
+        find (query, owner, access = Access.ROLE_READ) {
 
             return ClosurePromesify(() => {
 
@@ -40,7 +44,7 @@ const Persistence = (Entity) => {
             });
         },
 
-        findOne(_id, owner, access=Access.ROLE_READ) {
+        findOne (_id, owner, access=Access.ROLE_READ) {
 
             return ClosurePromesify(() => {
 
@@ -50,6 +54,23 @@ const Persistence = (Entity) => {
                     .findOne(query)
                     .then((e) => {
                         return refsTransform(e, 'roles');
+                    });
+            });
+        },
+
+        create (post, owner) {
+
+            return ClosurePromesify(() => {
+
+                const data = _.merge(post, {owner});
+
+                return DBRepository
+                    .create(data)
+                    .then((e) => {
+                        return refsTransform(e, 'roles');
+                    })
+                    .then((e) => {
+                        return singleTransform(e, Entity.name);
                     });
             });
         }

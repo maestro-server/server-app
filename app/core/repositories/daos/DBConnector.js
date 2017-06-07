@@ -1,12 +1,10 @@
 'use strict';
 
+const _ = require('lodash');
 const {Model} = require('mongorito');
 
 
 class Dao extends Model {
-    collection () {
-        return 'architectures';
-    }
 
     configure () {
         super.configure();
@@ -52,7 +50,8 @@ class Dao extends Model {
  * @returns {Dao}
  */
 module.exports = function (Entity) {
-    Dao.extend({'collection':() => Entity.name});
+
+    Dao.prototype.collection = () => Entity.name;
 
     return Dao;
 };
