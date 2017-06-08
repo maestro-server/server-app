@@ -1,13 +1,13 @@
 'use strict';
 
-const RolesRepository = require('../../repositories/rolesRepository');
+const RolesRepository = require('../repositories/rolesRepository');
 
-const accessMergeTransform = require('../transforms/accessMergeTransform');
-const collectionRefsTransform = require('../transforms/collectionRefsTransform');
+const accessMergeTransform = require('./transforms/accessMergeTransform');
+const collectionRefsTransform = require('./transforms/collectionRefsTransform');
 
-const Access = require('../../entities/accessRole');
+const Access = require('../entities/accessRole');
 
-class rolesService {
+class RolesServices {
 
     constructor (entity) {
         this.entity = entity;
@@ -89,4 +89,4 @@ class rolesService {
 
 }
 
-module.exports = rolesService;
+module.exports = RolesServices;

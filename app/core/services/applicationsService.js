@@ -2,7 +2,7 @@
 
 const ApplicationDao = require('../repositories/daos/application');
 const ApplicationsRepository = require('../repositories/applicationsRepository');
-const RolesService = require('./libs/rolesService');
+const RolesService = require('services/RolesServices');
 
 const merger = require('../repositories/transforms/mergeTransform');
 const refsTransform = require('./transforms/refsTransform');

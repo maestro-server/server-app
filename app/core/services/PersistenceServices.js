@@ -29,7 +29,7 @@ const Persistence = (Entity) => {
                 const page = parseInt(query.page) || 1;
                 const skip = limit * (page - 1);
 
-                query = accessMergeTransform(owner, "roles", query, access);
+                query = accessMergeTransform(owner, Entity.access, query, access);
 
                 return Promise.all([
                         DBRepository.find(query, limit, skip),
@@ -48,12 +48,12 @@ const Persistence = (Entity) => {
 
             return ClosurePromesify(() => {
 
-                const query = accessMergeTransform(owner, "roles", {_id}, access);
+                const query = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
                     .findOne(query)
                     .then((e) => {
-                        return refsTransform(e, 'roles');
+                        return refsTransform(e, Entity.access);
                     });
             });
         },
@@ -62,7 +62,7 @@ const Persistence = (Entity) => {
 
             return ClosurePromesify(() => {
 
-                const query = accessMergeTransform(owner, "roles", {_id}, Access.ROLE_WRITER);
+                const query = accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_WRITER);
 
                 return DBRepository
                     .update(query, post);
@@ -78,7 +78,7 @@ const Persistence = (Entity) => {
                 return DBRepository
                     .create(data)
                     .then((e) => {
-                        return refsTransform(e, 'roles');
+                        return refsTransform(e, Entity.access);
                     })
                     .then((e) => {
                         return singleTransform(e, Entity.name);
@@ -90,7 +90,7 @@ const Persistence = (Entity) => {
 
             return ClosurePromesify(() => {
 
-                const query = accessMergeTransform(owner, "roles", {_id}, Access.ROLE_ADMIN);
+                const query = accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_ADMIN);
 
                 return DBRepository
                     .remove(query);
