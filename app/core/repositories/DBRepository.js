@@ -55,7 +55,7 @@ const DBRepository = (Entity) => {
         update(filter, post) {
 
             return ClosurePromesify(() => {
-                const fill = _.pull(this.filled, 'owner', 'roles');
+                const fill = _.pull(this.filled, 'owner', Entity.access);
                 post = findFilledFormat(post, fill);
 
                 factoryValid(post, Entity.validators.update);
@@ -76,7 +76,7 @@ const DBRepository = (Entity) => {
 
             return ClosurePromesify(() => {
                 post = findFilledFormat(post, this.filled);
-                post = _.merge(post, formatRefsCollection({_id: post.owner._id}, post.owner._refs, 'roles', {role: Access.ROLE_ADMIN}, true));
+                post = _.merge(post, formatRefsCollection({_id: post.owner._id}, post.owner._refs, Entity.access, {role: Access.ROLE_ADMIN}, true));
 
                 factoryValid(post, Entity.validators.create);
                 return new DB(post)

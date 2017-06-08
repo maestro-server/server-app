@@ -1,7 +1,7 @@
 'use strict';
 
 const ArchitecturesRepository = require('../repositories/architecturesRepository');
-const RolesService = require('./libs/rolesService');
+const RolesService = require('services/RolesServices');
 
 const ArchitectureDao = require('../repositories/daos/architecture');
 

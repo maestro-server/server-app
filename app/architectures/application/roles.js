@@ -1,10 +1,11 @@
 'use strict';
 
-const ApplicationsService = require('services/applicationsService');
+const RolesServices = require('services/RolesServices');
 
 module.exports = {
 
     update: (req, res, next) => {
+
         ApplicationsService.updateRoles(req.params.id, req.params.idu, req.body, req.user)
             .then(e => res.status(201).json(e))
             .catch(function (e) {
