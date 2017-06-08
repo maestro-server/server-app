@@ -13,7 +13,7 @@ module.exports = {
         PersistenceServices(Architecture)
             .find(req.query, req.user)
             .then(e => res.json(e))
-            .catch(function(e) {
+            .catch(function (e) {
                 next(e);
             });
     },
@@ -23,16 +23,18 @@ module.exports = {
         PersistenceServices(Architecture)
             .find(req.params.id, req.user)
             .then(e => res.json(e))
-            .catch(function(e) {
+            .catch(function (e) {
                 next(e);
             });
 
     },
 
     update: (req, res, next) => {
-        Arch.update(req.params.id, req.body, req.user)
+
+        PersistenceServices(Architecture)
+            .update(req.params.id, req.body, req.user)
             .then(e => res.status(202).json(e))
-            .catch(function(e) {
+            .catch(function (e) {
                 next(e);
             });
 
@@ -43,16 +45,18 @@ module.exports = {
 
         PersistenceServices(Architecture)
             .create(req.body, req.user)
-            .then(e => res.json(e))
-            .catch(function(e) {
+            .then(e => res.status(201).json(e))
+            .catch(function (e) {
                 next(e);
             });
     },
 
     delete: (req, res, next) => {
-        Arch.remove(req.params.id, req.user)
+
+        PersistenceServices(Architecture)
+            .remove(req.params.id, req.user)
             .then(e => res.status(204).json(e))
-            .catch(function(e) {
+            .catch(function (e) {
                 next(e);
             });
     }

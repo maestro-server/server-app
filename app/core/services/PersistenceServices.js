@@ -58,6 +58,17 @@ const Persistence = (Entity) => {
             });
         },
 
+        update (_id, post, owner) {
+
+            return ClosurePromesify(() => {
+
+                const query = accessMergeTransform(owner, "roles", {_id}, Access.ROLE_WRITER);
+
+                return DBRepository
+                    .update(query, post);
+            });
+        },
+
         create (post, owner) {
 
             return ClosurePromesify(() => {
@@ -72,6 +83,17 @@ const Persistence = (Entity) => {
                     .then((e) => {
                         return singleTransform(e, Entity.name);
                     });
+            });
+        },
+
+        remove(_id, owner) {
+
+            return ClosurePromesify(() => {
+
+                const query = accessMergeTransform(owner, "roles", {_id}, Access.ROLE_ADMIN);
+
+                return DBRepository
+                    .remove(query);
             });
         }
 

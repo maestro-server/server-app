@@ -9,8 +9,13 @@ const ClosurePromesify = require('libs/factoryPromisefy');
 const clearDaoTransform = require('./transforms/clearDaoTransform');
 const formatRefsCollection = require('./format/formatRefsCollection');
 const filledTransform = require('./transforms/filledTransform');
+const validAccessUpdater = require('./validators/validAccessUpdater');
+
+const activeTransform = require('./format/activeFormat');
 
 const Access = require('entities/accessRole');
+
+const factoryValid = require('libs/factoryValid');
 
 
 const DBRepository = (Entity) => {
@@ -18,9 +23,8 @@ const DBRepository = (Entity) => {
     const DB = Dao(Entity);
 
     return {
-        filled: ['name', 'roles', 'owner'],
-        resFilled: ['_id', 'name', 'roles', 'owner'],
-
+        filled: Entity.filled,
+        resFilled: Entity.resFilled,
 
         find (filters = {}, limit = 20, skip = 0) {
 
@@ -48,13 +52,33 @@ const DBRepository = (Entity) => {
             });
         },
 
+        update(filter, post) {
+
+            return ClosurePromesify(() => {
+                const fill = _.pull(this.filled, 'owner', 'roles');
+                post = findFilledFormat(post, fill);
+
+                factoryValid(post, Entity.validators.update);
+                return new DB(post)
+                    .updateAndModify(filter)
+                    .then((e) => {
+                        return validAccessUpdater(e);
+                    })
+                    .then((e) => {
+                        return filledTransform(e.get(), this.resFilled);
+                    });
+
+            });
+
+        },
+
         create(post) {
 
             return ClosurePromesify(() => {
                 post = findFilledFormat(post, this.filled);
-
                 post = _.merge(post, formatRefsCollection({_id: post.owner._id}, post.owner._refs, 'roles', {role: Access.ROLE_ADMIN}, true));
 
+                factoryValid(post, Entity.validators.create);
                 return new DB(post)
                     .save()
                     .then((e) => {
@@ -63,6 +87,20 @@ const DBRepository = (Entity) => {
 
             });
 
+        },
+
+        remove(filter) {
+
+            return ClosurePromesify(() => {
+                const post = activeTransform.desactive();
+
+                return new DB(post)
+                    .updateAndModify(filter)
+                    .then((e) => {
+                        return validAccessUpdater(e);
+                    });
+
+            });
         }
     }
 

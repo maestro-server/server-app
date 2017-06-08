@@ -7,9 +7,6 @@ module.exports = {
 
     validators: require('../validators'),
 
-    persistence: {
-        collection: () => {
-            return this.name;
-        }
-    }
+    filled: ['name', 'roles', 'owner'],
+    resFilled: ['_id', 'name', 'roles', 'owner']
 }
