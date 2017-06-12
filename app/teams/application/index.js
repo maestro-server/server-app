@@ -1,14 +1,12 @@
 'use strict';
 
-const Architecture = require('../entities/Architecture');
-
+const Team = require('../entities/Teams');
 
 /**
  *
- * Architecture is Entity to call persisntece layer
+ * Entity to call persisntece layer
  */
-const PersistenceApp = require('applications/persistenceApplication')(Architecture);
-
+const PersistenceApp = require('applications/persistenceApplication')(Team);
 
 module.exports = {
 
@@ -23,3 +21,4 @@ module.exports = {
     delete: PersistenceApp.remove
 
 }
+

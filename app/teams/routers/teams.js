@@ -9,6 +9,8 @@ const ApplicationTeamService = require('services/applicationsTeamService');
 
 const authenticate = require('middlewares/authenticate');
 
+const app = require('../application/');
+
 module.exports = function (router) {
 
   /**
@@ -33,15 +35,7 @@ module.exports = function (router) {
    *     }
    */
     router
-        .get('/', authenticate(), function (req, res, next) {
-
-            TeamService.find(req.query, req.user)
-                .then(e => res.json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        })
+        .get('/', authenticate(), app.list)
 
         .get('/upload', authenticate(), function (req, res, next) {
 
@@ -71,25 +65,9 @@ module.exports = function (router) {
          *       "lastname": "Doe"
          *     }
          */
-        .get('/:id', authenticate(), function (req, res, next) {
+        .get('/:id', authenticate(), app.single)
 
-            TeamService.findOne(req.params.id, req.user)
-                .then(e => res.json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        })
-
-        .patch('/:id', authenticate(), function (req, res, next) {
-
-            TeamService.update(req.params.id, req.body, req.user)
-                .then(e => res.status(202).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        })
+        .patch('/:id', authenticate(), app.update)
 
         /**
          * @api {delete} /teams/:id Delete team
@@ -107,25 +85,9 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/:id', authenticate(), function (req, res, next) {
+        .delete('/:id', authenticate(), app.delete)
 
-            TeamService.remove(req.params.id, req.user)
-                .then(e => res.status(204).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        })
-
-        .post('/', authenticate(), function (req, res, next) {
-
-            TeamService.create(req.body, req.user)
-                .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        });
+        .post('/', authenticate(), app.create);
 
     /**
      *
