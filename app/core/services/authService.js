@@ -104,8 +104,9 @@ class AuthService {
                 .authenticate(body)
                 .then((e) => {
                     const data = {'password': _.get(body, 'newpass')};
+
                     return new UserRepository()
-                        .changePass(_.get(e, 'user'), data);
+                        .changePass(e.user._id, data);
                 })
                 .then((e) => {
                     return validAccessService(e);

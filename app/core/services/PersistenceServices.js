@@ -3,16 +3,11 @@
 const _ = require('lodash');
 
 const FactoryDBRepository = require('repositories/DBRepository');
+const ClosurePromesify = require('libs/factoryPromisefy');
+
 const Access = require('entities/accessRole');
 
 const accessMergeTransform = require('./roles/accessMergeTransform');
-
-const validNotFound = require('./validators/validNotFound');
-const collectionTransform = require('./transforms/collectionTransform');
-const refsTransform = require('./transforms/refsTransform');
-const singleTransform = require('./transforms/singleTransform');
-
-const ClosurePromesify = require('libs/factoryPromisefy');
 
 
 const Persistence = (Entity) => {
@@ -25,8 +20,8 @@ const Persistence = (Entity) => {
 
             return ClosurePromesify(() => {
 
-                const limit = parseInt(query.limit) || 20;
-                const page = parseInt(query.page) || 1;
+                const limit = _.parseInt(query.limit);
+                const page = _.parseInt(query.page);
                 const skip = limit * (page - 1);
 
                 query = accessMergeTransform(owner, Entity.access, query, access);
@@ -34,13 +29,7 @@ const Persistence = (Entity) => {
                 return Promise.all([
                         DBRepository.find(query, limit, skip),
                         DBRepository.count(query)
-                    ])
-                    .then((e) => {
-                        return validNotFound(e, e[1], limit, page);
-                    })
-                    .then((e) => {
-                        return collectionTransform(e[0], e[1], Entity.name, limit, page);
-                    });
+                    ]);
             });
         },
 
@@ -51,10 +40,7 @@ const Persistence = (Entity) => {
                 const query = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
-                    .findOne(query)
-                    .then((e) => {
-                        return refsTransform(e, Entity.access);
-                    });
+                    .findOne(query);
             });
         },
 
@@ -69,20 +55,12 @@ const Persistence = (Entity) => {
             });
         },
 
-        create (post, owner) {
+        create (post) {
 
             return ClosurePromesify(() => {
 
-                const data = _.merge(post, {owner});
-
                 return DBRepository
-                    .create(data)
-                    .then((e) => {
-                        return refsTransform(e, Entity.access);
-                    })
-                    .then((e) => {
-                        return singleTransform(e, Entity.name);
-                    });
+                    .create(post);
             });
         },
 

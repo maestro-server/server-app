@@ -3,13 +3,39 @@
 const _ = require('lodash');
 const {Model} = require('mongorito');
 
+const bcrypt = require('bcrypt');
+const crypto = require('helpers/crypto');
+
 
 class Dao extends Model {
 
     configure () {
         super.configure();
+        this.before('save', 'passHash');
     }
 
+    /**
+     * Password Hashing
+     */
+    passHash () {
+        if (this.get('password'))
+            this.set('password', this.makeHash(this.get('password')));
+    }
+
+    passwordMatches (matcher) {
+        return bcrypt.compareSync(matcher, this.get('password'));
+    }
+
+    makeHash (string) {
+        return bcrypt.hashSync(string, crypto.getCryptLevel());
+    }
+
+
+    /**
+     * Update And Modify
+     * @param filter
+     * @returns {*}
+     */
     updateAndModify(filter) {
         this.set('updated_at', new Date());
 
@@ -26,7 +52,6 @@ class Dao extends Model {
     }
 
     updateFactory(entity, entry, options) {
-
 
         return this._collection()
             .tap(() => {

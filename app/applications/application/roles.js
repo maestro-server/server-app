@@ -1,13 +1,13 @@
 'use strict';
 
 const RolesServices = require('services/RolesServices');
-const ArchitecturesService = require('services/architecturesService');
+const ApplicationsService = require('services/applicationsService');
 
 module.exports = {
 
     update: (req, res, next) => {
 
-        ArchitecturesService.updateRoles(req.params.id, req.params.idu, req.body, req.user)
+        ApplicationsService.updateRoles(req.params.id, req.params.idu, req.body, req.user)
             .then(e => res.status(201).json(e))
             .catch(function (e) {
                 next(e);
@@ -16,7 +16,7 @@ module.exports = {
     },
 
     create: (req, res, next) => {
-        ArchitecturesService.addRoles(req.params.id, req.body, req.user)
+        ApplicationsService.addRoles(req.params.id, req.body, req.user)
             .then(e => res.status(201).json(e))
             .catch(function (e) {
                 next(e);
@@ -24,7 +24,7 @@ module.exports = {
     },
 
     delete: (req, res, next) => {
-        ArchitecturesService.deleteRoles(req.params.id, req.params.idu, req.user)
+        ApplicationsService.deleteRoles(req.params.id, req.params.idu, req.user)
             .then(e => res.status(204).json(e))
             .catch(function (e) {
                 next(e);

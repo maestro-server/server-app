@@ -230,7 +230,7 @@ class UsersRepository extends Repository {
     }
 
 
-    changePass(id, user) {
+    changePass(_id, user) {
 
         return new Promise((resolve, reject) => {
 
@@ -238,9 +238,8 @@ class UsersRepository extends Repository {
 
             filledTransform(user, this.filled)
                 .then((e) => {
-                    id = formatObjectId(id);
                     return new UserDao(e)
-                        .updateAndModify(id);
+                        .updateAndModify({_id});
                 })
                 .then((e) => {
                     return validAccessUpdater(e);

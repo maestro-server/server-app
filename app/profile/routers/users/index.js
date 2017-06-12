@@ -3,19 +3,19 @@
 const UserService = require('services/usersService');
 const authenticate = require('middlewares/authenticate');
 
+const User = require('../../entities/Users');
+
+/**
+ *
+ * Entity to call persisntece layer
+ */
+const ProfilePersistenceService = require('../../services/PersistenceServices');
+const PersistenceApp = require('applications/persistenceApplication')(User, ProfilePersistenceService);
 
 module.exports = function (router) {
 
     router
-        .get('/', authenticate(), function (req, res, next) {
-
-            UserService.find(req.query, req.user)
-                .then(e => res.json(e))
-                .catch(function(e) {
-                    next(e);
-                });
-
-        })
+        .get('/', authenticate(), PersistenceApp.find)
 
         .get('/upload', authenticate(), function (req, res, next) {
 
@@ -26,25 +26,7 @@ module.exports = function (router) {
                 });
         })
 
-        .get('/:id', authenticate(), function (req, res, next) {
+        .get('/:id', authenticate(), PersistenceApp.findOne)
 
-            UserService.publicFindOne(req.params.id)
-                .then(e => res.json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        })
-
-        .post('/', function (req, res, next) {
-
-            UserService.create(req.body)
-                .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        });
-
-
+        .post('/', PersistenceApp.create);
 };

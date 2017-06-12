@@ -157,7 +157,7 @@ describe('e2e users', function () {
                 .put('/me')
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(201)
+                .expect(202)
                 .expect('Content-Type', /json/)
                 .expect(/\"name\":\"MyNameIsChange\"/)
                 .end(function (err) {
@@ -171,7 +171,6 @@ describe('e2e users', function () {
                 name: "MyNameIsChange",
                 email: "maestro@maestrousers.com"
             };
-
 
             request(mock)
                 .put('/me')
@@ -239,6 +238,22 @@ describe('e2e users', function () {
         });
     });
 
+    describe('change password again', function () {
+        it('Existe user - try to change my password again', function (done) {
+
+            request(mock)
+                .patch('/users/auth/pass')
+                .send(user)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(400)
+                .expect(/Invalid/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
     /**
     *
     * Change email
@@ -247,13 +262,13 @@ describe('e2e users', function () {
     */
     describe('change email', function () {
         it('Existe user - change my email', function (done) {
-            const data = Object.assign(user, {email: user.newemail});
+            const data = Object.assign({}, user, {email: user.newemail});
 
             request(mock)
                 .put('/me')
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(201)
+                .expect(202)
                 .expect(/mynew@mail\.com/)
                 .end(function (err) {
                     if (err) return done(err);
@@ -266,6 +281,7 @@ describe('e2e users', function () {
 
     describe('test my new email and password', function () {
         it('Existe user - test with same pass and email', function (done) {
+
             request(mock)
                 .post('/users/auth')
                 .send(user)
@@ -281,6 +297,7 @@ describe('e2e users', function () {
         it('Existe user - get new token with new email and password', function (done) {
             const data = {email: user.newemail, password: user.newpass};
 
+            console.log(data);
             request(mock)
                 .post('/users/auth')
                 .send(data)

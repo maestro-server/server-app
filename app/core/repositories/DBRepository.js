@@ -7,13 +7,9 @@ const findFilledFormat = require('./format/findFilledFormat');
 const ClosurePromesify = require('libs/factoryPromisefy');
 
 const clearDaoTransform = require('./transforms/clearDaoTransform');
-const formatRefsCollection = require('./format/formatRefsCollection');
-const filledTransform = require('./transforms/filledTransform');
 const validAccessUpdater = require('./validators/validAccessUpdater');
 
 const activeTransform = require('./format/activeFormat');
-
-const Access = require('entities/accessRole');
 
 const factoryValid = require('libs/factoryValid');
 
@@ -23,19 +19,16 @@ const DBRepository = (Entity) => {
     const DB = Dao(Entity);
 
     return {
-        filled: Entity.filled,
-        resFilled: Entity.resFilled,
-
         find (filters = {}, limit = 20, skip = 0) {
 
             return ClosurePromesify(() => {
-                filters = findFilledFormat(filters, this.filled);
+                filters = findFilledFormat(filters, Entity.filled);
 
                 return DB
                     .limit(limit)
                     .skip(skip)
                     .sort('created_at', -1)
-                    .include(this.resFilled)
+                    .include(Entity.resFilled)
                     .find(filters)
                     .then((e) => {
                         return clearDaoTransform(e);
@@ -43,10 +36,27 @@ const DBRepository = (Entity) => {
             });
         },
 
+        findOne(filters) {
+
+            return ClosurePromesify(() => {
+                filters = _.merge(filters, activeTransform.active());
+
+                return DB
+                    .findOne(filters)
+                    .then((e) => {
+                        if (e)
+                            e = e.get();
+
+                        return _.pick(e, Entity.resFilled);
+                    });
+            });
+
+        },
+
         count (filters = {}) {
             return ClosurePromesify(() => {
 
-                filters = findFilledFormat(filters, this.filled);
+                filters = findFilledFormat(filters, Entity.filled);
 
                 return DB.count(filters);
             });
@@ -55,17 +65,17 @@ const DBRepository = (Entity) => {
         update(filter, post) {
 
             return ClosurePromesify(() => {
-                const fill = _.pull(this.filled, 'owner', Entity.access);
+                const fill = _.pull(Entity.filled, 'owner', Entity.access);
                 post = findFilledFormat(post, fill);
-
                 factoryValid(post, Entity.validators.update);
+
                 return new DB(post)
                     .updateAndModify(filter)
                     .then((e) => {
                         return validAccessUpdater(e);
                     })
                     .then((e) => {
-                        return filledTransform(e.get(), this.resFilled);
+                        return _.pick(e.get(), Entity.resFilled);
                     });
 
             });
@@ -75,14 +85,14 @@ const DBRepository = (Entity) => {
         create(post) {
 
             return ClosurePromesify(() => {
-                post = findFilledFormat(post, this.filled);
-                post = _.merge(post, formatRefsCollection({_id: post.owner._id}, post.owner._refs, Entity.access, {role: Access.ROLE_ADMIN}, true));
 
+                post = findFilledFormat(post, Entity.filled);
                 factoryValid(post, Entity.validators.create);
+
                 return new DB(post)
                     .save()
                     .then((e) => {
-                        return filledTransform(e.get(), this.resFilled);
+                        return _.pick(e.get(), Entity.resFilled);
                     });
 
             });

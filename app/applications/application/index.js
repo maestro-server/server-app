@@ -1,13 +1,12 @@
 'use strict';
 
-const Architecture = require('../entities/Architecture');
-
+const Application = require('../entities/Application');
 
 /**
  *
- * Architecture is Entity to call persisntece layer
+ * Entity to call persisntece layer
  */
-const PersistenceApp = require('applications/persistenceApplication')(Architecture);
+const PersistenceApp = require('applications/persistenceApplication')(Application);
 
 
 module.exports = {
