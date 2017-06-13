@@ -8,6 +8,7 @@ let kraken = require('kraken-js'),
     path = require('path'),
     request = require('supertest'),
     cleaner_db = require('./libs/cleaner_db'),
+    _ = require('lodash'),
     {expect} = chai;
 
 
@@ -236,6 +237,31 @@ describe('e2e users', function () {
                     done(err);
                 });
         });
+
+        it('Existe user - valid newpass change pass', function (done) {
+
+            request(mock)
+                .patch('/users/auth/pass')
+                .send(_.pick(user, 'email', 'nome', 'password'))
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(422)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Existe user - change password, without token', function (done) {
+
+            request(mock)
+                .patch('/users/auth/pass')
+                .send(_.pick(user, 'email', 'nome', 'password'))
+                .expect(401)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
     describe('change password again', function () {
@@ -330,9 +356,11 @@ describe('e2e users', function () {
         });
 
         it('Existe user - valid forgot', function (done) {
+            const data = {email: user.newemail, callback_url: user.callback_url};
+
             request(mock)
                 .post('/users/forgot')
-                .send(user)
+                .send(data)
                 .expect(204)
                 .end(function (err) {
                     if (err) return done(err);

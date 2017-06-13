@@ -65,7 +65,7 @@ const DBRepository = (Entity) => {
         update(filter, post) {
 
             return ClosurePromesify(() => {
-                const fill = _.pull(Entity.filled, 'owner', Entity.access);
+                const fill = _.pull(Entity.filled, 'owner', Entity.access, 'password');
                 post = findFilledFormat(post, fill);
                 factoryValid(post, Entity.validators.update);
 
