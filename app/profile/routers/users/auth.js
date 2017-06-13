@@ -4,9 +4,15 @@ const AuthService = require('core/services/authService');
 
 const authenticate = require('core/middlewares/authenticate');
 
+const UserAuth = require('profile/entities/Auth');
+
+/**
+ *
+ * Entity to call persisntece layer
+ */
+const AuthApp = require('profile/applications/authApplication')(UserAuth);
 
 module.exports = function (router) {
-
 
     router
         .get('/', authenticate(), function (req, res, next) {
@@ -38,16 +44,7 @@ module.exports = function (router) {
          * @apiSuccess {Object} members Members.
          */
 
-        .post('/', function (req, res, next) {
-
-            AuthService
-                .authenticate(req.body)
-                .then(e => res.json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        });
+        .post('/', AuthApp.login);
 
 
 };
