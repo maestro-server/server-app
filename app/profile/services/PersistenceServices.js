@@ -48,6 +48,15 @@ const UsersPersistence = (Entity) => {
                     });
             });
 
+        },
+
+        remove(_id) {
+
+            return ClosurePromesify(() => {
+
+                return DBRepository
+                    .remove({_id});
+            });
         }
     });
 };
