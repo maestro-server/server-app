@@ -9,7 +9,7 @@ const createS = {
 }
 
 const sharedS = {
-    name: Joi.string().alphanum().min(3).max(30),
+    name: Joi.string().min(3).max(30),
     email: Joi.string().email(),
     password: Joi.string().min(4).max(30).strip(),
     active: Joi.boolean(),

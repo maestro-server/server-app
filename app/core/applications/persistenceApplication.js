@@ -2,16 +2,16 @@
 
 const _ = require('lodash');
 
-const DPersistenceServices = require('services/PersistenceServices');
+const DPersistenceServices = require('core/services/PersistenceServices');
 
-const refsTransform = require('applications/transforms/refsTransform');
-const singleTransform = require('applications/transforms/singleTransform');
+const refsTransform = require('core/applications/transforms/refsTransform');
+const singleTransform = require('core/applications/transforms/singleTransform');
 
-const validNotFound = require('applications/validators/validNotFound');
-const collectionTransform = require('applications/transforms/collectionTransform');
+const validNotFound = require('core/applications/validators/validNotFound');
+const collectionTransform = require('core/applications/transforms/collectionTransform');
 
-const formatRole = require('format/formatFirstRole');
-const Access = require('entities/accessRole');
+const formatRole = require('core/format/formatFirstRole');
+const Access = require('core/entities/accessRole');
 
 const PersistenceApp = (Entity, PersistenceServices=DPersistenceServices) => {
 
@@ -43,9 +43,19 @@ const PersistenceApp = (Entity, PersistenceServices=DPersistenceServices) => {
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)
                 .then((e) => {
-                    console.log(e);
                     return refsTransform(e, Entity.access);
                 })
+                .then(e => res.json(e))
+                .catch(function (e) {
+                    next(e);
+                });
+
+        },
+
+        autocomplete (req, res, next) {
+
+            PersistenceServices(Entity)
+                .autocomplete(req.query, req.user)
                 .then(e => res.json(e))
                 .catch(function (e) {
                     next(e);

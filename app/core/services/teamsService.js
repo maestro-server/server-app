@@ -3,7 +3,7 @@
 const TeamRepository = require('../repositories/teamsRepository');
 const uploaderService = require('./libs/uploaderService');
 
-const RolesService = require('services/RolesServices');
+const RolesService = require('core/services/RolesServices');
 const TeamDAO = require('../repositories/daos/team');
 
 const merger = require('../repositories/transforms/mergeTransform');

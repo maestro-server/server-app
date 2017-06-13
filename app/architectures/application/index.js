@@ -7,7 +7,7 @@ const Architecture = require('../entities/Architecture');
  *
  * Architecture is Entity to call persisntece layer
  */
-const PersistenceApp = require('applications/persistenceApplication')(Architecture);
+const PersistenceApp = require('core/applications/persistenceApplication')(Architecture);
 
 
 module.exports = {
@@ -15,6 +15,8 @@ module.exports = {
     list: PersistenceApp.find,
 
     single: PersistenceApp.findOne,
+
+    autocomplete: PersistenceApp.autocomplete,
 
     update: PersistenceApp.update,
 

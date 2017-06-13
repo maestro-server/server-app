@@ -1,8 +1,8 @@
 'use strict';
 
-const Arch = require('services/architecturesService');
+const Arch = require('core/services/architecturesService');
 
-const PersistenceServices = require('services/PersistenceServices');
+const PersistenceServices = require('core/services/PersistenceServices');
 const User = require('../../entities/User');
 
 module.exports = {

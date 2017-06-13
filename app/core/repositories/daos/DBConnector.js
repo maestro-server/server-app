@@ -4,7 +4,7 @@ const _ = require('lodash');
 const {Model} = require('mongorito');
 
 const bcrypt = require('bcrypt');
-const crypto = require('helpers/crypto');
+const crypto = require('core/helpers/crypto');
 
 
 class Dao extends Model {

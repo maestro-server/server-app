@@ -1,13 +1,13 @@
 'use strict';
 
-const TeamService = require('services/teamsService');
-const ProjectsService = require('services/projectsService');
+const TeamService = require('core/services/teamsService');
+const ProjectsService = require('core/services/projectsService');
 
-const ArchitecturesTeamService = require('services/architecturesTeamService');
-const ApplicationTeamService = require('services/applicationsTeamService');
+const ArchitecturesTeamService = require('core/services/architecturesTeamService');
+const ApplicationTeamService = require('core/services/applicationsTeamService');
 
 
-const authenticate = require('middlewares/authenticate');
+const authenticate = require('core/middlewares/authenticate');
 
 const app = require('../application/');
 
@@ -36,6 +36,8 @@ module.exports = function (router) {
    */
     router
         .get('/', authenticate(), app.list)
+
+        .get('/autocomplete', authenticate(), app.autocomplete)
 
         .get('/upload', authenticate(), function (req, res, next) {
 

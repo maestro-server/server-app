@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const ConflictError = require('errors/conflictError');
+const ConflictError = require('core/errors/conflictError');
 
 module.exports = function (DBRepository, post) {
 

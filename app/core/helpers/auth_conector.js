@@ -2,11 +2,11 @@
 
 const passport = require('passport');
 const {Strategy} = require('passport-jwt');
-const UserRepository = require('../repositories/usersRepository');
+const UserRepository = require('core/repositories/usersRepository');
 
-const config = require('../helpers/auth_config');
+const config = require('core/helpers/auth_config');
 
-const PermissionError = require('../errors/permissionError');
+const PermissionError = require('core/errors/permissionError');
 
 
 module.exports = function() {

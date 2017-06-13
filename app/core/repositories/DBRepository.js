@@ -4,14 +4,14 @@ const _ = require('lodash');
 
 const Dao = require('./daos/DBConnector');
 const findFilledFormat = require('./format/findFilledFormat');
-const ClosurePromesify = require('libs/factoryPromisefy');
+const ClosurePromesify = require('core/libs/factoryPromisefy');
 
 const clearDaoTransform = require('./transforms/clearDaoTransform');
 const validAccessUpdater = require('./validators/validAccessUpdater');
 
 const activeTransform = require('./format/activeFormat');
 
-const factoryValid = require('libs/factoryValid');
+const factoryValid = require('core/libs/factoryValid');
 
 
 const DBRepository = (Entity) => {
