@@ -2,7 +2,7 @@
 
 const ApplicationDao = require('../repositories/daos/application');
 const ApplicationsRepository = require('../repositories/applicationsRepository');
-const RolesService = require('services/libs/rolesService');
+const RolesService = require('core/services/libs/rolesService');
 
 const merger = require('../repositories/transforms/mergeTransform');
 const refsTransform = require('./transforms/refsTransform');
@@ -35,7 +35,7 @@ class ApplicationsService {
                     return validNotFound(e, e[1], limit, page);
                 })
                 .then((e) => {
-                    return collectionTransform(e[0], e[1], 'applications', limit, page);
+                    return collectionTransform(e[0], e[1], 'core/applications', limit, page);
                 })
                 .then((e) => {
                     resolve(e);
@@ -121,7 +121,7 @@ class ApplicationsService {
                     return refsTransform(e, 'roles');
                 })
                 .then((e) => {
-                    return singleTransform(e, 'applications');
+                    return singleTransform(e, 'core/applications');
                 })
                 .then((e) => {
                     resolve(e);

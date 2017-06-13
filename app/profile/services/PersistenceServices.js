@@ -2,13 +2,13 @@
 
 const _ = require('lodash');
 
-const FactoryDBRepository = require('repositories/DBRepository');
-const ClosurePromesify = require('libs/factoryPromisefy');
-const factoryValid = require('libs/factoryValid');
+const FactoryDBRepository = require('core/repositories/DBRepository');
+const ClosurePromesify = require('core/libs/factoryPromisefy');
+const factoryValid = require('core/libs/factoryValid');
 
 const validDuplicateUser = require('./validator/validDuplicateUser');
 
-const Persistence = require('services/PersistenceServices');
+const Persistence = require('core/services/PersistenceServices');
 
 
 const UsersPersistence = (Entity) => {

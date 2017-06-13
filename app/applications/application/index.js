@@ -6,12 +6,14 @@ const Application = require('../entities/Application');
  *
  * Entity to call persisntece layer
  */
-const PersistenceApp = require('applications/persistenceApplication')(Application);
+const PersistenceApp = require('core/applications/persistenceApplication')(Application);
 
 
 module.exports = {
 
     list: PersistenceApp.find,
+
+    autocomplete: PersistenceApp.autocomplete,
 
     single: PersistenceApp.findOne,
 

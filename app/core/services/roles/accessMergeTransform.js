@@ -1,7 +1,7 @@
 'use strict';
 
 const {ObjectId} = require('mongorito');
-const Access = require('entities/accessRole');
+const Access = require('core/entities/accessRole');
 
 function makeAccess(owner, fielder, access) {
     const {_id} = owner;

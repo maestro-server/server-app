@@ -11,7 +11,7 @@ class Repository {
 
     excludeFilled(val) {
         this.setFilled(
-            this.filled.filter((e) => e != val)
+            this.filled.filter((e) => e !== val)
         );
 
         return this;

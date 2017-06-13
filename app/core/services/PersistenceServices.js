@@ -2,10 +2,10 @@
 
 const _ = require('lodash');
 
-const FactoryDBRepository = require('repositories/DBRepository');
-const ClosurePromesify = require('libs/factoryPromisefy');
+const FactoryDBRepository = require('core/repositories/DBRepository');
+const ClosurePromesify = require('core/libs/factoryPromisefy');
 
-const Access = require('entities/accessRole');
+const Access = require('core/entities/accessRole');
 
 const accessMergeTransform = require('./roles/accessMergeTransform');
 
@@ -41,6 +41,20 @@ const Persistence = (Entity) => {
 
                 return DBRepository
                     .findOne(query);
+            });
+        },
+
+        autocomplete(query, owner) {
+
+            return ClosurePromesify(() => {
+
+                let  name;
+                if (query.hasOwnProperty('complete')) {
+                    name = {$regex:query.complete, '$options' : 'i'};
+                }
+
+                return this
+                    .find({name}, owner);
             });
         },
 

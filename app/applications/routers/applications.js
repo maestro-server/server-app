@@ -1,6 +1,6 @@
 'use strict';
 
-const authenticate = require('middlewares/authenticate');
+const authenticate = require('core/middlewares/authenticate');
 
 const app = require('../application/');
 const roles = require('../application/roles');
@@ -9,6 +9,8 @@ module.exports = function (router) {
 
     router
         .get('/', authenticate(), app.list)
+
+        .get('/autocomplete', authenticate(), app.autocomplete)
 
         .get('/:id', authenticate(), app.single)
 

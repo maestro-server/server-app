@@ -1,8 +1,8 @@
 'use strict';
 
-const UsersService = require('services/usersService');
+const UsersService = require('core/services/usersService');
 
-const authenticate = require('middlewares/authenticate');
+const authenticate = require('core/middlewares/authenticate');
 
 
 module.exports = function (router) {
