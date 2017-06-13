@@ -1,6 +1,6 @@
 version: '2'
 
-'core/services:
+services:
   maildev:
     image: djfarrelly/maildev
     ports:
