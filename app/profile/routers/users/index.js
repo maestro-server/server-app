@@ -3,7 +3,7 @@
 const UserService = require('core/services/usersService');
 const authenticate = require('core/middlewares/authenticate');
 
-const User = require('../../entities/Users');
+const User = require('profile/entities/Users');
 
 /**
  *
@@ -16,6 +16,8 @@ module.exports = function (router) {
 
     router
         .get('/', authenticate(), PersistenceApp.find)
+
+        .get('/autocomplete', authenticate(), PersistenceApp.autocomplete)
 
         .get('/upload', authenticate(), function (req, res, next) {
 

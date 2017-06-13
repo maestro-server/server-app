@@ -9,4 +9,4 @@ module.exports = {
 
     filled: ['name', 'fullname', 'email', 'password', 'phone', 'company', 'avatar', 'job', 'country', 'city', 'address'],
     resFilled: ['_id', 'name', 'fullname', 'email'  , 'phone', 'company', 'avatar', 'job', 'country', 'city', 'address']
-}
+};
