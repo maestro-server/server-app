@@ -1,6 +1,6 @@
 'use strict';
 
-const RolesServices = require('core/services/RolesServices');
+const RolesServices = require('core/services/libs/rolesService');
 const ArchitecturesService = require('core/services/architecturesService');
 
 module.exports = {

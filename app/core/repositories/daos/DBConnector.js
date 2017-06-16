@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const {Model} = require('mongorito');
 
 const bcrypt = require('bcrypt');

@@ -31,7 +31,9 @@ module.exports = function (router) {
                 });
         })
 
-        .get('/forgot', authenticate(), (req, res) => {res.json({})})
+        .get('/forgot', authenticate(), (req, res) => {
+          res.json({});
+         })
 
         .get('/:id', authenticate(), PersistenceApp.findOne)
 
