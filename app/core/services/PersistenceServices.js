@@ -64,8 +64,10 @@ const Persistence = (Entity) => {
 
                 const query = accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_WRITER);
 
+                const fill = _.pull(Entity.filled, 'owner', Entity.access, 'password');
+
                 return DBRepository
-                    .update(query, post);
+                    .update(query, post, fill);
             });
         },
 

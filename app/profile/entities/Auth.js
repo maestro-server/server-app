@@ -5,8 +5,8 @@ module.exports = {
 
     access: null,
 
-    validators: require('../validators'),
+    validators: require('../validators/auth'),
 
-    filled: ['name', 'email', 'password'],
+    filled: ['name', 'email', 'newpass', 'password'],
     resFilled: ['_id', 'name', 'email', 'password']
 };

@@ -4,7 +4,6 @@ const _ = require('lodash');
 
 const FactoryDBRepository = require('core/repositories/DBRepository');
 const ClosurePromesify = require('core/libs/factoryPromisefy');
-const factoryValid = require('core/libs/factoryValid');
 
 const validDuplicateUser = require('./validator/validDuplicateUser');
 
@@ -33,6 +32,8 @@ const UsersPersistence = (Entity) => {
 
             return ClosurePromesify(() => {
 
+                console.log(_id);
+
                 return DBRepository
                     .findOne({_id});
             });
@@ -43,8 +44,10 @@ const UsersPersistence = (Entity) => {
 
                 return validDuplicateUser(DBRepository, post)
                     .then(() => {
+
+                        const fill = _.pull(Entity.filled, 'owner', Entity.access, 'password');
                         return DBRepository
-                            .update({_id}, post);
+                            .update({_id}, post, fill);
                     });
             });
 
