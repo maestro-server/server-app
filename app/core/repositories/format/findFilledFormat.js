@@ -9,4 +9,4 @@ module.exports = (filters, filled) => {
     _.extend(filters, activeTransform.active());
 
     return filters;
-}
+};

@@ -5,7 +5,7 @@ const Dao = require('./dao');
 class ApplicationDao extends Dao {
 
     static get db() {
-        return 'core/applications';
+        return 'applications';
     }
 
     static get role() {

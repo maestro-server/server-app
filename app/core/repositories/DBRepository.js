@@ -10,7 +10,6 @@ const clearDaoTransform = require('./transforms/clearDaoTransform');
 const validAccessUpdater = require('./validators/validAccessUpdater');
 
 const activeTransform = require('./format/activeFormat');
-
 const factoryValid = require('core/libs/factoryValid');
 
 
@@ -72,7 +71,44 @@ const DBRepository = (Entity) => {
                 return new DB(post)
                     .updateAndModify(filter)
                     .then((e) => {
-                    console.log(e);
+                        return validAccessUpdater(e);
+                    })
+                    .then((e) => {
+                        return _.pick(e.get(), Entity.resFilled);
+                    });
+
+            });
+
+        },
+
+        updateByPushUnique(filter, post, fill = Entity.filled) {
+
+            return ClosurePromesify(() => {
+
+                post = _.pick(post, fill);
+
+                return new DB(post)
+                    .updateByPushUnique(filter)
+                    .then((e) => {
+                        return validAccessUpdater(e);
+                    })
+                    .then((e) => {
+                        return _.pick(e.get(), Entity.resFilled);
+                    });
+
+            });
+
+        },
+
+        updateByPull(filter, post, fill = Entity.filled) {
+
+            return ClosurePromesify(() => {
+
+                post = _.pick(post, fill);
+
+                return new DB(post)
+                    .updateByPull(filter)
+                    .then((e) => {
                         return validAccessUpdater(e);
                     })
                     .then((e) => {
@@ -113,9 +149,9 @@ const DBRepository = (Entity) => {
 
             });
         }
-    }
+    };
 
-}
+};
 
 
 module.exports = DBRepository;
