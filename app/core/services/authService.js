@@ -11,7 +11,7 @@ const validForgotEmail = require('../repositories/validators/validForgotEmail');
 const forgotEmailTransform = require('./transforms/forgotEmailTransform');
 const decodePassForgot = require('./libs/decodePassForgot');
 
-const mailerService = require('./libs/mailerService');
+const mailerService = require('./mailerService');
 
 class AuthService {
 

@@ -6,7 +6,7 @@ module.exports = function (e) {
 
     return new Promise((resolve) => {
 
-        if (e.isUpdater.n < 1)
+        if (!e)
             throw new PermissionError('You dont have access');
 
         resolve(e);

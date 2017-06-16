@@ -56,6 +56,9 @@ const PersistenceApp = (Entity, PersistenceServices=DPersistenceServices) => {
 
             PersistenceServices(Entity)
                 .autocomplete(req.query, req.user)
+                .then((e) => {
+                    return collectionTransform(e[0], e[1]);
+                })
                 .then(e => res.json(e))
                 .catch(function (e) {
                     next(e);

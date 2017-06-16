@@ -109,7 +109,7 @@ describe('e2e users', function () {
 
         it('Exist user - autocomplete', function (done) {
             request(mock)
-                .get('/users/autocomplete')
+                    .get('/users/autocomplete')
                 .query({complete: "maestro"})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
@@ -311,6 +311,7 @@ describe('e2e users', function () {
             request(mock)
                 .post('/users/auth')
                 .send(user)
+                .expect(e=>console.log(e.body))
                 .expect(400)
                 .expect('Content-Type', /json/)
                 .expect(/Invalid/)
@@ -323,7 +324,6 @@ describe('e2e users', function () {
         it('Existe user - get new token with new email and password', function (done) {
             const data = {email: user.newemail, password: user.newpass};
 
-            console.log(data);
             request(mock)
                 .post('/users/auth')
                 .send(data)

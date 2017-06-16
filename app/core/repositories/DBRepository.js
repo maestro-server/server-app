@@ -19,7 +19,7 @@ const DBRepository = (Entity) => {
     const DB = Dao(Entity);
 
     return {
-        find (filters = {}, limit = 20, skip = 0) {
+        find (filters = {}, limit = 20, skip = 0, resFilled = Entity.resFilled) {
 
             return ClosurePromesify(() => {
                 filters = findFilledFormat(filters, Entity.filled);
@@ -28,7 +28,7 @@ const DBRepository = (Entity) => {
                     .limit(limit)
                     .skip(skip)
                     .sort('created_at', -1)
-                    .include(Entity.resFilled)
+                    .include(resFilled)
                     .find(filters)
                     .then((e) => {
                         return clearDaoTransform(e);
@@ -36,7 +36,7 @@ const DBRepository = (Entity) => {
             });
         },
 
-        findOne(filters) {
+        findOne(filters, resFilled = Entity.resFilled) {
 
             return ClosurePromesify(() => {
                 filters = _.merge(filters, activeTransform.active());
@@ -47,31 +47,32 @@ const DBRepository = (Entity) => {
                         if (e)
                             e = e.get();
 
-                        return _.pick(e, Entity.resFilled);
+                        return _.pick(e, resFilled);
                     });
             });
 
         },
 
-        count (filters = {}) {
+        count (filters = {}, fill = Entity.filled) {
             return ClosurePromesify(() => {
 
-                filters = findFilledFormat(filters, Entity.filled);
+                filters = findFilledFormat(filters, fill);
 
                 return DB.count(filters);
             });
         },
 
-        update(filter, post) {
+        update(filter, post, fill = Entity.filled) {
 
             return ClosurePromesify(() => {
-                const fill = _.pull(Entity.filled, 'owner', Entity.access, 'password');
+
                 post = findFilledFormat(post, fill);
                 factoryValid(post, Entity.validators.update);
 
                 return new DB(post)
                     .updateAndModify(filter)
                     .then((e) => {
+                    console.log(e);
                         return validAccessUpdater(e);
                     })
                     .then((e) => {

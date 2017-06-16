@@ -1,6 +1,6 @@
 'use strict';
 
-const mailerConnector = require('../repositories/smtp/mailerConnector');
+const mailerConnector = require('core/repositories/smtp/mailerConnector');
 
 class mailerService {
 
