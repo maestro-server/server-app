@@ -45,7 +45,7 @@ describe('e2e architectures', function () {
         }));
 
         app.once('start', done);
-        mock = app.listen(1337);
+        mock = app.listen(1338);
     });
 
 
@@ -381,7 +381,7 @@ describe('e2e architectures', function () {
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
-                .expect(/\"_ref\":\"users\"/)
+                .expect(/\"refs\":\"users\"/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);

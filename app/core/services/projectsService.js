@@ -140,9 +140,9 @@ class ProjectsService {
 
         return new Promise(function (resolve, reject) {
 
-          user = _.defaults(user, {'_ref': 'users'});
+          user = _.defaults(user, {'refs': 'users'});
 
-          filledTransform(user, ['_id', 'name', 'email', '_ref'])
+          filledTransform(user, ['_id', 'name', 'email', 'refs'])
                 .then((owner) => {
                   return merger(project, {owner});
                 })

@@ -2,22 +2,33 @@
 
 const authenticate = require('core/middlewares/authenticate');
 
-const app = require('../application/');
+const Project = require('../entities/Project');
+const PersistenceApp = require('core/applications/persistenceApplication')(Project);
+const AccessApp = require('core/applications/accessApplication')(Project);
 
 
 module.exports = function (router) {
 
     router
-        .get('/', authenticate(), app.list)
+        .get('/', authenticate(), PersistenceApp.find)
 
-        .get('/autocomplete', authenticate(), app.autocomplete)
+        .get('/autocomplete', authenticate(), PersistenceApp.autocomplete)
 
-        .get('/:id', authenticate(), app.single)
+        .get('/:id', authenticate(), PersistenceApp.findOne)
 
-        .patch('/:id', authenticate(), app.update)
+        .patch('/:id', authenticate(), PersistenceApp.update)
 
-        .delete('/:id', authenticate(), app.delete)
+        .delete('/:id', authenticate(), PersistenceApp.remove)
 
-        .post('/', authenticate(), app.create);
+        .post('/', authenticate(), PersistenceApp.create)
+
+        /**
+         * Roles
+         */
+        .post('/:id/roles', authenticate(), AccessApp.create)
+
+        .put('/:id/roles/:idu', authenticate(), AccessApp.update)
+
+        .delete('/:id/roles/:idu', authenticate(), AccessApp.delete);
 
 };

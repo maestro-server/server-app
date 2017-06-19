@@ -1,16 +1,23 @@
 "use strict";
 
-const DatabaseCleaner = require('database-cleaner');
-const databaseCleaner = new DatabaseCleaner('mongodb');
-const connect = require('mongodb').connect;
+let MongoClient = require("mongodb").MongoClient;
 
-module.exports = function (done, mock) {
+module.exports = function (collection, done, mock) {
 
-    connect('mongodb://'+process.env.MONGO_URL, function(err, db) {
-        databaseCleaner.clean(db, function() {
-            console.log("clear db");
-            db.close();
-            mock.close(done);
+
+    MongoClient.connect('mongodb://'+process.env.MONGO_URL, (err, db) => {
+
+        db.collection(collection, {}, (err1, coll) => {
+
+            coll.remove({}, (err2, result) => {
+                if (err) {
+                    console.log(err);
+                }
+                console.log(result);
+                db.close();
+                mock.close(done);
+            });
+
         });
     });
 

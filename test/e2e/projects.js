@@ -41,7 +41,7 @@ describe('e2e projects', function () {
         }));
 
         app.once('start', done);
-        mock = app.listen(1337);
+        mock = app.listen(1339);
     });
 
 

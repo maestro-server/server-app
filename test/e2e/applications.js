@@ -381,7 +381,7 @@ describe('e2e applications', function () {
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
-                .expect(/\"_ref\":\"users\"/)
+                .expect(/\"refs\":\"users\"/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);

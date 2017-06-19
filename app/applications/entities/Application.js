@@ -9,4 +9,4 @@ module.exports = {
 
     filled: ['name', 'roles', 'owner'],
     resFilled: ['_id', 'name', 'roles', 'owner']
-}
+};

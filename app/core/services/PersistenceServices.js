@@ -58,11 +58,11 @@ const Persistence = (Entity) => {
             });
         },
 
-        update (_id, post, owner) {
+        update (_id, post, owner, access=Access.ROLE_WRITER) {
 
             return ClosurePromesify(() => {
 
-                const query = accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_WRITER);
+                const query = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 const fill = _.pull(Entity.filled, 'owner', Entity.access, 'password');
 
@@ -80,11 +80,11 @@ const Persistence = (Entity) => {
             });
         },
 
-        remove(_id, owner) {
+        remove(_id, owner, access=Access.ROLE_ADMIN) {
 
             return ClosurePromesify(() => {
 
-                const query = accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_ADMIN);
+                const query = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
                     .remove(query);

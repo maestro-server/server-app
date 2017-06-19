@@ -49,7 +49,6 @@ const PersistenceApp = (Entity, PersistenceServices=DPersistenceServices) => {
                 .catch(function (e) {
                     next(e);
                 });
-
         },
 
         autocomplete (req, res, next) {
@@ -78,9 +77,9 @@ const PersistenceApp = (Entity, PersistenceServices=DPersistenceServices) => {
 
         create (req, res, next) {
             let {user, body} = req;
-            user = _.defaults(user, {_refs: "users"});
+            user = _.defaults(user, {'refs': "users"});
 
-            const owner = _.pick(user, 'name', 'email', '_id', '_refs');
+            const owner = _.pick(user, 'name', 'email', '_id', 'refs');
 
             if (Entity.access) {
                 body = _.merge(

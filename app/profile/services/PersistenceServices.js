@@ -32,8 +32,6 @@ const UsersPersistence = (Entity) => {
 
             return ClosurePromesify(() => {
 
-                console.log(_id);
-
                 return DBRepository
                     .findOne({_id});
             });

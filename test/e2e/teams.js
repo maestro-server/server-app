@@ -49,7 +49,7 @@ describe('e2e teams', function () {
         }));
 
         app.once('start', done);
-        mock = app.listen(1337);
+        mock = app.listen(1341);
     });
 
 
@@ -409,7 +409,7 @@ describe('e2e teams', function () {
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
-                .expect(/\"_ref\":\"users\"/)
+                .expect(/\"refs\":\"users\"/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);

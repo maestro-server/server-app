@@ -3,26 +3,25 @@
 const _ = require('lodash');
 const Access = require('core/entities/accessRole');
 
-const FactoryPesistenceApp = require('core/applications/persistenceApplication');
+const DFactoryPesistenceApp = require('core/applications/persistenceApplication');
 const PersistenceServices = require('core/services/PersistenceServices');
 
 const accessEmpty = require('core/validators/accessEmpty');
 
 
-const WrapperAccessPersistenceApp = (Entity, Team) => {
+const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = DFactoryPesistenceApp) => {
 
     const PesistenceApp = FactoryPesistenceApp(Entity);
 
     return {
-
         find (req, res, next) {
             const {user, params} = req;
 
-            PersistenceServices(Team)
+            PersistenceServices(ACEntity)
                 .findOne(params.id, user, Access.ROLE_READ)
                 .then(accessEmpty)
                 .then((e) => {
-                    e.refs = Team.name;
+                    e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');
 
                     PesistenceApp.find(req, res, next);
@@ -35,13 +34,13 @@ const WrapperAccessPersistenceApp = (Entity, Team) => {
         findOne (req, res, next) {
             const {user, params} = req;
 
-            PersistenceServices(Team)
+            PersistenceServices(ACEntity)
                 .findOne(params.id, user, Access.ROLE_READ)
                 .then(accessEmpty)
                 .then((e) => {
-                    e.refs = Team.name;
+                    e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');
-                    req.params.id = req.params.idu;
+                    req.params.id = _.get(params, 'idu');
 
                     PesistenceApp.findOne(req, res, next);
                 })
@@ -53,13 +52,13 @@ const WrapperAccessPersistenceApp = (Entity, Team) => {
         update (req, res, next) {
             const {user, params} = req;
 
-            PersistenceServices(Team)
+            PersistenceServices(ACEntity)
                 .findOne(params.id, user, Access.ROLE_WRITER)
                 .then(accessEmpty)
                 .then((e) => {
-                    e.refs = Team.name;
+                    e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');
-                    req.params.id = req.params.idu;
+                    req.params.id = _.get(params, 'idu');
 
                     PesistenceApp.update(req, res, next);
                 })
@@ -71,12 +70,13 @@ const WrapperAccessPersistenceApp = (Entity, Team) => {
         create (req, res, next) {
             const {user, params} = req;
 
-            PersistenceServices(Team)
+            PersistenceServices(ACEntity)
                 .findOne(params.id, user, Access.ROLE_WRITER)
                 .then(accessEmpty)
                 .then((e) => {
-                    e.refs = Team.name;
+                    e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');
+                    req.params.id = _.get(params, 'idu');
 
                     PesistenceApp.create(req, res, next);
                 })
@@ -88,13 +88,13 @@ const WrapperAccessPersistenceApp = (Entity, Team) => {
         remove (req, res, next) {
             const {user, params} = req;
 
-            PersistenceServices(Team)
+            PersistenceServices(ACEntity)
                 .findOne(params.id, user, Access.ROLE_WRITER)
                 .then(accessEmpty)
                 .then((e) => {
-                    e.refs = Team.name;
+                    e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');
-                    req.params.id = req.params.idu;
+                    req.params.id = _.get(params, 'idu');
 
                     PesistenceApp.remove(req, res, next);
                 })
@@ -102,8 +102,9 @@ const WrapperAccessPersistenceApp = (Entity, Team) => {
                     next(err);
                 });
         }
-
     };
+
 };
 
-module.exports = WrapperAccessPersistenceApp;
+
+module.exports = WrapperPersistenceApp;
