@@ -1,11 +1,7 @@
-/*global describe:false, it:false, beforeEach:false, afterEach:false*/
-
 'use strict';
+require('dotenv').config({path: '.env.test'});
 
-
-let kraken = require('kraken-js'),
-    path = require('path'),
-    request = require('supertest');
+let request = require('supertest');
 
 
 describe('e2e - server up', function () {
@@ -14,15 +10,10 @@ describe('e2e - server up', function () {
 
 
     before(function (done) {
-        require('dotenv').config({path: '.env.test'});
-        app = require('../../app/app');
-
-        app.use(kraken({
-            basedir: path.resolve(__dirname, '../../app/')
-        }));
+        app = require('./libs/bootApp')();
 
         app.once('start', done);
-        mock = app.listen(1336);
+        mock = app.listen(1343);
     });
 
 

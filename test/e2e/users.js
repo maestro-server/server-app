@@ -1,20 +1,13 @@
-/*global describe:false, it:false, beforeEach:false, afterEach:false*/
-
 'use strict';
+require('dotenv').config({path: '.env.test'});
 
-
-let kraken = require('kraken-js'),
-    chai = require('chai'),
-    path = require('path'),
+let chai = require('chai'),
     request = require('supertest'),
     cleaner_db = require('./libs/cleaner_db'),
     _ = require('lodash'),
     {expect} = chai;
 
-
-
 describe('e2e users', function () {
-
     let app, mock;
 
     let user = {
@@ -28,22 +21,17 @@ describe('e2e users', function () {
         callback_url: "http://localhost:1337"
     };
 
-
+    const conn = process.env.MONGO_URL+'_users';
     before(function (done) {
-        require('dotenv').config({path: '.env.test'});
-        app = require('../../app/app');
+      app = require('./libs/bootApp')(conn);
 
-        app.use(kraken({
-            basedir: path.resolve(__dirname, '../../app/')
-        }));
-
-        app.once('start', done);
-        mock = app.listen(1342);
+      app.once('start', done);
+      mock = app.listen(1347);
     });
 
 
     after(function (done) {
-        cleaner_db(done, mock);
+      cleaner_db([{tb: 'users', ids: [user]}], done, mock, conn);
     });
 
 
@@ -311,7 +299,6 @@ describe('e2e users', function () {
             request(mock)
                 .post('/users/auth')
                 .send(user)
-                .expect(e=>console.log(e.body))
                 .expect(400)
                 .expect('Content-Type', /json/)
                 .expect(/Invalid/)

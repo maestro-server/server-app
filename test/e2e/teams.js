@@ -1,9 +1,7 @@
 'use strict';
+require('dotenv').config({path: '.env.test'});
 
-
-let kraken = require('kraken-js'),
-    chai = require('chai'),
-    path = require('path'),
+let chai = require('chai'),
     request = require('supertest'),
     cleaner_db = require('./libs/cleaner_db'),
     {expect} = chai;
@@ -39,22 +37,17 @@ describe('e2e teams', function () {
         url: "http://maestroserver.io"
     }];
 
-
+    const conn = process.env.MONGO_URL+'_teams';
     before(function (done) {
-        require('dotenv').config({path: '.env.test'});
-        app = require('../../app/app');
+      app = require('./libs/bootApp')(conn);
 
-        app.use(kraken({
-            basedir: path.resolve(__dirname, '../../app/')
-        }));
-
-        app.once('start', done);
-        mock = app.listen(1341);
+      app.once('start', done);
+      mock = app.listen(1346);
     });
 
 
     after(function (done) {
-        cleaner_db(done, mock);
+      cleaner_db([{tb: 'users', ids: [user, friend]}, {tb: 'teams'}], done, mock, conn);
     });
 
 

@@ -1,11 +1,7 @@
-/*global describe:false, it:false, beforeEach:false, afterEach:false*/
-
 'use strict';
+require('dotenv').config({path: '.env.test'});
 
-
-let kraken = require('kraken-js'),
-    chai = require('chai'),
-    path = require('path'),
+let chai = require('chai'),
     request = require('supertest'),
     cleaner_db = require('./libs/cleaner_db'),
     {expect} = chai;
@@ -31,22 +27,17 @@ describe('e2e projects', function () {
         name: "SecondProject"
     }];
 
-
+    const conn = process.env.MONGO_URL+'_projects';
     before(function (done) {
-        require('dotenv').config({path: '.env.test'});
-        app = require('../../app/app');
+      app = require('./libs/bootApp')(conn);
 
-        app.use(kraken({
-            basedir: path.resolve(__dirname, '../../app/')
-        }));
-
-        app.once('start', done);
-        mock = app.listen(1339);
+      app.once('start', done);
+      mock = app.listen(1344);
     });
 
 
     after(function (done) {
-        cleaner_db(done, mock);
+      cleaner_db([{tb: 'users', ids: [user]}, {tb: 'projects'}], done, mock, conn);
     });
 
 
