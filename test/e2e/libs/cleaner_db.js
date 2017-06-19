@@ -1,24 +1,42 @@
 "use strict";
 
+const _ = require('lodash');
 let MongoClient = require("mongodb").MongoClient;
 
-module.exports = function (collection, done, mock) {
+
+const interactC = function (db, collections) {
+  let pros=[];
 
 
-    MongoClient.connect('mongodb://'+process.env.MONGO_URL, (err, db) => {
+  collections.forEach((collection) => {
+    let ids = {};
 
-        db.collection(collection, {}, (err1, coll) => {
+    if(_.get(collection, 'ids')) {
+      const list = _.map(collection.ids, (e)=>e._id);
 
-            coll.remove({}, (err2, result) => {
-                if (err) {
-                    console.log(err);
-                }
-                console.log(result);
-                db.close();
-                mock.close(done);
-            });
+      ids = {'_id': {$in: list}};
+    }
 
-        });
+    db.collection(collection.tb, ids, (err1, coll) => {
+        pros.push(coll.remove({}));
     });
 
+  });
+
+  return pros;
+};
+
+module.exports = function (collections, done, mock, conn = process.env.MONGO_URL) {
+
+    MongoClient.connect('mongodb://'+conn)
+        .then((db) => {
+
+          const pros = interactC(db, collections);
+
+          Promise.all(pros)
+            .then(() => {
+              db.close();
+              mock.close(done);
+            });
+        });
 };

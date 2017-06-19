@@ -1,8 +1,7 @@
 'use strict';
+require('dotenv').config({path: '.env.test'});
 
-let kraken = require('kraken-js'),
-    path = require('path'),
-    request = require('supertest'),
+let request = require('supertest'),
     cleaner_db = require('./libs/cleaner_db');
 
 
@@ -31,23 +30,17 @@ describe('e2e check access roles', function () {
         name: "MyApplication"
     };
 
-
+    const conn = process.env.MONGO_URL+'_roles';
     before(function (done) {
-        require('dotenv').config({path: '.env.test'});
+      app = require('./libs/bootApp')(conn);
 
-        app = require('../../app/app');
-
-        app.use(kraken({
-            basedir: path.resolve(__dirname, '../../app/')
-        }));
-
-        app.once('start', done);
-        mock = app.listen(1340);
+      app.once('start', done);
+      mock = app.listen(1345);
     });
 
 
     after(function (done) {
-        cleaner_db(done, mock);
+      cleaner_db([{tb: 'users', ids: [user, friend]}], done, mock, conn);
     });
 
 
@@ -70,25 +63,26 @@ describe('e2e check access roles', function () {
                 });
         });
 
+        it('Create account - success friend', function (done) {
+            request(mock)
+                .post('/users')
+                .send(friend)
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .expect(/\"name\":\"roles_Friend\"/)
+                .expect(/_id/)
+                .expect((res) => {
+                    friend._id = res.body._id;
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
     });
 
-    it('Create account - success friend', function (done) {
-        request(mock)
-            .post('/users')
-            .send(friend)
-            .expect(e=>console.log(e.body))
-            .expect(201)
-            .expect('Content-Type', /json/)
-            .expect(/\"name\":\"roles_Friend\"/)
-            .expect(/_id/)
-            .expect((res) => {
-                friend._id = res.body._id;
-            })
-            .end(function (err) {
-                if (err) return done(err);
-                done(err);
-            });
-    });
+
 
     describe('get token', function () {
         it('Exist user - get my token', function (done) {
