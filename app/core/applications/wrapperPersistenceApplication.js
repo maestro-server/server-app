@@ -77,7 +77,6 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
                     e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');
                     req.params.id = _.get(params, 'idu');
-
                     PesistenceApp.create(req, res, next);
                 })
                 .catch((err) => {
