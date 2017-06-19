@@ -11,9 +11,9 @@ module.exports = function (data, fielder='members') {
         _.forIn(data[fielder], function(value, key) {
 
           if(_.has(value, '_id', 'name', 'email')) {
-            value = _.defaults(value, { '_ref': 'users'}, {'role': 1});
+            value = _.defaults(value, { 'refs': 'users'}, {'role': 1});
             value = formtObjectId(value);
-            data[fielder][key] = _.pick(value, ['_ref', '_id', 'name', 'email', 'role']);
+            data[fielder][key] = _.pick(value, ['refs', '_id', 'name', 'email', 'role']);
           } else {
             delete data[fielder][key]; // insure to remove this
           }

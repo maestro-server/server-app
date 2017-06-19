@@ -1,6 +1,5 @@
 'use strict';
 
-const UserService = require('core/services/usersService');
 const authenticate = require('core/middlewares/authenticate');
 
 const User = require('profile/entities/Users');
@@ -12,6 +11,7 @@ const UserAuth = require('profile/entities/Auth');
  */
 const ProfilePersistenceService = require('profile/services/PersistenceServices');
 const PersistenceApp = require('core/applications/persistenceApplication')(User, ProfilePersistenceService);
+const UploaderApp = require('core/applications/uploadApplication')(User);
 
 const AuthApp = require('profile/applications/authApplication')(UserAuth);
 
@@ -22,14 +22,7 @@ module.exports = function (router) {
 
         .get('/autocomplete', authenticate(), PersistenceApp.autocomplete)
 
-        .get('/upload', authenticate(), function (req, res, next) {
-
-            UserService.uploadAvatar(req.query, req.user)
-                .then(e => res.json(e))
-                .catch(function(e) {
-                    next(e);
-                });
-        })
+        .get('/upload', authenticate(), UploaderApp.uploader)
 
         .get('/forgot', authenticate(), (req, res) => {
           res.json({});

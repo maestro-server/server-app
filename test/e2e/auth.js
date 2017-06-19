@@ -30,12 +30,12 @@ describe('e2e auth: auth and login', function () {
         }));
 
         app.once('start', done);
-        mock = app.listen(1337);
+        mock = app.listen(1339);
     });
 
 
     after(function (done) {
-        cleaner_db(done, mock);
+        cleaner_db('users', done, mock);
     });
 
 
@@ -62,8 +62,6 @@ describe('e2e auth: auth and login', function () {
                 .expect('Content-Type', /json/)
                 .expect(/ValidatorError/)
                 .expect(/name/)
-                .expect(/email/)
-                .expect(/password/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -73,7 +71,7 @@ describe('e2e auth: auth and login', function () {
         it('Create account - validation email', function (done) {
             request(mock)
                 .post('/users')
-                .send({email: "isnotemail"})
+                .send({name: "MyName", email: "isnotemail"})
                 .expect(422)
                 .expect('Content-Type', /json/)
                 .expect(/ValidatorError/)
@@ -145,7 +143,7 @@ describe('e2e auth: auth and login', function () {
                 .expect(200)
                 .expect(/_id"/)
                 .expect(/email"/)
-                .expect(/active"/)
+                .expect(/name"/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);

@@ -4,7 +4,6 @@
 
 
 let kraken = require('kraken-js'),
-    express = require('express'),
     path = require('path'),
     request = require('supertest');
 
@@ -16,19 +15,14 @@ describe('e2e - server up', function () {
 
     before(function (done) {
         require('dotenv').config({path: '.env.test'});
-        app = express();
+        app = require('../../app/app');
 
         app.use(kraken({
             basedir: path.resolve(__dirname, '../../app/')
         }));
 
         app.once('start', done);
-        mock = app.listen(1337);
-    });
-
-
-    after(function (done) {
-        mock.close(done);
+        mock = app.listen(1336);
     });
 
 

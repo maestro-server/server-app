@@ -14,4 +14,4 @@ module.exports = {
     update: schema,
     delete: {},
     list: {}
-}
+};

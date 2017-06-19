@@ -8,7 +8,7 @@ function createCollectionLink (collection) {
   return collection.map(function(err) {
       err._links = {
          'self': {
-              'href': `${BASE}/${err._ref}/${err._id}`,
+              'href': `${BASE}/${err.refs}/${err._id}`,
              'method': 'GET'
           }
       };

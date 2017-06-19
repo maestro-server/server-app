@@ -9,4 +9,4 @@ module.exports = {
     desactive () {
         return {active: false};
     }
-}
+};

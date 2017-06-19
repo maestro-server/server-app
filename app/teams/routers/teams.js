@@ -1,15 +1,13 @@
 'use strict';
 
-const TeamService = require('core/services/teamsService');
-const ProjectsService = require('core/services/projectsService');
-
-const ArchitecturesTeamService = require('core/services/architecturesTeamService');
-const ApplicationTeamService = require('core/services/applicationsTeamService');
-
-
 const authenticate = require('core/middlewares/authenticate');
 
-const app = require('../application/');
+
+const Team = require('../entities/Teams');
+const PersistenceApp = require('core/applications/persistenceApplication')(Team);
+const AccessApp = require('core/applications/accessApplication')(Team);
+
+const UploaderApp = require('core/applications/uploadApplication')(Team);
 
 module.exports = function (router) {
 
@@ -35,18 +33,12 @@ module.exports = function (router) {
    *     }
    */
     router
-        .get('/', authenticate(), app.list)
+        .get('/', authenticate(), PersistenceApp.find)
 
-        .get('/autocomplete', authenticate(), app.autocomplete)
+        .get('/autocomplete', authenticate(), PersistenceApp.autocomplete)
 
-        .get('/upload', authenticate(), function (req, res, next) {
+        .get('/upload', authenticate(), UploaderApp.uploader)
 
-            TeamService.uploadAvatar(req.query, req.user)
-                .then(e => res.json(e))
-                .catch(function(e) {
-                    next(e);
-                });
-        })
         /**
          * @api {get} /teams/:id Get team information
          * @apiName Get Single Team
@@ -67,9 +59,9 @@ module.exports = function (router) {
          *       "lastname": "Doe"
          *     }
          */
-        .get('/:id', authenticate(), app.single)
+        .get('/:id', authenticate(), PersistenceApp.findOne)
 
-        .patch('/:id', authenticate(), app.update)
+        .patch('/:id', authenticate(), PersistenceApp.update)
 
         /**
          * @api {delete} /teams/:id Delete team
@@ -87,34 +79,14 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/:id', authenticate(), app.delete)
+        .delete('/:id', authenticate(), PersistenceApp.remove)
 
-        .post('/', authenticate(), app.create);
+        .post('/', authenticate(), PersistenceApp.create)
 
-    /**
-     *
-     * Members
-     */
-    router
-        .post('/:id/members', authenticate(), function (req, res, next) {
+        .post('/:id/members', authenticate(), AccessApp.create)
 
-            TeamService.addMember(req.params.id, req.body, req.user)
-                .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
+        .put('/:id/members/:idu', authenticate(), AccessApp.update)
 
-        })
-
-        .put('/:id/members/:idu', authenticate(), function (req, res, next) {
-
-            TeamService.updateMember(req.params.id, req.params.idu, req.body, req.user)
-                .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        })
         /**
          * @api {delete} /teams/:id/members/:idu Delete member team
          * @apiName Delete Single Member of Team
@@ -132,327 +104,6 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/:id/members/:idu', authenticate(), function (req, res, next) {
-
-            TeamService.deleteMember(req.params.id, req.params.idu, req.user)
-                .then(e => res.status(204).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        });
-
-
-    /**
-     *
-     * Projects
-     */
-    router
-        .get('/:id/projects', authenticate(), function (req, res, next) {
-
-            ProjectsService.findTeamProject(req.params.id, req.query, req.user)
-                .then(e => res.json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        })
-
-        .get('/:id/projects/:idu', authenticate(), function (req, res, next) {
-
-            ProjectsService.findOneTeamProject(req.params.id, req.params.idu, req.query, req.user)
-                .then(e => res.json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        })
-
-        .post('/:id/projects', authenticate(), function (req, res, next) {
-
-            ProjectsService.createTeamProject(req.params.id, req.body, req.user)
-                .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-        })
-
-        .patch('/:id/projects/:idu', authenticate(), function (req, res, next) {
-
-            ProjectsService.updateTeamProject(req.params.id, req.params.idu, req.body, req.user)
-                .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-        })
-        /**
-         * @api {delete} /teams/:id/projects/:idu Delete project team
-         * @apiName Delete Single Project of Team
-         * @apiGroup Teams
-         *
-         * @apiParam (Param) {String} id Teams unique ID.
-         * @apiParam (Param) {String} idu Project unique ID.
-         *
-         * @apiPermission JWT
-         * @apiHeader (Auth) {String} Authorization JWT {Token}
-         *
-         * @apiError (Error) PermissionError Token dont have permission
-         * @apiError (Error) Unauthorized Invalid Token
-         *
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 204 OK
-         */
-        .delete('/:id/projects/:idu', authenticate(), function (req, res, next) {
-
-            ProjectsService.deleteTeamProject(req.params.id, req.params.idu, req.user)
-                .then(e => res.status(204).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        });
-
-
-    /**
-     *
-     * Architectures
-     */
-    router
-        .get('/:id/architectures', authenticate(), function (req, res, next) {
-
-            ArchitecturesTeamService.findTeamArchitectures(req.params.id, req.query, req.user)
-                .then(e => res.json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        })
-
-        .get('/:id/architectures/:idu', authenticate(), function (req, res, next) {
-
-            ArchitecturesTeamService.findOneTeamArchitectures(req.params.id, req.params.idu, req.query, req.user)
-                .then(e => res.json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        })
-
-        .patch('/:id/architectures/:idu', authenticate(), function (req, res, next) {
-
-            ArchitecturesTeamService.updateTeamArchitectures(req.params.id, req.params.idu, req.body, req.user)
-                .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-        })
-        /**
-         * @api {delete} /teams/:id/architectures/:idu Delete architectures team
-         * @apiName Delete Single Architectures of Team
-         * @apiGroup Teams
-         *
-         * @apiParam (Param) {String} id Teams unique ID.
-         * @apiParam (Param) {String} idu Member unique ID.
-         *
-         * @apiPermission JWT
-         * @apiHeader (Auth) {String} Authorization JWT {Token}
-         *
-         * @apiError (Error) PermissionError Token dont have permission
-         * @apiError (Error) Unauthorized Invalid Token
-         *
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 204 OK
-         */
-        .delete('/:id/architectures/:idu', authenticate(), function (req, res, next) {
-
-            ArchitecturesTeamService.deleteTeamArchitectures(req.params.id, req.params.idu, req.user)
-                .then(e => res.status(204).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        })
-
-        .post('/:id/architectures', authenticate(), function (req, res, next) {
-
-            req.user._refs = "teams";
-
-            ArchitecturesTeamService.createTeamArchitectures(req.params.id, req.body, req.user)
-                .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-        })
-
-        /**
-         * Roles
-         */
-
-        .post('/:id/architectures/:idu/roles', authenticate(), function (req, res, next) {
-
-
-            ArchitecturesTeamService.addRolesTeamArchitectures(req.params.id, req.params.idu, req.body, req.user)
-                .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-        })
-
-        .patch('/:id/architectures/:idu/roles/:ida', authenticate(), function (req, res, next) {
-
-            ArchitecturesTeamService.updateRolesTeamArchitectures(req.params.id, req.params.idu, req.params.ida, req.body, req.user)
-                .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-        })
-        /**
-         * @api {delete} /teams/:id/architectures/:idu/roles/:ida Delete role architectures team
-         * @apiName Delete Role of architectures team
-         * @apiGroup Teams
-         *
-         * @apiParam (Param) {String} id Teams unique ID.
-         * @apiParam (Param) {String} idu Architecture unique ID.
-         * @apiParam (Param) {String} ida Role unique ID.
-         *
-         * @apiPermission JWT
-         * @apiHeader (Auth) {String} Authorization JWT {Token}
-         *
-         * @apiError (Error) PermissionError Token dont have permission
-         * @apiError (Error) Unauthorized Invalid Token
-         *
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 204 OK
-         */
-        .delete('/:id/architectures/:idu/roles/:ida', authenticate(), function (req, res, next) {
-
-            ArchitecturesTeamService.deleteRolesTeamArchitectures(req.params.id, req.params.idu, req.params.ida, req.user)
-                .then(e => res.status(204).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        });
-
-
-
-    /**
-     *
-     * Applications
-     */
-    router
-          .get('/:id/applications', authenticate(), function (req, res, next) {
-
-              ApplicationTeamService.findTeamApplication(req.params.id, req.query, req.user)
-                  .then(e => res.json(e))
-                  .catch(function (e) {
-                      next(e);
-                  });
-
-          })
-
-          .get('/:id/applications/:idu', authenticate(), function (req, res, next) {
-
-              ApplicationTeamService.findOneTeamApplication(req.params.id, req.params.idu, req.query, req.user)
-                  .then(e => res.json(e))
-                  .catch(function (e) {
-                      next(e);
-                  });
-
-          })
-
-          .patch('/:id/applications/:idu', authenticate(), function (req, res, next) {
-
-              ApplicationTeamService.updateTeamApplication(req.params.id, req.params.idu, req.body, req.user)
-                  .then(e => res.status(201).json(e))
-                  .catch(function (e) {
-                      next(e);
-                  });
-          })
-          /**
-           * @api {delete} /teams/:id/applications/:idu Delete application of team
-           * @apiName Delete Single application of Team
-           * @apiGroup Teams
-           *
-           * @apiParam (Param) {String} id Team unique ID.
-           * @apiParam (Param) {String} idu Application unique ID.
-           *
-           * @apiPermission JWT
-           * @apiHeader (Auth) {String} Authorization JWT {Token}
-           *
-           * @apiError (Error) PermissionError Token dont have permission
-           * @apiError (Error) Unauthorized Invalid Token
-           *
-           * @apiSuccessExample {json} Success-Response:
-           *     HTTP/1.1 204 OK
-           */
-          .delete('/:id/applications/:idu', authenticate(), function (req, res, next) {
-
-              ApplicationTeamService.deleteTeamApplication(req.params.id, req.params.idu, req.user)
-                  .then(e => res.status(204).json(e))
-                  .catch(function (e) {
-                      next(e);
-                  });
-
-          })
-
-        .post('/:id/applications', authenticate(), function (req, res, next) {
-
-            ApplicationTeamService.createTeamApplication(req.params.id, req.body, req.user)
-                .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-        })
-
-        /**
-         * Roles
-         */
-
-        .post('/:id/applications/:idu/roles', authenticate(), function (req, res, next) {
-
-
-            ApplicationTeamService.addRolesTeamApplication(req.params.id, req.params.idu, req.body, req.user)
-                .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-        })
-
-        .patch('/:id/applications/:idu/roles/:ida', authenticate(), function (req, res, next) {
-
-            ApplicationTeamService.updateRolesTeamApplication(req.params.id, req.params.idu, req.params.ida, req.body, req.user)
-                .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-        })
-        /**
-         * @api {delete} /teams/:id/projects/:idu Delete role of application team
-         * @apiName Delete Role of application Team
-         * @apiGroup Teams
-         *
-         * @apiParam (Param) {String} id Teams unique ID.
-         * @apiParam (Param) {String} idu Application unique ID.
-         * @apiParam (Param) {String} ida Role unique ID.
-         *
-         * @apiPermission JWT
-         * @apiHeader (Auth) {String} Authorization JWT {Token}
-         *
-         * @apiError (Error) PermissionError Token dont have permission
-         * @apiError (Error) Unauthorized Invalid Token
-         *
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 204 OK
-         */
-        .delete('/:id/applications/:idu/roles/:ida', authenticate(), function (req, res, next) {
-
-            ApplicationTeamService.deleteRolesTeamApplication(req.params.id, req.params.idu, req.params.ida, req.user)
-                .then(e => res.status(204).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
-
-        });
+        .delete('/:id/members/:idu', authenticate(), AccessApp.delete);
 
 };

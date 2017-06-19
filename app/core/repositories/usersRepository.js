@@ -14,7 +14,6 @@ const validPassMatch = require('./validators/validPassMatch');
 const filledTransform = require('./transforms/filledTransform');
 const activeTransform = require('./transforms/activeTransform');
 const clearDaoTransform = require('./transforms/clearDaoTransform');
-const formatObjectId = require('./format/formatObjectId');
 
 
 const {ObjectId} = require('mongorito');

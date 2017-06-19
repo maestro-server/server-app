@@ -1,9 +1,9 @@
 'use strict';
 
-module.exports = function (items, _ref, fielder, entity={}, create=false) {
+module.exports = function (items, refs, fielder, entity={}, create=false) {
 
     let enc = {
-        _ref
+        refs
     };
 
     enc = Object.assign(enc, items, entity);

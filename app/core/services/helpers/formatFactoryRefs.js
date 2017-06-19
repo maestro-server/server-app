@@ -1,11 +1,11 @@
 'use strict';
 
-module.exports = function (data, _ref) {
+module.exports = function (data, refs) {
 
     const {_id, name} = data;
 
     return {
-        _ref,
+        refs,
         _id,
         name
     };

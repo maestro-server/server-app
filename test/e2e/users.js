@@ -38,7 +38,7 @@ describe('e2e users', function () {
         }));
 
         app.once('start', done);
-        mock = app.listen(1337);
+        mock = app.listen(1342);
     });
 
 
