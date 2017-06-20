@@ -104,6 +104,5 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/:id/members/:idu', authenticate(), AccessApp.delete);
-
+        .delete('/:id/members/:idu', authenticate(), AccessApp.remove);
 };

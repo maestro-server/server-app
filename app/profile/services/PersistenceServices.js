@@ -43,7 +43,7 @@ const UsersPersistence = (Entity) => {
                 return validDuplicateUser(DBRepository, post)
                     .then(() => {
 
-                        const fill = _.pull(Entity.filled, 'owner', Entity.access, 'password');
+                        const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password']);
                         return DBRepository
                             .update({_id}, post, fill);
                     });

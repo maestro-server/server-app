@@ -13,7 +13,7 @@ const collectionTransform = require('core/applications/transforms/collectionTran
 const formatRole = require('core/format/formatFirstRole');
 const Access = require('core/entities/accessRole');
 
-const PersistenceApp = (Entity, PersistenceServices=DPersistenceServices) => {
+const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
     return {
 

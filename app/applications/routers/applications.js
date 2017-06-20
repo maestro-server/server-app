@@ -28,5 +28,5 @@ module.exports = function (router) {
 
         .put('/:id/roles/:idu', authenticate(), AccessApp.update)
 
-        .delete('/:id/roles/:idu', authenticate(), AccessApp.delete);
+        .delete('/:id/roles/:idu', authenticate(), AccessApp.remove);
 };
