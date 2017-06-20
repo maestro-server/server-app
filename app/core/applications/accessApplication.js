@@ -1,7 +1,8 @@
 'use strict';
 
 const DAccessServices = require('core/services/AccessServices');
-const collectionRefsTransform = require('./transforms/collectionRefsTransform');
+
+const hateaosTransform = require('core/applications/transforms/hateoasTransform');
 
 const AccessApp = (Entity, AccessServices = DAccessServices) => {
 
@@ -12,7 +13,7 @@ const AccessApp = (Entity, AccessServices = DAccessServices) => {
             AccessServices(Entity)
                 .updateRoles(req.params.id, req.params.idu, req.body, req.user)
                 .then((e) => {
-                    return collectionRefsTransform([e], req.params.id, Entity.name);
+                    return hateaosTransform.collectionRefsTransform([e], req.params.id, Entity);
                 })
                 .then(e => res.status(201).json(e))
                 .catch(function (e) {
@@ -25,7 +26,7 @@ const AccessApp = (Entity, AccessServices = DAccessServices) => {
             AccessServices(Entity)
                 .addRoles(req.params.id, req.body, req.user)
                 .then((e) => {
-                    return collectionRefsTransform([e], req.params.id, Entity.name);
+                    return hateaosTransform.collectionRefsTransform([e], req.params.id, Entity);
                 })
                 .then(e => res.status(201).json(e))
                 .catch(function (e) {

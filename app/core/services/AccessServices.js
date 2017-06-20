@@ -7,8 +7,8 @@ const Access = require('../entities/accessRole');
 const FactoryDBRepository = require('core/repositories/DBRepository');
 const ClosurePromesify = require('core/libs/factoryPromisefy');
 
-const accessMergeTransform = require('./roles/accessMergeTransform');
-const formatNotEqual = require('core/format/formatNotEqual');
+const accessMergeTransform = require('./transforms/accessMergeTransform');
+const validNotEqual = require('core/services/validator/validNotEqual');
 
 const factoryValid = require('core/libs/factoryValid');
 const accessValid = require('core/services/validator/accessValid');
@@ -35,7 +35,7 @@ const AccessServices = (Entity) => {
 
 
                 let query = accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_ADMIN);
-                query = formatNotEqual(query, `${Entity.access}._id`, access[Entity.access]._id);
+                query = validNotEqual(query, `${Entity.access}._id`, access[Entity.access]._id);
 
                 return DBRepository
                     .updateByPushUnique(query, access, Entity.access);

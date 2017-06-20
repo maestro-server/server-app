@@ -7,7 +7,7 @@ const ClosurePromesify = require('core/libs/factoryPromisefy');
 
 const Access = require('core/entities/accessRole');
 
-const accessMergeTransform = require('./roles/accessMergeTransform');
+const accessMergeTransform = require('./transforms/accessMergeTransform');
 
 
 const Persistence = (Entity) => {
