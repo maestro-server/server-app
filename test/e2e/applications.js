@@ -32,16 +32,18 @@ describe('e2e applications', function () {
         name: "SecondApplication"
     }];
 
-    const conn = process.env.MONGO_URL + '_app';
+  
     before(function (done) {
-        app = require('./libs/bootApp')(conn);
+      cleaner_db([{tb: 'users'}, {tb: 'applications'}, {tb: 'teams'}], () => {
+        app = require('./libs/bootApp')();
 
         app.once('start', done);
         mock = app.listen(1340);
+      }, null);
     });
 
     after(function (done) {
-        cleaner_db([{tb: 'users', ids: [user, friend]}, {tb: 'applications'}, {tb: 'teams'}], done, mock, conn);
+      mock.close(done);
     });
 
 
@@ -925,7 +927,6 @@ describe('e2e applications', function () {
                 .get(`/teams/${teams._id}/applications/${teamsAPP[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
-                .expect(e=>console.log(e.body))
                 .expect('Content-Type', /json/)
                 .expect(/Friend/)
                 .expect(/\"role\"\:1/)

@@ -37,17 +37,17 @@ describe('e2e teams', function () {
         url: "http://maestroserver.io"
     }];
 
-    const conn = process.env.MONGO_URL+'_teams';
     before(function (done) {
-      app = require('./libs/bootApp')(conn);
+      cleaner_db([{tb: 'users'}, {tb: 'teams'}], () => {
+        app = require('./libs/bootApp')();
 
-      app.once('start', done);
-      mock = app.listen(1346);
+        app.once('start', done);
+        mock = app.listen(1340);
+      }, null);
     });
 
-
     after(function (done) {
-      cleaner_db([{tb: 'users', ids: [user, friend]}, {tb: 'teams'}], done, mock, conn);
+      mock.close(done);
     });
 
 

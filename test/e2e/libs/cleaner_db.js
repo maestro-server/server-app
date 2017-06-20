@@ -35,8 +35,9 @@ module.exports = function (collections, done, mock, conn = process.env.MONGO_URL
 
           Promise.all(pros)
             .then(() => {
+              done();
               db.close();
-              mock.close(done);
+              //mock.close(done);
             });
         });
 };

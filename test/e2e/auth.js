@@ -17,17 +17,17 @@ describe('e2e auth: auth and login', function () {
         token: null
     };
 
-    const conn = process.env.MONGO_URL+'_auth';
     before(function (done) {
-      app = require('./libs/bootApp')(conn);
+      cleaner_db([{tb: 'users'}], () => {
+        app = require('./libs/bootApp')();
 
-      app.once('start', done);
-      mock = app.listen(1342);
+        app.once('start', done);
+        mock = app.listen(1340);
+      }, null);
     });
 
-
     after(function (done) {
-      cleaner_db([{tb: 'users', ids: [user]}], done, mock, conn);
+      mock.close(done);
     });
 
 
