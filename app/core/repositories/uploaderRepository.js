@@ -2,7 +2,7 @@
 
 const aws = require('aws-sdk');
 const mapsFile = require('./maps/mapFileType');
-const UploaderError = require('../errors/uploaderError');
+const UploaderError = require('core/errors/uploaderError');
 
 
 const UploaderRepository = (folder) => {

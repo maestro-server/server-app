@@ -16,6 +16,9 @@ describe('e2e - server up', function () {
         mock = app.listen(1343);
     });
 
+    after(function (done) {
+      mock.close(done);
+    });
 
     it('Welcome msg', function (done) {
         request(mock)

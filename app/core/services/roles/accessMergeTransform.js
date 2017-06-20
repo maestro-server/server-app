@@ -35,7 +35,7 @@ module.exports = function (owner, fielder, trans = {}, access = Access.ROLE_READ
     }
 
     if (!merge)
-        reject();
+        throw new Error(merge);
 
     return Object.assign(trans, merge);
 };

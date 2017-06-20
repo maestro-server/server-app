@@ -35,7 +35,7 @@ describe('e2e check access roles', function () {
         app = require('./libs/bootApp')();
 
         app.once('start', done);
-        mock = app.listen(1340);
+        mock = app.listen(1345);
       }, null);
     });
 

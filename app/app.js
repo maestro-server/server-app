@@ -5,7 +5,7 @@ require('app-module-path').addPath(`${__dirname}/`); //make more realiable to ca
 const express = require('express');
 const kraken = require('kraken-js');
 
-const db_connect = require('core/helpers/db_run');
+const db_connect = require('core/libs/db_run');
 const Mongorito = require('mongorito');
 /*
  * Create and configure application. Also exports application instance for use by tests.

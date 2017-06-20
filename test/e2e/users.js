@@ -26,7 +26,7 @@ describe('e2e users', function () {
         app = require('./libs/bootApp')();
 
         app.once('start', done);
-        mock = app.listen(1340);
+        mock = app.listen(1347);
       }, null);
     });
 

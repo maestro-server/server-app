@@ -1,7 +1,7 @@
 'use strict';
 
 const transform = require('./transformAdapter');
-const BASE = require('../../helpers/base_url');
+const BASE = require('./base_url');
 
 function createCollectionLink (collection) {
 

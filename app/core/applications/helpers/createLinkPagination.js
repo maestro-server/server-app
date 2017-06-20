@@ -1,6 +1,6 @@
 'use strict';
 
-const BASE = require('../../helpers/base_url');
+const BASE = require('./base_url');
 
 module.exports = function (uri, limit, pages, page) {
 
