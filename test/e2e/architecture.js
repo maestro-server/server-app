@@ -34,17 +34,17 @@ describe('e2e architectures', function () {
         name: "Secondarchitecture"
     }];
 
-    const conn = process.env.MONGO_URL + '_arch';
     before(function (done) {
-        app = require('./libs/bootApp')(conn);
+      cleaner_db([{tb: 'users'}, {tb: 'architectures'}, {tb: 'teams'}], () => {
+        app = require('./libs/bootApp')();
 
         app.once('start', done);
-        mock = app.listen(1341);
+        mock = app.listen(1340);
+      }, null);
     });
 
-
     after(function (done) {
-        cleaner_db([{tb: 'users', ids: [user, friend]}, {tb: 'architectures'}, {tb: 'teams'}], done, mock, conn);
+      mock.close(done);
     });
 
 

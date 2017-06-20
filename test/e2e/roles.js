@@ -30,17 +30,17 @@ describe('e2e check access roles', function () {
         name: "MyApplication"
     };
 
-    const conn = process.env.MONGO_URL+'_roles';
     before(function (done) {
-      app = require('./libs/bootApp')(conn);
+      cleaner_db([{tb: 'users'}], () => {
+        app = require('./libs/bootApp')();
 
-      app.once('start', done);
-      mock = app.listen(1345);
+        app.once('start', done);
+        mock = app.listen(1340);
+      }, null);
     });
 
-
     after(function (done) {
-      cleaner_db([{tb: 'users', ids: [user, friend]}], done, mock, conn);
+      mock.close(done);
     });
 
 
