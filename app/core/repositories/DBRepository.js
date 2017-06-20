@@ -3,13 +3,12 @@
 const _ = require('lodash');
 
 const Dao = require('./daos/DBConnector');
-const findFilledFormat = require('./format/findFilledFormat');
 const ClosurePromesify = require('core/libs/factoryPromisefy');
 
-const clearDaoTransform = require('./transforms/clearDaoTransform');
-const validAccessUpdater = require('./validator/validAccessUpdater');
+const findFilledFormat = require('./transforms/findFilledFormat');
+const activeTransform = require('./transforms/activeFormat');
 
-const activeTransform = require('./format/activeFormat');
+const validAccessUpdater = require('./validator/validAccessUpdater');
 const factoryValid = require('core/libs/factoryValid');
 
 
@@ -28,10 +27,7 @@ const DBRepository = (Entity) => {
                     .skip(skip)
                     .sort('created_at', -1)
                     .include(resFilled)
-                    .find(filters)
-                    .then((e) => {
-                        return clearDaoTransform(e);
-                    });
+                    .find(filters);
             });
         },
 

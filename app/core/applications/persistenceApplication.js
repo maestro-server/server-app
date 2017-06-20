@@ -4,14 +4,12 @@ const _ = require('lodash');
 
 const DPersistenceServices = require('core/services/PersistenceServices');
 
-const refsTransform = require('core/applications/transforms/refsTransform');
-const singleTransform = require('core/applications/transforms/singleTransform');
+const hateaosTransform = require('core/applications/transforms/hateoasTransform');
 
+const formatRole = require('core/applications/transforms/formatFirstRole');
 const validNotFound = require('core/applications/validator/validNotFound');
-const collectionTransform = require('core/applications/transforms/collectionTransform');
-
-const formatRole = require('core/format/formatFirstRole');
 const Access = require('core/entities/accessRole');
+
 
 const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
@@ -30,7 +28,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
                     return validNotFound(e, e[1], limit, page);
                 })
                 .then((e) => {
-                    return collectionTransform(e[0], e[1], Entity.name, limit, page);
+                    return hateaosTransform.collectionTransform(e[0], e[1], Entity, limit, page);
                 })
                 .then(e => res.json(e))
                 .catch(function (e) {
@@ -43,7 +41,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)
                 .then((e) => {
-                    return refsTransform(e, Entity.access);
+                    return hateaosTransform.singleTransform(e, Entity);
                 })
                 .then(e => res.json(e))
                 .catch(function (e) {
@@ -56,7 +54,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
             PersistenceServices(Entity)
                 .autocomplete(req.query, req.user)
                 .then((e) => {
-                    return collectionTransform(e[0], e[1]);
+                    return hateaosTransform.collectionTransform(e[0], e[1]);
                 })
                 .then(e => res.json(e))
                 .catch(function (e) {
@@ -94,10 +92,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
             PersistenceServices(Entity)
                 .create(body)
                 .then((e) => {
-                    return refsTransform(e, Entity.access);
-                })
-                .then((e) => {
-                    return singleTransform(e, Entity.name);
+                    return hateaosTransform.singleTransform(e, Entity);
                 })
                 .then(e => res.status(201).json(e))
                 .catch(function (e) {
