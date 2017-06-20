@@ -1,10 +1,13 @@
 'use strict';
 
+const _ = require('lodash');
 const passport = require('passport');
 const {Strategy} = require('passport-jwt');
-const UserRepository = require('core/repositories/usersRepository');
 
-const config = require('core/helpers/auth_config');
+const User = require('profile/entities/Users');
+const DBRepository = require('core/repositories/DBRepository');
+
+const config = require('profile/config/auth_config');
 
 const PermissionError = require('core/errors/permissionError');
 
@@ -12,13 +15,13 @@ const PermissionError = require('core/errors/permissionError');
 module.exports = function() {
     let strategy = new Strategy(config.jwtSecret, function (payload, done) {
 
-        let _id = payload._id;
+        let {_id} = payload;
 
         if(_id) {
-            new UserRepository()
+            DBRepository(User)
                 .findOne({_id})
                 .then(e => {
-                    if (e) {
+                    if (!_.isEmpty(e)) {
                         return done(null, e);
                     }
 
@@ -28,7 +31,7 @@ module.exports = function() {
         }
 
     });
-
+    
     passport.use(strategy);
 
     return {

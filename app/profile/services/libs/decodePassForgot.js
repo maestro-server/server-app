@@ -3,7 +3,7 @@
 const jwt = require('jwt-simple');
 const config = require('profile/config/auth_forgot_config');
 
-const Crypto = require('profile/config/cryptoMaker');
+const Crypto = require('core/libs/cryptoMaker');
 
 const ConflictError = require('core/errors/conflictError');
 

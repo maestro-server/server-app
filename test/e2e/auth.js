@@ -22,7 +22,7 @@ describe('e2e auth: auth and login', function () {
         app = require('./libs/bootApp')();
 
         app.once('start', done);
-        mock = app.listen(1340);
+        mock = app.listen(1342);
       }, null);
     });
 

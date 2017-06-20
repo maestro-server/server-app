@@ -11,7 +11,7 @@ const accessMergeTransform = require('./roles/accessMergeTransform');
 const formatNotEqual = require('core/format/formatNotEqual');
 
 const factoryValid = require('core/libs/factoryValid');
-const accessValid = require('core/validators/accessValid');
+const accessValid = require('core/services/validator/accessValid');
 
 const AccessServices = (Entity) => {
 

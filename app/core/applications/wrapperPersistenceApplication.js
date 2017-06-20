@@ -6,7 +6,7 @@ const Access = require('core/entities/accessRole');
 const DFactoryPesistenceApp = require('core/applications/persistenceApplication');
 const PersistenceServices = require('core/services/PersistenceServices');
 
-const accessEmpty = require('core/validators/accessEmpty');
+const accessEmpty = require('core/applications/validator/validAccessEmpty');
 
 
 const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = DFactoryPesistenceApp) => {

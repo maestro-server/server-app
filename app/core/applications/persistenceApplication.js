@@ -7,7 +7,7 @@ const DPersistenceServices = require('core/services/PersistenceServices');
 const refsTransform = require('core/applications/transforms/refsTransform');
 const singleTransform = require('core/applications/transforms/singleTransform');
 
-const validNotFound = require('core/applications/validators/validNotFound');
+const validNotFound = require('core/applications/validator/validNotFound');
 const collectionTransform = require('core/applications/transforms/collectionTransform');
 
 const formatRole = require('core/format/formatFirstRole');

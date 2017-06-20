@@ -5,7 +5,7 @@ require('app-module-path').addPath(`${__dirname}/../../../app`); //make more rea
 const express = require('express');
 const kraken = require('kraken-js');
 
-const db_connect = require('core/helpers/db_run');
+const db_connect = require('core/libs/db_run');
 const Mongorito = require('mongorito');
 
 const path = require('path');

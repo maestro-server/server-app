@@ -3,7 +3,7 @@
 const {Model} = require('mongorito');
 
 const bcrypt = require('bcrypt');
-const crypto = require('core/helpers/crypto');
+const crypto = require('core/libs/crypto');
 
 
 class Dao extends Model {

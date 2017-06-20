@@ -4,15 +4,14 @@ const _ = require('lodash');
 const FactoryDBRepository = require('core/repositories/DBRepository');
 const ClosurePromesify = require('core/libs/factoryPromisefy');
 
-const validPassMatch = require('profile/validators/validPassMatch');
+const validPassMatch = require('profile/services/validator/validPassMatch');
 const tokenTransform = require('profile/transforms/tokenTransform');
 
 const factoryValid = require('core/libs/factoryValid');
-
 const forgotEmailTransform = require('profile/transforms/forgotEmailTransform');
 const decodePassForgot = require('./libs/decodePassForgot');
 
-const mailerService = require('core/services/mailerService');
+const MailerService = require('core/services/MailerService');
 const {ObjectId} = require('mongorito');
 
 const AuthService = (Entity) => {
@@ -76,7 +75,7 @@ const AuthService = (Entity) => {
                         return forgotEmailTransform(e, body);
                     })
                     .then((e) => {
-                        return new mailerService()
+                        return new MailerService()
                             .sender(
                                 e.email,
                                 "Maestro Server - Recovery Password",

@@ -7,7 +7,7 @@ const findFilledFormat = require('./format/findFilledFormat');
 const ClosurePromesify = require('core/libs/factoryPromisefy');
 
 const clearDaoTransform = require('./transforms/clearDaoTransform');
-const validAccessUpdater = require('./validators/validAccessUpdater');
+const validAccessUpdater = require('./validator/validAccessUpdater');
 
 const activeTransform = require('./format/activeFormat');
 const factoryValid = require('core/libs/factoryValid');
