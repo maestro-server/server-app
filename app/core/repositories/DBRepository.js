@@ -124,7 +124,6 @@ const DBRepository = (Entity) => {
             return ClosurePromesify(() => {
 
                 post = findFilledFormat(post, Entity.filled);
-
                 factoryValid(post, Entity.validators.create);
 
                 return new DB(post)

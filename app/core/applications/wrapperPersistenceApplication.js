@@ -59,6 +59,7 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
                     e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');
                     req.params.id = _.get(params, 'idu');
+                    req.params.idu = _.get(params, 'ida');
 
                     PesistenceApp.update(req, res, next);
                 })
@@ -77,6 +78,7 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
                     e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');
                     req.params.id = _.get(params, 'idu');
+
                     PesistenceApp.create(req, res, next);
                 })
                 .catch((err) => {
@@ -94,6 +96,7 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
                     e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');
                     req.params.id = _.get(params, 'idu');
+                    req.params.idu = _.get(params, 'ida');
 
                     PesistenceApp.remove(req, res, next);
                 })

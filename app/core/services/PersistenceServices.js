@@ -64,7 +64,7 @@ const Persistence = (Entity) => {
 
                 const query = accessMergeTransform(owner, Entity.access, {_id}, access);
 
-                const fill = _.pull(Entity.filled, 'owner', Entity.access, 'password');
+                const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password']);
 
                 return DBRepository
                     .update(query, post, fill);
@@ -72,9 +72,7 @@ const Persistence = (Entity) => {
         },
 
         create (post) {
-
             return ClosurePromesify(() => {
-
                 return DBRepository
                     .create(post);
             });

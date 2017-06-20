@@ -51,7 +51,7 @@ const AuthService = (Entity) => {
                 return AuthService(Entity)
                     .authenticate(body)
                     .then(() => {
-                        const fill = _.pull(Entity.filled, 'owner', Entity.access);
+                        const fill = _.difference(Entity.filled, ['owner', Entity.access]);
                         const data = {'password': _.get(body, 'newpass')};
                         const {_id} = owner;
 
