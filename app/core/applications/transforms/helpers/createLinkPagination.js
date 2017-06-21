@@ -18,7 +18,7 @@ module.exports = function (uri, limit, pages, page) {
             factoryObjHateoas('next', `${prefix}=${page+1}&limit=${limit}`));
     }
 
-    if (pages <= 1) {
+    if (pages > 1) {
         Object.assign(links,
             factoryObjHateoas('first', `${prefix}=1&limit=${limit}`),
             factoryObjHateoas('last', `${prefix}=${pages}&limit=${limit}`)
