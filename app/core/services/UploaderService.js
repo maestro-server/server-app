@@ -1,7 +1,7 @@
 'use strict';
 
 const UploaderRepository = require('core/repositories/uploaderRepository');
-const validateFile = require('core/validators/uploadValid');
+const validateFile = require('./validator/uploadValid');
 
 const ClosurePromesify = require('core/libs/factoryPromisefy');
 

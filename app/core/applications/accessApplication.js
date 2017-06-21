@@ -13,7 +13,7 @@ const AccessApp = (Entity, AccessServices = DAccessServices) => {
             AccessServices(Entity)
                 .updateRoles(req.params.id, req.params.idu, req.body, req.user)
                 .then((e) => {
-                    return hateaosTransform.collectionRefsTransform([e], req.params.id, Entity);
+                    return hateaosTransform.accessSingleRoleRefs(e, req.params.id, Entity);
                 })
                 .then(e => res.status(201).json(e))
                 .catch(function (e) {
@@ -26,7 +26,7 @@ const AccessApp = (Entity, AccessServices = DAccessServices) => {
             AccessServices(Entity)
                 .addRoles(req.params.id, req.body, req.user)
                 .then((e) => {
-                    return hateaosTransform.collectionRefsTransform([e], req.params.id, Entity);
+                    return hateaosTransform.accessSingleRoleRefs(e, req.params.id, Entity);
                 })
                 .then(e => res.status(201).json(e))
                 .catch(function (e) {

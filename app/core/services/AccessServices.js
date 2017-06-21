@@ -6,12 +6,12 @@ const Access = require('../entities/accessRole');
 
 const FactoryDBRepository = require('core/repositories/DBRepository');
 const ClosurePromesify = require('core/libs/factoryPromisefy');
-
-const accessMergeTransform = require('./transforms/accessMergeTransform');
 const validNotEqual = require('core/services/validator/validNotEqual');
 
+const accessMergeTransform = require('./transforms/accessMergeTransform');
+
 const factoryValid = require('core/libs/factoryValid');
-const accessValid = require('core/services/validator/accessValid');
+const accessValid = require('core/validators/accessValid');
 
 const AccessServices = (Entity) => {
 
