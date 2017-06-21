@@ -8,6 +8,7 @@
     "server": "nodemon server.js",
     "test": "gulp test",
     "e2e": "gulp test_e2e",
+    "unit": "gulp test_unit",
     "lint": "gulp eslint",
     "tdd": "gulp tdd"
   },
@@ -43,6 +44,7 @@
     "gulp-mocha": "^4.3.1",
     "mocha": "^3.4.1",
     "nodemon": "^1.11.0",
+    "sinon": "^2.3.5",
     "supertest": "^3.0.0"
   }
 }
