@@ -1,40 +1,28 @@
 'use strict';
 
 const BASE = require('./base_url');
+const factoryObjHateoas = require('./factoryObjHateoas');
 
 module.exports = function (uri, limit, pages, page) {
+    const prefix = `${BASE}/${uri}/?page`;
 
-    let links = {
-        "self": {
-          'href': `${BASE}/${uri}/?page=${page}&limit=${limit}`,
-          'method': 'GET'
-        }
-    };
+    let links = factoryObjHateoas('_self', `${prefix}=${page}&limit=${limit}`);
 
     if (page > 1) {
-        links.prev = {
-          'href': `${BASE}/${uri}/?page=${page-1}&limit=${limit}`,
-          'method': 'GET'
-        };
+        Object.assign(links,
+            factoryObjHateoas('prev', `${prefix}=${page-1}&limit=${limit}`));
     }
 
     if (page < pages) {
-        links.next = {
-          'href': `${BASE}/${uri}/?page=${page+1}&limit=${limit}`,
-          'method': 'GET'
-        };
+        Object.assign(links,
+            factoryObjHateoas('next', `${prefix}=${page+1}&limit=${limit}`));
     }
 
     if (pages <= 1) {
-        links.first = {
-          'href': `${BASE}/${uri}/?page=1&limit=${limit}`,
-          'method': 'GET'
-        };
-
-        links.last = {
-          'href': `${BASE}/${uri}/?page=${pages}&limit=${limit}`,
-          'method': 'GET'
-        };
+        Object.assign(links,
+            factoryObjHateoas('first', `${prefix}=1&limit=${limit}`),
+            factoryObjHateoas('last', `${prefix}=${pages}&limit=${limit}`)
+        );
     }
 
     return links;

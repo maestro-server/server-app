@@ -768,7 +768,6 @@ describe('e2e projects', function () {
                 .get(`/teams/${teams._id}/projects/${teamsAPP[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
-                .expect(e=>console.log(e.body))
                 .expect('Content-Type', /json/)
                 .expect(/Friend/)
                 .expect(/\"role\"\:1/)

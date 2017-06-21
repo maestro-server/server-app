@@ -27,7 +27,10 @@ const DBRepository = (Entity) => {
                     .skip(skip)
                     .sort('created_at', -1)
                     .include(resFilled)
-                    .find(filters);
+                    .find(filters)
+                    .then((e) => {
+                        return _.map(e, (value) =>  value.get());
+                    });
             });
         },
 
