@@ -21,7 +21,6 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
             query = _.defaults(query, {limit: 20}, {page: 1});
             const {limit, page} = query;
 
-
             PersistenceServices(Entity)
                 .find(query, user)
                 .then((e) => {
@@ -32,6 +31,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
                 })
                 .then(e => res.json(e))
                 .catch(function (e) {
+                  console.log(e);
                     next(e);
                 });
         },
