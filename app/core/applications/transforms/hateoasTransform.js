@@ -8,15 +8,18 @@ const factoryObjHateoas = require('./helpers/factoryObjHateoas');
 
 const singleHT = (collection, uri) => {
     const {_id} = collection;
-    const _link = factoryObjHateoas('_self', `${BASE}/${uri}/${_id}`);
-    return _.merge(collection, {_link});
+    const _links = factoryObjHateoas('_self', `${BASE}/${uri}/${_id}`);
+    return _.merge(collection, {_links});
 };
 
 module.exports.accessSingleRoleRefs = function (collections, _id = false, Entity = {}) {
 
+    if(!collections.hasOwnProperty(Entity.access)) {
+      return {};
+    }
+
     return {
-        found: collections.length,
-        items: singleHT(collections[Entity.access], collections[Entity.access].refs),
+        items: singleHT(collections[Entity.access], _.get(collections[Entity.access], 'refs')),
         _links: _.merge(
             factoryObjHateoas('_parent', `${BASE}/${Entity.name}/${_id}`),
             factoryObjHateoas('_root', `${BASE}/${Entity.name}`)
