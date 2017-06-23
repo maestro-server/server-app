@@ -27,13 +27,13 @@ const Persistence = (Entity) => {
                 query = accessMergeTransform(owner, Entity.access, query, access);
 
                 return Promise.all([
-                        DBRepository.find(query, limit, skip),
-                        DBRepository.count(query)
-                    ]);
+                    DBRepository.find(query, limit, skip),
+                    DBRepository.count(query)
+                ]);
             });
         },
 
-        findOne (_id, owner, access=Access.ROLE_READ) {
+        findOne (_id, owner, access = Access.ROLE_READ) {
 
             return ClosurePromesify(() => {
 
@@ -48,9 +48,9 @@ const Persistence = (Entity) => {
 
             return ClosurePromesify(() => {
 
-                let  name;
+                let name;
                 if (query.hasOwnProperty('complete')) {
-                    name = {$regex:query.complete, '$options' : 'i'};
+                    name = {$regex: query.complete, '$options': 'i'};
                 }
 
                 return this
@@ -58,7 +58,7 @@ const Persistence = (Entity) => {
             });
         },
 
-        update (_id, post, owner, access=Access.ROLE_WRITER) {
+        update (_id, post, owner, access = Access.ROLE_WRITER) {
 
             return ClosurePromesify(() => {
 
@@ -78,7 +78,7 @@ const Persistence = (Entity) => {
             });
         },
 
-        remove(_id, owner, access=Access.ROLE_ADMIN) {
+        remove(_id, owner, access = Access.ROLE_ADMIN) {
 
             return ClosurePromesify(() => {
 

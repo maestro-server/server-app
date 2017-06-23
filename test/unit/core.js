@@ -8,9 +8,11 @@ let chai = require('chai'),
     sinon = require('sinon'),
     httpMocks = require('node-mocks-http'),
     ACCESS = require('core/entities/accessRole'),
-    chaiAsPromised = require("chai-as-promised");
+    chaiAsPromised = require("chai-as-promised"),
+    sinonStubPromise = require('sinon-stub-promise');
 
 chai.use(chaiAsPromised);
+sinonStubPromise(sinon);
 
 
 describe('unit - core', function () {
@@ -20,7 +22,7 @@ describe('unit - core', function () {
      */
 
     it('applications - transform - baseurl', function () {
-        process.env.BASEURL = "http://localhost:7878";
+        process.env.BASEURL = "http://localhost:8888";
         const base = require('core/applications/transforms/helpers/base_url');
 
         expect(base).to.be.equal(process.env.BASEURL);
@@ -89,10 +91,10 @@ describe('unit - core', function () {
         const obj = fc(owner, role, fielder);
 
         expect(obj).to.have.property(fielder).with.lengthOf(1);
-        expect(obj).to.have.nested.property(fielder+'[0]._id', owner._id);
-        expect(obj).to.have.nested.property(fielder+'[0].name', owner.name);
-        expect(obj).to.have.nested.property(fielder+'[0].email', owner.email);
-        expect(obj).to.have.nested.property(fielder+'[0].role', role);
+        expect(obj).to.have.nested.property(fielder + '[0]._id', owner._id);
+        expect(obj).to.have.nested.property(fielder + '[0].name', owner.name);
+        expect(obj).to.have.nested.property(fielder + '[0].email', owner.email);
+        expect(obj).to.have.nested.property(fielder + '[0].role', role);
         done();
     });
 
@@ -100,16 +102,16 @@ describe('unit - core', function () {
         const {accessSingleRoleRefs} = require('core/applications/transforms/hateoasTransform');
 
         const collections = {
-          name: "Tester name obj",
-          myRoler: [
-            {'role': 1, 'name': "Namer", 'refs': "users"}
-          ]
+            name: "Tester name obj",
+            myRoler: [
+                {'role': 1, 'name': "Namer", 'refs': "users"}
+            ]
         };
 
         const Entity = {access: "myRoler", name: "roler"};
         const obj = accessSingleRoleRefs(collections, 123, Entity);
 
-        expect(obj).to.have.property('items').with.lengthOf( collections[Entity.access].length);
+        expect(obj).to.have.property('items').with.lengthOf(collections[Entity.access].length);
         expect(obj).to.have.nested.property('items', collections[Entity.access]);
         done();
     });
@@ -118,11 +120,11 @@ describe('unit - core', function () {
         const {collectionTransform} = require('core/applications/transforms/hateoasTransform');
 
         const collections = [{
-          name: "Tester name obj",
-          myRoler: [
-            {'role': 1, 'name': "Namer", 'refs': "users"},
-            {'role': 7, 'name': "Namer2", 'refs': "teams"}
-          ]
+            name: "Tester name obj",
+            myRoler: [
+                {'role': 1, 'name': "Namer", 'refs': "users"},
+                {'role': 7, 'name': "Namer2", 'refs': "teams"}
+            ]
         }];
 
         const Entity = {access: "myRoler", name: "roler"};
@@ -142,10 +144,10 @@ describe('unit - core', function () {
         const {singleTransform} = require('core/applications/transforms/hateoasTransform');
 
         const collections = {
-          name: "Tester name obj",
-          myRoler: [
-            {'role': 1, 'name': "Namer", 'refs': "users"}
-          ]
+            name: "Tester name obj",
+            myRoler: [
+                {'role': 1, 'name': "Namer", 'refs': "users"}
+            ]
         };
 
         const Entity = {access: "myRoler", name: "roler"};
@@ -166,7 +168,7 @@ describe('unit - core', function () {
     it('applications - validator - validAccessEmpty', function (done) {
         const validAccess = require('core/applications/validator/validAccessEmpty');
 
-        expect(validAccess({name:"Something"})).to.eventually.have.property("name").notify(done);
+        expect(validAccess({name: "Something"})).to.eventually.have.property("name").notify(done);
     });
 
     it('applications - validator - validNotFound', function (done) {
@@ -184,40 +186,56 @@ describe('unit - core', function () {
     });
 
     describe('persistenceApplication', function () {
-      const Entity = {name: "Tester", access: "roler"};
-      const Entity2 = {name: "Tester2"};
+        const Entity = {name: "Tester", access: "roler"};
 
-      const PersistenceServices = require('core/services/PersistenceServices');
-      const PersistenceApp = require('core/applications/persistenceApplication');
+        const PersistenceApp = require('core/applications/persistenceApplication');
 
-      let res = httpMocks.createResponse();
-      let req = httpMocks.createRequest({
-          method: 'GET',
-          query: {
-            foo: "bar"
-          },
-          user: {
-            _id: "452ed4a4f4421335e032bf09",
-            name: "Signorini"
-          }
-      });
+        let res = httpMocks.createResponse();
+        let req = httpMocks.createRequest({
+            query: {
+                foo: "bar"
+            },
+            user: {
+                _id: "452ed4a4f4421335e032bf09",
+                name: "Signorini"
+            }
+        });
 
-      it('applications - persistenceApplication', function(done) {
-          let SPS = sinon.stub().returns({find:(e)=>console.log(e)});
-          let rqs = sinon.spy(res, 'json');
-          let next = sinon.spy();
+        it('applications - persistenceApplication', function (done) {
+            let find = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    find
+                });
 
-          PersistenceApp(Entity, SPS).find(req, res, next);
+            PersistenceApp(Entity, SPS).find(req, res);
 
-//console.log(SPS);
-console.log(next.calledOnce);
-          sinon.assert.calledOnce(rqs);
+            sinon.assert.calledWithExactly(find, {foo: "bar", limit: 20, page: 1}, req.user);
+            sinon.assert.calledOnce(find);
+            sinon.assert.calledOnce(SPS);
 
-          SPS.restore();
-          done();
-      });
+            done();
+        });
+
+        it('applications - persistenceApplication', function (done) {
+            let find = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    find
+                });
+
+            let req2 = httpMocks.createRequest({
+                user: {_id: "asd"}
+            });
+
+            PersistenceApp(Entity, SPS).find(req2, res);
+
+            sinon.assert.calledWithExactly(find, {limit: 20, page: 1}, req2.user);
+            sinon.assert.calledOnce(SPS);
+
+            done();
+        });
     });
-
 
 
     it('applications - uploadApplication', function (done) {
