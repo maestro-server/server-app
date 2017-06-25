@@ -185,7 +185,7 @@ describe('unit - core', function () {
         done();
     });
 
-    describe('persistenceApplication', function () {
+    describe('applications - persistenceApplication', function () {
         const Entity = {name: "Tester", access: "roler"};
 
         const PersistenceApp = require('core/applications/persistenceApplication');
@@ -198,10 +198,13 @@ describe('unit - core', function () {
             user: {
                 _id: "452ed4a4f4421335e032bf09",
                 name: "Signorini"
+            },
+            params: {
+                id: "34233628"
             }
         });
 
-        it('applications - persistenceApplication', function (done) {
+        it('find', function (done) {
             let find = sinon.stub().returnsPromise();
             let SPS = sinon.stub()
                 .returns({
@@ -217,7 +220,7 @@ describe('unit - core', function () {
             done();
         });
 
-        it('applications - persistenceApplication', function (done) {
+        it('find - rq2', function (done) {
             let find = sinon.stub().returnsPromise();
             let SPS = sinon.stub()
                 .returns({
@@ -235,6 +238,88 @@ describe('unit - core', function () {
 
             done();
         });
+
+        it('findOne', function (done) {
+            let findOne = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    findOne
+                });
+
+            PersistenceApp(Entity, SPS).findOne(req, res);
+
+            sinon.assert.calledWithExactly(findOne, req.params.id, req.user);
+            sinon.assert.calledOnce(findOne);
+            sinon.assert.calledOnce(SPS);
+
+            done();
+        });
+
+        it('autocomplete', function (done) {
+            let autocomplete = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    autocomplete
+                });
+
+            PersistenceApp(Entity, SPS).autocomplete(req, res);
+
+            sinon.assert.calledWithExactly(autocomplete, req.query, req.user);
+            sinon.assert.calledOnce(autocomplete);
+            sinon.assert.calledOnce(SPS);
+
+            done();
+        });
+
+        it('update', function (done) {
+            let update = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    update
+                });
+
+            PersistenceApp(Entity, SPS).update(req, res);
+
+            sinon.assert.calledWithExactly(update, req.params.id, req.body, req.user);
+            sinon.assert.calledOnce(update);
+            sinon.assert.calledOnce(SPS);
+
+            done();
+        });
+
+        it('create', function (done) {
+            let create = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    create
+                });
+            PersistenceApp(Entity, SPS).create(req, res);
+
+            sinon.assert.calledWithExactly(create, req.params.id, req.user);
+            sinon.assert.calledOnce(create);
+            sinon.assert.calledOnce(SPS);
+
+            done();
+        });
+
+        it('remove', function (done) {
+            let remove = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    remove
+                });
+
+            PersistenceApp(Entity, SPS).remove(req, res);
+
+            sinon.assert.calledWithExactly(remove, req.params.id, req.user);
+            sinon.assert.calledOnce(remove);
+            sinon.assert.calledOnce(SPS);
+
+            done();
+        });
+
+
+
     });
 
 
