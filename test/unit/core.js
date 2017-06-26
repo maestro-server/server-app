@@ -513,60 +513,392 @@ describe('unit - core', function () {
         const factory = require('core/libs/factoryPromisefy');
         const text = "Texter";
 
-        const promise = new Promise((resolve) => {
-            if (resolve) {
-                resolve(resolve);
-            } else {
-                reject(err);
-            }
+        const promise = (txt) => (new Promise((resolve, reject) => {
+            txt ? resolve(txt) : reject(err);
+        }));
+
+        const fact = factory(() => promise(text));
+
+        expect(fact).to.eventually.equal(text);
+        expect(fact).to.fulfilled.and.notify(done);
+    });
+
+    it('libs - factoryPromises - reject', function (done) {
+        const factory = require('core/libs/factoryPromisefy');
+        const text = false;
+
+        const promise = (txt) => (new Promise((resolve, reject) => {
+            txt ? resolve(txt) : reject(txt);
+        }));
+
+        const fact = factory(() => promise(text));
+
+        expect(fact).be.rejected.and.notify(done);
+    });
+
+    it('libs - factoryValid', function (done) {
+        const fValid = require('core/libs/factoryValid');
+        const Joi = require('joi');
+
+        const data = {name: "Felipe", email: "felipeklerk@yahoo.com.br"};
+        const scheme = Joi.object().keys({
+            name: Joi.string().required(),
+            email: Joi.string().email()
         });
 
-        factory(promise(text)).resolves(text);
+        const valid = fValid(data, scheme);
 
-        expect(factory(promise(text)).resolved).to.eql('resolve value');
-
+        expect(valid).to.be.a('boolean');
         done();
     });
 
-    /*
-     ------------------------------------------------------- middlewares
-     */
+    it('libs - factoryValid - invalid', function (done) {
+        const fValid = require('core/libs/factoryValid');
+        const Joi = require('joi');
 
-    describe('middlewares', function () {
-        it('Welcome msg', function (done) {
-            done();
+        const data = {email: "felipeklerk"};
+        const scheme = Joi.object().keys({
+            name: Joi.string().required(),
+            email: Joi.string().email()
         });
+
+        expect(function(){
+            fValid(data, scheme, "Validator");
+        }).to.throw("Validator");
+        done();
     });
+
+    it('libs - db run', function (done) {
+        const cor = require('core/libs/db_run');
+
+        expect(function(){
+         cor(function *() {
+            yield Promise.resolve(true);
+          });
+
+        }).to.not.throw("Validator");
+        done();
+    });
+
 
     /*
      ------------------------------------------------------- repositories
      */
 
-    describe('repositories', function () {
-        it('Welcome msg', function (done) {
-            done();
-        });
-    });
+     it('repositories - maps - mapFileType', function (done) {
+       const map = require('core/repositories/maps/mapFileType');
 
+       const test1 = map("image/jpeg");
+       const test2 = map("image/png");
+       const test3 = map("default");
+
+       expect(test1).to.equal('jpg');
+       expect(test2).to.equal('png');
+       expect(test3).to.equal('default');
+
+         done();
+     });
+
+     it('repositories - transforms - activeFormat', function (done) {
+       const format = require('core/repositories/transforms/activeFormat');
+
+       expect(format.active()).to.have.property('active', true);
+       expect(format.active()).to.not.have.property('active', false);
+       done();
+     });
+
+     it('repositories - transforms - activeFormat - desactive', function (done) {
+       const format = require('core/repositories/transforms/activeFormat');
+
+       expect(format.desactive()).to.have.property('active', false);
+       expect(format.desactive()).to.not.have.property('active', true);
+       done();
+     });
+
+     it('repositories - transforms - findFilledFormat', function (done) {
+       const format = require('core/repositories/transforms/findFilledFormat');
+
+       const test1 = format({a: 1, b: 2, c: 3}, ['a', 'b']);
+
+       expect(test1).to.have.property('a');
+       expect(test1).to.have.property('active');
+       expect(test1).to.have.property('b');
+       expect(test1).to.not.have.property('c');
+       done();
+     });
+
+     it('repositories - transforms - findFilledFormat - not have filter', function (done) {
+       const format = require('core/repositories/transforms/findFilledFormat');
+
+       const test1 = format({a: 1, b: 2, c: 3});
+       expect(test1).to.have.property('active');
+
+       expect(test1).to.not.have.property('a');
+       expect(test1).to.not.have.property('b');
+       expect(test1).to.not.have.property('c');
+       done();
+     });
+
+     it('repositories - validator - validAccessUpdater', function (done) {
+       const validator = require('core/repositories/validator/validAccessUpdater');
+
+       const test1 = validator({isUpdater: {n: 30}});
+
+       expect(test1).to.eventually.have.property("isUpdater").notify(done);
+     });
+
+     it('repositories - validator - validAccessUpdater - throw error', function (done) {
+       const validator = require('core/repositories/validator/validAccessUpdater');
+
+       const tt = validator({isUpdater: {n: 0}});
+       expect(tt).to.be.rejectedWith("You dont have access");
+
+       done();
+     });
     /*
      ------------------------------------------------------- services
      */
 
-    describe('services', function () {
-        it('Welcome msg', function (done) {
-            done();
-        });
-    });
+     it('services - transforms - accessMergeTransform', function (done) {
+       const transforms = require('core/services/transforms/accessMergeTransform');
 
-    /*
-     ------------------------------------------------------- validators
-     */
+       const owner = {name: "Tester", "_id": "452ed4a4f4421335e032bf09"};
+       const fielder = 'roler';
+       const access = 3;
 
-    describe('validators', function () {
-        it('Welcome msg', function (done) {
-            done();
-        });
-    });
+       const tt = transforms(owner, fielder, access);
+
+       expect(tt).to.have.property(fielder)
+       .to.have.property('$elemMatch')
+       .to.have.property('_id');
+
+       expect(tt).to.have.property(fielder)
+       .to.have.property('$elemMatch')
+       .to.have.property('role');
+
+       done();
+     });
+
+     it('services - validator - uploadValid - sizeValidate e typeValidate = true', function (done) {
+       const uploadValid = require('core/services/validator/uploadValid');
+       const file = {size: 7894454646, name: "tester", type: "jpg"};
+       const tt = uploadValid(file);
+
+       tt.sizeValidate();
+       expect(tt.pass()).to.be.equal(false);
+
+       done();
+     });
+
+     it('services - validator - uploadValid - typeValidate = false', function (done) {
+       const uploadValid = require('core/services/validator/uploadValid');
+
+       const file = {size: 2000, name: "tester", type: "image/jpeg"};
+       const tt = uploadValid(file);
+
+       expect(tt.pass()).to.be.equal(true);
+
+       done();
+     });
+
+     it('services - validator - uploadValid - check', function (done) {
+       const uploadValid = require('core/services/validator/uploadValid');
+       const file = {size: 7894454646, name: "tester", type: "jpg"};
+       const tt = uploadValid(file);
+
+       expect(tt).to.be.a('object');
+       expect(function(){
+        tt.check();
+       }).to.not.throw("Validator");
+
+       done();
+     });
+
+     it('services - validator - validNotFound', function (done) {
+       const valid = require('core/services/validator/validNotEqual');
+       const tt = valid({name: "tester"}, "roler", "asd");
+
+       expect(tt).to.have.property("roler")
+       .to.have.property('$ne', "asd");
+
+       done();
+     });
+
+     describe('services - PersistenceServices', function () {
+         const Entity = {name: "Tester", access: "roler", filled: ['name']};
+         const PersistenceServices = require('core/services/PersistenceServices');
+
+         const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
+         const _id = "452ed4a4f4421335e032bf09";
+
+         it('find', function (done) {
+             let find = sinon.stub().returnsPromise();
+             let count = sinon.stub().returnsPromise();
+             let SPS = sinon.stub()
+                 .returns({
+                     find,
+                     count
+                 });
+
+             PersistenceServices(Entity, SPS).find({}, owner);
+             expect(find.args[0][0]).to.be.property("roler")
+             .to.have.property("$elemMatch");
+
+             expect(count.args[0][0]).to.be.property("roler")
+             .to.have.property("$elemMatch");
+
+             sinon.assert.calledOnce(find);
+             sinon.assert.calledOnce(count);
+             sinon.assert.calledOnce(SPS);
+             done();
+         });
+
+         it('findOne', function (done) {
+             let findOne = sinon.stub().returnsPromise();
+             let SPS = sinon.stub()
+                 .returns({
+                     findOne
+                 });
+
+             PersistenceServices(Entity, SPS).findOne(_id, owner);
+
+             expect(findOne.args[0][0]).to.have.property("_id");
+             sinon.assert.calledOnce(findOne);
+             sinon.assert.calledOnce(SPS);
+             done();
+         });
+
+         it('autocomplete', function (done) {
+             let find = sinon.stub().returnsPromise();
+             let count = sinon.stub().returnsPromise();
+             let SPS = sinon.stub()
+                 .returns({
+                     find,
+                     count
+                 });
+
+             PersistenceServices(Entity, SPS).autocomplete({complete: "name"}, owner);
+
+             expect(find.args[0][0]).to.be.property("roler")
+             .to.have.property("$elemMatch");
+
+             expect(count.args[0][0]).to.be.property("roler")
+             .to.have.property("$elemMatch");
+
+             sinon.assert.calledOnce(find);
+             sinon.assert.calledOnce(count);
+             sinon.assert.calledOnce(SPS);
+             done();
+         });
+
+         it('create', function (done) {
+             let findOne = sinon.stub().returnsPromise();
+             let SPS = sinon.stub()
+                 .returns({
+                     findOne
+                 });
+
+             PersistenceServices(Entity, SPS).findOne(_id, owner);
+
+             expect(findOne.args[0][0]).to.have.property("_id");
+             sinon.assert.calledOnce(findOne);
+             sinon.assert.calledOnce(SPS);
+             done();
+         });
+
+         it('update', function (done) {
+             let update = sinon.stub().returnsPromise();
+             let SPS = sinon.stub()
+                 .returns({
+                     update
+                 });
+
+             const post = {name: "teste", owner: {name: "notAlloow"}, password: "notAllow"};
+             PersistenceServices(Entity, SPS).update(_id, post, owner);
+
+             expect(update.args[0][2][0]).to.not.have.property("password");
+             expect(update.args[0][2]).to.not.have.property("_id");
+             expect(update.args[0][2]).to.have.all.deep.members(["name"]);
+
+             expect(update.args[0][1]).to.have.property("name");
+             expect(update.args[0][1]).to.have.property("owner");
+             expect(update.args[0][1]).to.have.property("password");
+
+             expect(update.args[0][0]).to.have.property("_id");
+             expect(update.args[0][0]).to.have.property("roler");
+
+             sinon.assert.calledOnce(update);
+             sinon.assert.calledOnce(SPS);
+             done();
+         });
+
+         it('remove', function (done) {
+             let remove = sinon.stub().returnsPromise();
+             let SPS = sinon.stub()
+                 .returns({
+                     remove
+                 });
+
+             PersistenceServices(Entity, SPS).remove(_id, owner);
+
+             expect(remove.args[0][0]).to.have.property("_id");
+             expect(remove.args[0][0]).to.have.property("roler");
+             sinon.assert.calledOnce(remove);
+             sinon.assert.calledOnce(SPS);
+             done();
+         });
+
+
+     });
+
+
+     describe('services - UploaderService', function () {
+         const Entity = {name: "Tester", access: "roler", filled: ['name']};
+         const UploaderService = require('core/services/UploaderService');
+
+         const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
+
+         it('uploadImage', function (done) {
+             let upload = sinon.stub().returnsPromise();
+             let SPS = sinon.stub()
+                 .returns({
+                     upload
+                 });
+
+             const filer = {
+               filetype: "image/jpeg"
+             };
+
+             UploaderService(Entity, SPS).uploadImage(filer, owner);
+
+             expect(upload.args[0][0]).to.have.equal(owner._id);
+             sinon.assert.calledOnce(upload);
+             sinon.assert.calledOnce(SPS);
+             done();
+         });
+
+
+     });
+
+     describe('services - AccessServices', function () {
+         const Entity = {name: "Tester", access: "roler", filled: ['name']};
+         const UploaderService = require('core/services/AccessServices');
+
+         const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
+         const _id = "452ed4a4f4421335e032bf09";
+
+
+     });
+
+     describe('services - MailerService', function () {
+         const Entity = {name: "Tester", access: "roler", filled: ['name']};
+         const UploaderService = require('core/services/MailerService');
+
+         const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
+         const _id = "452ed4a4f4421335e032bf09";
+
+
+     });
 
 
 });

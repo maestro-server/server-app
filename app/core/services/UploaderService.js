@@ -1,11 +1,13 @@
 'use strict';
 
-const UploaderRepository = require('core/repositories/uploaderRepository');
+const DUploaderRepository = require('core/repositories/uploaderRepository');
 const validateFile = require('./validator/uploadValid');
 
 const ClosurePromesify = require('core/libs/factoryPromisefy');
 
-const UploaderService = (Entity) => {
+const UploaderService = (Entity, FUploaderRepository = DUploaderRepository) => {
+
+  const UploaderRepository = FUploaderRepository(Entity.name);
 
     return {
         uploadImage (query, owner) {
@@ -15,8 +17,7 @@ const UploaderService = (Entity) => {
                 const {_id} = owner;
 
                 validateFile({type}).check();
-
-                return UploaderRepository(Entity.name)
+                return UploaderRepository
                     .upload(_id, type);
             });
         }

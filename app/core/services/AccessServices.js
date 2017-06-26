@@ -4,7 +4,7 @@ const _ = require('lodash');
 const {ObjectId} = require('mongorito');
 const Access = require('../entities/accessRole');
 
-const FactoryDBRepository = require('core/repositories/DBRepository');
+const DFactoryDBRepository = require('core/repositories/DBRepository');
 const ClosurePromesify = require('core/libs/factoryPromisefy');
 const validNotEqual = require('core/services/validator/validNotEqual');
 
@@ -13,7 +13,7 @@ const accessMergeTransform = require('./transforms/accessMergeTransform');
 const factoryValid = require('core/libs/factoryValid');
 const accessValid = require('core/validators/accessValid');
 
-const AccessServices = (Entity) => {
+const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
     const DBRepository = FactoryDBRepository(Entity);
 

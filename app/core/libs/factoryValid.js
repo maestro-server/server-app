@@ -10,4 +10,6 @@ module.exports = (post, scheme, msg = "Validator error") => {
     if (valid.error) {
         throw new ValidatorError(valid.error.details, msg);
     }
+
+    return true;
 };
