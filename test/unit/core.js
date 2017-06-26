@@ -9,7 +9,8 @@ let chai = require('chai'),
     httpMocks = require('node-mocks-http'),
     ACCESS = require('core/entities/accessRole'),
     chaiAsPromised = require("chai-as-promised"),
-    sinonStubPromise = require('sinon-stub-promise');
+    sinonStubPromise = require('sinon-stub-promise'),
+    _ = require('lodash');
 
 chai.use(chaiAsPromised);
 sinonStubPromise(sinon);
@@ -185,6 +186,80 @@ describe('unit - core', function () {
         done();
     });
 
+    describe('applications - accessApplication', function () {
+        const Entity = {name: "Tester", access: "roler"};
+
+        const AccessApp = require('core/applications/accessApplication');
+
+        let res = httpMocks.createResponse();
+        let req = httpMocks.createRequest({
+            query: {
+                foo: "bar"
+            },
+            user: {
+                _id: "452ed4a4f4421335e032bf09",
+                name: "Signorini"
+            },
+            params: {
+                id: "34233628",
+                idu: "88459349"
+            },
+            body: {
+                name: "MyBody"
+            }
+        });
+
+
+        it('update', function (done) {
+            let updateRoles = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    updateRoles
+                });
+
+            AccessApp(Entity, SPS).update(req, res);
+
+            sinon.assert.calledWithExactly(updateRoles, req.params.id, req.params.idu, req.body, req.user);
+            sinon.assert.calledOnce(updateRoles);
+            sinon.assert.calledOnce(SPS);
+            done();
+        });
+
+        it('create', function (done) {
+            let addRoles = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    addRoles
+                });
+            AccessApp(Entity, SPS).create(req, res);
+
+
+            sinon.assert.calledWithExactly(addRoles, req.params.id, req.body, req.user);
+            sinon.assert.calledOnce(addRoles);
+            sinon.assert.calledOnce(SPS);
+
+            done();
+        });
+
+        it('remove', function (done) {
+            let deleteRoles = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    deleteRoles
+                });
+
+            AccessApp(Entity, SPS).remove(req, res);
+
+            sinon.assert.calledWithExactly(deleteRoles, req.params.id, req.params.idu, req.user);
+            sinon.assert.calledOnce(deleteRoles);
+            sinon.assert.calledOnce(SPS);
+
+            done();
+        });
+
+
+    });
+
     describe('applications - persistenceApplication', function () {
         const Entity = {name: "Tester", access: "roler"};
 
@@ -201,6 +276,9 @@ describe('unit - core', function () {
             },
             params: {
                 id: "34233628"
+            },
+            body: {
+                name: "MyBody"
             }
         });
 
@@ -295,9 +373,68 @@ describe('unit - core', function () {
                 });
             PersistenceApp(Entity, SPS).create(req, res);
 
-            sinon.assert.calledWithExactly(create, req.params.id, req.user);
+            let body = _.merge(
+                req.body,
+                {owner: _.merge(req.user, {refs: 'users'})},
+                {[Entity.access]: [_.merge(req.user, {role: 7})]}
+            );
+
+            sinon.assert.calledWithExactly(create, body);
             sinon.assert.calledOnce(create);
             sinon.assert.calledOnce(SPS);
+
+            done();
+        });
+
+        it('create - filter', function (done) {
+            let create = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    create
+                });
+
+            let req2 = httpMocks.createRequest({
+                user: {_id: "abc", refs: "teams", notHave: "nothave"},
+                body: {name: "body2"}
+            });
+
+            PersistenceApp(Entity, SPS).create(req2, res);
+
+            let body = _.merge(
+                req2.body,
+                {owner: _.merge(req2.user, {refs: 'teams'})},
+                {[Entity.access]: [_.merge(req2.user, {role: 7})]}
+            );
+
+            sinon.assert.calledWithExactly(create, body);
+            sinon.assert.calledOnce(create);
+            sinon.assert.calledOnce(SPS);
+
+            expect(create.args[0]).to.not.deep.equal(body); // test filter args, can not have 'notHave' arg
+
+
+            done();
+        });
+
+        it('create - witouh access entity', function (done) {
+            const create = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    create
+                });
+
+            let req3 = httpMocks.createRequest({
+                user: req.user,
+                body: req.body
+            });
+
+            const Entity2 = {name: "Oh"};
+            PersistenceApp(Entity2, SPS).create(req3, res);
+
+            sinon.assert.calledOnce(create);
+            sinon.assert.calledOnce(SPS);
+
+            expect(create.args[0][0]).to.equal(req3.body);
 
             done();
         });
@@ -319,26 +456,76 @@ describe('unit - core', function () {
         });
 
 
+    });
+
+    describe('applications - uploadApplication', function () {
+        const Entity = {name: "Tester", access: "roler"};
+
+        const AccessApp = require('core/applications/uploadApplication');
+
+        let res = httpMocks.createResponse();
+        let req = httpMocks.createRequest({
+            query: {
+                foo: "bar"
+            },
+            user: {
+                _id: "452ed4a4f4421335e032bf09",
+                name: "Signorini"
+            }
+        });
+
+
+        it('uploader', function (done) {
+            let uploadImage = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    uploadImage
+                });
+
+            AccessApp(Entity, SPS).uploader(req, res);
+
+            sinon.assert.calledWithExactly(uploadImage, req.query, req.user);
+            sinon.assert.calledOnce(uploadImage);
+            sinon.assert.calledOnce(SPS);
+            done();
+        });
 
     });
 
-
-    it('applications - uploadApplication', function (done) {
-        done();
-    });
-
-    it('applications - wrapperPersistenceApplication', function (done) {
-        done();
-    });
 
     /*
      ------------------------------------------------------- libs
      */
 
-    describe('libs', function () {
-        it('Welcome msg', function (done) {
-            done();
+    it('libs - crypto', function (done) {
+        const crypto = require('core/libs/crypto');
+        const text = "my tester";
+        const encrypt = crypto.encrypt(text);
+        const decrypty = crypto.decrypt(encrypt);
+
+        expect(encrypt).to.be.a('string');
+        expect(decrypty).to.equal(text);
+
+        done();
+    });
+
+    it('libs - factoryPromises', function (done) {
+        const factory = require('core/libs/factoryPromisefy');
+        const text = "Texter";
+
+        const promise = new Promise((resolve) => {
+            if (resolve) {
+                resolve(resolve);
+            } else {
+                reject(err);
+            }
         });
+
+        factory(promise(text)).resolves(text);
+
+        expect(factory(promise(text)).resolved).to.eql('resolve value');
+
+        done();
     });
 
     /*

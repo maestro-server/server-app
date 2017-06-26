@@ -76,11 +76,9 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
             let {user, body} = req;
 
             user = _.defaults(user, {'refs': "users"});
-
             const owner = _.pick(user, 'name', 'email', '_id', 'refs');
 
-
-            if (Entity.access) {
+            if (_.get(Entity, 'access', false)) {
                 body = _.merge(
                     body,
                     {owner},
