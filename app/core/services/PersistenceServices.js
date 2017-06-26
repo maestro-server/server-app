@@ -2,15 +2,14 @@
 
 const _ = require('lodash');
 
-const FactoryDBRepository = require('core/repositories/DBRepository');
+const DFactoryDBRepository = require('core/repositories/DBRepository');
 const ClosurePromesify = require('core/libs/factoryPromisefy');
 
 const Access = require('core/entities/accessRole');
-
 const accessMergeTransform = require('./transforms/accessMergeTransform');
 
 
-const Persistence = (Entity) => {
+const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
     const DBRepository = FactoryDBRepository(Entity);
 
@@ -63,8 +62,8 @@ const Persistence = (Entity) => {
             return ClosurePromesify(() => {
 
                 const query = accessMergeTransform(owner, Entity.access, {_id}, access);
+                const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password', '_id']);
 
-                const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password']);
 
                 return DBRepository
                     .update(query, post, fill);
