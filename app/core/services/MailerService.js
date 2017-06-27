@@ -1,8 +1,10 @@
 'use strict';
 
-const FmailerConnector = require('core/repositories/smtp/mailerConnector');
+const DmailerConnector = require('core/repositories/smtp/mailerConnector');
 
-const mailerService = (mailerConnector = FmailerConnector) => {
+const mailerService = (FmailerConnector = DmailerConnector) => {
+
+  const mailerConnector = FmailerConnector;
 
     return {
         sender(to, subject, template, data) {

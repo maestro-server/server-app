@@ -3,15 +3,12 @@
 const nodemailer = require('nodemailer');
 const hbs = require('nodemailer-express-handlebars');
 
-class factoryMailer {
+const factoryMailer = {
+    transporter: false,
 
-    constructor() {
-        this.options = {viewPath: process.cwd()+"/templates/emkts/", extName: ".hbs"};
+    options: {viewPath: process.cwd()+"/templates/emkts/", extName: ".hbs"},
 
-        this.connected = false;
-        this.transporter = null;
-        return this;
-    }
+    connected: false,
 
     connect() {
 
@@ -35,6 +32,7 @@ class factoryMailer {
         return new Promise((resolve, reject) => {
 
             const transporter = nodemailer.createTransport(smtpConfig);
+
             transporter.use('compile', hbs(this.options));
 
             this.transporter = transporter;
@@ -49,12 +47,11 @@ class factoryMailer {
 
         });
 
-    }
+    },
 
     isConnected() {
         return this.connected;
     }
-
-}
+};
 
 module.exports = factoryMailer;
