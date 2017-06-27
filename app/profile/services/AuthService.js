@@ -7,6 +7,8 @@ const ClosurePromesify = require('core/libs/factoryPromisefy');
 const validPassMatch = require('profile/services/validator/validPassMatch');
 const tokenTransform = require('profile/transforms/tokenTransform');
 
+const accessEmpty = require('core/applications/validator/validAccessEmpty');
+
 const factoryValid = require('core/libs/factoryValid');
 const forgotEmailTransform = require('profile/transforms/forgotEmailTransform');
 const decodePassForgot = require('./libs/decodePassForgot');
@@ -71,6 +73,7 @@ const AuthService = (Entity) => {
 
                 return DBRepository
                     .findOne({email}, ['_id', 'email'])
+                    .then(accessEmpty)
                     .then((e) => {
                         return forgotEmailTransform(e, body);
                     })
