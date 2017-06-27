@@ -562,7 +562,7 @@ describe('unit - core', function () {
             email: Joi.string().email()
         });
 
-        expect(function(){
+        expect(function () {
             fValid(data, scheme, "Validator");
         }).to.throw("Validator");
         done();
@@ -571,10 +571,10 @@ describe('unit - core', function () {
     it('libs - db run', function (done) {
         const cor = require('core/libs/db_run');
 
-        expect(function(){
-         cor(function *() {
-            yield Promise.resolve(true);
-          });
+        expect(function () {
+            cor(function *() {
+                yield Promise.resolve(true);
+            });
 
         }).to.not.throw("Validator");
         done();
@@ -585,320 +585,418 @@ describe('unit - core', function () {
      ------------------------------------------------------- repositories
      */
 
-     it('repositories - maps - mapFileType', function (done) {
-       const map = require('core/repositories/maps/mapFileType');
+    it('repositories - maps - mapFileType', function (done) {
+        const map = require('core/repositories/maps/mapFileType');
 
-       const test1 = map("image/jpeg");
-       const test2 = map("image/png");
-       const test3 = map("default");
+        const test1 = map("image/jpeg");
+        const test2 = map("image/png");
+        const test3 = map("default");
 
-       expect(test1).to.equal('jpg');
-       expect(test2).to.equal('png');
-       expect(test3).to.equal('default');
+        expect(test1).to.equal('jpg');
+        expect(test2).to.equal('png');
+        expect(test3).to.equal('default');
 
-         done();
-     });
+        done();
+    });
 
-     it('repositories - transforms - activeFormat', function (done) {
-       const format = require('core/repositories/transforms/activeFormat');
+    it('repositories - transforms - activeFormat', function (done) {
+        const format = require('core/repositories/transforms/activeFormat');
 
-       expect(format.active()).to.have.property('active', true);
-       expect(format.active()).to.not.have.property('active', false);
-       done();
-     });
+        expect(format.active()).to.have.property('active', true);
+        expect(format.active()).to.not.have.property('active', false);
+        done();
+    });
 
-     it('repositories - transforms - activeFormat - desactive', function (done) {
-       const format = require('core/repositories/transforms/activeFormat');
+    it('repositories - transforms - activeFormat - desactive', function (done) {
+        const format = require('core/repositories/transforms/activeFormat');
 
-       expect(format.desactive()).to.have.property('active', false);
-       expect(format.desactive()).to.not.have.property('active', true);
-       done();
-     });
+        expect(format.desactive()).to.have.property('active', false);
+        expect(format.desactive()).to.not.have.property('active', true);
+        done();
+    });
 
-     it('repositories - transforms - findFilledFormat', function (done) {
-       const format = require('core/repositories/transforms/findFilledFormat');
+    it('repositories - transforms - findFilledFormat', function (done) {
+        const format = require('core/repositories/transforms/findFilledFormat');
 
-       const test1 = format({a: 1, b: 2, c: 3}, ['a', 'b']);
+        const test1 = format({a: 1, b: 2, c: 3}, ['a', 'b']);
 
-       expect(test1).to.have.property('a');
-       expect(test1).to.have.property('active');
-       expect(test1).to.have.property('b');
-       expect(test1).to.not.have.property('c');
-       done();
-     });
+        expect(test1).to.have.property('a');
+        expect(test1).to.have.property('active');
+        expect(test1).to.have.property('b');
+        expect(test1).to.not.have.property('c');
+        done();
+    });
 
-     it('repositories - transforms - findFilledFormat - not have filter', function (done) {
-       const format = require('core/repositories/transforms/findFilledFormat');
+    it('repositories - transforms - findFilledFormat - not have filter', function (done) {
+        const format = require('core/repositories/transforms/findFilledFormat');
 
-       const test1 = format({a: 1, b: 2, c: 3});
-       expect(test1).to.have.property('active');
+        const test1 = format({a: 1, b: 2, c: 3});
+        expect(test1).to.have.property('active');
 
-       expect(test1).to.not.have.property('a');
-       expect(test1).to.not.have.property('b');
-       expect(test1).to.not.have.property('c');
-       done();
-     });
+        expect(test1).to.not.have.property('a');
+        expect(test1).to.not.have.property('b');
+        expect(test1).to.not.have.property('c');
+        done();
+    });
 
-     it('repositories - validator - validAccessUpdater', function (done) {
-       const validator = require('core/repositories/validator/validAccessUpdater');
+    it('repositories - validator - validAccessUpdater', function (done) {
+        const validator = require('core/repositories/validator/validAccessUpdater');
 
-       const test1 = validator({isUpdater: {n: 30}});
+        const test1 = validator({isUpdater: {n: 30}});
 
-       expect(test1).to.eventually.have.property("isUpdater").notify(done);
-     });
+        expect(test1).to.eventually.have.property("isUpdater").notify(done);
+    });
 
-     it('repositories - validator - validAccessUpdater - throw error', function (done) {
-       const validator = require('core/repositories/validator/validAccessUpdater');
+    it('repositories - validator - validAccessUpdater - throw error', function (done) {
+        const validator = require('core/repositories/validator/validAccessUpdater');
 
-       const tt = validator({isUpdater: {n: 0}});
-       expect(tt).to.be.rejectedWith("You dont have access");
+        const tt = validator({isUpdater: {n: 0}});
+        expect(tt).to.be.rejectedWith("You dont have access");
 
-       done();
-     });
+        done();
+    });
     /*
      ------------------------------------------------------- services
      */
 
-     it('services - transforms - accessMergeTransform', function (done) {
-       const transforms = require('core/services/transforms/accessMergeTransform');
+    it('services - transforms - accessMergeTransform', function (done) {
+        const transforms = require('core/services/transforms/accessMergeTransform');
 
-       const owner = {name: "Tester", "_id": "452ed4a4f4421335e032bf09"};
-       const fielder = 'roler';
-       const access = 3;
+        const owner = {name: "Tester", "_id": "452ed4a4f4421335e032bf09"};
+        const fielder = 'roler';
+        const access = 3;
 
-       const tt = transforms(owner, fielder, access);
+        const tt = transforms(owner, fielder, {}, access);
 
-       expect(tt).to.have.property(fielder)
-       .to.have.property('$elemMatch')
-       .to.have.property('_id');
+        expect(tt).to.have.property(fielder)
+            .to.have.property('$elemMatch')
+            .to.have.property('_id');
 
-       expect(tt).to.have.property(fielder)
-       .to.have.property('$elemMatch')
-       .to.have.property('role');
+        expect(tt).to.have.property(fielder)
+            .to.have.property('$elemMatch')
+            .to.have.property('role');
 
-       done();
-     });
+        done();
+    });
 
-     it('services - validator - uploadValid - sizeValidate e typeValidate = true', function (done) {
-       const uploadValid = require('core/services/validator/uploadValid');
-       const file = {size: 7894454646, name: "tester", type: "jpg"};
-       const tt = uploadValid(file);
+    it('services - transforms - accessMergeTransform - makeAccess', function (done) {
+        const transforms = require('core/services/transforms/accessMergeTransform');
 
-       tt.sizeValidate();
-       expect(tt.pass()).to.be.equal(false);
+        const owner = {name: "Tester", "_id": "452ed4a4f4421335e032bf09"};
+        const fielder = 'roler';
+        const access = 3;
 
-       done();
-     });
+        const tt = transforms.makeAccess(owner, fielder, access);
 
-     it('services - validator - uploadValid - typeValidate = false', function (done) {
-       const uploadValid = require('core/services/validator/uploadValid');
+        expect(tt).to.have.property(fielder)
+            .to.have.property('$elemMatch')
+            .to.have.property('_id');
 
-       const file = {size: 2000, name: "tester", type: "image/jpeg"};
-       const tt = uploadValid(file);
+        expect(tt).to.have.property(fielder)
+            .to.have.property('$elemMatch')
+            .to.have.property('role');
 
-       expect(tt.pass()).to.be.equal(true);
+        done();
+    });
 
-       done();
-     });
+    it('services - validator - uploadValid - sizeValidate e typeValidate = true', function (done) {
+        const uploadValid = require('core/services/validator/uploadValid');
+        const file = {size: 7894454646, name: "tester", type: "jpg"};
+        const tt = uploadValid(file);
 
-     it('services - validator - uploadValid - check', function (done) {
-       const uploadValid = require('core/services/validator/uploadValid');
-       const file = {size: 7894454646, name: "tester", type: "jpg"};
-       const tt = uploadValid(file);
+        tt.sizeValidate();
+        expect(tt.pass()).to.be.equal(false);
 
-       expect(tt).to.be.a('object');
-       expect(function(){
-        tt.check();
-       }).to.not.throw("Validator");
+        done();
+    });
 
-       done();
-     });
+    it('services - validator - uploadValid - typeValidate = false', function (done) {
+        const uploadValid = require('core/services/validator/uploadValid');
 
-     it('services - validator - validNotFound', function (done) {
-       const valid = require('core/services/validator/validNotEqual');
-       const tt = valid({name: "tester"}, "roler", "asd");
+        const file = {size: 2000, name: "tester", type: "image/jpeg"};
+        const tt = uploadValid(file);
 
-       expect(tt).to.have.property("roler")
-       .to.have.property('$ne', "asd");
+        expect(tt.pass()).to.be.equal(true);
 
-       done();
-     });
+        done();
+    });
 
-     describe('services - PersistenceServices', function () {
-         const Entity = {name: "Tester", access: "roler", filled: ['name']};
-         const PersistenceServices = require('core/services/PersistenceServices');
+    it('services - validator - uploadValid - check', function (done) {
+        const uploadValid = require('core/services/validator/uploadValid');
+        const file = {size: 7894454646, name: "tester", type: "jpg"};
+        const tt = uploadValid(file);
 
-         const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
-         const _id = "452ed4a4f4421335e032bf09";
+        expect(tt).to.be.a('object');
+        expect(function () {
+            tt.check();
+        }).to.not.throw("Validator");
 
-         it('find', function (done) {
-             let find = sinon.stub().returnsPromise();
-             let count = sinon.stub().returnsPromise();
-             let SPS = sinon.stub()
-                 .returns({
-                     find,
-                     count
-                 });
+        done();
+    });
 
-             PersistenceServices(Entity, SPS).find({}, owner);
-             expect(find.args[0][0]).to.be.property("roler")
-             .to.have.property("$elemMatch");
+    it('services - validator - validNotFound', function (done) {
+        const valid = require('core/services/validator/validNotEqual');
+        const tt = valid({name: "tester"}, "roler", "asd");
 
-             expect(count.args[0][0]).to.be.property("roler")
-             .to.have.property("$elemMatch");
+        expect(tt).to.have.property("roler")
+            .to.have.property('$ne', "asd");
 
-             sinon.assert.calledOnce(find);
-             sinon.assert.calledOnce(count);
-             sinon.assert.calledOnce(SPS);
-             done();
-         });
+        done();
+    });
 
-         it('findOne', function (done) {
-             let findOne = sinon.stub().returnsPromise();
-             let SPS = sinon.stub()
-                 .returns({
-                     findOne
-                 });
+    describe('services - PersistenceServices', function () {
+        const Entity = {name: "Tester", access: "roler", filled: ['name']};
+        const PersistenceServices = require('core/services/PersistenceServices');
 
-             PersistenceServices(Entity, SPS).findOne(_id, owner);
+        const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
+        const _id = "452ed4a4f4421335e032bf09";
 
-             expect(findOne.args[0][0]).to.have.property("_id");
-             sinon.assert.calledOnce(findOne);
-             sinon.assert.calledOnce(SPS);
-             done();
-         });
+        it('find', function (done) {
+            let find = sinon.stub().returnsPromise();
+            let count = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    find,
+                    count
+                });
 
-         it('autocomplete', function (done) {
-             let find = sinon.stub().returnsPromise();
-             let count = sinon.stub().returnsPromise();
-             let SPS = sinon.stub()
-                 .returns({
-                     find,
-                     count
-                 });
+            PersistenceServices(Entity, SPS).find({}, owner);
+            expect(find.args[0][0]).to.be.property("roler")
+                .to.have.property("$elemMatch");
 
-             PersistenceServices(Entity, SPS).autocomplete({complete: "name"}, owner);
+            expect(count.args[0][0]).to.be.property("roler")
+                .to.have.property("$elemMatch");
 
-             expect(find.args[0][0]).to.be.property("roler")
-             .to.have.property("$elemMatch");
+            sinon.assert.calledOnce(find);
+            sinon.assert.calledOnce(count);
+            sinon.assert.calledOnce(SPS);
+            done();
+        });
 
-             expect(count.args[0][0]).to.be.property("roler")
-             .to.have.property("$elemMatch");
+        it('findOne', function (done) {
+            let findOne = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    findOne
+                });
 
-             sinon.assert.calledOnce(find);
-             sinon.assert.calledOnce(count);
-             sinon.assert.calledOnce(SPS);
-             done();
-         });
+            PersistenceServices(Entity, SPS).findOne(_id, owner);
 
-         it('create', function (done) {
-             let findOne = sinon.stub().returnsPromise();
-             let SPS = sinon.stub()
-                 .returns({
-                     findOne
-                 });
+            expect(findOne.args[0][0]).to.have.property("_id");
+            sinon.assert.calledOnce(findOne);
+            sinon.assert.calledOnce(SPS);
+            done();
+        });
 
-             PersistenceServices(Entity, SPS).findOne(_id, owner);
+        it('autocomplete', function (done) {
+            let find = sinon.stub().returnsPromise();
+            let count = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    find,
+                    count
+                });
 
-             expect(findOne.args[0][0]).to.have.property("_id");
-             sinon.assert.calledOnce(findOne);
-             sinon.assert.calledOnce(SPS);
-             done();
-         });
+            PersistenceServices(Entity, SPS).autocomplete({complete: "name"}, owner);
 
-         it('update', function (done) {
-             let update = sinon.stub().returnsPromise();
-             let SPS = sinon.stub()
-                 .returns({
-                     update
-                 });
+            expect(find.args[0][0]).to.be.property("roler")
+                .to.have.property("$elemMatch");
 
-             const post = {name: "teste", owner: {name: "notAlloow"}, password: "notAllow"};
-             PersistenceServices(Entity, SPS).update(_id, post, owner);
+            expect(count.args[0][0]).to.be.property("roler")
+                .to.have.property("$elemMatch");
 
-             expect(update.args[0][2][0]).to.not.have.property("password");
-             expect(update.args[0][2]).to.not.have.property("_id");
-             expect(update.args[0][2]).to.have.all.deep.members(["name"]);
+            sinon.assert.calledOnce(find);
+            sinon.assert.calledOnce(count);
+            sinon.assert.calledOnce(SPS);
+            done();
+        });
 
-             expect(update.args[0][1]).to.have.property("name");
-             expect(update.args[0][1]).to.have.property("owner");
-             expect(update.args[0][1]).to.have.property("password");
+        it('create', function (done) {
+            let findOne = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    findOne
+                });
 
-             expect(update.args[0][0]).to.have.property("_id");
-             expect(update.args[0][0]).to.have.property("roler");
+            PersistenceServices(Entity, SPS).findOne(_id, owner);
 
-             sinon.assert.calledOnce(update);
-             sinon.assert.calledOnce(SPS);
-             done();
-         });
+            expect(findOne.args[0][0]).to.have.property("_id");
+            sinon.assert.calledOnce(findOne);
+            sinon.assert.calledOnce(SPS);
+            done();
+        });
 
-         it('remove', function (done) {
-             let remove = sinon.stub().returnsPromise();
-             let SPS = sinon.stub()
-                 .returns({
-                     remove
-                 });
+        it('update', function (done) {
+            let update = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    update
+                });
 
-             PersistenceServices(Entity, SPS).remove(_id, owner);
+            const post = {name: "teste", owner: {name: "notAlloow"}, password: "notAllow"};
+            PersistenceServices(Entity, SPS).update(_id, post, owner);
 
-             expect(remove.args[0][0]).to.have.property("_id");
-             expect(remove.args[0][0]).to.have.property("roler");
-             sinon.assert.calledOnce(remove);
-             sinon.assert.calledOnce(SPS);
-             done();
-         });
+            expect(update.args[0][2][0]).to.not.have.property("password");
+            expect(update.args[0][2]).to.not.have.property("_id");
+            expect(update.args[0][2]).to.have.all.deep.members(["name"]);
 
+            expect(update.args[0][1]).to.have.property("name");
+            expect(update.args[0][1]).to.have.property("owner");
+            expect(update.args[0][1]).to.have.property("password");
 
-     });
+            expect(update.args[0][0]).to.have.property("_id");
+            expect(update.args[0][0]).to.have.property("roler");
 
+            sinon.assert.calledOnce(update);
+            sinon.assert.calledOnce(SPS);
+            done();
+        });
 
-     describe('services - UploaderService', function () {
-         const Entity = {name: "Tester", access: "roler", filled: ['name']};
-         const UploaderService = require('core/services/UploaderService');
+        it('remove', function (done) {
+            let remove = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    remove
+                });
 
-         const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
+            PersistenceServices(Entity, SPS).remove(_id, owner);
 
-         it('uploadImage', function (done) {
-             let upload = sinon.stub().returnsPromise();
-             let SPS = sinon.stub()
-                 .returns({
-                     upload
-                 });
-
-             const filer = {
-               filetype: "image/jpeg"
-             };
-
-             UploaderService(Entity, SPS).uploadImage(filer, owner);
-
-             expect(upload.args[0][0]).to.have.equal(owner._id);
-             sinon.assert.calledOnce(upload);
-             sinon.assert.calledOnce(SPS);
-             done();
-         });
+            expect(remove.args[0][0]).to.have.property("_id");
+            expect(remove.args[0][0]).to.have.property("roler");
+            sinon.assert.calledOnce(remove);
+            sinon.assert.calledOnce(SPS);
+            done();
+        });
 
 
-     });
-
-     describe('services - AccessServices', function () {
-         const Entity = {name: "Tester", access: "roler", filled: ['name']};
-         const UploaderService = require('core/services/AccessServices');
-
-         const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
-         const _id = "452ed4a4f4421335e032bf09";
+    });
 
 
-     });
+    describe('services - UploaderService', function () {
+        const Entity = {name: "Tester", access: "roler", filled: ['name']};
+        const UploaderService = require('core/services/UploaderService');
 
-     describe('services - MailerService', function () {
-         const Entity = {name: "Tester", access: "roler", filled: ['name']};
-         const UploaderService = require('core/services/MailerService');
+        const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
 
-         const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
-         const _id = "452ed4a4f4421335e032bf09";
+        it('uploadImage', function (done) {
+            let upload = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    upload
+                });
+
+            const filer = {
+                filetype: "image/jpeg"
+            };
+
+            UploaderService(Entity, SPS).uploadImage(filer, owner);
+
+            expect(upload.args[0][0]).to.have.equal(owner._id);
+            sinon.assert.calledOnce(upload);
+            sinon.assert.calledOnce(SPS);
+            done();
+        });
 
 
-     });
+    });
+
+    describe('services - AccessServices', function () {
+        const Entity = {name: "Tester", access: "roler", filled: ['name']};
+        const AccessServices = require('core/services/AccessServices');
+
+        const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
+        const _id = "452ed4a4f4421335e032bf09";
+
+        it('addRoles', function (done) {
+            let updateByPushUnique = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    updateByPushUnique
+                });
+
+            const post = {role: "1", id: "452ed4a4f4421335e032bf09", name: "Tname", refs: "users"};
+
+            AccessServices(Entity, SPS).addRoles(_id, post, owner);
+
+            expect(updateByPushUnique.args[0][0]).to.have.property('_id');
+            expect(updateByPushUnique.args[0][0]).to.have.property(Entity.access)
+                .to.have.property('$elemMatch');
+
+            expect(updateByPushUnique.args[0][1]).to.have.property('roler')
+                .to.have.property('role', 1);
+
+            expect(updateByPushUnique.args[0][1]).to.have.property('roler')
+                .to.have.property('role', 1);
+
+
+            expect(updateByPushUnique.args[0][2]).to.have.equal(Entity.access);
+
+            sinon.assert.calledOnce(updateByPushUnique);
+            sinon.assert.calledOnce(SPS);
+            done();
+        });
+
+        it('updateRoles', function (done) {
+            let updateByPull = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    updateByPull
+                });
+
+            const post2 = {role: "3", refs: "users"};
+
+            const Entity2 = {name: "Tester", access: "roler", filled: ['name', 'url']};
+            AccessServices(Entity2, SPS).updateRoles(_id, _id, post2, owner);
+
+            expect(updateByPull.args[0][0]).to.have.property('_id');
+            expect(updateByPull.args[0][0]).to.have.property('roler');
+
+            sinon.assert.calledTwice(SPS);
+            sinon.assert.calledOnce(updateByPull);
+            done();
+        });
+
+
+        it('deleteRoles', function (done) {
+            let updateByPull = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    updateByPull
+                });
+
+
+            AccessServices(Entity, SPS).deleteRoles(_id, _id, owner);
+
+            expect(updateByPull.args[0][0]).to.have.property('_id');
+            sinon.assert.calledOnce(SPS);
+            sinon.assert.calledOnce(updateByPull);
+            done();
+        });
+
+
+    });
+
+    describe('services - MailerService', function () {
+        const MailerService = require('core/services/MailerService');
+
+        it('sender', function (done) {
+            let sender = sinon.stub().returnsPromise();
+            let SPS = {sender};
+
+            const to = "felipe";
+            const subject = "MySubject";
+            const template = "ok";
+            const data = {};
+
+            MailerService(SPS).sender(to, subject, template, data);
+
+            sinon.assert.calledWith(sender, to, subject, template, data);
+            sinon.assert.calledOnce(sender);
+            done();
+        });
+
+
+    });
 
 
 });

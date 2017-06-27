@@ -365,6 +365,32 @@ describe('e2e users', function () {
                     done(err);
                 });
         });
+
+        it('Existe user - chnage password - token and password', function (done) {
+            request(mock)
+                .put('/users/forgot/change')
+                .send({token: "aswqe2d", password: "asdasda"})
+                .expect(409)
+                .expect('Content-Type', /json/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Existe user - chnage password - token and password token', function (done) {
+            request(mock)
+                .put('/users/forgot/change')
+                .send({
+                    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ImZjNWFiMjU2YjFjN2RhYmU2OTk2ZWE1MzExYmRmZTIxYTZiZTk4M2JkYzU0NmFmZmYzNzM0MDgyNWVkNjYwYmM4YzFhM2NmMDI0NmFjNjg1N2M5NDY1NzY1OWQ4ODEzYjdhOWE4YTM0ZGJhNDk1N2MyMDE2ZjljZGJjMzBkMWNhIg.b242oRHo1d6RsdPwkLCyesqmZ_wIVlHQN219Mxs5kEU",
+                    password: "asdasda"})
+                .expect(400)
+                .expect('Content-Type', /json/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
     /**

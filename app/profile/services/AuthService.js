@@ -75,7 +75,7 @@ const AuthService = (Entity) => {
                         return forgotEmailTransform(e, body);
                     })
                     .then((e) => {
-                        return new MailerService()
+                        return MailerService()
                             .sender(
                                 e.email,
                                 "Maestro Server - Recovery Password",

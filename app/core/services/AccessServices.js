@@ -49,7 +49,7 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
                 factoryValid(roles, accessValid.update);
 
-                return AccessServices(Entity).deleteRoles(_id, _idu, owner)
+                return AccessServices(Entity, FactoryDBRepository).deleteRoles(_id, _idu, owner)
                     .then(() => {
                         Object.assign(roles, {id: _idu});
 

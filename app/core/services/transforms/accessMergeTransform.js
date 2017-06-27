@@ -39,3 +39,5 @@ module.exports = function (owner, fielder, trans = {}, access = Access.ROLE_READ
 
     return Object.assign(trans, merge);
 };
+
+module.exports.makeAccess = makeAccess;
