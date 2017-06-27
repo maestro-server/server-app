@@ -11,9 +11,13 @@ module.exports = function (crypto) {
 
     return new Promise((resolve, reject) => {
 
-        let result;
+        let result, decoded;
 
-        const decoded = jwt.decode(crypto.token, config.jwtSecret.secretOrKey);
+        try {
+            decoded = jwt.decode(crypto.token, config.jwtSecret.secretOrKey);
+        } catch (err) {
+            throw new ConflictError(err);
+        }
 
         if (!decoded)
             throw new ConflictError("Invalid token");
