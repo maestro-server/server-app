@@ -27,7 +27,7 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                 let access = {};
                 access[Entity.access] = _.merge({
                     _id: ObjectId(post.id),
-                    refs: post.refs || 'users',
+                    refs: post.refs,
                     role: parseInt(post.role)
                 },
                     _.pick(post, 'name', 'email')

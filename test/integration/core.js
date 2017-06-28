@@ -6,8 +6,6 @@ require('dotenv').config({path: '.env.test'});
 let chai = require('chai'),
     {expect} = chai,
     sinon = require('sinon'),
-    httpMocks = require('node-mocks-http'),
-    ACCESS = require('core/entities/accessRole'),
     chaiAsPromised = require("chai-as-promised"),
     sinonStubPromise = require('sinon-stub-promise'),
     cleaner_db = require('../e2e/libs/cleaner_db'),
@@ -66,19 +64,20 @@ describe('integration - core', function () {
     describe('DBRepository', function () {
       const Entity = require('./libs/entities/Tester');
       const DBRepository = require('core/repositories/DBRepository');
+      let app = require('./libs/bootApp');
+
+      const data = {name: "name", notHave: "notHave"};
 
       before(function (done) {
         cleaner_db([{tb: 'tester'}], () => {
-          const app = require('./libs/bootApp');
           app(done);
         }, null);
       });
 
+
       describe('create', function () {
         it('create', function (done) {
-          const post = {name: "name", notHave: "notHave", active: 0};
-
-            const tt = DBRepository(Entity).create(post);
+            const tt = DBRepository(Entity).create(data);
 
             expect(tt).to.fulfilled
             .and.to.eventually.have.property("name")
@@ -87,9 +86,9 @@ describe('integration - core', function () {
         });
 
         it('create 2', function (done) {
-          const post = {name: "name2", notHave: "notHave", active: 0};
+          const post = {name: "name2"};
 
-            const tt = DBRepository(Entity).create(post);
+            const tt = DBRepository(Entity).create(_.assign({}, data, post));
 
             expect(tt).to.fulfilled
             .and.to.eventually.have.property("name")
@@ -112,7 +111,30 @@ describe('integration - core', function () {
         });
       });
 
+      describe('update', function () {
+        it('find', function (done) {
+           const {name} = data;
+            const tt = DBRepository(Entity).update({name}, {name: "change"});
+
+            expect(tt)
+            .to.be.fulfilled
+            .and.to.eventually.have.property("name")
+            .and.notify(done);
+        });
+      });
+
+      describe('test update', function () {
+        it('findOne', function (done) {
+            const tt = DBRepository(Entity).findOne({name: "change"});
+
+            expect(tt)
+            .to.be.fulfilled
+            .and.to.eventually.have.property("name")
+            .and.notify(done);
+        });
+      });
     });
+
 
   });
 

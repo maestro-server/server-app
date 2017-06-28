@@ -8,6 +8,7 @@ const hateaosTransform = require('core/applications/transforms/hateoasTransform'
 
 const formatRole = require('core/applications/transforms/formatFirstRole');
 const validNotFound = require('core/applications/validator/validNotFound');
+const notExist = require('core/applications/validator/validNotExist');
 const Access = require('core/entities/accessRole');
 
 
@@ -39,6 +40,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)
+                .then(notExist)
                 .then((e) => {
                     return hateaosTransform.singleTransform(e, Entity);
                 })
@@ -49,17 +51,19 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
         },
 
         autocomplete (req, res, next) {
+            let {query} = req;
 
-            PersistenceServices(Entity)
-                .autocomplete(req.query, req.user)
-                .then((e) => {
-                    return hateaosTransform.collectionTransform(e[0], e[1]);
-                })
-                .then(e => res.json(e))
-                .catch(function (e) {
-                    next(e);
-                });
+            if(query.hasOwnProperty('complete')) {
+              req.query = {
+                name: {$regex: query.complete, '$options': 'i'}
+              };
 
+              PersistenceApp(Entity)
+                  .find (req, res, next);
+              return;
+            }
+
+            next();
         },
 
         update (req, res, next) {

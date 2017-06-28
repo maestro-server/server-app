@@ -181,6 +181,8 @@ describe('e2e architectures', function () {
                 .expect('Content-Type', /json/)
                 .expect(/\"name\":\"Myarchitecture\"/)
                 .expect(/_id/)
+                .expect(/_link/)
+                .expect(/found/)
                 .expect(function (res) {
                     expect(res.body.items).to.have.length(2);
                 })
@@ -238,6 +240,19 @@ describe('e2e architectures', function () {
                 });
         });
 
+        it('Exist architectures - test pagination list', function (done) {
+            request(mock)
+                .get('/architectures')
+                .query({limit: 1, page: 40})
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(404)
+                .expect(/not found/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
         it('Exist architecture - see my new architecture', function (done) {
             request(mock)
                 .get('/architectures/' + architectures[0]._id)
@@ -246,6 +261,7 @@ describe('e2e architectures', function () {
                 .expect('Content-Type', /json/)
                 .expect(/name/)
                 .expect(/email/)
+                .expect(/_link/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -256,6 +272,31 @@ describe('e2e architectures', function () {
             request(mock)
                 .get('/architectures/' + architectures[0]._id)
                 .expect(401)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Exist architectures -  autocomplete', function (done) {
+            request(mock)
+                .get('/architectures/autocomplete')
+                .query({complete: "second"})
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Exist architectures -  autocomplete - not found', function (done) {
+            request(mock)
+                .get('/architectures/autocomplete')
+                .query({})
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(e=>console.log(e.body))
+                .expect(404)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -903,6 +944,19 @@ describe('e2e architectures', function () {
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .expect(/\"role\"\:1/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Exist roles - update role application - validation', function (done) {
+            request(mock)
+                .patch(`/teams/${teams._id}/architectures/${teamsAPP[0]._id}/roles/${friend._id}`)
+                .send({name: friend.name, email: friend.email})
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(422)
+                .expect('Content-Type', /json/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);

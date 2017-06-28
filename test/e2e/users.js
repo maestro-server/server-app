@@ -111,6 +111,44 @@ describe('e2e users', function () {
                     done(err);
                 });
         });
+
+        it('Exist user - Upload Files', function (done) {
+            request(mock)
+                .get('/users/upload')
+                .query({filetype:'image/jpeg'})
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .expect(/url/)
+                .expect(/filename/)
+                .expect(/signedRequest/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Exist user - Upload Files - error', function (done) {
+            request(mock)
+                .get('/users/upload')
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(422)
+                .expect('Content-Type', /json/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Exist user - Upload Files - without token', function (done) {
+            request(mock)
+                .get('/users/upload')
+                .expect(401)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
     /**
@@ -331,6 +369,17 @@ describe('e2e users', function () {
     * @description I forgot my password, i like to recovery
     */
     describe('forgot my password', function () {
+        it('If i make a get, dont call id users', function (done) {
+            request(mock)
+                .get('/users/forgot')
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
         it('Existe user - forgot callback url', function (done) {
             request(mock)
                 .post('/users/forgot')

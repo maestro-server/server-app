@@ -6,7 +6,7 @@ const Access = require('core/entities/accessRole');
 const DFactoryPesistenceApp = require('core/applications/persistenceApplication');
 const PersistenceServices = require('core/services/PersistenceServices');
 
-const accessEmpty = require('core/applications/validator/validAccessEmpty');
+const notExist = require('core/applications/validator/validNotExist');
 
 
 const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = DFactoryPesistenceApp) => {
@@ -19,7 +19,7 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
 
             PersistenceServices(ACEntity)
                 .findOne(params.id, user, Access.ROLE_READ)
-                .then(accessEmpty)
+                .then(notExist)
                 .then((e) => {
                     e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');
@@ -36,7 +36,7 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
 
             PersistenceServices(ACEntity)
                 .findOne(params.id, user, Access.ROLE_READ)
-                .then(accessEmpty)
+                .then(notExist)
                 .then((e) => {
                     e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');
@@ -54,7 +54,7 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
 
             PersistenceServices(ACEntity)
                 .findOne(params.id, user, Access.ROLE_WRITER)
-                .then(accessEmpty)
+                .then(notExist)
                 .then((e) => {
                     e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');
@@ -73,7 +73,7 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
 
             PersistenceServices(ACEntity)
                 .findOne(params.id, user, Access.ROLE_WRITER)
-                .then(accessEmpty)
+                .then(notExist)
                 .then((e) => {
                     e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');
@@ -91,7 +91,7 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
 
             PersistenceServices(ACEntity)
                 .findOne(params.id, user, Access.ROLE_WRITER)
-                .then(accessEmpty)
+                .then(notExist)
                 .then((e) => {
                     e.refs = ACEntity.name;
                     req.user = _.pick(e, 'name', 'email', '_id', 'refs');

@@ -333,22 +333,6 @@ describe('unit - core', function () {
             done();
         });
 
-        it('autocomplete', function (done) {
-            let autocomplete = sinon.stub().returnsPromise();
-            let SPS = sinon.stub()
-                .returns({
-                    autocomplete
-                });
-
-            PersistenceApp(Entity, SPS).autocomplete(req, res);
-
-            sinon.assert.calledWithExactly(autocomplete, req.query, req.user);
-            sinon.assert.calledOnce(autocomplete);
-            sinon.assert.calledOnce(SPS);
-
-            done();
-        });
-
         it('update', function (done) {
             let update = sinon.stub().returnsPromise();
             let SPS = sinon.stub()
@@ -681,6 +665,34 @@ describe('unit - core', function () {
         done();
     });
 
+    it('services - transforms - accessMergeTransform - owner map', function (done) {
+        const transforms = require('core/services/transforms/accessMergeTransform');
+
+        const owner = [{name: "Tester", "_id": "452ed4a4f4421335e032bf09"}];
+        const fielder = 'roler';
+        const access = 3;
+
+        const tt = transforms(owner, fielder, {}, access);
+
+        expect(tt).to.have.property('$or')
+            .to.be.a('array').with.lengthOf(1);
+
+        done();
+    });
+
+    it('services - transforms - accessMergeTransform - makeAccess - not id', function (done) {
+        const transforms = require('core/services/transforms/accessMergeTransform');
+
+        const owner = {name: "Tester"};
+        const fielder = 'roler';
+        const access = 3;
+
+        const tt = transforms.makeAccess(owner, fielder, access);
+        expect(tt).to.be.a('boolean');
+
+        done();
+    });
+
     it('services - transforms - accessMergeTransform - makeAccess', function (done) {
         const transforms = require('core/services/transforms/accessMergeTransform');
 
@@ -700,6 +712,8 @@ describe('unit - core', function () {
 
         done();
     });
+
+
 
     it('services - validator - uploadValid - sizeValidate e typeValidate = true', function (done) {
         const uploadValid = require('core/services/validator/uploadValid');
@@ -786,29 +800,6 @@ describe('unit - core', function () {
 
             expect(findOne.args[0][0]).to.have.property("_id");
             sinon.assert.calledOnce(findOne);
-            sinon.assert.calledOnce(SPS);
-            done();
-        });
-
-        it('autocomplete', function (done) {
-            let find = sinon.stub().returnsPromise();
-            let count = sinon.stub().returnsPromise();
-            let SPS = sinon.stub()
-                .returns({
-                    find,
-                    count
-                });
-
-            PersistenceServices(Entity, SPS).autocomplete({complete: "name"}, owner);
-
-            expect(find.args[0][0]).to.be.property("roler")
-                .to.have.property("$elemMatch");
-
-            expect(count.args[0][0]).to.be.property("roler")
-                .to.have.property("$elemMatch");
-
-            sinon.assert.calledOnce(find);
-            sinon.assert.calledOnce(count);
             sinon.assert.calledOnce(SPS);
             done();
         });
@@ -916,7 +907,7 @@ describe('unit - core', function () {
                     updateByPushUnique
                 });
 
-            const post = {role: "1", id: "452ed4a4f4421335e032bf09", name: "Tname", refs: "users"};
+            const post = {role: "1", id: "452ed4a4f4421335e032bf09", name: "Tname", refs: "teams"};
 
             AccessServices(Entity, SPS).addRoles(_id, post, owner);
 

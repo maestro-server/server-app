@@ -32,7 +32,7 @@ describe('e2e applications', function () {
         name: "SecondApplication"
     }];
 
-  
+
     before(function (done) {
       cleaner_db([{tb: 'users'}, {tb: 'applications'}, {tb: 'teams'}], () => {
         app = require('./libs/bootApp')();
@@ -181,6 +181,8 @@ describe('e2e applications', function () {
                 .expect('Content-Type', /json/)
                 .expect(/\"name\":\"MyApplication\"/)
                 .expect(/_id/)
+                .expect(/_link/)
+                .expect(/found/)
                 .expect(function (res) {
                     expect(res.body.items).to.have.length(2);
                 })
@@ -238,6 +240,19 @@ describe('e2e applications', function () {
                 });
         });
 
+        it('Exist application - test pagination list', function (done) {
+            request(mock)
+                .get('/applications')
+                .query({limit: 1, page: 40})
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(404)
+                .expect(/not found/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
         it('Exist application - see my new application', function (done) {
             request(mock)
                 .get('/applications/' + applications[0]._id)
@@ -246,6 +261,19 @@ describe('e2e applications', function () {
                 .expect('Content-Type', /json/)
                 .expect(/name/)
                 .expect(/email/)
+                .expect(/_link/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Exist application - error id', function (done) {
+            request(mock)
+                .get('/applications/' + user._id)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(404)
+                .expect('Content-Type', /json/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -262,6 +290,30 @@ describe('e2e applications', function () {
                 });
         });
 
+        it('Exist application -  autocomplete', function (done) {
+            request(mock)
+                .get('/applications/autocomplete')
+                .query({complete: "second"})
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Exist application -  autocomplete - not found', function (done) {
+            request(mock)
+                .get('/applications/autocomplete')
+                .query({})
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(e=>console.log(e.body))
+                .expect(404)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
 
         it('Exist application -  autocomplete without token', function (done) {
             request(mock)
@@ -886,6 +938,18 @@ describe('e2e applications', function () {
                     done(err);
                 });
         });
+
+        it('Exist roles - wrong id', function (done) {
+            request(mock)
+                .get(`/teams/${teams._id}/applications/${teams._id}`)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(404)
+                .expect('Content-Type', /json/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
     /**
@@ -903,6 +967,19 @@ describe('e2e applications', function () {
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .expect(/\"role\"\:1/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Exist roles - update role application - validation', function (done) {
+            request(mock)
+                .patch(`/teams/${teams._id}/applications/${teamsAPP[0]._id}/roles/${friend._id}`)
+                .send({name: friend.name, email: friend.email})
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(422)
+                .expect('Content-Type', /json/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);

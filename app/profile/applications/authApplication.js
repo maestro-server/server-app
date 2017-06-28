@@ -35,7 +35,6 @@ const AuthApp = (Entity) => {
                 .catch(function (e) {
                     next(e);
                 });
-
         },
 
         updateForgotPassword (req, res, next) {

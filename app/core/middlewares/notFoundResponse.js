@@ -1,10 +1,10 @@
-'use strict';
+ 'use strict';
 
  module.exports = function () {
     return function (err, req, res, next) {
 
-        if(err.name === 'ValidatorError') {
-          res.status(422).json(err);
+        if(err.name === 'NotFoundError') {
+          res.status(404).json(err);
           next();
         }
         next(err);

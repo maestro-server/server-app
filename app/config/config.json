@@ -98,6 +98,10 @@
             "priority": 135,
             "module": "path:./core/middlewares/validatorResponse"
         },
+        "notFoundResponse": {
+            "priority": 135,
+            "module": "path:./core/middlewares/notFoundResponse"
+        },
         "permissionResponse": {
             "priority": 136,
             "module": "path:./core/middlewares/permissionResponse"
