@@ -1,8 +1,7 @@
 'use strict';
+require('dotenv').config({path: '.env.test'});
 
-let kraken = require('kraken-js'),
-    path = require('path'),
-    request = require('supertest'),
+let request = require('supertest'),
     cleaner_db = require('./libs/cleaner_db');
 
 
@@ -11,18 +10,18 @@ describe('e2e check access roles', function () {
     let app, mock;
 
     let user = {
-        name: "MaestroUsers",
-        email: "maestro@maestrousers.com",
-        newemail: "mynew@mail.com",
-        password: "mytester",
+        name: "roles_MaestroUsers",
+        email: "roles_maestro@maestrousers.com",
+        newemail: "roles_roles_mynew@mail.com",
+        password: "roles_mytester",
         token: null,
         _id: null
     };
 
     let friend = {
-        name: "Friend",
-        email: "friend@maestrousers.com",
-        password: "mytester",
+        name: "roles_Friend",
+        email: "roles_friend@maestrousers.com",
+        password: "roles_mytester",
         token: null,
         _id: null
     };
@@ -31,22 +30,17 @@ describe('e2e check access roles', function () {
         name: "MyApplication"
     };
 
-
     before(function (done) {
-        require('dotenv').config({path: '.env.test'});
-        app = require('../../app/app');
-
-        app.use(kraken({
-            basedir: path.resolve(__dirname, '../../app/')
-        }));
+      cleaner_db([{tb: 'users'}], () => {
+        app = require('./libs/bootApp')();
 
         app.once('start', done);
-        mock = app.listen(1337);
+        mock = app.listen(1345);
+      }, null);
     });
 
-
     after(function (done) {
-        cleaner_db(done, mock);
+      mock.close(done);
     });
 
 
@@ -57,8 +51,8 @@ describe('e2e check access roles', function () {
                 .send(user)
                 .expect(201)
                 .expect('Content-Type', /json/)
-                .expect(/\"name\":\"MaestroUsers\"/)
-                .expect(/maestro@maestrousers\.com/)
+                .expect(/\"name\":\"roles_MaestroUsers\"/)
+                .expect(/roles_maestro@maestrousers\.com/)
                 .expect(/_id/)
                 .expect((res) => {
                     user._id = res.body._id;
@@ -69,24 +63,26 @@ describe('e2e check access roles', function () {
                 });
         });
 
+        it('Create account - success friend', function (done) {
+            request(mock)
+                .post('/users')
+                .send(friend)
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .expect(/\"name\":\"roles_Friend\"/)
+                .expect(/_id/)
+                .expect((res) => {
+                    friend._id = res.body._id;
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
     });
 
-    it('Create account - success friend', function (done) {
-        request(mock)
-            .post('/users')
-            .send(friend)
-            .expect(201)
-            .expect('Content-Type', /json/)
-            .expect(/\"name\":\"Friend\"/)
-            .expect(/_id/)
-            .expect((res) => {
-                friend._id = res.body._id;
-            })
-            .end(function (err) {
-                if (err) return done(err);
-                done(err);
-            });
-    });
+
 
     describe('get token', function () {
         it('Exist user - get my token', function (done) {
@@ -163,7 +159,7 @@ describe('e2e check access roles', function () {
               .set('Authorization', `JWT ${user.token}`)
               .expect(201)
               .expect('Content-Type', /json/)
-              .expect(/\"_ref\":\"users\"/)
+              .expect(/\"refs\":\"users\"/)
               .end(function (err) {
                   if (err) return done(err);
                   done(err);
@@ -222,9 +218,11 @@ describe('e2e check access roles', function () {
     describe('update role friend into 3', function () {
 
       it('Exist roles - update role 3 application', function (done) {
+          const data = {role: "3", refs: "users", name: friend.name, email: friend.email};
+
           request(mock)
               .put('/applications/'+applications._id+"/roles/"+friend._id)
-              .send({role: "3", refs: "users", name: friend.name, email: friend.email})
+              .send(data)
               .set('Authorization', `JWT ${user.token}`)
               .expect(201)
               .expect('Content-Type', /json/)

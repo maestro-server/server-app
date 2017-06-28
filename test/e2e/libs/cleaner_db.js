@@ -1,17 +1,43 @@
 "use strict";
 
-const DatabaseCleaner = require('database-cleaner');
-const databaseCleaner = new DatabaseCleaner('mongodb');
-const connect = require('mongodb').connect;
+const _ = require('lodash');
+let MongoClient = require("mongodb").MongoClient;
 
-module.exports = function (done, mock) {
 
-    connect('mongodb://'+process.env.MONGO_URL, function(err, db) {
-        databaseCleaner.clean(db, function() {
-            console.log("clear db");
-            db.close();
-            mock.close(done);
-        });
+const interactC = function (db, collections) {
+  let pros=[];
+
+
+  collections.forEach((collection) => {
+    let ids = {};
+
+    if(_.get(collection, 'ids')) {
+      const list = _.map(collection.ids, (e)=>e._id);
+
+      ids = {'_id': {$in: list}};
+    }
+
+    db.collection(collection.tb, ids, (err1, coll) => {
+        pros.push(coll.remove({}));
     });
 
+  });
+
+  return pros;
+};
+
+module.exports = function (collections, done, mock, conn = process.env.MONGO_URL) {
+
+    MongoClient.connect('mongodb://'+conn)
+        .then((db) => {
+
+          const pros = interactC(db, collections);
+
+          Promise.all(pros)
+            .then(() => {
+              done();
+              db.close();
+              //mock.close(done);
+            });
+        });
 };

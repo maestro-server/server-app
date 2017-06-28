@@ -1,9 +1,7 @@
 'use strict';
+require('dotenv').config({path: '.env.test'});
 
-
-let kraken = require('kraken-js'),
-    chai = require('chai'),
-    path = require('path'),
+let chai = require('chai'),
     request = require('supertest'),
     cleaner_db = require('./libs/cleaner_db'),
     {expect} = chai;
@@ -39,22 +37,17 @@ describe('e2e teams', function () {
         url: "http://maestroserver.io"
     }];
 
-
     before(function (done) {
-        require('dotenv').config({path: '.env.test'});
-        app = require('../../app/app');
-
-        app.use(kraken({
-            basedir: path.resolve(__dirname, '../../app/')
-        }));
+      cleaner_db([{tb: 'users'}, {tb: 'teams'}], () => {
+        app = require('./libs/bootApp')();
 
         app.once('start', done);
-        mock = app.listen(1337);
+        mock = app.listen(1346);
+      }, null);
     });
 
-
     after(function (done) {
-        cleaner_db(done, mock);
+      mock.close(done);
     });
 
 
@@ -409,7 +402,7 @@ describe('e2e teams', function () {
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
-                .expect(/\"_ref\":\"users\"/)
+                .expect(/\"refs\":\"users\"/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);

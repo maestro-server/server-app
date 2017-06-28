@@ -16,12 +16,44 @@
             }
         },
         "router": {
+            "priority": 120,
             "module": {
-                "arguments": [
-                    {
-                        "directory": "path:./controllers"
-                    }
-                ]
+                "arguments": [{"directory": "path:./core/routers"}]
+            }
+        },
+        "router-architectures": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./architectures/routers"}]
+            }
+        },
+        "router-profile": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./profile/routers"}]
+            }
+        },
+        "router-projects": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./projects/routers"}]
+            }
+        },
+        "router-applications": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./applications/routers"}]
+            }
+        },
+        "router-teams": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./teams/routers"}]
             }
         },
         "json": {
@@ -31,12 +63,8 @@
                 "method": "json"
             }
         },
-        "cors": {
-            "priority": 45,
-            "module": "path:./middlewares/cors"
-        },
         "url-encoded": {
-            "priority": 30,
+            "priority": 35,
             "module": {
                 "name": "body-parser",
                 "method": "urlencoded",
@@ -48,40 +76,43 @@
             }
         },
         "filter": {
-            "enabled": true,
             "priority": 40,
             "module": {
                 "name": "content-filter",
-                "arguments": [
-                    {
-                        "dispatchToErrorHandler": true
-                    }
-                ]
+                "arguments": [{"dispatchToErrorHandler": true}]
             }
+        },
+        "cors": {
+            "priority": 45,
+            "module": "path:./core/middlewares/cors"
         },
         "tokenization": {
             "priority": 45,
-            "module": "path:./middlewares/tokenization"
+            "module": "path:./core/middlewares/tokenization"
         },
         "notFound": {
             "priority": 130,
-            "module": "path:./middlewares/404"
+            "module": "path:./core/middlewares/404"
         },
         "validatorResponse": {
             "priority": 135,
-            "module": "path:./middlewares/validatorResponse"
+            "module": "path:./core/middlewares/validatorResponse"
+        },
+        "notFoundResponse": {
+            "priority": 135,
+            "module": "path:./core/middlewares/notFoundResponse"
         },
         "permissionResponse": {
             "priority": 136,
-            "module": "path:./middlewares/permissionResponse"
+            "module": "path:./core/middlewares/permissionResponse"
         },
         "conflictResponse": {
             "priority": 138,
-            "module": "path:./middlewares/conflicResponse"
+            "module": "path:./core/middlewares/conflicResponse"
         },
         "errorResponse": {
             "priority": 140,
-            "module": "path:./middlewares/errorCatcher"
+            "module": "path:./core/middlewares/errorCatcher"
         }
     }
 }
