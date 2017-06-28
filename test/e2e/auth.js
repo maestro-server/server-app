@@ -1,11 +1,8 @@
-/*global describe:false, it:false, beforeEach:false, afterEach:false*/
-
 'use strict';
 
+require('dotenv').config({path: '.env.test'});
 
-let kraken = require('kraken-js'),
-    path = require('path'),
-    request = require('supertest'),
+let request = require('supertest'),
     cleaner_db = require('./libs/cleaner_db');
 
 
@@ -20,22 +17,17 @@ describe('e2e auth: auth and login', function () {
         token: null
     };
 
-
     before(function (done) {
-        require('dotenv').config({path: '.env.test'});
-        app = require('../../app/app');
-
-        app.use(kraken({
-            basedir: path.resolve(__dirname, '../../app/')
-        }));
+      cleaner_db([{tb: 'users'}], () => {
+        app = require('./libs/bootApp')();
 
         app.once('start', done);
-        mock = app.listen(1337);
+        mock = app.listen(1342);
+      }, null);
     });
 
-
     after(function (done) {
-        cleaner_db(done, mock);
+      mock.close(done);
     });
 
 
@@ -62,8 +54,6 @@ describe('e2e auth: auth and login', function () {
                 .expect('Content-Type', /json/)
                 .expect(/ValidatorError/)
                 .expect(/name/)
-                .expect(/email/)
-                .expect(/password/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -73,7 +63,7 @@ describe('e2e auth: auth and login', function () {
         it('Create account - validation email', function (done) {
             request(mock)
                 .post('/users')
-                .send({email: "isnotemail"})
+                .send({name: "MyName", email: "isnotemail"})
                 .expect(422)
                 .expect('Content-Type', /json/)
                 .expect(/ValidatorError/)
@@ -145,7 +135,7 @@ describe('e2e auth: auth and login', function () {
                 .expect(200)
                 .expect(/_id"/)
                 .expect(/email"/)
-                .expect(/active"/)
+                .expect(/name"/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);

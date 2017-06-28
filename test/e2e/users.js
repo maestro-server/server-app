@@ -1,19 +1,13 @@
-/*global describe:false, it:false, beforeEach:false, afterEach:false*/
-
 'use strict';
+require('dotenv').config({path: '.env.test'});
 
-
-let kraken = require('kraken-js'),
-    chai = require('chai'),
-    path = require('path'),
+let chai = require('chai'),
     request = require('supertest'),
     cleaner_db = require('./libs/cleaner_db'),
+    _ = require('lodash'),
     {expect} = chai;
 
-
-
 describe('e2e users', function () {
-
     let app, mock;
 
     let user = {
@@ -27,22 +21,17 @@ describe('e2e users', function () {
         callback_url: "http://localhost:1337"
     };
 
-
     before(function (done) {
-        require('dotenv').config({path: '.env.test'});
-        app = require('../../app/app');
-
-        app.use(kraken({
-            basedir: path.resolve(__dirname, '../../app/')
-        }));
+      cleaner_db([{tb: 'users'}], () => {
+        app = require('./libs/bootApp')();
 
         app.once('start', done);
-        mock = app.listen(1337);
+        mock = app.listen(1347);
+      }, null);
     });
 
-
     after(function (done) {
-        cleaner_db(done, mock);
+      mock.close(done);
     });
 
 
@@ -108,7 +97,7 @@ describe('e2e users', function () {
 
         it('Exist user - autocomplete', function (done) {
             request(mock)
-                .get('/users/autocomplete')
+                    .get('/users/autocomplete')
                 .query({complete: "maestro"})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
@@ -117,6 +106,44 @@ describe('e2e users', function () {
                 .expect(function(res) {
                     expect(res.body.items).to.have.length(1);
                 })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Exist user - Upload Files', function (done) {
+            request(mock)
+                .get('/users/upload')
+                .query({filetype:'image/jpeg'})
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .expect(/url/)
+                .expect(/filename/)
+                .expect(/signedRequest/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Exist user - Upload Files - error', function (done) {
+            request(mock)
+                .get('/users/upload')
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(422)
+                .expect('Content-Type', /json/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Exist user - Upload Files - without token', function (done) {
+            request(mock)
+                .get('/users/upload')
+                .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -157,7 +184,7 @@ describe('e2e users', function () {
                 .put('/me')
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(201)
+                .expect(202)
                 .expect('Content-Type', /json/)
                 .expect(/\"name\":\"MyNameIsChange\"/)
                 .end(function (err) {
@@ -171,7 +198,6 @@ describe('e2e users', function () {
                 name: "MyNameIsChange",
                 email: "maestro@maestrousers.com"
             };
-
 
             request(mock)
                 .put('/me')
@@ -237,6 +263,47 @@ describe('e2e users', function () {
                     done(err);
                 });
         });
+
+        it('Existe user - valid newpass change pass', function (done) {
+
+            request(mock)
+                .patch('/users/auth/pass')
+                .send(_.pick(user, 'email', 'nome', 'password'))
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(422)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Existe user - change password, without token', function (done) {
+
+            request(mock)
+                .patch('/users/auth/pass')
+                .send(_.pick(user, 'email', 'nome', 'password'))
+                .expect(401)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
+    describe('change password again', function () {
+        it('Existe user - try to change my password again', function (done) {
+
+            request(mock)
+                .patch('/users/auth/pass')
+                .send(user)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(400)
+                .expect(/Invalid/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
     /**
@@ -247,13 +314,13 @@ describe('e2e users', function () {
     */
     describe('change email', function () {
         it('Existe user - change my email', function (done) {
-            const data = Object.assign(user, {email: user.newemail});
+            const data = Object.assign({}, user, {email: user.newemail});
 
             request(mock)
                 .put('/me')
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(201)
+                .expect(202)
                 .expect(/mynew@mail\.com/)
                 .end(function (err) {
                     if (err) return done(err);
@@ -266,6 +333,7 @@ describe('e2e users', function () {
 
     describe('test my new email and password', function () {
         it('Existe user - test with same pass and email', function (done) {
+
             request(mock)
                 .post('/users/auth')
                 .send(user)
@@ -301,6 +369,17 @@ describe('e2e users', function () {
     * @description I forgot my password, i like to recovery
     */
     describe('forgot my password', function () {
+        it('If i make a get, dont call id users', function (done) {
+            request(mock)
+                .get('/users/forgot')
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
         it('Existe user - forgot callback url', function (done) {
             request(mock)
                 .post('/users/forgot')
@@ -312,10 +391,25 @@ describe('e2e users', function () {
                 });
         });
 
-        it('Existe user - valid forgot', function (done) {
+        it('Existe user - valid forgot - email not found', function (done) {
+            const data = {email: "notExist@a.com", callback_url: user.callback_url};
+
             request(mock)
                 .post('/users/forgot')
-                .send(user)
+                .send(data)
+                .expect(400)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Existe user - valid forgot', function (done) {
+            const data = {email: user.newemail, callback_url: user.callback_url};
+
+            request(mock)
+                .post('/users/forgot')
+                .send(data)
                 .expect(204)
                 .end(function (err) {
                     if (err) return done(err);
@@ -323,10 +417,24 @@ describe('e2e users', function () {
                 });
         });
 
-        it('Existe user - chnage password - miss token and password', function (done) {
+        it('Existe user - change password - miss token and password', function (done) {
             request(mock)
                 .put('/users/forgot/change')
                 .expect(422)
+                .expect('Content-Type', /json/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Existe user - change password - token and password token', function (done) {
+            request(mock)
+                .put('/users/forgot/change')
+                .send({
+                    token: "eyJ0aXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ImZjNWFiMjU2YjFjN2RhYmU2OTk2ZWE1MzExYmRmZTIxYTZiZTk4M2JkYzU0NmFmZmYzNzM0MDgyNWVkNjYwYmM4YzFhM2NmMDI0NmFjNjg1N2M5NDY1NzY1OWQ4ODEzYjdhOWE4YTM0ZGJhNDk1N2MyMDE2ZjljZGJjMzBkMWNhIg.b242oRHo1d6RsdPwkLCyesqmZ_wIVlHQN219Mxs5kEU",
+                    password: "asdasda"})
+                .expect(409)
                 .expect('Content-Type', /json/)
                 .end(function (err) {
                     if (err) return done(err);

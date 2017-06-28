@@ -8,13 +8,14 @@
     "server": "nodemon server.js",
     "test": "gulp test",
     "e2e": "gulp test_e2e",
+    "unit": "gulp test_unit",
     "lint": "gulp eslint",
     "tdd": "gulp tdd"
   },
   "dependencies": {
+    "app-module-path": "^2.2.0",
     "aws-sdk": "^2.54.0",
     "bcrypt": "^1.0.2",
-    "better-validator": "^2.1.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
     "co": "^4.6.0",
@@ -23,6 +24,7 @@
     "content-filter": "^1.1.1",
     "dotenv": "^4.0.0",
     "express": "^4.12.2",
+    "joi": "^10.5.2",
     "jwt-simple": "^0.5.1",
     "kraken-js": "^2.1.0",
     "lodash": "^4.17.4",
@@ -34,7 +36,8 @@
   },
   "devDependencies": {
     "chai": "^4.0.0",
-    "database-cleaner": "^1.2.0",
+    "chai-as-promised": "^7.0.0",
+    "chai-deep-match": "^1.0.2",
     "eslint": "^3.19.0",
     "gulp": "^3.9.1",
     "gulp-apidoc": "^0.2.6",
@@ -42,7 +45,10 @@
     "gulp-load-plugins": "^1.5.0",
     "gulp-mocha": "^4.3.1",
     "mocha": "^3.4.1",
+    "node-mocks-http": "^1.6.3",
     "nodemon": "^1.11.0",
+    "sinon": "^2.3.5",
+    "sinon-stub-promise": "^4.0.0",
     "supertest": "^3.0.0"
   }
 }
