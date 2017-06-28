@@ -7,12 +7,7 @@ let chai = require('chai'),
     {expect} = chai,
     sinon = require('sinon'),
     chaiAsPromised = require("chai-as-promised"),
-    sinonStubPromise = require('sinon-stub-promise'),
-    _ = require('lodash');
-
-
-
-
+    sinonStubPromise = require('sinon-stub-promise');
 
 chai.use(chaiAsPromised);
 sinonStubPromise(sinon);
