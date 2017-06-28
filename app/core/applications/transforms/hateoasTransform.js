@@ -14,10 +14,6 @@ const singleHT = (collection, uri) => {
 
 module.exports.accessSingleRoleRefs = function (collections, _id = false, Entity = {}) {
 
-    if(!collections.hasOwnProperty(Entity.access)) {
-      return {};
-    }
-
     return {
         items: singleHT(collections[Entity.access], _.get(collections[Entity.access], 'refs')),
         _links: _.merge(

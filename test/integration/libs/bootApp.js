@@ -11,3 +11,10 @@ module.exports = function (done, conn = process.env.MONGO_URL) {
       done();
   });
 };
+
+module.exports.discon = function(done) {
+  db_connect(function *() {
+      yield Mongorito.disconnect();
+      done();
+  });
+};

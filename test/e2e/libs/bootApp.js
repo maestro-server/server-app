@@ -17,7 +17,6 @@ module.exports = function (conn = process.env.MONGO_URL) {
           db_connect(function *() {
               yield Mongorito.connect(conn);
               next(null, config);
-              console.log("Mongo online");
           });
       }
   };

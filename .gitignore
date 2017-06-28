@@ -10,3 +10,4 @@ apidocs/*
 npm-debug*
 Dockerfile
 .dockerignore
+coverage/

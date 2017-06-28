@@ -43,20 +43,6 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
             });
         },
 
-        autocomplete(query, owner) {
-
-            return ClosurePromesify(() => {
-
-                let name;
-                if (query.hasOwnProperty('complete')) {
-                    name = {$regex: query.complete, '$options': 'i'};
-                }
-
-                return this
-                    .find({name}, owner);
-            });
-        },
-
         update (_id, post, owner, access = Access.ROLE_WRITER) {
 
             return ClosurePromesify(() => {

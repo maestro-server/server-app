@@ -21,10 +21,6 @@ class Dao extends Model {
             this.set('password', this.makeHash(this.get('password')));
     }
 
-    passwordMatches (matcher) {
-        return bcrypt.compareSync(matcher, this.get('password'));
-    }
-
     makeHash (string) {
         return bcrypt.hashSync(string, crypto.getCryptLevel());
     }

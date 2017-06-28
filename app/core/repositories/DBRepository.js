@@ -66,7 +66,6 @@ const DBRepository = (Entity) => {
 
                 post = findFilledFormat(post, fill);
                 factoryValid(post, Entity.validators.update);
-
                 return new DB(post)
                     .updateAndModify(filter)
                     .then((e) => {

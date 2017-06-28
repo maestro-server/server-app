@@ -34,9 +34,6 @@ module.exports = function (owner, fielder, trans = {}, access = Access.ROLE_READ
         merge = makeAccess(owner, fielder, access);
     }
 
-    if (!merge)
-        throw new Error(merge);
-
     return Object.assign(trans, merge);
 };
 

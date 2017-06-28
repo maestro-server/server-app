@@ -232,8 +232,7 @@ describe('e2e projects', function () {
               .set('Authorization', `JWT ${user.token}`)
               .expect(200)
               .expect('Content-Type', /json/)
-              .expect(/name"/)
-              .expect(/_id/)
+              .expect(/found"/)
               .expect(function(res) {
                   expect(res.body.items).to.have.length(1);
               })
@@ -750,6 +749,19 @@ describe('e2e projects', function () {
                 });
         });
 
+        it('Exist roles - update role application - validation', function (done) {
+            request(mock)
+                .patch(`/teams/${teams._id}/projects/${teamsAPP[0]._id}/roles/${friend._id}`)
+                .send({name: friend.name, email: friend.email})
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(422)
+                .expect('Content-Type', /json/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
         it('Exist teams members - update role project without token', function (done) {
             request(mock)
                 .patch(`/teams/${teams._id}/projects/${teamsAPP[0]._id}/roles/${friend._id}`)
@@ -793,6 +805,17 @@ describe('e2e projects', function () {
                 .delete(`/teams/${teams._id}/projects/${teamsAPP[0]._id}/roles/${friend._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(204)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Exist roles - delete role - wrong id team', function (done) {
+            request(mock)
+                .delete(`/teams/${teams._id}/projects/${friend._id}/roles/${friend._id}`)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(400)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);

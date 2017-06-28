@@ -24,7 +24,7 @@ module.exports = function (router) {
 
         .get('/upload', authenticate(), UploaderApp.uploader)
 
-        .get('/forgot', authenticate(), (req, res) => {
+        .get('/forgot', (req, res) => {
           res.json({});
          })
 
