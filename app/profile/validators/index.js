@@ -16,9 +16,9 @@ const sharedS = {
     fullname: Joi.string(),
     phone: Joi.string(),
     company: Joi.string(),
-    avatar: Joi.string().uri(),
+    avatar: Joi.string(),
     job: Joi.string(),
-    country: Joi.string(),
+    country: Joi.object(),
     city: Joi.string(),
     address: Joi.string()
 };

@@ -14,8 +14,6 @@ module.exports = function (user, body) {
         );
 
         const  token = jwt.encode(crypt, config.jwtSecret.secretOrKey);
-
-
         let url = body.callback_url;
 
         if(url.indexOf("?") == -1) {

@@ -21,7 +21,7 @@ const mailerService = (FmailerConnector = DmailerConnector) => {
 
         }
     };
-}
+};
 
 
 module.exports = mailerService;

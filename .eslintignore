@@ -3,3 +3,4 @@ config/*.js
 node_module/*js
 tasks/*js
 test/*js
+coverage/*
