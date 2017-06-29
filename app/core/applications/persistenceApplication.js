@@ -24,12 +24,8 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
             PersistenceServices(Entity)
                 .find(query, user)
-                .then((e) => {
-                    return validNotFound(e, e[1], limit, page);
-                })
-                .then((e) => {
-                    return hateaosTransform.collectionTransform(e[0], e[1], Entity, limit, page);
-                })
+                .then((e) => validNotFound(e, e[1], limit, page))
+                .then((e) => hateaosTransform.collectionTransform(e[0], e[1], Entity, limit, page))
                 .then(e => res.json(e))
                 .catch(function (e) {
                     next(e);
@@ -41,9 +37,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)
                 .then(notExist)
-                .then((e) => {
-                    return hateaosTransform.singleTransform(e, Entity);
-                })
+                .then((e) => hateaosTransform.singleTransform(e, Entity))
                 .then(e => res.json(e))
                 .catch(function (e) {
                     next(e);
@@ -92,9 +86,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
             PersistenceServices(Entity)
                 .create(body)
-                .then((e) => {
-                    return hateaosTransform.singleTransform(e, Entity);
-                })
+                .then((e) => hateaosTransform.singleTransform(e, Entity))
                 .then(e => res.status(201).json(e))
                 .catch(function (e) {
                     next(e);
