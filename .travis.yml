@@ -9,7 +9,7 @@ addons:
     packages:
     - g++-5
 env:
-  - CXX=g++-5 DB=mongodb MONGO_URL='127.0.0.1/maestro-client' PORT=8888 NODE_ENV=test SECRETJWT='9N0}QvY' SECRETJWT_FORGOT='a!2>TXHOIH87' SECRET_CRYPTO_FORGOT='TXHOIH87'
+  - CXX=g++-5 DB=mongodb NODE_ENV=test
 cache:
   directories:
     - node_modules
