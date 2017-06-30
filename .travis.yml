@@ -3,6 +3,7 @@ node_js:
   - '6'
   - '7'
 env:
+- DB=mongodb
 - MONGO_URL='127.0.0.1/maestro-client'
 - PORT=8888
 - NODE_ENV=test
@@ -14,6 +15,4 @@ cache:
     - node_modules
 services:
   - mongodb
-before_script:
-  - sleep 2
 script: node server.js
