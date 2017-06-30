@@ -3,13 +3,7 @@ node_js:
   - '6'
   - '7'
 env:
-- DB=mongodb
-- MONGO_URL='127.0.0.1/maestro-client'
-- PORT=8888
-- NODE_ENV=test
-- SECRETJWT='9N0}QvY'
-- SECRETJWT_FORGOT=a!2>TXHOIH87'
-- SECRET_CRYPTO_FORGOT='TXHOIH87'
+- DB=mongodb MONGO_URL='127.0.0.1/maestro-client' PORT=8888 NODE_ENV=test SECRETJWT='9N0}QvY' SECRETJWT_FORGOT=a!2>TXHOIH87' SECRET_CRYPTO_FORGOT='TXHOIH87'
 cache:
   directories:
     - node_modules
