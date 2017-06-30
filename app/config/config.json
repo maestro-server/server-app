@@ -56,6 +56,34 @@
                 "arguments": [{"directory": "path:./teams/routers"}]
             }
         },
+        "router-inventory": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./inventory/routers"}]
+            }
+        },
+        "router-servers": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./servers/routers"}]
+            }
+        },
+        "router-clients": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./clients/routers"}]
+            }
+        },
+        "router-adminer": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./adminer/routers"}]
+            }
+        },
         "json": {
             "priority": 30,
             "module": {
