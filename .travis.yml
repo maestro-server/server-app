@@ -27,7 +27,9 @@ before_script:
   - smtp-sink -d "%d.%H.%M.%S" localhost:1025 1000 &
   - echo -e '#!/usr/bin/env bash\nexit 0' | sudo tee /usr/sbin/sendmail
 script:
-  - npm run coveralls  
+  - npm run coverage
 after_success:
   - npm install -g codeclimate-test-reporter
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage -p .
   - codeclimate-test-reporter < ./coverage/lcov.info

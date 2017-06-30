@@ -11,7 +11,7 @@
     "unit": "gulp test_unit",
     "lint": "gulp eslint",
     "tdd": "gulp tdd",
-    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly test/**/*js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly test/**/*js"
   },
   "dependencies": {
     "app-module-path": "^2.2.0",
@@ -39,6 +39,7 @@
     "chai": "^4.0.0",
     "chai-as-promised": "^7.0.0",
     "chai-deep-match": "^1.0.2",
+    "codacy-coverage": "^2.0.2",
     "coveralls": "^2.13.1",
     "eslint": "^3.19.0",
     "gulp": "^3.9.1",
