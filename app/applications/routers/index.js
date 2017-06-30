@@ -1,6 +1,6 @@
 'use strict';
 
-const authenticate = require('core/middlewares/authenticate');
+const authenticate = require('profile/middlewares/authenticate');
 
 const Application = require('../entities/Application');
 const Team = require('teams/entities/Teams');

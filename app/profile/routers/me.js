@@ -1,16 +1,9 @@
 'use strict';
 
-const authenticate = require('core/middlewares/authenticate');
-
+const authenticate = require('profile/middlewares/authenticate');
 const User = require('../entities/Users');
-
-/**
- *
- * Entity to call persisntece layer
- */
 const ProfilePersistenceService = require('profile/services/PersistenceServices');
 const PersistenceApp = require('core/applications/persistenceApplication')(User, ProfilePersistenceService);
-
 
 module.exports = function (router) {
 

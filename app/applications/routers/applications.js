@@ -1,7 +1,6 @@
 'use strict';
 
-const authenticate = require('core/middlewares/authenticate');
-
+const authenticate = require('profile/middlewares/authenticate');
 const Application = require('../entities/Application');
 const PersistenceApp = require('core/applications/persistenceApplication')(Application);
 const AccessApp = require('core/applications/accessApplication')(Application);
