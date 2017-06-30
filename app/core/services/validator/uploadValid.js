@@ -36,11 +36,7 @@ const validateFile = (file, opts) => {
         },
 
         pass() {
-            if (this.sizeValidate() && this.typeValidate()) {
-                return true;
-            }
-
-            return false;
+            return this.sizeValidate() && this.typeValidate();
         },
 
         check() {
