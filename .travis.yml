@@ -10,7 +10,8 @@ addons:
     - g++-5
 addons:
   code_climate:
-    repo_token: 6cf035555359edcee27f4766f7d37e232c224140630c0af05322fa09e8d0603a
+    repo_token: 818b5b0a5d1c18b8e8fcc6ebb84e7a37364425a25e72d47ed1fb62ca74309cdb
+    
 env:
   - CXX=g++-5 DB=mongodb NODE_ENV=test
 cache:
@@ -36,6 +37,6 @@ after_success:
 webhooks:
   urls:
     - https://webhooks.gitter.im/e/38046855b88e43009941
-  on_success: change
+  on_success: always
   on_failure: always  # options: [always|never|change] default: always
   on_start: false     # default: false
