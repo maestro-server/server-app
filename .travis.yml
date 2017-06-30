@@ -1,4 +1,3 @@
-sudo: required
 language: node_js
 node_js:
   - '6'
@@ -17,9 +16,4 @@ cache:
 services:
   - mongodb
 before_install:
-  - npm install -g node-gyp
-script: node server.js
-
-
-
-
+  - npm install -g node-gyp gulp
