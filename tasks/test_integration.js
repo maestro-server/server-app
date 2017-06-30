@@ -6,8 +6,8 @@ let gulp = require('gulp'),
 
 module.exports = function (gulp, $) {
 
-    gulp.task('test_e2e', function () {
-        return gulp.src(['test/e2e/**/*.js'])
+    gulp.task('test_integration', function () {
+        return gulp.src(['test/integration/**/*.js'])
             .pipe(mocha({
                 timeout: 6000,
                 'check-leaks': true,
