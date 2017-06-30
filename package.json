@@ -10,7 +10,8 @@
     "e2e": "gulp test_e2e",
     "unit": "gulp test_unit",
     "lint": "gulp eslint",
-    "tdd": "gulp tdd"
+    "tdd": "gulp tdd",
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly test/**/*js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "dependencies": {
     "app-module-path": "^2.2.0",
