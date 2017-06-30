@@ -23,5 +23,3 @@ before_script:
   - sudo service postfix stop
   - smtp-sink -d "%d.%H.%M.%S" localhost:1025 1000 &
   - echo -e '#!/usr/bin/env bash\nexit 0' | sudo tee /usr/sbin/sendmail
-notifications:
-  email: false

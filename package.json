@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "server": "nodemon server.js",
-    "test": "gulp test",
+    "test": "mocha test/**/*js --reporter spec",
     "e2e": "gulp test_e2e",
     "unit": "gulp test_unit",
     "lint": "gulp eslint",
