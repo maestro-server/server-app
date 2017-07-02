@@ -572,7 +572,7 @@ describe('unit - core', function () {
                 yield Promise.reject(true);
             });
 
-        }).to.a('function');
+        }).to.not.throw();
         done();
     });
 
