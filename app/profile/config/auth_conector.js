@@ -9,7 +9,7 @@ const DBRepository = require('core/repositories/DBRepository');
 
 const config = require('profile/config/auth_config');
 
-const PermissionError = require('core/errors/permissionError');
+const PermissionError = require('core/errors/factoryError')('PermissionError');
 
 
 module.exports = function() {
@@ -31,7 +31,7 @@ module.exports = function() {
         }
 
     });
-    
+
     passport.use(strategy);
 
     return {

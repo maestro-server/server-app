@@ -1,6 +1,6 @@
 'use strict';
 
-const PermissionError = require('core/errors/permissionError');
+const PermissionError = require('core/errors/factoryError')('PermissionError');
 
 module.exports = function (e) {
 

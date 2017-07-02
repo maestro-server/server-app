@@ -1,6 +1,6 @@
 'use strict';
 
-const ValidatorError = require('core/errors/validatorError');
+const ValidatorError = require('core/errors/factoryError')('ValidatorError');
 
 const validateFile = (file, opts) => {
 
