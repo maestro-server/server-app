@@ -15,56 +15,81 @@ sinonStubPromise(sinon);
 
 describe('unit - profile', function () {
 
-  /*
-   ------------------------------------------------------- services
-   */
-  it('services - libs - decodePassForgot', function (done) {
-      const jwt = require('jwt-simple');
-      const config = require('profile/config/auth_forgot_config');
-      const Crypto = require('core/libs/crypto');
-      const user = "token";
-      const crypt = Crypto.encrypt(JSON.stringify(user));
-      const  token = jwt.encode(crypt, config.jwtSecret.secretOrKey);
-      const decode = require('profile/services/libs/decodePassForgot');
-      const res = decode({token});
+    it('config - auth_config', function (done) {
+        const config = require('profile/config/auth_config');
 
-      expect(res).to.fulfilled
-      .and.to.eventually.equal(user)
-      .and.notify(done);
-  });
+        expect(config).to.have.property('jwtSecret')
+            .to.have.property('secretOrKey');
 
-  it('services - libs - decodePassForgot - error is not token', function (done) {
-      const jwt = require('jwt-simple');
-      const config = require('profile/config/auth_forgot_config');
-      const Crypto = require('core/libs/crypto');
-      const user = "token";
-      const crypt = Crypto.encrypt(JSON.stringify(user));
+        expect(config).to.have.property('jwtSession')
+            .to.have.property('session', false);
 
-      const  token = jwt.encode(crypt, config.jwtSecret.secretOrKey);
-      const decode = require('profile/services/libs/decodePassForgot');
-      const res = decode(token);
+        done();
+    });
 
-      expect(res).to.rejected
-      .and.notify(done);
-  });
+    it('config - auth_forgot_config', function (done) {
+        const config = require('profile/config/auth_forgot_config');
 
-  it('services - libs - decodePassForgot - test secret KEy', function (done) {
-      const jwt = require('jwt-simple');
-      const config = require('profile/config/auth_config');
-      const Crypto = require('core/libs/crypto');
-      const user = "token";
-      const crypt = Crypto.encrypt(JSON.stringify(user));
+        expect(config).to.have.property('jwtSecret')
+            .to.have.property('secretOrKey');
 
-      const  token = jwt.encode(crypt, config.jwtSecret.secretOrKey);
-      const decode = require('profile/services/libs/decodePassForgot');
-      const res = decode({token});
+        expect(config).to.have.property('jwtSession')
+            .to.have.property('session', false);
 
-      expect(res).to.rejected
-      .and.notify(done);
-  });
+        done();
+    });
 
-  /*
-   ------------------------------------------------------- trasnforms
-   */
+    /*
+     ------------------------------------------------------- services
+     */
+    it('services - libs - decodePassForgot', function (done) {
+        const jwt = require('jwt-simple');
+        const config = require('profile/config/auth_forgot_config');
+        const Crypto = require('core/libs/crypto');
+        const user = "token";
+        const crypt = Crypto.encrypt(JSON.stringify(user));
+        const token = jwt.encode(crypt, config.jwtSecret.secretOrKey);
+        const decode = require('profile/services/libs/decodePassForgot');
+        const res = decode({token});
+
+        expect(res).to.fulfilled
+            .and.to.eventually.equal(user)
+            .and.notify(done);
+    });
+
+    it('services - libs - decodePassForgot - error is not token', function (done) {
+        const jwt = require('jwt-simple');
+        const config = require('profile/config/auth_forgot_config');
+        const Crypto = require('core/libs/crypto');
+        const user = "token";
+        const crypt = Crypto.encrypt(JSON.stringify(user));
+
+        const token = jwt.encode(crypt, config.jwtSecret.secretOrKey);
+        const decode = require('profile/services/libs/decodePassForgot');
+        const res = decode(token);
+
+        expect(res).to.rejected
+            .and.notify(done);
+    });
+
+    it('services - libs - decodePassForgot - test secret KEy', function (done) {
+        const jwt = require('jwt-simple');
+        const config = require('profile/config/auth_config');
+        const Crypto = require('core/libs/crypto');
+        const user = "token";
+        const crypt = Crypto.encrypt(JSON.stringify(user));
+
+        const token = jwt.encode(crypt, config.jwtSecret.secretOrKey);
+        const decode = require('profile/services/libs/decodePassForgot');
+        const res = decode({token});
+
+        expect(res).to.rejected
+            .and.notify(done);
+    });
+
+
+    /*
+     ------------------------------------------------------- trasnforms
+     */
 
 });
