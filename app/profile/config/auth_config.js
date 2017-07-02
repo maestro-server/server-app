@@ -4,7 +4,7 @@ const {ExtractJwt} = require('passport-jwt');
 
 module.exports = {
     jwtSecret: {
-        secretOrKey: process.env.SECRETJWT || "developerTOKEN",
+        secretOrKey: process.env.SECRETJWT,
         jwtFromRequest: ExtractJwt.fromAuthHeader()
     },
     jwtSession: {
