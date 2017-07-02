@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const NotFoundError = require('core/errors/notFoundError');
+const NotFoundError = require('core/errors/factoryError')('NotFoundError');
 
 module.exports = function (e) {
 

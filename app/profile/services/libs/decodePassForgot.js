@@ -5,7 +5,7 @@ const config = require('profile/config/auth_forgot_config');
 
 const Crypto = require('core/libs/crypto');
 
-const ConflictError = require('core/errors/conflictError');
+const ConflictError = require('core/errors/factoryError')('ConflictError');
 
 module.exports = function (crypto) {
 
