@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    name: "admin",
+    name: "adminer",
 
     access: 'roles',
 
