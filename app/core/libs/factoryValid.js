@@ -1,7 +1,7 @@
 "use strict";
 
 const Joi = require('joi');
-const ValidatorError = require('core/errors/validatorError');
+const ValidatorError = require('core/errors/factoryError')('ValidatorError');
 
 module.exports = (post, scheme, msg = "Validator error") => {
 
