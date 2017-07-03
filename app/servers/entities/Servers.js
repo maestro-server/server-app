@@ -1,5 +1,10 @@
 'use strict';
 
+const fill = ['name', 'roles', 'owner',
+'hostname', 'ipv4_private', 'ipv4_public',
+'os', 'cpu', 'memory', 'storage', 'services',
+'dc', 'auth', 'meta'];
+
 module.exports = {
     name: "servers",
 
@@ -7,6 +12,6 @@ module.exports = {
 
     validators: require('../validators'),
 
-    filled: ['name', 'roles', 'owner'],
-    resFilled: ['_id', 'name', 'roles', 'owner']
+    filled: fill,
+    resFilled: ['_id', ...fill]
 };
