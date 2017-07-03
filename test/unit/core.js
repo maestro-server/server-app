@@ -569,9 +569,8 @@ describe('unit - core', function () {
 
         expect(function () {
             cor(function *() {
-                yield Promise.reject(true);
+                yield Promise.reject();
             });
-
         }).to.not.throw();
         done();
     });
