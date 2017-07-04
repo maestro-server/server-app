@@ -393,7 +393,7 @@ describe('e2e teams', function () {
     * @description I like to add new members into my SecondTeam
     */
     describe('add members', function () {
-        it('Exist members - valid data to add members', function (done) {
+        it('valid data to add members', function (done) {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)
@@ -409,7 +409,7 @@ describe('e2e teams', function () {
                 });
         });
 
-        it('Exist members - invalid data to add members (miss role)', function (done) {
+        it('invalid data to add members (miss role)', function (done) {
             request(mock)
                 .post('/teams/'+teams[0]._id+'/members')
                 .send(friend)
@@ -421,7 +421,7 @@ describe('e2e teams', function () {
                 });
         });
 
-        it('Exist members - add members withou token', function (done) {
+        it('add members withou token', function (done) {
             const data = {role: "3", id: friend._id, refs: "users"};
 
             request(mock)
@@ -442,7 +442,7 @@ describe('e2e teams', function () {
     * @description I like to see my members
     */
     describe('get members', function () {
-        it('Exist members - confirm my news members', function (done) {
+        it('confirm my news members', function (done) {
             request(mock)
                 .get('/teams/'+teams[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -467,7 +467,7 @@ describe('e2e teams', function () {
     * @description I like to update the role team member
     */
     describe('update members', function () {
-        it('Exist members - update role member', function (done) {
+        it('update role member', function (done) {
             request(mock)
                 .put('/teams/'+teams[0]._id+"/members/"+friend._id)
                 .send({role: "1", refs: "users", name: friend.name, email: friend.email})
@@ -481,7 +481,7 @@ describe('e2e teams', function () {
                 });
         });
 
-        it('Exist members - update role member without token', function (done) {
+        it('update role member without token', function (done) {
             request(mock)
                 .put('/teams/'+teams[0]._id+"/members/"+friend._id)
                 .send({role: "1", refs: "users", name: friend.name, email: friend.email})
@@ -494,7 +494,7 @@ describe('e2e teams', function () {
     });
 
     describe('confirm update members', function () {
-        it('Exist members - confirm my news members', function (done) {
+        it('confirm my news members', function (done) {
             request(mock)
                 .get('/teams/'+teams[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -520,7 +520,7 @@ describe('e2e teams', function () {
     * @description I have SecondTeam, and ai like to delete on member
     */
     describe('delete members', function () {
-        it('Exist members - delete member', function (done) {
+        it('delete member', function (done) {
             request(mock)
                 .delete('/teams/'+teams[0]._id+"/members/"+friend._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -531,7 +531,7 @@ describe('e2e teams', function () {
                 });
         });
 
-        it('Exist members - delete member without token', function (done) {
+        it('delete member without token', function (done) {
             request(mock)
                 .delete('/teams/'+teams[0]._id+"/members/"+friend._id)
                 .expect(401)
@@ -543,7 +543,7 @@ describe('e2e teams', function () {
     });
 
     describe('confirm delete members', function () {
-        it('Exist members - confirm my news members', function (done) {
+        it('confirm my news members', function (done) {
             request(mock)
                 .get('/teams/'+teams[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -567,7 +567,7 @@ describe('e2e teams', function () {
     * @description I have 2 teams, i like to delete SecondTeam.
     */
     describe('delete team', function () {
-        it('Exist members - delete my team', function (done) {
+        it('delete my team', function (done) {
             request(mock)
                 .delete('/teams/'+teams[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -580,7 +580,7 @@ describe('e2e teams', function () {
     });
 
     describe('confirm to delete team', function () {
-        it('Exist members - delete my team', function (done) {
+        it('delete my team', function (done) {
             request(mock)
                 .get('/teams/')
                 .set('Authorization', `JWT ${user.token}`)

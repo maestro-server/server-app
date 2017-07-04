@@ -24,8 +24,7 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
                 factoryValid(post, accessValid.create);
 
-                let access = {};
-                access[Entity.access] = _.merge({
+                const access = _.merge({}, {
                     _id: ObjectId(post.id),
                     refs: post.refs,
                     role: parseInt(post.role)
@@ -33,12 +32,13 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                     _.pick(post, 'name', 'email')
                 );
 
-
-                let query = accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_ADMIN);
-                query = validNotEqual(query, `${Entity.access}._id`, access[Entity.access]._id);
+                const query = _.merge({},
+                  accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_ADMIN),
+                  validNotEqual(`${Entity.access}._id`, access._id)
+                );
 
                 return DBRepository
-                    .updateByPushUnique(query, access, Entity.access);
+                    .updateByPushUnique(query, {[Entity.access]: access}, Entity.access);
             });
 
         },
@@ -51,9 +51,8 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
                 return AccessServices(Entity, FactoryDBRepository).deleteRoles(_id, _idu, owner)
                     .then(() => {
-                        Object.assign(roles, {id: _idu});
-
-                        return AccessServices(Entity).addRoles(_id, roles, owner);
+                        const roler = Object.assign({}, roles, {id: _idu});
+                        return AccessServices(Entity).addRoles(_id, roler, owner);
                     });
             });
         },

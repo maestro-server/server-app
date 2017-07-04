@@ -20,27 +20,25 @@ const DBRepository = (Entity) => {
         find (filters = {}, limit = 20, skip = 0, resFilled = Entity.resFilled) {
 
             return ClosurePromesify(() => {
-                filters = findFilledFormat(filters, Entity.filled);
+                const filter = findFilledFormat(filters, Entity.filled);
 
                 return DB
                     .limit(limit)
                     .skip(skip)
                     .sort('created_at', -1)
                     .include(resFilled)
-                    .find(filters)
-                    .then((e) => {
-                        return _.map(e, (value) =>  value.get());
-                    });
+                    .find(filter)
+                    .then((e) => _.map(e, (value) =>  value.get()));
             });
         },
 
         findOne(filters, resFilled = Entity.resFilled) {
 
             return ClosurePromesify(() => {
-                _.merge(filters, activeTransform.active());
+                const filter = _.merge({}, filters, activeTransform.active());
 
                 return DB
-                    .findOne(filters)
+                    .findOne(filter)
                     .then((e) => {
                         if (e)
                             e = e.get();
@@ -53,10 +51,8 @@ const DBRepository = (Entity) => {
 
         count (filters = {}, fill = Entity.filled) {
             return ClosurePromesify(() => {
-
-                filters = findFilledFormat(filters, fill);
-
-                return DB.count(filters);
+                const filter = findFilledFormat(filters, fill);
+                return DB.count(filter);
             });
         },
 
@@ -64,16 +60,13 @@ const DBRepository = (Entity) => {
 
             return ClosurePromesify(() => {
 
-                post = findFilledFormat(post, fill);
-                factoryValid(post, Entity.validators.update);
-                return new DB(post)
+                const data = findFilledFormat(post, fill);
+                factoryValid(data, Entity.validators.update);
+
+                return new DB(data)
                     .updateAndModify(filter)
-                    .then((e) => {
-                        return validAccessUpdater(e);
-                    })
-                    .then((e) => {
-                        return _.pick(e.get(), Entity.resFilled);
-                    });
+                    .then((e) => validAccessUpdater(e))
+                    .then((e) => _.pick(e.get(), Entity.resFilled));
 
             });
 
@@ -83,16 +76,12 @@ const DBRepository = (Entity) => {
 
             return ClosurePromesify(() => {
 
-                post = _.pick(post, fill);
+                const data = _.pick(post, fill);
 
-                return new DB(post)
+                return new DB(data)
                     .updateByPushUnique(filter)
-                    .then((e) => {
-                        return validAccessUpdater(e);
-                    })
-                    .then((e) => {
-                        return _.pick(e.get(), Entity.resFilled);
-                    });
+                    .then((e) => validAccessUpdater(e))
+                    .then((e) => _.pick(e.get(), Entity.resFilled));
 
             });
 
@@ -102,17 +91,12 @@ const DBRepository = (Entity) => {
 
             return ClosurePromesify(() => {
 
-                post = _.pick(post, fill);
+                const data = _.pick(post, fill);
 
-                return new DB(post)
+                return new DB(data)
                     .updateByPull(filter)
-                    .then((e) => {
-                        return validAccessUpdater(e);
-                    })
-                    .then((e) => {
-                        return _.pick(e.get(), Entity.resFilled);
-                    });
-
+                    .then((e) => validAccessUpdater(e))
+                    .then((e) => _.pick(e.get(), Entity.resFilled));
             });
 
         },
@@ -121,14 +105,12 @@ const DBRepository = (Entity) => {
 
             return ClosurePromesify(() => {
 
-                post = findFilledFormat(post, Entity.filled);
-                factoryValid(post, Entity.validators.create);
+                const data = findFilledFormat(post, Entity.filled);
+                factoryValid(data, Entity.validators.create);
 
-                return new DB(post)
+                return new DB(data)
                     .save()
-                    .then((e) => {
-                        return _.pick(e.get(), Entity.resFilled);
-                    });
+                    .then((e) => _.pick(e.get(), Entity.resFilled));
 
             });
 
@@ -137,13 +119,11 @@ const DBRepository = (Entity) => {
         remove(filter) {
 
             return ClosurePromesify(() => {
-                const post = activeTransform.desactive();
+                const data = activeTransform.desactive();
 
-                return new DB(post)
+                return new DB(data)
                     .updateAndModify(filter)
-                    .then((e) => {
-                        return validAccessUpdater(e);
-                    });
+                    .then((e) => validAccessUpdater(e));
 
             });
         }

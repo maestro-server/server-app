@@ -50,7 +50,6 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                 const query = accessMergeTransform(owner, Entity.access, {_id}, access);
                 const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password', '_id']);
 
-
                 return DBRepository
                     .update(query, post, fill);
             });

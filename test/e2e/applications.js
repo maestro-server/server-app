@@ -84,7 +84,7 @@ describe('e2e applications', function () {
 
 
     describe('get token', function () {
-        it('Exist user - get my token', function (done) {
+        it('get my token', function (done) {
             request(mock)
                 .post('/users/auth')
                 .send(user)
@@ -111,7 +111,7 @@ describe('e2e applications', function () {
      * @description I like to create a new application
      */
     describe('create application', function () {
-        it('Create application - create application', function (done) {
+        it('create application', function (done) {
             request(mock)
                 .post('/applications')
                 .send(applications[0])
@@ -126,7 +126,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Create application - create application without token', function (done) {
+        it('create application without token', function (done) {
             request(mock)
                 .post('/applications')
                 .send(applications[0])
@@ -137,7 +137,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Create application - create second application', function (done) {
+        it('create second application', function (done) {
             request(mock)
                 .post('/applications')
                 .send(applications[1])
@@ -152,7 +152,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Create application - validate fail', function (done) {
+        it('validate fail', function (done) {
             request(mock)
                 .post('/applications')
                 .set('Authorization', `JWT ${user.token}`)
@@ -173,7 +173,7 @@ describe('e2e applications', function () {
      * @description I like to see my news applications
      */
     describe('read application', function () {
-        it('Exist application - list my application', function (done) {
+        it('list my application', function (done) {
             request(mock)
                 .get('/applications')
                 .set('Authorization', `JWT ${user.token}`)
@@ -196,7 +196,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist application - list my application without token', function (done) {
+        it('list my application without token', function (done) {
             request(mock)
                 .get('/applications')
                 .expect(401)
@@ -206,7 +206,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist application - list my application with filter', function (done) {
+        it('list my application with filter', function (done) {
             request(mock)
                 .get('/applications')
                 .query({name: applications[0].name})
@@ -224,7 +224,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist application - test pagination list', function (done) {
+        it('test pagination list', function (done) {
             request(mock)
                 .get('/applications')
                 .query({limit: 1, page: 2})
@@ -240,7 +240,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist application - test pagination list', function (done) {
+        it('test pagination list', function (done) {
             request(mock)
                 .get('/applications')
                 .query({limit: 1, page: 40})
@@ -253,7 +253,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist application - see my new application', function (done) {
+        it('see my new application', function (done) {
             request(mock)
                 .get('/applications/' + applications[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -268,7 +268,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist application - error id', function (done) {
+        it('error id', function (done) {
             request(mock)
                 .get('/applications/' + user._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -280,7 +280,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist application - see my new application without token', function (done) {
+        it('see my new application without token', function (done) {
             request(mock)
                 .get('/applications/' + applications[0]._id)
                 .expect(401)
@@ -290,7 +290,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist application -  autocomplete', function (done) {
+        it(' autocomplete', function (done) {
             request(mock)
                 .get('/applications/autocomplete')
                 .query({complete: "second"})
@@ -302,12 +302,11 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist application -  autocomplete - not found', function (done) {
+        it(' autocomplete - not found', function (done) {
             request(mock)
                 .get('/applications/autocomplete')
                 .query({})
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(e=>console.log(e.body))
                 .expect(404)
                 .end(function (err) {
                     if (err) return done(err);
@@ -315,7 +314,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist application -  autocomplete without token', function (done) {
+        it(' autocomplete without token', function (done) {
             request(mock)
                 .get('/applications/autocomplete')
                 .query({complete: "second"})
@@ -334,7 +333,7 @@ describe('e2e applications', function () {
      * @description I like to update my application witch name ChangeName
      */
     describe('update application', function () {
-        it('Exist application - update application with valid data', function (done) {
+        it('update application with valid data', function (done) {
             const data = Object.assign(applications[0], {name: "ChangeName"});
 
             request(mock)
@@ -350,7 +349,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist application - invalid data to update application', function (done) {
+        it('invalid data to update application', function (done) {
 
             request(mock)
                 .patch('/applications/' + applications[0]._id)
@@ -363,7 +362,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist application - try to update application withou token', function (done) {
+        it('try to update application withou token', function (done) {
             const data = Object.assign(applications[0], {name: "ChangeName"});
 
             request(mock)
@@ -379,7 +378,7 @@ describe('e2e applications', function () {
 
     describe('confirm update application', function () {
 
-        it('Exist application - confirm my changes', function (done) {
+        it('confirm my changes', function (done) {
             request(mock)
                 .get('/applications/' + applications[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -392,7 +391,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist application - confirm if my update dont create new application', function (done) {
+        it('confirm if my update dont create new application', function (done) {
             request(mock)
                 .get('/applications')
                 .set('Authorization', `JWT ${user.token}`)
@@ -416,7 +415,7 @@ describe('e2e applications', function () {
      * @description I like to add new role into my MyApplications
      */
     describe('e2e teams: add roles', function () {
-        it('Exist members - valid data to add roles', function (done) {
+        it('valid data to add roles', function (done) {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)
@@ -432,7 +431,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist members - invalid data to add roles (miss role)', function (done) {
+        it('invalid data to add roles (miss role)', function (done) {
             request(mock)
                 .post('/applications/' + applications[0]._id + '/roles')
                 .send(friend)
@@ -444,13 +443,29 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist members - add roles without token', function (done) {
+        it('add roles without token', function (done) {
             const data = {role: "3", id: friend._id, refs: "users"};
 
             request(mock)
                 .post('/applications/' + applications[0]._id + '/roles')
                 .send(data)
                 .expect(401)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
+    describe('e2e teams: add duplicate role', function () {
+        it('dont insert double roles', function (done) {
+            const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
+
+            request(mock)
+                .post('/applications/' + applications[0]._id + '/roles')
+                .send(data)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(400)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -504,7 +519,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('Exist members - update role application without token', function (done) {
+        it('update role application without token', function (done) {
             request(mock)
                 .put('/applications/' + applications[0]._id + "/roles/" + friend._id)
                 .send({role: "1", refs: "users", name: friend.name, email: friend.email})
@@ -695,7 +710,7 @@ describe('e2e applications', function () {
      * @description I like to see my news applications
      */
     describe('read team application', function () {
-        it('Exist application - list my application', function (done) {
+        it('list my application', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/applications`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -873,7 +888,7 @@ describe('e2e applications', function () {
      * @description I like to add new role into my MyApplications
      */
     describe('e2e add teams in team: add roles', function () {
-        it('Exist members - valid data to add roles', function (done) {
+        it('valid data to add roles', function (done) {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)
