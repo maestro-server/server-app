@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (filter, fielder, id) {
+module.exports = function (fielder, id) {
 
-  return Object.assign({}, filter, {[fielder]: {$ne : id}});
+  return Object.assign({}, {[fielder]: {$ne : id}});
 };

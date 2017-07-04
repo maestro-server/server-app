@@ -168,6 +168,7 @@ describe('e2e check access roles', function () {
 
     });
 
+
     describe('test get and try to update team with friend', function () {
       it('Exist application - update application with valid data', function (done) {
           request(mock)

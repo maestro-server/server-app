@@ -173,7 +173,7 @@ describe('e2e architectures', function () {
      * @description I like to see my news architectures
      */
     describe('read architecture', function () {
-        it('Exist architecture - list my architecture', function (done) {
+        it('list my architecture', function (done) {
             request(mock)
                 .get('/architectures')
                 .set('Authorization', `JWT ${user.token}`)
@@ -196,7 +196,7 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist architecture - list my architecture without token', function (done) {
+        it('list my architecture without token', function (done) {
             request(mock)
                 .get('/architectures')
                 .expect(401)
@@ -206,7 +206,7 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist architecture - list my architecture with filter', function (done) {
+        it('list my architecture with filter', function (done) {
             request(mock)
                 .get('/architectures')
                 .query({name: architectures[0].name})
@@ -224,7 +224,7 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist architecture - test pagination list', function (done) {
+        it('test pagination list', function (done) {
             request(mock)
                 .get('/architectures')
                 .query({limit: 1, page: 2})
@@ -253,7 +253,7 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist architecture - see my new architecture', function (done) {
+        it('see my new architecture', function (done) {
             request(mock)
                 .get('/architectures/' + architectures[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -268,7 +268,7 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist architecture - see my new architecture without token', function (done) {
+        it('see my new architecture without token', function (done) {
             request(mock)
                 .get('/architectures/' + architectures[0]._id)
                 .expect(401)
@@ -278,7 +278,7 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist architectures -  autocomplete', function (done) {
+        it('autocomplete', function (done) {
             request(mock)
                 .get('/architectures/autocomplete')
                 .query({complete: "second"})
@@ -290,12 +290,11 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist architectures -  autocomplete - not found', function (done) {
+        it('autocomplete - not found', function (done) {
             request(mock)
                 .get('/architectures/autocomplete')
                 .query({})
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(e=>console.log(e.body))
                 .expect(404)
                 .end(function (err) {
                     if (err) return done(err);
@@ -304,7 +303,7 @@ describe('e2e architectures', function () {
         });
 
 
-        it('Exist architecture -  autocomplete without token', function (done) {
+        it('autocomplete without token', function (done) {
             request(mock)
                 .get('/architectures/autocomplete')
                 .query({complete: "second"})
@@ -323,7 +322,7 @@ describe('e2e architectures', function () {
      * @description I like to update my architecture witch name ChangeName
      */
     describe('update architecture', function () {
-        it('Exist architecture - update architecture with valid data', function (done) {
+        it('update architecture with valid data', function (done) {
             const data = Object.assign(architectures[0], {name: "ChangeName"});
 
             request(mock)
@@ -339,7 +338,7 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist architecture - invalid data to update architecture', function (done) {
+        it('invalid data to update architecture', function (done) {
 
             request(mock)
                 .patch('/architectures/' + architectures[0]._id)
@@ -352,7 +351,7 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist architecture - try to update architecture withou token', function (done) {
+        it('try to update architecture withou token', function (done) {
             const data = Object.assign(architectures[0], {name: "ChangeName"});
 
             request(mock)
@@ -368,7 +367,7 @@ describe('e2e architectures', function () {
 
     describe('confirm update architecture', function () {
 
-        it('Exist architecture - confirm my changes', function (done) {
+        it('confirm my changes', function (done) {
             request(mock)
                 .get('/architectures/' + architectures[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -381,7 +380,7 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist architecture - confirm if my update dont create new architecture', function (done) {
+        it('confirm if my update dont create new architecture', function (done) {
             request(mock)
                 .get('/architectures')
                 .set('Authorization', `JWT ${user.token}`)
@@ -405,7 +404,7 @@ describe('e2e architectures', function () {
      * @description I like to add new role into my Myarchitectures
      */
     describe('e2e teams: add roles', function () {
-        it('Exist members - valid data to add roles', function (done) {
+        it('valid data to add roles', function (done) {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)
@@ -421,7 +420,7 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist members - invalid data to add roles (miss role)', function (done) {
+        it('invalid data to add roles (miss role)', function (done) {
             request(mock)
                 .post('/architectures/' + architectures[0]._id + '/roles')
                 .send(friend)
@@ -433,13 +432,30 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist members - add roles without token', function (done) {
+        it('add roles without token', function (done) {
             const data = {role: "3", id: friend._id, refs: "users"};
 
             request(mock)
                 .post('/architectures/' + architectures[0]._id + '/roles')
                 .send(data)
                 .expect(401)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
+    describe('e2e teams: add duplicate role roles', function () {
+        it('dont insert double roles', function (done) {
+            const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
+
+            request(mock)
+                .post('/architectures/' + architectures[0]._id + '/roles')
+                .send(data)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(400)
+                .expect('Content-Type', /json/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -493,7 +509,7 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist members - update role architecture without token', function (done) {
+        it('update role architecture without token', function (done) {
             request(mock)
                 .put('/architectures/' + architectures[0]._id + "/roles/" + friend._id)
                 .send({role: "1", refs: "users", name: friend.name, email: friend.email})
@@ -684,7 +700,7 @@ describe('e2e architectures', function () {
      * @description I like to see my news architectures
      */
     describe('read team architecture', function () {
-        it('Exist architecture - list my architecture', function (done) {
+        it('list my architecture', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/architectures`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -862,7 +878,7 @@ describe('e2e architectures', function () {
      * @description I like to add new role into my Myarchitectures
      */
     describe('e2e add teams in team: add roles', function () {
-        it('Exist members - valid data to add roles', function (done) {
+        it('valid data to add roles', function (done) {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)

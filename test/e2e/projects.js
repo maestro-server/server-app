@@ -342,7 +342,7 @@ describe('e2e projects', function () {
     * @description I like to delete my project
     */
     describe('delete project', function () {
-      it('Exist members - delete my project', function (done) {
+      it('delete my project', function (done) {
           request(mock)
               .delete('/projects/'+projects[0]._id)
               .set('Authorization', `JWT ${user.token}`)
@@ -355,7 +355,7 @@ describe('e2e projects', function () {
     });
 
     describe('confirm delete project', function () {
-      it('Exist members - delete my project', function (done) {
+      it('delete my project', function (done) {
           request(mock)
               .get('/projects/')
               .set('Authorization', `JWT ${user.token}`)
@@ -661,7 +661,7 @@ describe('e2e projects', function () {
      * @description I like to add new role into my Myprojects
      */
     describe('e2e add teams in team: add roles', function () {
-        it('Exist members - valid data to add roles', function (done) {
+        it('valid data to add roles', function (done) {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)

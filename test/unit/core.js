@@ -763,7 +763,7 @@ describe('unit - core', function () {
 
     it('services - validator - validNotFound', function (done) {
         const valid = require('core/services/validator/validNotEqual');
-        const tt = valid({name: "tester"}, "roler", "asd");
+        const tt = valid("roler", "asd");
 
         expect(tt).to.have.property("roler")
             .to.have.property('$ne', "asd");
