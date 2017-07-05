@@ -1,12 +1,25 @@
 'use strict';
 
-module.exports = {
-    name: "architectures",
+const _ = require('lodash');
 
-    access: 'roles',
+const arch = () => {
+    const resFilled = ['_id', 'name'];
 
-    validators: require('../validators'),
+    const singleFilled = [...resFilled, 'description', 'meta', 'roles', 'owner'];
 
-    filled: ['name', 'roles', 'owner'],
-    resFilled: ['_id', 'name', 'roles', 'owner']
+    const filled = [..._.tail(singleFilled)]; // delete id
+
+    return {
+      name: "architectures",
+
+      access: 'roles',
+
+      validators: require('../validators'),
+
+      filled,
+      singleFilled,
+      resFilled
+    };
 };
+
+module.exports = arch();

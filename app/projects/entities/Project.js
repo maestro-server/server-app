@@ -1,12 +1,25 @@
 'use strict';
 
-module.exports = {
-    name: "projects",
+const _ = require('lodash');
 
-    access: 'roles',
+const projects = () => {
+    const resFilled = ['_id', 'name'];
 
-    validators: require('../validators'),
+    const singleFilled = [...resFilled, 'meta', 'roles', 'owner'];
 
-    filled: ['name', 'roles', 'owner'],
-    resFilled: ['_id', 'name', 'roles', 'owner']
+    const filled = [..._.tail(singleFilled)]; // delete id
+
+    return {
+      name: "projects",
+
+      access: 'roles',
+
+      validators: require('../validators'),
+
+      filled,
+      singleFilled,
+      resFilled
+    };
 };
+
+module.exports = projects();
