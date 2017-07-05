@@ -1,12 +1,19 @@
 'use strict';
 
-module.exports = {
-    name: "tester",
+const tester = () => {
+    const fill = ['name', 'roles', 'owner'];
 
-    access: 'roles',
+    return {
+      name: "tester",
 
-    validators: require('../validators'),
+      access: 'roles',
 
-    filled: ['name', 'roles', 'owner'],
-    resFilled: ['_id', 'name', 'roles', 'owner']
+      validators: require('../validators'),
+
+      filled: fill,
+      singleFilled: ['_id', ...fill],
+      resFilled: ['_id', ...fill]
+    }
 };
+
+module.exports = tester();

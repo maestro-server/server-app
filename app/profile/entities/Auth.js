@@ -1,12 +1,25 @@
 'use strict';
 
-module.exports = {
-    name: "users",
+const _ = require('lodash');
 
-    access: null,
+const auth = () => {
+    const resFilled = ['_id', 'name',  'email', 'password'];
 
-    validators: require('../validators/auth'),
+    const singleFilled = [...resFilled];
 
-    filled: ['name', 'email', 'newpass', 'password'],
-    resFilled: ['_id', 'name', 'email', 'password']
+    const filled = [..._.tail(singleFilled), 'newpass']; // delete id
+
+    return {
+      name: "users",
+
+      access: null,
+
+      validators: require('../validators/auth'),
+
+      filled,
+      singleFilled,
+      resFilled
+    };
 };
+
+module.exports = auth();

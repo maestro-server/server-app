@@ -1,17 +1,26 @@
 'use strict';
 
-const fill = ['name', 'roles', 'owner',
-'hostname', 'ipv4_private', 'ipv4_public',
-'os', 'cpu', 'memory', 'storage', 'services',
-'dc', 'auth', 'meta'];
+const _ = require('lodash');
 
-module.exports = {
-    name: "servers",
+const servers = () => {
+    const resFilled = ['_id', 'hostname', 'os', 'ipv4_private', 'ipv4_public', 'updated_at', 'created_at'];
 
-    access: 'roles',
+    const singleFilled = ['cpu', 'memory', 'storage', 'services', 'dc', 'auth', 'meta',
+    'roles', 'owner', ...resFilled];
 
-    validators: require('../validators'),
+    const filled = [..._.tail(singleFilled)]; // delete id
 
-    filled: fill,
-    resFilled: ['_id', ...fill]
+    return {
+      name: "servers",
+
+      access: 'roles',
+
+      validators: require('../validators'),
+
+      filled,
+      singleFilled,
+      resFilled
+    };
 };
+
+module.exports = servers();

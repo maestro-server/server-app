@@ -1,6 +1,6 @@
-build/*.js
-config/*.js
-node_module/*js
-tasks/*js
-test/*js
+build/*
+config/*
+node_module/*
+tasks/*
+test/*
 coverage/*

@@ -1,9 +1,9 @@
 'use strict';
 
 const authenticate = require('profile/middlewares/authenticate');
-const Inventory = require('../entities/Inventory');
-const PersistenceApp = require('core/applications/persistenceApplication')(Inventory);
-const AccessApp = require('core/applications/accessApplication')(Inventory);
+const System = require('../entities/System');
+const PersistenceApp = require('core/applications/persistenceApplication')(System);
+const AccessApp = require('core/applications/accessApplication')(System);
 
 module.exports = function (router) {
 

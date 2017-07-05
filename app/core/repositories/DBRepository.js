@@ -32,7 +32,7 @@ const DBRepository = (Entity) => {
             });
         },
 
-        findOne(filters, resFilled = Entity.resFilled) {
+        findOne(filters, resFilled = Entity.singleFilled) {
 
             return ClosurePromesify(() => {
                 const filter = _.merge({}, filters, activeTransform.active());
@@ -56,7 +56,7 @@ const DBRepository = (Entity) => {
             });
         },
 
-        update(filter, post, fill = Entity.filled) {
+        update(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
 
             return ClosurePromesify(() => {
 
@@ -66,13 +66,13 @@ const DBRepository = (Entity) => {
                 return new DB(data)
                     .updateAndModify(filter)
                     .then((e) => validAccessUpdater(e))
-                    .then((e) => _.pick(e.get(), Entity.resFilled));
+                    .then((e) => _.pick(e.get(), resFilled));
 
             });
 
         },
 
-        updateByPushUnique(filter, post, fill = Entity.filled) {
+        updateByPushUnique(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
 
             return ClosurePromesify(() => {
 
@@ -81,13 +81,13 @@ const DBRepository = (Entity) => {
                 return new DB(data)
                     .updateByPushUnique(filter)
                     .then((e) => validAccessUpdater(e))
-                    .then((e) => _.pick(e.get(), Entity.resFilled));
+                    .then((e) => _.pick(e.get(), resFilled));
 
             });
 
         },
 
-        updateByPull(filter, post, fill = Entity.filled) {
+        updateByPull(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
 
             return ClosurePromesify(() => {
 
@@ -96,21 +96,21 @@ const DBRepository = (Entity) => {
                 return new DB(data)
                     .updateByPull(filter)
                     .then((e) => validAccessUpdater(e))
-                    .then((e) => _.pick(e.get(), Entity.resFilled));
+                    .then((e) => _.pick(e.get(), resFilled));
             });
 
         },
 
-        create(post) {
+        create(post, fill = Entity.filled, resFilled = Entity.singleFilled) {
 
             return ClosurePromesify(() => {
 
-                const data = findFilledFormat(post, Entity.filled);
+                const data = findFilledFormat(post, fill);
                 factoryValid(data, Entity.validators.create);
 
                 return new DB(data)
                     .save()
-                    .then((e) => _.pick(e.get(), Entity.resFilled));
+                    .then((e) => _.pick(e.get(), resFilled));
 
             });
 

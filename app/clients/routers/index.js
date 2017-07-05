@@ -2,10 +2,10 @@
 
 const authenticate = require('profile/middlewares/authenticate');
 
-const System = require('../entities/System');
+const Clients = require('../entities/Clients');
 const Team = require('teams/entities/Teams');
 
-const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(System)(Team);
+const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Clients)(Team);
 
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp);
@@ -13,11 +13,11 @@ const WrapperAccessApp = WrapperPersistenceApp(AccessApp);
 module.exports = function (router) {
 
     router
-        .get('/teams/:id/system', authenticate(), WrapperPersistenceApp().find)
+        .get('/teams/:id/clients', authenticate(), WrapperPersistenceApp().find)
 
-        .get('/teams/:id/system/:idu', authenticate(), WrapperPersistenceApp().findOne)
+        .get('/teams/:id/clients/:idu', authenticate(), WrapperPersistenceApp().findOne)
 
-        .patch('/teams/:id/system/:idu', authenticate(), WrapperPersistenceApp().update)
+        .patch('/teams/:id/clients/:idu', authenticate(), WrapperPersistenceApp().update)
 
         /**
          * @api {delete} /teams/:id/applications/:idu Delete application of team
@@ -36,17 +36,17 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/teams/:id/system/:idu', authenticate(), WrapperPersistenceApp().remove)
+        .delete('/teams/:id/clients/:idu', authenticate(), WrapperPersistenceApp().remove)
 
-        .post('/teams/:id/system', authenticate(), WrapperPersistenceApp().create)
+        .post('/teams/:id/clients', authenticate(), WrapperPersistenceApp().create)
 
         /**
          * Roles
          */
 
-        .post('/teams/:id/system/:idu/roles', authenticate(), WrapperAccessApp.create)
+        .post('/teams/:id/clients/:idu/roles', authenticate(), WrapperAccessApp.create)
 
-        .patch('/teams/:id/system/:idu/roles/:ida', authenticate(), WrapperAccessApp.update)
+        .patch('/teams/:id/clients/:idu/roles/:ida', authenticate(), WrapperAccessApp.update)
         /**
          * @api {delete} /teams/:id/projects/:idu Delete role of application team
          * @apiName Delete Role of application Team
@@ -65,6 +65,6 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/teams/:id/system/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
+        .delete('/teams/:id/clients/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
 
 };
