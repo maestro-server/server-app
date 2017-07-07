@@ -16,6 +16,8 @@ const schema = Joi.object().keys({
     storage: Joi.any(),
     services: Joi.any(),
     dc: Joi.object().required(),
+    role: Joi.string().valid('application', 'container', 'database', 'hybrid').required(),
+    environment: Joi.string().valid('production', 'uta', 'staging', 'develop', 'training').required(),
     auth: Joi.any(),
     meta: Joi.any(),
     owner: Joi.any(),
