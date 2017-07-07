@@ -45,7 +45,8 @@ for (var i=0; i<1400; i++) {
         public_dns: faker.internet.ip()+".sa-east-1.compute.amazonaws.com",
         private_dns: "ip-"+faker.internet.ip()+".sa-east-1.compute.internal",
         vpc_id: "vpc-437e2b26",
-        subnet_id: "subnet-67"
+        subnet_id: "subnet-67",
+        type: faker.random.arrayElement(["virtual", 'exadata', 'physical']),
       }, {
         name: "openstack",
         zone: "br-sp",
@@ -56,10 +57,9 @@ for (var i=0; i<1400; i++) {
         admin: "ec2-user",
         key_file: "master.pem"
       }],
-      meta: {
-        role: faker.random.arrayElement(["Application", 'Container', 'Database']) + " Server",
-        environment: faker.random.arrayElement(["Production", 'Staging', 'Development'])
-      }
+      role: faker.random.arrayElement(["application", 'container', 'database', 'hybrid']),
+      environment: faker.random.arrayElement(["production", 'staging', 'development', 'uta']),
+      meta: {}
     }
   };
 
