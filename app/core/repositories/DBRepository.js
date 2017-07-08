@@ -12,7 +12,7 @@ const validAccessUpdater = require('./validator/validAccessUpdater');
 const factoryValid = require('core/libs/factoryValid');
 
 
-const DBRepository = (Entity) => {
+const DBRepository = (Entity, options={}) => {
 
     const DB = Dao(Entity);
 
@@ -64,7 +64,7 @@ const DBRepository = (Entity) => {
                 factoryValid(data, Entity.validators.update);
 
                 return new DB(data)
-                    .updateAndModify(filter)
+                    .updateAndModify(filter, options)
                     .then((e) => validAccessUpdater(e))
                     .then((e) => _.pick(e.get(), resFilled));
 
@@ -79,7 +79,7 @@ const DBRepository = (Entity) => {
                 const data = _.pick(post, fill);
 
                 return new DB(data)
-                    .updateByPushUnique(filter)
+                    .updateByPushUnique(filter, options)
                     .then((e) => validAccessUpdater(e))
                     .then((e) => _.pick(e.get(), resFilled));
 
@@ -94,7 +94,7 @@ const DBRepository = (Entity) => {
                 const data = _.pick(post, fill);
 
                 return new DB(data)
-                    .updateByPull(filter)
+                    .updateByPull(filter, options)
                     .then((e) => validAccessUpdater(e))
                     .then((e) => _.pick(e.get(), resFilled));
             });

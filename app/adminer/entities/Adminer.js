@@ -3,16 +3,16 @@
 const _ = require('lodash');
 
 const adminer = () => {
-    const resFilled = ['_id', 'options'];
+    const resFilled = ['_id', 'key', 'value'];
 
-    const singleFilled = [...resFilled, 'roles', 'owner'];
+    const singleFilled = [...resFilled];
 
     const filled = [..._.tail(singleFilled)]; // delete id
 
     return {
       name: "adminer",
 
-      access: 'roles',
+      access: null,
 
       validators: require('../validators'),
 

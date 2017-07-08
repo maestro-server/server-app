@@ -8,7 +8,7 @@ const crypto = require('core/libs/crypto');
 
 class Dao extends Model {
 
-    configure () {
+    configure() {
         super.configure();
         this.before('save', 'passHash');
     }
@@ -16,12 +16,12 @@ class Dao extends Model {
     /**
      * Password Hashing
      */
-    passHash () {
+    passHash() {
         if (this.get('password'))
             this.set('password', this.makeHash(this.get('password')));
     }
 
-    makeHash (string) {
+    makeHash(string) {
         return bcrypt.hashSync(string, crypto.getCryptLevel());
     }
 
@@ -31,29 +31,29 @@ class Dao extends Model {
      * @param filter
      * @returns {*}
      */
-    updateAndModify(filter) {
+    updateAndModify(filter, options) {
         this.set('updated_at', new Date());
 
-        return this.updateFactory(filter, '$set');
+        return this.updateFactory(filter, '$set', options);
     }
 
-    updateByPushUnique(filter) {
+    updateByPushUnique(filter, options) {
 
-        return this.updateFactory(filter, '$addToSet');
+        return this.updateFactory(filter, '$addToSet', options);
     }
 
-    updateByPull(filter) {
-        return this.updateFactory(filter, '$pull');
+    updateByPull(filter, options) {
+        return this.updateFactory(filter, '$pull', options);
     }
 
     updateFactory(entity, entry, options) {
 
         return this._collection()
             .tap(() => {
-                return this._runHooks('before', 'update', options);
+                return this._runHooks('before', 'update');
             })
             .then((collection) => {
-                return collection.update(entity, {[entry]: this.get()});
+                return collection.update(entity, {[entry]: this.get()}, options);
             })
             .then((e) => {
                 return this.isUpdater = e.result;
@@ -69,7 +69,7 @@ class Dao extends Model {
  * @param Entity
  * @returns {Dao}
  */
-module.exports = function (Entity) {
+module.exports = function (Entity, options={}) {
 
     Dao.prototype.collection = () => Entity.name;
 
