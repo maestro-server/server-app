@@ -3,10 +3,9 @@
 const Joi = require('joi');
 
 const schema = Joi.object().keys({
-    owner: Joi.any(),
-    roles: Joi.any(),
-    active: Joi.boolean(),
-    name: Joi.string().min(3).max(30).required()
+    key: Joi.string().min(3).max(15).required(),
+    value: Joi.any().required(),
+    active: Joi.boolean()
 });
 
 module.exports = {
