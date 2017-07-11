@@ -1,5 +1,4 @@
-
-const mongodb = require('mongodb');
+'use strict';
 
 exports.up = function (db, next) {
     let pets = db.collection('adminer');

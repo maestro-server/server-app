@@ -3,7 +3,7 @@
 const _ = require('lodash');
 
 const adminer = () => {
-    const resFilled = ['_id', 'key', 'value'];
+    const resFilled = ['_id', 'key', 'entities', 'value'];
 
     const singleFilled = [...resFilled];
 
