@@ -15,6 +15,7 @@ for (var i = 0; i < 1400; i++) {
             ipv4_private: faker.internet.ip(),
             cpu: faker.random.number(8),
             memory: faker.random.number(16),
+            status: faker.random.arrayElement(['active', 'desactived', 'avaliable']),
             active: 1,
             os: {
                 base: faker.random.arrayElement(['Linux', 'Windows']),
@@ -48,16 +49,17 @@ for (var i = 0; i < 1400; i++) {
                     private_dns: "ip-" + faker.internet.ip() + ".sa-east-1.compute.internal",
                     vpc_id: "vpc-437e2b26",
                     subnet_id: "subnet-67",
-                    type: faker.random.arrayElement(["virtual", 'exadata', 'physical']),
+                    type: faker.random.arrayElement(["virtual", 'exadata', 'physical'])
                 }, {
                     name: "openstack",
                     zone: "br-sp",
-                    instnace: "m3.medium"
+                    instance: "m3.medium"
                 }]),
             auth: [{
-                name: "pki",
-                admin: "ec2-user",
-                key_file: "master.pem"
+                name: "master",
+                type: "pki",
+                username: "ec2-user",
+                key_file: ""
             }],
             role: faker.random.arrayElement(["application", 'container', 'database', 'hybrid']),
             environment: faker.random.arrayElement(["production", 'staging', 'development', 'uta']),
