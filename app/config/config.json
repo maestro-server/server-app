@@ -90,6 +90,13 @@
                 "arguments": [{"directory": "path:./inventory/routers"}]
             }
         },
+        "router-datacenters": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./datacenters/routers"}]
+            }
+        },
         "router-servers": {
             "priority": 120,
             "module": {
