@@ -19,11 +19,7 @@ module.exports = function (crypto) {
             throw new ConflictError(err);
         }
 
-        if (!decoded)
-            throw new ConflictError("Invalid token");
-
         const string = Crypto.decrypt(decoded);
-
 
         try {
             result = JSON.parse(string);

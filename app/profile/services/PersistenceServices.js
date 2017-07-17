@@ -14,7 +14,7 @@ const UsersPersistence = (Entity) => {
 
     const DBRepository = FactoryDBRepository(Entity);
 
-    return Object.assign(Persistence(Entity), {
+    return Object.assign({}, Persistence(Entity), {
 
         create (post) {
 

@@ -24,7 +24,7 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
                 factoryValid(post, accessValid.create);
 
-                const access = _.merge({}, {
+                const access = Object.assign({}, {
                     _id: ObjectId(post.id),
                     refs: post.refs,
                     role: parseInt(post.role)
@@ -32,7 +32,7 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                     _.pick(post, 'name', 'email')
                 );
 
-                const query = _.merge({},
+                const query = Object.assign({},
                   accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_ADMIN),
                   validNotEqual(`${Entity.access}._id`, access._id)
                 );

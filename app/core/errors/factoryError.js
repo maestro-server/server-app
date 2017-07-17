@@ -1,7 +1,7 @@
 'use strict';
 
 const FactoryError = (name) => function(errors, msg='error') {
-    let err = Error.call(this, msg);
+    const err = Error.call(this, msg);
     err.name = name;
     err.errors = errors;
     return err;

@@ -35,7 +35,7 @@ const DBRepository = (Entity, options={}) => {
         findOne(filters, resFilled = Entity.singleFilled) {
 
             return ClosurePromesify(() => {
-                const filter = _.merge({}, filters, activeTransform.active());
+                const filter = Object.assign({}, filters, activeTransform.active());
 
                 return DB
                     .findOne(filter)
