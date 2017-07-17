@@ -77,7 +77,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
             const owner = _.pick(user, 'name', 'email', '_id', 'refs');
 
             if (_.get(Entity, 'access', false)) {
-                body = _.merge(
+                Object.assign(
                     body,
                     {owner},
                     formatRole(owner, Access.ROLE_ADMIN, Entity.access)

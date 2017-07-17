@@ -12,7 +12,7 @@ const factoryMailer = {
 
     connect() {
 
-        let smtpConfig = {
+        const smtpConfig = {
             host: process.env.SMTP_HOST,
             port: process.env.SMTP_PORT,
             ignoreTLS: process.env.SMTP_IGNORE

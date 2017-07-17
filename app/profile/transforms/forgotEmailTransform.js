@@ -23,7 +23,7 @@ module.exports = function (user, body) {
         url = `${url}token=${token}`;
 
        resolve(
-            Object.assign(user, {url})
+            Object.assign({}, user, {url})
         );
 
     });

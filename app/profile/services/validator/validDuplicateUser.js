@@ -13,7 +13,7 @@ module.exports = function (DBRepository, post) {
             .then(result => {
 
                 if (!_.isEmpty(result)) {
-                    let errors = [{failed: email}];
+                    const errors = [{failed: email}];
                     throw new ConflictError(errors, "User already exist");
                 }
 

@@ -13,9 +13,9 @@ const PermissionError = require('core/errors/factoryError')('PermissionError');
 
 
 module.exports = function() {
-    let strategy = new Strategy(config.jwtSecret, function (payload, done) {
+    const strategy = new Strategy(config.jwtSecret, function (payload, done) {
 
-        let {_id} = payload;
+        const {_id} = payload;
 
         if(_id) {
             DBRepository(User)

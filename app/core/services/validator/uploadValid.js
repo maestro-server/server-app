@@ -11,11 +11,11 @@ const validateFile = (file, opts) => {
     };
 
     const config = Object.assign({}, defaultParams, opts);
-    let error = [];
+    const error = [];
 
     return {
         sizeValidate() {
-            let size = file.size;
+            const size = file.size;
 
             if (size > config.minsize && size < config.maxsize) {
                 return true;
@@ -26,7 +26,7 @@ const validateFile = (file, opts) => {
         },
 
         typeValidate() {
-            let fileType = file.type;
+            const fileType = file.type;
             if (config.type.indexOf(fileType) > -1) {
                 return true;
             }

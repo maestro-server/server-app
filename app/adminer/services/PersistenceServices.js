@@ -12,7 +12,7 @@ const UsersPersistence = (Entity) => {
 
     const DBRepository = ProxyDBRepository(Entity);
 
-    return Object.assign(Persistence(Entity), {
+    return Object.assign({}, Persistence(Entity), {
 
         create (post) {
 
