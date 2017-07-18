@@ -7,8 +7,10 @@ const schema = Joi.object().keys({
     system: Joi.any(),
     role: Joi.any(),
     zones: Joi.array(),
+    regions: Joi.array(),
     provider: Joi.string(),
     owner: Joi.any(),
+    auth: Joi.any(),
     roles: Joi.any(),
     active: Joi.boolean()
 });
