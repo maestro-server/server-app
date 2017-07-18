@@ -3,9 +3,9 @@
 const _ = require('lodash');
 
 const app = () => {
-    const resFilled = ['_id', 'name', 'zones', 'provider', 'role'];
+    const resFilled = ['_id', 'name', 'zones', 'regions', 'provider', 'role'];
 
-    const singleFilled = [...resFilled, 'roles', 'owner'];
+    const singleFilled = [...resFilled, 'roles', 'owner', 'auth'];
 
     const filled = [..._.tail(singleFilled)]; // delete id
 
