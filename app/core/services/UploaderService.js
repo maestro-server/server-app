@@ -1,5 +1,7 @@
 'use strict';
 
+const _ = require('lodash');
+
 const DUploaderRepository = require('core/repositories/uploaderRepository');
 const validateFile = require('./validator/uploadValid');
 
@@ -24,4 +26,4 @@ const UploaderService = (Entity, FUploaderRepository = DUploaderRepository) => {
     };
 };
 
-module.exports = UploaderService;
+module.exports = _.curry(UploaderService);

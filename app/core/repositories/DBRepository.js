@@ -65,7 +65,7 @@ const DBRepository = (Entity, options={}) => {
 
                 return new DB(data)
                     .updateAndModify(filter, options)
-                    .then((e) => validAccessUpdater(e))
+                    .then(validAccessUpdater)
                     .then((e) => _.pick(e.get(), resFilled));
 
             });
@@ -80,7 +80,7 @@ const DBRepository = (Entity, options={}) => {
 
                 return new DB(data)
                     .updateByPushUnique(filter, options)
-                    .then((e) => validAccessUpdater(e))
+                    .then(validAccessUpdater)
                     .then((e) => _.pick(e.get(), resFilled));
 
             });
@@ -95,7 +95,7 @@ const DBRepository = (Entity, options={}) => {
 
                 return new DB(data)
                     .updateByPull(filter, options)
-                    .then((e) => validAccessUpdater(e))
+                    .then(validAccessUpdater)
                     .then((e) => _.pick(e.get(), resFilled));
             });
 
@@ -123,7 +123,7 @@ const DBRepository = (Entity, options={}) => {
 
                 return new DB(data)
                     .updateAndModify(filter)
-                    .then((e) => validAccessUpdater(e));
+                    .then(validAccessUpdater);
 
             });
         }

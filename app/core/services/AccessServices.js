@@ -76,4 +76,4 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
 };
 
-module.exports = AccessServices;
+module.exports = _.curry(AccessServices);

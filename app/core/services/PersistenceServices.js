@@ -76,4 +76,4 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
     };
 };
 
-module.exports = Persistence;
+module.exports = _.curry(Persistence);
