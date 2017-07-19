@@ -12,9 +12,7 @@ const PersistenceApp = (Entity, UploadService=DUploaderService) => {
             UploadService(Entity)
                 .uploadImage(req.query, req.user)
                 .then(e => res.json(e))
-                .catch(function(e) {
-                    next(e);
-                });
+                .catch(next);
         }
 
     };

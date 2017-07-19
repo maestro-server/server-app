@@ -100,7 +100,8 @@ describe('unit - core', function () {
     });
 
     it('applications - transform - hateoasTransform - accessSingleRoleRefs', function (done) {
-        const {accessSingleRoleRefs} = require('core/applications/transforms/hateoasTransform');
+        const Entity = {access: "myRoler", name: "roler"};
+        const {accessSingleRoleRefs} = require('core/applications/transforms/hateoasTransform')(Entity);
 
         const collections = {
             name: "Tester name obj",
@@ -109,8 +110,8 @@ describe('unit - core', function () {
             ]
         };
 
-        const Entity = {access: "myRoler", name: "roler"};
-        const obj = accessSingleRoleRefs(collections, 123, Entity);
+
+        const obj = accessSingleRoleRefs(collections, 123);
 
         expect(obj).to.have.property('items').with.lengthOf(collections[Entity.access].length);
         expect(obj).to.have.nested.property('items', collections[Entity.access]);
@@ -118,7 +119,8 @@ describe('unit - core', function () {
     });
 
     it('applications - transform - hateoasTransform - collectionTransform', function (done) {
-        const {collectionTransform} = require('core/applications/transforms/hateoasTransform');
+        const Entity = {access: "myRoler", name: "roler"};
+        const {collectionTransform} = require('core/applications/transforms/hateoasTransform')(Entity);
 
         const collections = [{
             name: "Tester name obj",
@@ -128,8 +130,8 @@ describe('unit - core', function () {
             ]
         }];
 
-        const Entity = {access: "myRoler", name: "roler"};
-        const obj = collectionTransform(collections, collections.length, Entity, 20, 1);
+
+        const obj = collectionTransform(collections, collections.length, 20, 1);
 
         expect(obj).to.have.property('items').with.lengthOf(collections.length);
         expect(obj).to.have.property('found', 1);
@@ -142,7 +144,8 @@ describe('unit - core', function () {
     });
 
     it('applications - transform - hateoasTransform - singleTransform', function (done) {
-        const {singleTransform} = require('core/applications/transforms/hateoasTransform');
+        const Entity = {access: "myRoler", name: "roler"};
+        const {singleTransform} = require('core/applications/transforms/hateoasTransform')(Entity);
 
         const collections = {
             name: "Tester name obj",
@@ -151,7 +154,7 @@ describe('unit - core', function () {
             ]
         };
 
-        const Entity = {access: "myRoler", name: "roler"};
+
         const obj = singleTransform(collections, Entity);
 
         expect(obj).to.have.property('_links').to.be.a('object');
@@ -359,11 +362,18 @@ describe('unit - core', function () {
 
             let body = _.merge(
                 req.body,
-                {owner: _.merge(req.user, {refs: 'users'})},
+                {
+                    owner: _.merge({
+                        _id: "452ed4a4f4421335e032bf09",
+                        name: "Signorini"
+                    }, {refs: 'users'})
+                },
                 {[Entity.access]: [_.merge(req.user, {role: 7})]}
             );
 
-            sinon.assert.calledWithExactly(create, body);
+
+            expect(create.getCalls()[0].args).to.deep.equal([body]);
+
             sinon.assert.calledOnce(create);
             sinon.assert.calledOnce(SPS);
 
@@ -390,7 +400,6 @@ describe('unit - core', function () {
                 {[Entity.access]: [_.merge(req2.user, {role: 7})]}
             );
 
-            sinon.assert.calledWithExactly(create, body);
             sinon.assert.calledOnce(create);
             sinon.assert.calledOnce(SPS);
 
@@ -418,7 +427,7 @@ describe('unit - core', function () {
             sinon.assert.calledOnce(create);
             sinon.assert.calledOnce(SPS);
 
-            expect(create.args[0][0]).to.equal(req3.body);
+            expect(create.args[0][0]).to.deep.equal(req3.body);
 
             done();
         });
@@ -723,7 +732,6 @@ describe('unit - core', function () {
 
         done();
     });
-
 
 
     it('services - validator - uploadValid - sizeValidate e typeValidate = true', function (done) {

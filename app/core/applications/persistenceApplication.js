@@ -6,10 +6,11 @@ const DPersistenceServices = require('core/services/PersistenceServices');
 
 const hateaosTransform = require('core/applications/transforms/hateoasTransform');
 
-const formatRole = require('core/applications/transforms/formatFirstRole');
 const validNotFound = require('core/applications/validator/validNotFound');
 const notExist = require('core/applications/validator/validNotExist');
 const Access = require('core/entities/accessRole');
+
+const aclRoles = require('./transforms/aclRoles');
 
 
 const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
@@ -25,11 +26,9 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
             PersistenceServices(Entity)
                 .find(query, user)
                 .then((e) => validNotFound(e, e[1], limit, page))
-                .then((e) => hateaosTransform.collectionTransform(e[0], e[1], Entity, limit, page))
+                .then((e) => hateaosTransform(Entity).collectionTransform(e[0], e[1], limit, page))
                 .then(e => res.json(e))
-                .catch(function (e) {
-                    next(e);
-                });
+                .catch(next);
         },
 
         findOne (req, res, next) {
@@ -37,24 +36,25 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)
                 .then(notExist)
-                .then((e) => hateaosTransform.singleTransform(e, Entity))
+                .then(hateaosTransform(Entity).singleTransform)
                 .then(e => res.json(e))
-                .catch(function (e) {
-                    next(e);
-                });
+                .catch(next);
         },
 
         autocomplete (req, res, next) {
-            let {query} = req;
+            const {query} = req;
 
-            if(query.hasOwnProperty('complete')) {
-              req.query = {
-                name: {$regex: query.complete, '$options': 'i'}
-              };
+            if (query.hasOwnProperty('complete')) {
+                const newQuery = {name: {$regex: query.complete, '$options': 'i'}};
 
-              PersistenceApp(Entity)
-                  .find (req, res, next);
-              return;
+                const newReq = Object.assign({},
+                    req,
+                    {query: newQuery}
+                );
+
+                PersistenceApp(Entity)
+                    .find(newReq, res, next);
+                return;
             }
 
             next();
@@ -65,32 +65,22 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
             PersistenceServices(Entity)
                 .update(req.params.id, req.body, req.user)
                 .then(e => res.status(202).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
+                .catch(next);
         },
 
         create (req, res, next) {
-            let {user, body} = req;
 
-            user = _.defaults(user, {'refs': "users"});
-            const owner = _.pick(user, 'name', 'email', '_id', 'refs');
-
-            if (_.get(Entity, 'access', false)) {
-                Object.assign(
-                    body,
-                    {owner},
-                    formatRole(owner, Access.ROLE_ADMIN, Entity.access)
-                );
-            }
+            const bodyWithOwner = Object.assign(
+                {},
+                req.body,
+                aclRoles(req.user, Entity, Access.ROLE_ADMIN)
+            );
 
             PersistenceServices(Entity)
-                .create(body)
-                .then((e) => hateaosTransform.singleTransform(e, Entity))
+                .create(bodyWithOwner)
+                .then(hateaosTransform(Entity).singleTransform)
                 .then(e => res.status(201).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
+                .catch(next);
 
         },
 
@@ -99,12 +89,10 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
             PersistenceServices(Entity)
                 .remove(req.params.id, req.user)
                 .then(e => res.status(204).json(e))
-                .catch(function (e) {
-                    next(e);
-                });
+                .catch(next);
         }
 
     };
 };
 
-module.exports = PersistenceApp;
+module.exports = _.curry(PersistenceApp);

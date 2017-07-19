@@ -12,35 +12,41 @@ const singleHT = (collection, uri) => {
     return Object.assign(collection, {_links});
 };
 
-module.exports.accessSingleRoleRefs = function (collections, _id = false, Entity = {}) {
+
+module.exports = (Entity) => {
 
     return {
-        items: singleHT(collections[Entity.access], _.get(collections[Entity.access], 'refs')),
-        _links: Object.assign(
-            {},
-            factoryObjHateoas('_parent', `${BASE}/${Entity.name}/${_id}`),
-            factoryObjHateoas('_root', `${BASE}/${Entity.name}`)
-        )
-    };
-};
+        accessSingleRoleRefs: (collections, _id = false) => {
 
-module.exports.collectionTransform = function (data, count, Entity = {}, limit = 20, page = 1) {
-    const pages = Math.ceil(count / limit);
+            return {
+                items: singleHT(collections[Entity.access], _.get(collections[Entity.access], 'refs')),
+                _links: Object.assign(
+                    {},
+                    factoryObjHateoas('_parent', `${BASE}/${Entity.name}/${_id}`),
+                    factoryObjHateoas('_root', `${BASE}/${Entity.name}`)
+                )
+            };
+        },
 
-    return {
-        'found': count,
-        'limit': limit,
-        'total_pages': pages,
-        'current_page': page,
-        'items': _.map(data, (v) => singleHT(v, Entity.name)),
-        '_links': createLinkPagination(Entity.name, limit, pages, page)
-    };
-};
+        collectionTransform: (data, count, limit = 20, page = 1) => {
+            const pages = Math.ceil(count / limit);
 
+            return {
+                'found': count,
+                'limit': limit,
+                'total_pages': pages,
+                'current_page': page,
+                'items': _.map(data, (v) => singleHT(v, Entity.name)),
+                '_links': createLinkPagination(Entity.name, limit, pages, page)
+            };
+        },
 
-module.exports.singleTransform = function (item, Entity) {
-    if (item.hasOwnProperty(Entity.access))
-        item[Entity.access] = item[Entity.access].map((err) => singleHT(err, err.refs));
+        singleTransform: (item) => {
+            if (item.hasOwnProperty(Entity.access))
+                item[Entity.access] = item[Entity.access].map((err) => singleHT(err, err.refs));
 
-    return singleHT(item, Entity.name);
-};
+            return singleHT(item, Entity.name);
+        }
+    }
+
+}

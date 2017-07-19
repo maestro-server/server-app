@@ -7,6 +7,7 @@ const DFactoryPesistenceApp = require('core/applications/persistenceApplication'
 const PersistenceServices = require('core/services/PersistenceServices');
 
 const notExist = require('core/applications/validator/validNotExist');
+const changerUser = require('./transforms/swapUser');
 
 
 const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = DFactoryPesistenceApp) => {
@@ -21,14 +22,10 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
                 .findOne(params.id, user, Access.ROLE_READ)
                 .then(notExist)
                 .then((e) => {
-                    e.refs = ACEntity.name;
-                    req.user = _.pick(e, 'name', 'email', '_id', 'refs');
-
-                    PesistenceApp.find(req, res, next);
+                    const newReq = changerUser(req, e, params, ACEntity);
+                    PesistenceApp.find(newReq, res, next);
                 })
-                .catch((err) => {
-                    next(err);
-                });
+                .catch(next);
         },
 
         findOne (req, res, next) {
@@ -38,15 +35,10 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
                 .findOne(params.id, user, Access.ROLE_READ)
                 .then(notExist)
                 .then((e) => {
-                    e.refs = ACEntity.name;
-                    req.user = _.pick(e, 'name', 'email', '_id', 'refs');
-                    req.params.id = _.get(params, 'idu');
-
-                    PesistenceApp.findOne(req, res, next);
+                    const newReq = changerUser(req, e, params, ACEntity);
+                    PesistenceApp.findOne(newReq, res, next);
                 })
-                .catch((err) => {
-                    next(err);
-                });
+                .catch(next);
         },
 
         update (req, res, next) {
@@ -56,16 +48,10 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
                 .findOne(params.id, user, Access.ROLE_WRITER)
                 .then(notExist)
                 .then((e) => {
-                    e.refs = ACEntity.name;
-                    req.user = _.pick(e, 'name', 'email', '_id', 'refs');
-                    req.params.id = _.get(params, 'idu');
-                    req.params.idu = _.get(params, 'ida');
-
-                    PesistenceApp.update(req, res, next);
+                    const newReq = changerUser(req, e, params, ACEntity);
+                    PesistenceApp.update(newReq, res, next);
                 })
-                .catch((err) => {
-                    next(err);
-                });
+                .catch(next);
         },
 
         create (req, res, next) {
@@ -75,15 +61,10 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
                 .findOne(params.id, user, Access.ROLE_WRITER)
                 .then(notExist)
                 .then((e) => {
-                    e.refs = ACEntity.name;
-                    req.user = _.pick(e, 'name', 'email', '_id', 'refs');
-                    req.params.id = _.get(params, 'idu');
-
-                    PesistenceApp.create(req, res, next);
+                    const newReq = changerUser(req, e, params, ACEntity);
+                    PesistenceApp.create(newReq, res, next);
                 })
-                .catch((err) => {
-                    next(err);
-                });
+                .catch(next);
         },
 
         remove (req, res, next) {
@@ -93,16 +74,10 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
                 .findOne(params.id, user, Access.ROLE_WRITER)
                 .then(notExist)
                 .then((e) => {
-                    e.refs = ACEntity.name;
-                    req.user = _.pick(e, 'name', 'email', '_id', 'refs');
-                    req.params.id = _.get(params, 'idu');
-                    req.params.idu = _.get(params, 'ida');
-
-                    PesistenceApp.remove(req, res, next);
+                    const newReq = changerUser(req, e, params, ACEntity);
+                    PesistenceApp.remove(newReq, res, next);
                 })
-                .catch((err) => {
-                    next(err);
-                });
+                .catch(next);
         }
     };
 
