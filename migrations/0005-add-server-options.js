@@ -5,7 +5,7 @@ exports.up = function (db, next) {
     pets.insert({
         "value": {
             serverType: ['Virtual', 'Exalogic', 'Exadata', 'Physical', 'PSeries'],
-            status: ['Active', 'Desactive', 'Avaliable'],
+            status: ['Active', 'Avaliable'],
             auths: ['PKI', 'AD', 'LDAP', 'Password'],
             env: ['Production', 'Staging', 'Development', 'UTA'],
             role: ['Application', 'Container', 'Database', 'Hybrid'],
@@ -24,4 +24,3 @@ exports.down = function (db, next) {
 
     pets.findAndModify({key: 'server_options'}, [], {}, {remove: true}, next);
 };
-

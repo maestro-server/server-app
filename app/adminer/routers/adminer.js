@@ -11,10 +11,5 @@ module.exports = function (router) {
 
     router
         .get('/', authenticate(), PersistenceApp.find)
-
-        .get('/:id', authenticate(), PersistenceApp.findOne)
-
-        .delete('/:id', authenticate(), PersistenceApp.remove)
-
-        .post('/', authenticate(), PersistenceApp.create);
+        .get('/:id', authenticate(), PersistenceApp.findOne);
 };
