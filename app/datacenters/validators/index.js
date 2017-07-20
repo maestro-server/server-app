@@ -9,9 +9,10 @@ const schema = Joi.object().keys({
     zones: Joi.array(),
     regions: Joi.array(),
     provider: Joi.string(),
-    owner: Joi.any(),
-    auth: Joi.any(),
+    owner: Joi.object(),
+    auth: Joi.array(),
     roles: Joi.any(),
+    metas: Joi.any(),
     active: Joi.boolean()
 });
 
@@ -21,5 +22,3 @@ module.exports = {
     delete: {},
     list: {}
 };
-
-'zones', 'provider', 'role'

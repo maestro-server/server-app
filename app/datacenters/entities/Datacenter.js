@@ -3,7 +3,7 @@
 const _ = require('lodash');
 
 const app = () => {
-    const resFilled = ['_id', 'name', 'zones', 'regions', 'provider', 'role'];
+    const resFilled = ['_id', 'name', 'zones', 'regions', 'provider', 'role', 'metas'];
 
     const singleFilled = [...resFilled, 'roles', 'owner', 'auth'];
 
