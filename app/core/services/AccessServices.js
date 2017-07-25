@@ -32,13 +32,13 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                     _.pick(post, 'name', 'email')
                 );
 
-                const query = Object.assign({},
+                const prepared = _.assign({},
                   accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_ADMIN),
                   validNotEqual(`${Entity.access}._id`, access._id)
                 );
 
                 return DBRepository
-                    .updateByPushUnique(query, {[Entity.access]: access}, Entity.access);
+                    .updateByPushUnique(prepared, {[Entity.access]: access}, Entity.access);
             });
 
         },
@@ -57,10 +57,10 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
             });
         },
 
-        deleteRoles (_id, _idu, owner) {
+        deleteRoles (_id, _idu, owner, access = Access.ROLE_ADMIN) {
 
             return ClosurePromesify(() => {
-                const query = accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_ADMIN);
+                const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 const arr = {
                     [Entity.access]: {
@@ -69,7 +69,7 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                 };
 
                 return DBRepository
-                    .updateByPull(query, arr, Entity.access);
+                    .updateByPull(prepared, arr, Entity.access);
             });
         }
     };

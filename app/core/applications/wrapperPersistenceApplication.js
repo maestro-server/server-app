@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const Access = require('core/entities/accessRole');
 
 const DFactoryPesistenceApp = require('core/applications/persistenceApplication');

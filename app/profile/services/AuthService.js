@@ -99,8 +99,7 @@ const AuthService = (Entity) => {
                 return decodePassForgot(body)
                     .then((e) => {
                         const {password} = body;
-                        const {_id} = e;
-                        _id = ObjectId(_id);
+                        const _id = ObjectId(e._id);
 
                         return DBRepository
                             .update({_id}, {password}, ['password']);

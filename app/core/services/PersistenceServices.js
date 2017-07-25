@@ -7,6 +7,7 @@ const ClosurePromesify = require('core/libs/factoryPromisefy');
 
 const Access = require('core/entities/accessRole');
 const accessMergeTransform = require('./transforms/accessMergeTransform');
+const regexFilterQuery = require('./transforms/regexFilterQuery');
 
 
 const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
@@ -16,18 +17,17 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
     return {
 
         find (query, owner, access = Access.ROLE_READ) {
-
             return ClosurePromesify(() => {
 
-                const limit = _.parseInt(query.limit);
-                const page = _.parseInt(query.page);
-                const skip = limit * (page - 1);
-
-                query = accessMergeTransform(owner, Entity.access, query, access);
+                const prepared = _.assign({},
+                  query,
+                  accessMergeTransform(owner, Entity.access, query, access),
+                  ...regexFilterQuery(_.get(query, 'query'))
+                );
 
                 return Promise.all([
-                    DBRepository.find(query, limit, skip),
-                    DBRepository.count(query)
+                    DBRepository.find(prepared),
+                    DBRepository.count(prepared)
                 ]);
             });
         },
@@ -36,10 +36,10 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
             return ClosurePromesify(() => {
 
-                const query = accessMergeTransform(owner, Entity.access, {_id}, access);
+                const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
-                    .findOne(query);
+                    .findOne(prepared);
             });
         },
 
@@ -47,11 +47,12 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
             return ClosurePromesify(() => {
 
-                const query = accessMergeTransform(owner, Entity.access, {_id}, access);
                 const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password', '_id']);
 
+                const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
+
                 return DBRepository
-                    .update(query, post, fill);
+                    .update(prepared, post, fill);
             });
         },
 
@@ -65,11 +66,10 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
         remove(_id, owner, access = Access.ROLE_ADMIN) {
 
             return ClosurePromesify(() => {
-
-                const query = accessMergeTransform(owner, Entity.access, {_id}, access);
+                const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
-                    .remove(query);
+                    .remove(prepared);
             });
         }
 

@@ -7,7 +7,7 @@ exports.up = function (db, next) {
             serverType: ['Virtual', 'Exalogic', 'Exadata', 'Physical', 'PSeries'],
             status: ['Active', 'Avaliable'],
             auths: ['PKI', 'AD', 'LDAP', 'Password'],
-            env: ['Production', 'Staging', 'Development', 'UTA'],
+            environment: ['Production', 'Staging', 'Development', 'UTA'],
             role: ['Application', 'Container', 'Database', 'Hybrid'],
             os: ['Linux', 'Windows', 'Solaris', 'FreeBSD', 'MacOS'],
             services: ["Apache HTTPD", "Nginx", "Docker", "Oracle Database", 'MySQL'],
