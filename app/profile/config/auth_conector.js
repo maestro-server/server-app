@@ -19,7 +19,7 @@ module.exports = function() {
 
         if(_id) {
             DBRepository(User)
-                .findOne({_id})
+                .findOne({_id}, ['_id'])
                 .then(e => {
                     if (!_.isEmpty(e)) {
                         return done(null, e);

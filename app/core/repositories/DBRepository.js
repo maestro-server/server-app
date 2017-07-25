@@ -11,21 +11,28 @@ const activeTransform = require('./transforms/activeFormat');
 const validAccessUpdater = require('./validator/validAccessUpdater');
 const factoryValid = require('core/libs/factoryValid');
 
-
 const DBRepository = (Entity, options={}) => {
 
     const DB = Dao(Entity);
 
     return {
-        find (filters = {}, limit = 20, skip = 0, resFilled = Entity.resFilled) {
+        find (query, resFilled = Entity.resFilled) {
 
             return ClosurePromesify(() => {
-                const filter = findFilledFormat(filters, Entity.filled);
+                const limit = _.parseInt(query.limit);
+                const page = _.parseInt(query.page);
+                const skip = limit * (page - 1);
+
+                const ascending = _.parseInt(_.get(query, 'ascending'));
+                const direction = ascending ? 1 : -1;
+                const orderBy = _.get(query, 'orderBy', 'created_at');
+
+                const filter = findFilledFormat(query, Entity.filled);
 
                 return DB
                     .limit(limit)
                     .skip(skip)
-                    .sort('created_at', -1)
+                    .sort(orderBy, direction)
                     .include(resFilled)
                     .find(filter)
                     .then((e) => _.map(e, (value) =>  value.get()));

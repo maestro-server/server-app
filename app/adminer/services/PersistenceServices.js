@@ -1,7 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
-
 const ProxyDBRepository = require('adminer/repositories/ProxyDBRepository');
 const ClosurePromesify = require('core/libs/factoryPromisefy');
 

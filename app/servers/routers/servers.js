@@ -3,12 +3,14 @@
 const authenticate = require('profile/middlewares/authenticate');
 const Servers = require('../entities/Servers');
 const PersistenceApp = require('core/applications/persistenceApplication')(Servers);
+const PersistenceAppServers = require('../applications/persistenceServers')(Servers);
+
 const AccessApp = require('core/applications/accessApplication')(Servers);
 
 module.exports = function (router) {
 
     router
-        .get('/', authenticate(), PersistenceApp.find)
+        .get('/', authenticate(), PersistenceAppServers.findServers)
 
         .get('/autocomplete', authenticate(), PersistenceApp.autocomplete)
 

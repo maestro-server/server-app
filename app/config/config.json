@@ -24,7 +24,7 @@
           }
       },
       "cors": {
-          "priority": 45,
+          "priority": 1,
           "module": "path:./core/middlewares/cors"
       },
       "tokenization": {
