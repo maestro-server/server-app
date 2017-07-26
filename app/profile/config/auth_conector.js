@@ -8,6 +8,7 @@ const User = require('profile/entities/Users');
 const DBRepository = require('core/repositories/DBRepository');
 
 const config = require('profile/config/auth_config');
+const {ObjectId} = require('mongorito');
 
 const PermissionError = require('core/errors/factoryError')('PermissionError');
 
@@ -15,11 +16,11 @@ const PermissionError = require('core/errors/factoryError')('PermissionError');
 module.exports = function() {
     const strategy = new Strategy(config.jwtSecret, function (payload, done) {
 
-        const {_id} = payload;
+        const _id = ObjectId(payload._id);
 
         if(_id) {
             DBRepository(User)
-                .findOne({_id}, ['_id'])
+                .findOne({_id}, ['_id', 'email'])
                 .then(e => {
                     if (!_.isEmpty(e)) {
                         return done(null, e);
