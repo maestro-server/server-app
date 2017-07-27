@@ -1,5 +1,7 @@
 'use strict';
 
+const Tester = require('../repositories/dao/db');
+
 const tester = () => {
     const fill = ['name', 'roles', 'owner'];
 
@@ -9,6 +11,8 @@ const tester = () => {
       access: 'roles',
 
       validators: require('../validators'),
+
+      dao: Tester,
 
       filled: fill,
       singleFilled: ['_id', ...fill],
