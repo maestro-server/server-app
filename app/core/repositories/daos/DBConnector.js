@@ -63,15 +63,4 @@ class Dao extends Model {
 
 }
 
-
-/**
- * Curry Entity to Mongorito
- * @param Entity
- * @returns {Dao}
- */
-module.exports = function (Entity, options={}) {
-
-    Dao.prototype.collection = () => Entity.name;
-
-    return Dao;
-};
+module.exports = Dao;

@@ -5,7 +5,6 @@ const {ObjectId} = require('mongorito');
 const Access = require('../entities/accessRole');
 
 const DFactoryDBRepository = require('core/repositories/DBRepository');
-const ClosurePromesify = require('core/libs/factoryPromisefy');
 const validNotEqual = require('core/services/validator/validNotEqual');
 
 const accessMergeTransform = require('./transforms/accessMergeTransform');
@@ -20,7 +19,7 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
     return {
         addRoles (_id, post, owner) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 factoryValid(post, accessValid.create);
 
@@ -38,14 +37,16 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                 );
 
                 return DBRepository
-                    .updateByPushUnique(prepared, {[Entity.access]: access}, Entity.access);
+                    .updateByPushUnique(prepared, {[Entity.access]: access}, Entity.access)
+                    .then(resolve)
+                    .catch(reject);
             });
 
         },
 
         updateRoles (_id, _idu, roles, owner) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 factoryValid(roles, accessValid.update);
 
@@ -53,13 +54,15 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                     .then(() => {
                         const roler = Object.assign({}, roles, {id: _idu});
                         return AccessServices(Entity).addRoles(_id, roler, owner);
-                    });
+                    })
+                    .then(resolve)
+                    .catch(reject);
             });
         },
 
         deleteRoles (_id, _idu, owner, access = Access.ROLE_ADMIN) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
                 const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 const arr = {
@@ -69,7 +72,9 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                 };
 
                 return DBRepository
-                    .updateByPull(prepared, arr, Entity.access);
+                    .updateByPull(prepared, arr, Entity.access)
+                    .then(resolve)
+                    .catch(reject);
             });
         }
     };

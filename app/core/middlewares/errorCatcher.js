@@ -12,6 +12,7 @@ module.exports = function () {
     return function (err, req, res, next) {
         const code = mapError[err.name] || 500;
         res.status(code).json({err});
+        console.log(err);
         next();
     };
 };

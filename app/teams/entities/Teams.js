@@ -2,6 +2,8 @@
 
 const _ = require('lodash');
 
+const Teams = require('../repositories/dao/db');
+
 const teams = () => {
     const resFilled = ['_id', 'name', 'email', 'url', 'members', 'owner'];
 
@@ -15,6 +17,8 @@ const teams = () => {
       access: 'members',
 
       validators: require('../validators'),
+
+      dao: Teams,
 
       filled,
       singleFilled,

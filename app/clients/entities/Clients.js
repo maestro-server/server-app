@@ -2,6 +2,8 @@
 
 const _ = require('lodash');
 
+const Clients = require('../repositories/dao/db');
+
 const clients = () => {
     const resFilled = ['_id', 'name', 'description', 'email', 'phone', 'url'];
 
@@ -15,6 +17,8 @@ const clients = () => {
       access: 'roles',
 
       validators: require('../validators'),
+
+      dao: Clients,
 
       filled,
       singleFilled,

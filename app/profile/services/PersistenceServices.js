@@ -3,7 +3,6 @@
 const _ = require('lodash');
 
 const FactoryDBRepository = require('core/repositories/DBRepository');
-const ClosurePromesify = require('core/libs/factoryPromisefy');
 
 const validDuplicateUser = require('./validator/validDuplicateUser');
 
@@ -18,45 +17,52 @@ const UsersPersistence = (Entity) => {
 
         create (post) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 return validDuplicateUser(DBRepository, post)
                     .then(() => {
                         return DBRepository
                             .create(post);
-                    });
+                    })
+                    .then(resolve)
+                    .catch(reject);
             });
         },
 
         findOne (_id) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 return DBRepository
-                    .findOne({_id});
+                    .findOne({_id})
+                    .then(resolve)
+                    .catch(reject);
             });
         },
 
         update (_id, post) {
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 return validDuplicateUser(DBRepository, post)
                     .then(() => {
-
                         const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password']);
                         return DBRepository
                             .update({_id}, post, fill);
-                    });
+                    })
+                    .then(resolve)
+                    .catch(reject);
             });
 
         },
 
         remove(_id) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 return DBRepository
-                    .remove({_id});
+                    .remove({_id})
+                    .then(resolve)
+                    .catch(reject);
             });
         }
     });

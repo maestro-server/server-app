@@ -9,6 +9,9 @@ function makeAccess(owner, fielder, access) {
     if (!_id)
         return false;
 
+    if(!fielder)
+          return {};
+
     const newId = ObjectId(_id);
 
     return {
