@@ -2,6 +2,8 @@
 
 const _ = require('lodash');
 
+const Datacenters = require('../repositories/dao/db');
+
 const app = () => {
     const resFilled = ['_id', 'name', 'zones', 'regions', 'provider', 'role', 'metas'];
 
@@ -15,6 +17,8 @@ const app = () => {
       access: 'roles',
 
       validators: require('../validators'),
+
+      dao: Datacenters,
 
       filled,
       singleFilled,

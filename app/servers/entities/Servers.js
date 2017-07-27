@@ -2,6 +2,8 @@
 
 const _ = require('lodash');
 
+const Servers = require('../repositories/dao/db');
+
 const servers = () => {
     const resFilled = ['_id', 'hostname', 'ipv4_private', 'ipv4_public', 'os.base', 'os.dist', 'dc.name', 'dc.zone', 'role', 'environment', 'auth.name', 'auth.admin', 'updated_at', 'created_at'];
 
@@ -16,6 +18,8 @@ const servers = () => {
       access: 'roles',
 
       validators: require('../validators'),
+
+      dao: Servers,
 
       filled,
       singleFilled,

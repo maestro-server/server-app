@@ -3,7 +3,6 @@
 const _ = require('lodash');
 
 const DFactoryDBRepository = require('core/repositories/DBRepository');
-const ClosurePromesify = require('core/libs/factoryPromisefy');
 
 const Access = require('core/entities/accessRole');
 const accessMergeTransform = require('./transforms/accessMergeTransform');
@@ -17,7 +16,7 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
     return {
 
         find (query, owner, access = Access.ROLE_READ) {
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 const prepared = _.assign({},
                   query,
@@ -26,50 +25,60 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                 );
 
                 return Promise.all([
-                    DBRepository.find(prepared),
-                    DBRepository.count(prepared)
-                ]);
+                          DBRepository.find(prepared),
+                          DBRepository.count(prepared)
+                        ])
+                        .then(resolve)
+                        .catch(reject);
             });
         },
 
         findOne (_id, owner, access = Access.ROLE_READ) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
-                    .findOne(prepared);
+                    .findOne(prepared)
+                    .then(resolve)
+                    .catch(reject);
             });
         },
 
         update (_id, post, owner, access = Access.ROLE_WRITER) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password', '_id']);
 
                 const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
-                    .update(prepared, post, fill);
+                    .update(prepared, post, fill)
+                    .then(resolve)
+                    .catch(reject);
             });
         },
 
         create (post) {
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
                 return DBRepository
-                    .create(post);
+                    .create(post)
+                    .then(resolve)
+                    .catch(reject);
             });
         },
 
         remove(_id, owner, access = Access.ROLE_ADMIN) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
                 const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
-                    .remove(prepared);
+                    .remove(prepared)
+                    .then(resolve)
+                    .catch(reject);
             });
         }
 

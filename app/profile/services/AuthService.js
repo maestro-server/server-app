@@ -2,7 +2,6 @@
 
 const _ = require('lodash');
 const FactoryDBRepository = require('core/repositories/DBRepository');
-const ClosurePromesify = require('core/libs/factoryPromisefy');
 
 const validPassMatch = require('profile/services/validator/validPassMatch');
 const tokenTransform = require('profile/transforms/tokenTransform');
@@ -23,7 +22,7 @@ const AuthService = (Entity) => {
     return {
         authenticate (body) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 body = _.pick(body, 'email', 'password');
                 factoryValid(body, Entity.validators.login);
@@ -36,15 +35,15 @@ const AuthService = (Entity) => {
                     .then((e) => {
                         return validPassMatch(password, e);
                     })
-                    .then((e) => {
-                        return tokenTransform(e);
-                    });
+                    .then(tokenTransform)
+                    .then(resolve)
+                    .catch(reject);
             });
         },
 
         updateExistPassword (body, owner) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 body = _.pick(body, 'email', 'password', 'newpass');
                 factoryValid(body, Entity.validators.changePass);
@@ -58,13 +57,15 @@ const AuthService = (Entity) => {
 
                         return DBRepository
                             .update({_id}, data, fill);
-                    });
+                    })
+                    .then(resolve)
+                    .catch(reject);
             });
         },
 
         forgot (body) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 body = _.pick(body, 'email', 'callback_url');
                 factoryValid(body, Entity.validators.forgot);
@@ -79,19 +80,17 @@ const AuthService = (Entity) => {
                     })
                     .then((e) => {
                         return MailerService()
-                            .sender(
-                                e.email,
-                                "Maestro Server - Recovery Password",
-                                "forgot",
-                                e);
-                    });
+                            .sender(e.email, "Maestro Server - Recovery Password","forgot",e);
+                    })
+                    .then(resolve)
+                    .catch(reject);
             });
 
         },
 
         updateForgotPassword (body) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 body = _.pick(body, 'password', 'token');
                 factoryValid(body, Entity.validators.forgotChange);
@@ -103,7 +102,9 @@ const AuthService = (Entity) => {
 
                         return DBRepository
                             .update({_id}, {password}, ['password']);
-                    });
+                    })
+                    .then(resolve)
+                    .catch(reject);
             });
 
         }

@@ -2,6 +2,8 @@
 
 const _ = require('lodash');
 
+const Architectures = require('../repositories/dao/db');
+
 const arch = () => {
     const resFilled = ['_id', 'name'];
 
@@ -15,6 +17,8 @@ const arch = () => {
       access: 'roles',
 
       validators: require('../validators'),
+
+      dao: Architectures,
 
       filled,
       singleFilled,

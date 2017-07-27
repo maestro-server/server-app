@@ -1,7 +1,6 @@
 'use strict';
 
 const ProxyDBRepository = require('adminer/repositories/ProxyDBRepository');
-const ClosurePromesify = require('core/libs/factoryPromisefy');
 
 const Persistence = require('core/services/PersistenceServices');
 
@@ -14,11 +13,13 @@ const UsersPersistence = (Entity) => {
 
         create (post) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
                 const {value} = post;
 
                 return DBRepository
-                    .update({value}, post);
+                    .update({value}, post)
+                    .then(resolve)
+                    .catch(reject);
             });
         }
     });

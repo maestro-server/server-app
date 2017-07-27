@@ -2,9 +2,6 @@
 
 const _ = require('lodash');
 
-const Dao = require('./daos/DBConnector');
-const ClosurePromesify = require('core/libs/factoryPromisefy');
-
 const findFilledFormat = require('./transforms/findFilledFormat');
 const activeTransform = require('./transforms/activeFormat');
 
@@ -13,19 +10,19 @@ const factoryValid = require('core/libs/factoryValid');
 
 const DBRepository = (Entity, options={}) => {
 
-    const DB = Dao(Entity);
+    const DB = Entity.dao;
 
     return {
         find (query, resFilled = Entity.resFilled) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
                 const limit = _.parseInt(query.limit);
                 const page = _.parseInt(query.page);
                 const skip = limit * (page - 1);
 
                 const ascending = _.parseInt(_.get(query, 'ascending'));
                 const direction = ascending ? 1 : -1;
-                const orderBy = _.get(query, 'orderBy', 'created_at');
+                const orderBy = _.get(query, 'orderBy', 'updated_at');
 
                 const filter = findFilledFormat(query, Entity.filled);
 
@@ -35,37 +32,42 @@ const DBRepository = (Entity, options={}) => {
                     .sort(orderBy, direction)
                     .include(resFilled)
                     .find(filter)
-                    .then((e) => _.map(e, (value) =>  value.get()));
+                    .then((e) => _.map(e, (value) =>  value.get()))
+                    .then(resolve)
+                    .catch(reject);
             });
         },
 
         findOne(filters, resFilled = Entity.singleFilled) {
+            return new Promise((resolve, reject) => {
 
-            return ClosurePromesify(() => {
-                const filter = Object.assign({}, filters, activeTransform.active());
+              const filter = Object.assign({}, filters, activeTransform.active());
+              return DB
+                      .findOne(filter)
+                      .then((e) => {
+                          if (e)
+                              e = e.get();
 
-                return DB
-                    .findOne(filter)
-                    .then((e) => {
-                        if (e)
-                            e = e.get();
+                          return _.pick(e, resFilled);
+                      })
+                      .then(resolve)
+                      .catch(reject);
 
-                        return _.pick(e, resFilled);
-                    });
             });
-
         },
 
         count (filters = {}, fill = Entity.filled) {
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
                 const filter = findFilledFormat(filters, fill);
-                return DB.count(filter);
+                return DB.count(filter)
+                          .then(resolve)
+                          .catch(reject);
             });
         },
 
         update(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
 
-            return ClosurePromesify(() => {
+          return new Promise((resolve, reject) => {
 
                 const data = findFilledFormat(post, fill);
                 factoryValid(data, Entity.validators.update);
@@ -73,7 +75,9 @@ const DBRepository = (Entity, options={}) => {
                 return new DB(data)
                     .updateAndModify(filter, options)
                     .then(validAccessUpdater)
-                    .then((e) => _.pick(e.get(), resFilled));
+                    .then((e) => _.pick(e.get(), resFilled))
+                    .then(resolve)
+                    .catch(reject);
 
             });
 
@@ -81,14 +85,16 @@ const DBRepository = (Entity, options={}) => {
 
         updateByPushUnique(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 const data = _.pick(post, fill);
 
                 return new DB(data)
                     .updateByPushUnique(filter, options)
                     .then(validAccessUpdater)
-                    .then((e) => _.pick(e.get(), resFilled));
+                    .then((e) => _.pick(e.get(), resFilled))
+                    .then(resolve)
+                    .catch(reject);
 
             });
 
@@ -96,41 +102,45 @@ const DBRepository = (Entity, options={}) => {
 
         updateByPull(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
 
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 const data = _.pick(post, fill);
 
                 return new DB(data)
                     .updateByPull(filter, options)
                     .then(validAccessUpdater)
-                    .then((e) => _.pick(e.get(), resFilled));
+                    .then((e) => _.pick(e.get(), resFilled))
+                    .then(resolve)
+                    .catch(reject);
             });
 
         },
 
         create(post, fill = Entity.filled, resFilled = Entity.singleFilled) {
-
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
 
                 const data = findFilledFormat(post, fill);
                 factoryValid(data, Entity.validators.create);
 
                 return new DB(data)
                     .save()
-                    .then((e) => _.pick(e.get(), resFilled));
+                    .then((e) => _.pick(e.get(), resFilled))
+                    .then(resolve)
+                    .catch(reject);
 
             });
 
         },
 
         remove(filter) {
-
-            return ClosurePromesify(() => {
+            return new Promise((resolve, reject) => {
                 const data = activeTransform.desactive();
 
                 return new DB(data)
                     .updateAndModify(filter)
-                    .then(validAccessUpdater);
+                    .then(validAccessUpdater)
+                    .then(resolve)
+                    .catch(reject);
 
             });
         }
