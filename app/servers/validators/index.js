@@ -8,8 +8,8 @@ const schema = Joi.object().keys({
     ipv4_public: Joi.string().ip(),
     os: Joi.object({
       base: Joi.string().required(),
-      dist: Joi.string(),
-      version: Joi.string()
+      dist: Joi.any(),
+      version: Joi.any()
     }).required(),
     cpu: Joi.number(),
     memory: Joi.number(),
