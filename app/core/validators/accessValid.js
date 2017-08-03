@@ -6,15 +6,15 @@ const addRole = {
     refs: Joi.string().valid("users", "teams", "projects").required(),
     id: Joi.string().required(),
     role: Joi.string().valid("1", "3", "7").required(),
-    name: Joi.any(),
-    email: Joi.any()
+    name: Joi.string(),
+    email: Joi.string().email()
 };
 
 const updateRole = {
     role: Joi.string().valid("1", "3", "7").required(),
     refs: Joi.string().valid("users", "teams", "projects").required(),
-    name: Joi.any(),
-    email: Joi.any()
+    name: Joi.string(),
+    email: Joi.string().email()
 };
 
 module.exports = {
