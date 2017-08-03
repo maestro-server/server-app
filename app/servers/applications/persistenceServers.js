@@ -22,8 +22,8 @@ const ApplicationServers = (Entity, PersistenceServices = DPersistenceServices) 
             {dest: 'os.base', source: 'os'},
             {dest: 'environment', source: 'environment'},
             {dest: 'role', source: 'role'},
-            {dest: 'auth.name', source: 'auth'},
-            {dest: 'auth.admin', source: 'user'}
+            {dest: 'auth.type', source: 'auth'},
+            {dest: 'auth.username', source: 'user'}
           ]);
 
           Object.assign(req, {query});
