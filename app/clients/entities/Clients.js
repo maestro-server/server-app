@@ -5,11 +5,11 @@ const _ = require('lodash');
 const Clients = require('../repositories/dao/db');
 
 const clients = () => {
-    const resFilled = ['_id', 'name', 'description', 'email', 'phone', 'url'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'description', 'email', 'phone', 'url'];
 
     const singleFilled = [...resFilled, 'meta', 'roles', 'owner'];
 
-    const filled = [..._.tail(singleFilled)]; // delete id
+    const filled = [..._.slice(singleFilled, 3)]; // delete id
 
     return {
       name: "clients",
