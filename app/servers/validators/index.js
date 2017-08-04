@@ -58,6 +58,7 @@ const schema = Joi.object().keys({
     }),
     roles: Joi.array().items(roles).unique('_id'),
     tags: Joi.array().items(tags),
+    status: Joi.string().valid('Active', 'Avaliable').default('Active'),
     active: Joi.boolean()
 });
 
