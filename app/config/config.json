@@ -87,7 +87,7 @@
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./inventory/routers"}]
+                "arguments": [{"directory": "path:./system/routers"}]
             }
         },
         "router-datacenters": {
