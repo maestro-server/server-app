@@ -2,12 +2,14 @@
 
 const _ = require('lodash');
 
+const System = require('../repositories/dao/db');
+
 const system = () => {
-    const resFilled = ['_id', 'name', 'clients'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'clients'];
 
     const singleFilled = [...resFilled, 'description', 'meta', 'roles', 'owner'];
 
-    const filled = [..._.tail(singleFilled)]; // delete id
+    const filled = [..._.slice(singleFilled, 3)];  // delete id
 
     return {
       name: "systems",
@@ -15,6 +17,8 @@ const system = () => {
       access: 'roles',
 
       validators: require('../validators/system'),
+
+      dao: System,
 
       filled,
       singleFilled,

@@ -61,9 +61,9 @@ for (var i = 0; i < 1400; i++) {
                 username: "ec2-user",
                 key_file: ""
             }],
-            role: faker.random.arrayElement(["application", 'container', 'database', 'hybrid']),
-            environment: faker.random.arrayElement(["production", 'staging', 'development', 'uta']),
-            meta: {}
+            role: faker.random.arrayElement(["Application", 'Container', 'Database', 'Hybrid']),
+            environment: faker.random.arrayElement(["Production", 'Staging', 'Development', 'UTA']),
+            tags: {}
         }
     };
 

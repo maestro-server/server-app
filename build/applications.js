@@ -14,15 +14,15 @@ for (var i = 0; i < 1400; i++) {
             description: faker.lorem.sentence(),
             system: [faker.random.uuid()],
             servers: [faker.random.uuid(), faker.random.uuid()],
-            role: faker.random.arrayElement(["App", 'LoadBalance', 'Containers', 'Banco de dados', 'Worker']),
-            meta: {
-                spec: {
-                    name: "app",
-                    link: faker.internet.url(),
-                    slug: faker.lorem.slug()
-                },
-                customer_type: faker.random.arrayElement(["Gerenciado", 'Compartilhado']),
-                environment: faker.random.arrayElement(["Production", 'Staging', 'Development'])
+            role: faker.random.arrayElement(["App", 'Worker', 'LoadBalance', 'Jobs']),
+            tags: [
+              {key: customer_type, value: faker.random.arrayElement(["Gerenciado", 'Compartilhado'])}
+            ],
+            environment: faker.random.arrayElement(["Production", 'Staging', 'Development'])
+            spec: {
+                name: "app",
+                link: faker.internet.url(),
+                slug: faker.lorem.slug()
             }
         }
     };
