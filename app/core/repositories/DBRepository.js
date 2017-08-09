@@ -26,7 +26,7 @@ const DBRepository = (Entity, options={}) => {
                 const direction = ascending ? 1 : -1;
                 const orderBy = _.get(query, 'orderBy', 'updated_at');
 
-                const filter = findFilledFormat(query, Entity.filled);
+                const filter = findFilledFormat(query, Entity.singleFilled);
 
                 return DB
                     .limit(limit)
@@ -58,7 +58,7 @@ const DBRepository = (Entity, options={}) => {
             });
         },
 
-        count (filters = {}, fill = Entity.filled) {
+        count (filters = {}, fill = Entity.singleFilled) {
             return new Promise((resolve, reject) => {
                 const filter = findFilledFormat(filters, fill);
                 return DB.count(filter)

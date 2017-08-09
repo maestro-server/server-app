@@ -18,6 +18,7 @@ const ApplicationServers = (Entity, PersistenceServices = DPersistenceServices) 
           query = jsonParser(query, field);
 
           query = filterHooks(query, field, [
+            {dest: 'id', source: '_id'},
             {dest: 'dc.name', source: 'dc'},
             {dest: 'os.base', source: 'os'},
             {dest: 'environment', source: 'environment'},

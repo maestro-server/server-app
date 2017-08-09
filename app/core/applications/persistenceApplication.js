@@ -23,7 +23,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
             let {query, user} = req;
             query = _.defaults(query, {limit: 20}, {page: 1});
             query = jsonParser(query, 'query');
-            
+
             const {limit, page} = query;
 
             PersistenceServices(Entity)

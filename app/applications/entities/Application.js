@@ -5,9 +5,9 @@ const _ = require('lodash');
 const Applications = require('../repositories/dao/db');
 
 const app = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'system', 'servers', 'role'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'system.name', 'system._id', 'servers', 'role', 'spec', 'language', 'cluster', 'deploy', 'tags'];
 
-    const singleFilled = [...resFilled, 'description', 'meta', 'roles', 'owner'];
+    const singleFilled = [...resFilled, 'description', 'roles', 'owner'];
 
     const filled = [..._.slice(singleFilled, 3)]; // delete id
 
