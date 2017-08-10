@@ -27,7 +27,12 @@ describe('e2e check access roles', function () {
     };
 
     let applications = {
-        name: "MyApplication"
+        name: "MyApplication",
+        environment: "Production",
+        language: "NodeJS",
+        spec: {
+          role: "Application"
+        }
     };
 
     before(function (done) {
@@ -150,7 +155,7 @@ describe('e2e check access roles', function () {
     */
     describe('add member into application - role 1', function () {
 
-      it('Exist application - add roles', function (done) {
+      it('add roles', function (done) {
           const data = {role: "1", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
           request(mock)
@@ -170,7 +175,7 @@ describe('e2e check access roles', function () {
 
 
     describe('test get and try to update team with friend', function () {
-      it('Exist application - update application with valid data', function (done) {
+      it('update application with valid data', function (done) {
           request(mock)
               .get('/applications/'+applications._id)
               .set('Authorization', `JWT ${friend.token}`)
@@ -183,11 +188,11 @@ describe('e2e check access roles', function () {
               });
       });
 
-      it('Exist application - update application with valid data', function (done) {
+      it('update application with valid data', function (done) {
 
           request(mock)
               .patch('/applications/'+applications._id)
-              .send({name: "ChangeName"})
+              .send(Object.assign({}, applications, {name: "ChangeName"}))
               .set('Authorization', `JWT ${friend.token}`)
               .expect(400)
               .expect('Content-Type', /json/)
@@ -197,7 +202,7 @@ describe('e2e check access roles', function () {
               });
       });
 
-      it('Exist application - delete team', function (done) {
+      it('delete team', function (done) {
 
           request(mock)
               .delete('/applications/'+applications._id)
@@ -237,7 +242,7 @@ describe('e2e check access roles', function () {
     });
 
     describe('test get and update team with friend', function () {
-      it('Exist application - update application with valid data', function (done) {
+      it('update application with valid data', function (done) {
           request(mock)
               .get('/applications/'+applications._id)
               .set('Authorization', `JWT ${friend.token}`)
@@ -250,11 +255,11 @@ describe('e2e check access roles', function () {
               });
       });
 
-      it('Exist application - update application with valid data', function (done) {
+      it('update application with valid data', function (done) {
 
           request(mock)
               .patch('/applications/'+applications._id)
-              .send({name: "ChangeName"})
+              .send(Object.assign({}, applications, {name: "ChangeName"}))
               .set('Authorization', `JWT ${friend.token}`)
               .expect(202)
               .expect('Content-Type', /json/)
@@ -264,7 +269,7 @@ describe('e2e check access roles', function () {
               });
       });
 
-      it('Exist application - delete team', function (done) {
+      it('delete team', function (done) {
 
           request(mock)
               .delete('/applications/'+applications._id)
@@ -303,7 +308,7 @@ describe('e2e check access roles', function () {
     });
 
     describe('delete the team', function () {
-      it('Exist application - update application with valid data', function (done) {
+      it('update application with valid data', function (done) {
           request(mock)
               .get('/applications/'+applications._id)
               .set('Authorization', `JWT ${friend.token}`)
@@ -315,11 +320,11 @@ describe('e2e check access roles', function () {
               });
       });
 
-      it('Exist application - update application with valid data', function (done) {
+      it('update application with valid data', function (done) {
 
           request(mock)
               .patch('/applications/'+applications._id)
-              .send({name: "ChangeName"})
+              .send(Object.assign({}, applications, {name: "ChangeName"}))
               .set('Authorization', `JWT ${friend.token}`)
               .expect(202)
               .expect('Content-Type', /json/)
@@ -329,7 +334,7 @@ describe('e2e check access roles', function () {
               });
       });
 
-      it('Exist application - delete team', function (done) {
+      it('delete team', function (done) {
 
           request(mock)
               .delete('/applications/'+applications._id)

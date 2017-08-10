@@ -59,56 +59,56 @@
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./profile/routers"}]
+                "arguments": [{"directory": "path:./identity/profile/routers"}]
             }
         },
         "router-projects": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./projects/routers"}]
+                "arguments": [{"directory": "path:./identity/projects/routers"}]
             }
         },
         "router-applications": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./applications/routers"}]
+                "arguments": [{"directory": "path:./inventory/routers/applications"}]
             }
         },
         "router-teams": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./teams/routers"}]
+                "arguments": [{"directory": "path:./identity/teams/routers"}]
             }
         },
         "router-inventory": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./system/routers"}]
+                "arguments": [{"directory": "path:./inventory/routers/system"}]
             }
         },
         "router-datacenters": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./datacenters/routers"}]
+                "arguments": [{"directory": "path:./inventory/routers/datacenters"}]
             }
         },
         "router-servers": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./servers/routers"}]
+                "arguments": [{"directory": "path:./inventory/routers/servers"}]
             }
         },
         "router-clients": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./clients/routers"}]
+                "arguments": [{"directory": "path:./identity/clients/routers"}]
             }
         },
         "router-adminer": {
