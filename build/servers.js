@@ -7,18 +7,18 @@ for (var i = 0; i < 1400; i++) {
     var options = {
         url: 'http://localhost:8888/servers',
         headers: {
-            'Authorization': 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTQwNTI5M2EyN2Y5MjYxMTNkMDZiNzQiLCJuYW1lIjoibmFtZSIsImVtYWlsIjoicUBxLmNvbSIsInBhc3N3b3JkIjoiJDJhJDA2JEJBYkhxeUdTUmRIQkg0bngxaVdFSWVXNFhkVnRPZUdobGlKMUZIenIuVHh4NVY5bTBZZ3UuIn0.9wtUFUegreXCQdBmulrFBftnaUqmQ1E4RPmOC6petC4'
+            'Authorization': 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1OTNmNDliZTQyZDNlZDk3MzkwZjI1YTciLCJuYW1lIjoiYXdyd2VydyIsImVtYWlsIjoiYUBhLmNvbSIsInBhc3N3b3JkIjoiJDJhJDA2JGFPZnI1Y2FaZmF6NmRwMWc4S0NHa2VieXpPakpOajlUdVNHSERDS0dRd1g3TkF0OUtNWlhpIn0.Gv1WP7CcfNFxY4tmZzk3B-Iw7iK-E_9mG8XnK9-iSxA'
         },
         form: {
             hostname: "back0" + faker.random.number(1500),
             ipv4_public: faker.internet.ip(),
             ipv4_private: faker.internet.ip(),
-            cpu: faker.random.number(8),
-            memory: faker.random.number(16),
-            status: faker.random.arrayElement(['active', 'desactived', 'avaliable']),
+            cpu: 1+faker.random.number(8),
+            memory: 1+faker.random.number(16),
+            status: faker.random.arrayElement(['Active', 'Avaliable']),
             active: 1,
             os: {
-                base: faker.random.arrayElement(['Linux', 'Windows']),
+                base: faker.random.arrayElement(['Linux', 'Windows', 'Solaris', 'FreeBSD', 'MacOS']),
                 dist: faker.random.arrayElement(['Centos', 'Ubuntu']),
                 version: "7"
             },
@@ -26,16 +26,15 @@ for (var i = 0; i < 1400; i++) {
                 {
                     name: '/dev/xvda',
                     root: true,
-                    size: faker.random.number(15, 250) + 'GB'
+                    size: 100
                 }
             ],
             services: [
                 {name: "Python", version: "2.7"},
-                faker.random.arrayElement([{name: "PHP", version: "7"}, {name: "JVM", version: "8"}, {
-                    name: "Ruby",
-                    version: "2.4"
-                }]),
-                faker.random.arrayElement([{name: "Docker", version: "12"}, {name: "Ansible", version: "2"}, null])
+                faker.random.arrayElement([
+                  {name: "PHP", version: "7"}, {name: "JVM", version: "8"}, {name: "Ruby",version: "2.4"}
+                  ]),
+                faker.random.arrayElement([{name: "Docker", version: "12"}, {name: "Ansible", version: "2"} ])
             ],
             dc: faker.random.arrayElement(
                 [{
@@ -56,12 +55,11 @@ for (var i = 0; i < 1400; i++) {
                     instance: "m3.medium"
                 }]),
             auth: [{
-                name: "master",
-                type: "pki",
-                username: "ec2-user",
-                key_file: ""
+                name: faker.random.arrayElement(["master", "root", faker.name.findName(), faker.name.findName()]),
+                type: faker.random.arrayElement(['PKI', 'AD', 'LDAP', 'Password']),
+                username: "ec2-user"
             }],
-            role: faker.random.arrayElement(["Application", 'Container', 'Database', 'Hybrid']),
+            role: faker.random.arrayElement(['Application', 'Cache', 'Container', 'Database', 'File', 'Loadbalance', 'Monitoring', 'NAT', 'Proxy', 'SMTP', 'VPN', 'Standard']),
             environment: faker.random.arrayElement(["Production", 'Staging', 'Development', 'UTA']),
             tags: {}
         }
