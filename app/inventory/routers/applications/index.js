@@ -2,10 +2,10 @@
 
 const authenticate = require('identity/profile/middlewares/authenticate');
 
-const Architecture = require('../entities/Architecture');
+const Application = require('../../entities/Application');
 const Team = require('identity/teams/entities/Teams');
 
-const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Architecture)(Team);
+const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Application)(Team);
 
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp);
@@ -13,14 +13,14 @@ const WrapperAccessApp = WrapperPersistenceApp(AccessApp);
 module.exports = function (router) {
 
     router
-        .get('/teams/:id/architectures', authenticate(), WrapperPersistenceApp().find)
+        .get('/teams/:id/applications', authenticate(), WrapperPersistenceApp().find)
 
-        .get('/teams/:id/architectures/:idu', authenticate(), WrapperPersistenceApp().findOne)
+        .get('/teams/:id/applications/:idu', authenticate(), WrapperPersistenceApp().findOne)
 
-        .patch('/teams/:id/architectures/:idu', authenticate(), WrapperPersistenceApp().update)
+        .patch('/teams/:id/applications/:idu', authenticate(), WrapperPersistenceApp().update)
 
         /**
-         * @api {delete} /teams/:id/architectures/:idu Delete application of team
+         * @api {delete} /teams/:id/applications/:idu Delete application of team
          * @apiName Delete Single application of Team
          * @apiGroup Teams
          *
@@ -36,17 +36,17 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/teams/:id/architectures/:idu', authenticate(), WrapperPersistenceApp().remove)
+        .delete('/teams/:id/applications/:idu', authenticate(), WrapperPersistenceApp().remove)
 
-        .post('/teams/:id/architectures', authenticate(), WrapperPersistenceApp().create)
+        .post('/teams/:id/applications', authenticate(), WrapperPersistenceApp().create)
 
         /**
          * Roles
          */
 
-        .post('/teams/:id/architectures/:idu/roles', authenticate(), WrapperAccessApp.create)
+        .post('/teams/:id/applications/:idu/roles', authenticate(), WrapperAccessApp.create)
 
-        .patch('/teams/:id/architectures/:idu/roles/:ida', authenticate(), WrapperAccessApp.update)
+        .patch('/teams/:id/applications/:idu/roles/:ida', authenticate(), WrapperAccessApp.update)
         /**
          * @api {delete} /teams/:id/projects/:idu Delete role of application team
          * @apiName Delete Role of application Team
@@ -65,6 +65,6 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/teams/:id/architectures/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
+        .delete('/teams/:id/applications/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
 
 };

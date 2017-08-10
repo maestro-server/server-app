@@ -27,9 +27,19 @@ describe('e2e applications', function () {
     };
 
     let applications = [{
-        name: "MyApplication"
+        name: "MyApplication",
+        environment: "Production",
+        language: "NodeJS",
+        spec: {
+          role: "Application"
+        }
     }, {
-        name: "SecondApplication"
+        name: "SecondApplication",
+        environment: "Production",
+        language: "PHP",
+        spec: {
+          role: "Worker"
+        }
     }];
 
 
@@ -284,18 +294,6 @@ describe('e2e applications', function () {
             request(mock)
                 .get('/applications/' + applications[0]._id)
                 .expect(401)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it(' autocomplete', function (done) {
-            request(mock)
-                .get('/applications/autocomplete')
-                .query({complete: "second"})
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(200)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -642,9 +640,19 @@ describe('e2e applications', function () {
     };
 
     let teamsAPP = [{
-        name: "MyApplicationT"
+        name: "MyApplicationT",
+        environment: "Production",
+        language: "NodeJS",
+        spec: {
+            role: "Application"
+        }
     }, {
-        name: "SecondApplicationT"
+        name: "SecondApplicationT",
+        environment: "Production",
+        language: "NodeJS",
+        spec: {
+            role: "Application"
+        }
     }];
 
 
