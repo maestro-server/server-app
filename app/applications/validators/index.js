@@ -49,6 +49,7 @@ const schema = Joi.object().keys({
     cluster: Joi.string().max(80),
     deploy: Joi.array().items(deploy),
     roles: Joi.array().items(roles).unique('_id'),
+    environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox').required(),
     tags: Joi.array().items(tags),
     active: Joi.boolean()
 });
