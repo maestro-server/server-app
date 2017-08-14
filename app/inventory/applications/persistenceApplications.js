@@ -21,8 +21,6 @@ const persistenceApplications = (Entity, PersistenceServices = DPersistenceServi
             {dest: 'system.name', source: 'lsystem'}
           ]);
 
-          console.log(query);
-
           Object.assign(req, {query});
           PersistenceApplication(Entity, PersistenceServices)
             .find(req, res, next);
