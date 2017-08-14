@@ -38,7 +38,7 @@ const schema = Joi.object().keys({
       refs: Joi.string()
     }),
     spec: Joi.object({
-      role: Joi.string().valid('Application', 'Worker', 'LoadBalance', 'Jobs', 'Service Discovery', 'Monitoring', 'Testing', 'Standard').required(),
+      role: Joi.string().valid('Application', 'Worker', 'Jobs', 'Service Discovery', 'Monitoring', 'Testing', 'Standard').required(),
       endpoint: Joi.string().uri().max(250),
       path: Joi.string().max(150),
       command: Joi.string().max(150),
@@ -51,6 +51,7 @@ const schema = Joi.object().keys({
     deploy: Joi.array().items(deploy),
     roles: Joi.array().items(roles).unique('_id'),
     environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox').required(),
+    family: Joi.string().valid('Application', 'LoadBalance', 'Broker', 'DataBase', 'Serveless', 'Api Gateway', 'SearchEngine', 'Cache').default("Application"),
     tags: Joi.array().items(tags),
     active: Joi.boolean()
 });
