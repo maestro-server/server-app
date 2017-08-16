@@ -18,6 +18,11 @@ const deploy = Joi.object().keys({
   notes: Joi.string().max(600)
 });
 
+const system = Joi.object({
+  name: Joi.string().required(),
+  _id: Joi.string().required()
+});
+
 const tags = Joi.object().keys({
   value: Joi.string().max(100),
   key: Joi.string().max(100)
@@ -26,10 +31,7 @@ const tags = Joi.object().keys({
 const schema = Joi.object().keys({
     name: Joi.string().min(3).max(30).required(),
     description: Joi.string().max(800),
-    system: Joi.object({
-      name: Joi.string().required(),
-      _id: Joi.string().required()
-    }),
+    system:  Joi.array().items(system).unique(),
     servers: Joi.array().items(server).unique(),
     owner: Joi.object({
       name: Joi.string().max(100),

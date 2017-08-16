@@ -10,9 +10,9 @@ const roles = Joi.object().keys({
   email: Joi.string().max(250)
 });
 
-const clients = Joi.object({
-  name: Joi.string().required(),
-  _id: Joi.string().required()
+const contacts = Joi.object().keys({
+  channel: Joi.string().max(250),
+  value: Joi.string().max(250)
 });
 
 const tags = Joi.object().keys({
@@ -20,13 +20,10 @@ const tags = Joi.object().keys({
   key: Joi.string().max(100)
 });
 
-const check = tags;
-
 const schema = Joi.object().keys({
     name: Joi.string().min(3).max(30).required(),
     description: Joi.string().max(800),
-    clients:  Joi.array().items(clients).unique(),
-    check:  Joi.array().items(check).unique(),
+    contacts:  Joi.array().items(contacts).unique(),
     owner: Joi.object({
       name: Joi.string().max(100),
       email: Joi.string().email(),
