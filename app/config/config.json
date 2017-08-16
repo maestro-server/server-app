@@ -108,7 +108,7 @@
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./identity/clients/routers"}]
+                "arguments": [{"directory": "path:./inventory/routers/clients"}]
             }
         },
         "router-adminer": {

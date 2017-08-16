@@ -7,7 +7,7 @@ const Applications = require('../repositories/dao/applications');
 const app = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'family', 'environment', 'system.name', 'system._id', 'servers', 'role', 'spec', 'language', 'cluster', 'deploy', 'tags', 'description'];
 
-    const singleFilled = [...resFilled, 'roles', 'owner'];
+    const singleFilled = [...resFilled, 'roles', 'system', 'owner'];
 
     const filled = [..._.slice(singleFilled, 3)]; // delete id
 

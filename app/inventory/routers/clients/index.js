@@ -2,7 +2,7 @@
 
 const authenticate = require('identity/profile/middlewares/authenticate');
 
-const Clients = require('../entities/Clients');
+const Clients = require('../../entities/Clients');
 const Team = require('identity/teams/entities/Teams');
 
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Clients)(Team);
