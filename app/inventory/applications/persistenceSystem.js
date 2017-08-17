@@ -2,31 +2,29 @@
 
 const _ = require('lodash');
 
-const DPersistenceServices = require('core/services/PersistenceServices');
-const PersistenceApplication = require('core/applications/persistenceApplication');
+const PersistenceServices = require('core/services/PersistenceServices');
+const PersistenceSystem = require('../services/PersistenceServices');
+const notExist = require('core/applications/validator/validNotExist');
 
-const jsonParser = require('core/applications/transforms/jsonParser');
-const filterHooks = require('./transforms/filterHooks');
-
-const persistenceApplications = (Entity, PersistenceServices = DPersistenceServices) => {
+const persistenceSystem = (Entity) => (IEntity) => {
 
     return {
-      findApplications(req, res, next) {
-          const field = 'query';
-          let query = _.clone(req.query);
+      insertApp(req, res, next) {
 
-          query = jsonParser(query, field);
+        PersistenceServices(Entity)
+            .findOne(req.params.id, req.user)
+            .then(notExist)
+            .then((e) => {
+              const ids = _.isArray(_.get(req, 'body.id')) ? req.body.id : [];
+              const system = _.pick(e, 'name', '_id');
 
-          query = filterHooks(query, field, [
-            {dest: 'system.name', source: 'lsystem'},
-            {dest: 'family', source: 'family'}
-          ]);
-
-          Object.assign(req, {query});
-          PersistenceApplication(Entity, PersistenceServices)
-            .find(req, res, next);
+              PersistenceSystem(IEntity)
+                .addList(ids, {system}, req.user);
+            })
+            .then(e => res.json(e))
+            .catch(next);
       }
     };
 };
 
-module.exports = _.curry(persistenceApplications);
+module.exports = _.curry(persistenceSystem);
