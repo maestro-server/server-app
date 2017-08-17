@@ -1,7 +1,7 @@
 'use strict';
-const _ = require('lodash');
 const {ObjectId} = require('mongorito');
 const Access = require('core/entities/accessRole');
+const in_maker = require('core/libs/in_maker');
 
 function makeAccess(owner, fielder, access) {
     const {_id} = owner;
@@ -29,11 +29,9 @@ module.exports = function (owner, fielder, trans = {}, access = Access.ROLE_READ
 
     if (trans.hasOwnProperty('_id')) {
        const {_id} = trans;
-       trans._id = _.isArray(_id)
-       ? {$in: _.map(_id, e=>ObjectId(e))}
-       : ObjectId(_id);
+       trans._id = in_maker(_id);
     }
-
+    
     if (Array.isArray(owner)) {
         const roles = owner.map((e) => makeAccess(e, fielder, access));
         merge = {$or: roles};

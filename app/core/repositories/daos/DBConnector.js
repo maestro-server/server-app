@@ -38,12 +38,16 @@ class Dao extends Model {
     }
 
     updateByPushUnique(filter, options) {
+        const {oUpdater} = options;
+        const opp = `update${oUpdater||''}Factory`;
 
-        return this.updateFactory(filter, '$addToSet', options);
+        return this[opp](filter, '$addToSet', options);
     }
 
-    updateByPull(filter, options) {
-        return this.updateFactory(filter, '$pull', options);
+    updateByPull(filter, options, many = '') {
+        const opp = `update${many}Factory`;
+
+        return this[opp](filter, '$pull', options);
     }
 
     updateFactory(entity, entry, options) {
@@ -54,6 +58,21 @@ class Dao extends Model {
             })
             .then((collection) => {
                 return collection.update(entity, {[entry]: this.get()}, options);
+            })
+            .then((e) => {
+                return this.isUpdater = e.result;
+            })
+            .return(this);
+    }
+
+    updateManyFactory(entity, entry, options) {
+
+        return this._collection()
+            .tap(() => {
+                return this._runHooks('before', 'update');
+            })
+            .then((collection) => {
+                return collection.updateMany(entity, {[entry]: this.get()}, options);
             })
             .then((e) => {
                 return this.isUpdater = e.result;

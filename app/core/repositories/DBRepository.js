@@ -28,8 +28,6 @@ const DBRepository = (Entity, options={}) => {
 
                 const filter = findFilledFormat(query, Entity.singleFilled);
 
-                          console.log(filter);
-
                 return DB
                     .limit(limit)
                     .skip(skip)
@@ -90,7 +88,6 @@ const DBRepository = (Entity, options={}) => {
         updateByPushUnique(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
 
             return new Promise((resolve, reject) => {
-
                 const data = _.pick(post, fill);
 
                 return new DB(data)
