@@ -12,21 +12,37 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
     const DBRepository = FactoryDBRepository(Entity, {oUpdater: 'Many'});
 
     return {
-      addList (_id, post, owner, access = Access.ROLE_WRITER) {
+        addList(_id, post, owner, access = Access.ROLE_WRITER) {
 
-          return new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
 
-              const prepared = _.assign({},
-                accessMergeTransform(owner, Entity.access, {_id}, access)
-              );
+                const prepared = _.assign({},
+                    accessMergeTransform(owner, Entity.access, {_id}, access)
+                );
 
-              return DBRepository
-                  .updateByPushUnique(prepared, post)
-                  .then(resolve)
-                  .catch(reject);
-          });
+                return DBRepository
+                    .updateByPushUnique(prepared, post)
+                    .then(resolve)
+                    .catch(reject);
+            });
 
-              },
+        },
+
+        removeList(_id, post, owner, access = Access.ROLE_WRITER) {
+
+            return new Promise((resolve, reject) => {
+
+                const prepared = _.assign({},
+                    accessMergeTransform(owner, Entity.access, {_id}, access)
+                );
+
+                return DBRepository
+                    .updateByPull(prepared, post)
+                    .then(resolve)
+                    .catch(reject);
+            });
+
+        }
 
 
     };
