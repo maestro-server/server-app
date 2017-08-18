@@ -34,5 +34,7 @@ module.exports = function (router) {
         /**
          * Applications
          */
-        .patch('/:id/applications', authenticate(), PersistenceSystem.insertApp);
+        .patch('/:id/applications', authenticate(), PersistenceSystem.insertApp)
+
+        .delete('/:id/applications', authenticate(), PersistenceSystem.removeApp);
 };

@@ -12,17 +12,21 @@ const clients = () => {
     const filled = [..._.slice(singleFilled, 3)]; // delete id
 
     return {
-      name: "clients",
+        name: "clients",
 
-      access: 'roles',
+        access: 'roles',
 
-      validators: require('../validators/clients'),
+        validators: require('../validators/clients'),
 
-      dao: Clients,
+        dao: Clients,
 
-      filled,
-      singleFilled,
-      resFilled
+        defaults: {},
+
+        mapRelations: [],
+
+        filled,
+        singleFilled,
+        resFilled
     };
 };
 

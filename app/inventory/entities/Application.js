@@ -12,19 +12,21 @@ const app = () => {
     const filled = [..._.slice(singleFilled, 3)]; // delete id
 
     return {
-      name: "applications",
+        name: "applications",
 
-      access: 'roles',
+        access: 'roles',
 
-      validators: require('../validators/applications'),
+        validators: require('../validators/applications'),
 
-      dao: Applications,
+        dao: Applications,
 
-      defaults: {family: 'Application'},
+        defaults: {family: 'Application'},
 
-      filled,
-      singleFilled,
-      resFilled
+        mapRelations: ['system._id'],
+
+        filled,
+        singleFilled,
+        resFilled
     };
 };
 

@@ -44,8 +44,9 @@ class Dao extends Model {
         return this[opp](filter, '$addToSet', options);
     }
 
-    updateByPull(filter, options, many = '') {
-        const opp = `update${many}Factory`;
+    updateByPull(filter, options) {
+        const {oUpdater} = options;
+        const opp = `update${oUpdater||''}Factory`;
 
         return this[opp](filter, '$pull', options);
     }
