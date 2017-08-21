@@ -22,7 +22,7 @@ const app = () => {
 
         defaults: {family: 'Application'},
 
-        mapRelations: ['system._id'],
+        mapRelations: ['system'],
 
         filled,
         singleFilled,
