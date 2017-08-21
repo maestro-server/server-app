@@ -11,21 +11,23 @@ const filterHooks = require('./transforms/filterHooks');
 const persistenceApplications = (Entity, PersistenceServices = DPersistenceServices) => {
 
     return {
-      findApplications(req, res, next) {
-          const field = 'query';
-          let query = _.clone(req.query);
+        findApplications(req, res, next) {
+            const field = 'query';
+            let query = _.clone(req.query);
 
-          query = jsonParser(query, field);
+            query = jsonParser(query, field);
 
-          query = filterHooks(query, field, [
-            {dest: 'system.name', source: 'lsystem'},
-            {dest: 'family', source: 'family'}
-          ]);
+            query = filterHooks(query, field, [
+                {dest: 'system.name', source: 'lsystem', module: 'swap'},
+                {dest: 'family', source: 'family', module: 'swap'},
+                {source: 'language', module: 'upperFirst'},
+                {source: 'environment', module: 'upperFirst'}
+            ]);
 
-          Object.assign(req, {query});
-          PersistenceApplication(Entity, PersistenceServices)
-            .find(req, res, next);
-      }
+            Object.assign(req, {query});
+            PersistenceApplication(Entity, PersistenceServices)
+                .find(req, res, next);
+        }
     };
 };
 

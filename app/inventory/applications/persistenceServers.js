@@ -18,13 +18,13 @@ const ApplicationServers = (Entity, PersistenceServices = DPersistenceServices) 
           query = jsonParser(query, field);
 
           query = filterHooks(query, field, [
-            {dest: 'id', source: '_id'},
-            {dest: 'dc.name', source: 'dc'},
-            {dest: 'os.base', source: 'os'},
-            {dest: 'environment', source: 'environment'},
-            {dest: 'role', source: 'role'},
-            {dest: 'auth.type', source: 'auth'},
-            {dest: 'auth.username', source: 'user'}
+            {dest: 'id', source: '_id', module: 'swap'},
+            {dest: 'dc.name', source: 'dc', module: 'swap'},
+            {dest: 'os.base', source: 'os', module: 'swap'},
+            {dest: 'environment', source: 'environment', module: 'swap'},
+            {dest: 'role', source: 'role', module: 'swap'},
+            {dest: 'auth.type', source: 'auth', module: 'swap'},
+            {dest: 'auth.username', source: 'user', module: 'swap'}
           ]);
 
           Object.assign(req, {query});

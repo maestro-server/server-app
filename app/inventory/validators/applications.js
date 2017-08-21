@@ -20,7 +20,7 @@ const deploy = Joi.object().keys({
 
 const system = Joi.object({
   name: Joi.string().required(),
-  _id: Joi.string().required()
+  _id: Joi.object()
 });
 
 const tags = Joi.object().keys({

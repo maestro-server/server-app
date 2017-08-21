@@ -3,14 +3,35 @@
 const _ = require('lodash');
 const {ObjectId} = require('mongorito');
 
+
+const transfID = (data, key) => {
+    if(_.has(data, key)) {
+        data[key] = ObjectId(_.get(data, key));
+    }
+
+    return data;
+}
+
+const isID = (obj, relation, key = '_id') => {
+    const exist = _.get(obj, relation);
+
+    if(_.isArray(exist)) {
+        return obj[relation].map(e=>isID(e, '', key));
+    }
+
+    obj = transfID(obj, [relation, key]);
+    obj = transfID(obj, key);
+    obj = transfID(obj, `${relation}.${key}`);
+
+
+    return obj;
+}
+
 module.exports = function (query, keys) {
 
-    if(!_.isEmpty(keys)) {
-        _.each(keys, (e) => {
-            if (query.hasOwnProperty(e)) {
-                query[e] = ObjectId(query[e]);
-            }
-        });
-    }
+    _.each(keys, (ett) => {
+        isID(query, ett);
+    });
+
     return query;
 };

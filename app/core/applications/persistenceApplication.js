@@ -79,7 +79,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
             const bodyWithOwner = Object.assign(
                 {},
-                req.body,
+                strIDtoObjectID(req.body, Entity.mapRelations),
                 aclRoles(req.user, Entity, Access.ROLE_ADMIN)
             );
 
