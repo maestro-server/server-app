@@ -5,7 +5,7 @@ const _ = require('lodash');
 const Clients = require('../repositories/dao/clients');
 
 const clients = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'description', 'contacts'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'description', 'contacts', 'tags'];
 
     const singleFilled = [...resFilled, 'meta', 'roles', 'owner'];
 

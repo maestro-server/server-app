@@ -1,106 +1,41 @@
 'use strict';
 
 const authenticate = require('identity/profile/middlewares/authenticate');
-const Client = require('../../entities/Clients');
-const PersistenceApp = require('core/applications/persistenceApplication')(Client);
-const AccessApp = require('core/applications/accessApplication')(Client);
 
-const UploaderApp = require('core/applications/uploadApplication')(Client);
+const Client = require('../../entities/Clients');
+const System = require('../../entities/System');
+
+const PersistenceApp = require('core/applications/persistenceApplication')(Client);
+const PersistenceSystem = require('../../applications/persistenceSystem')(Client)(System);
+
+const AccessApp = require('core/applications/accessApplication')(Client);
 
 module.exports = function (router) {
 
-  /**
-   * @api {get} /teams/:id Get list of yours teams
-   * @apiName Get Teams
-   * @apiGroup Teams
-   *
-   * @apiParam (Query) {String} [email] Filter by email.
-   * @apiParam (Query) {String} [name] Filter by name.
-   * @apiParam (Query) {String} [url] Filter by url.
-   *
-   * @apiPermission JWT
-   * @apiHeader (Auth) {String} Authorization JWT {Token}
-   *
-   * @apiError (Error) Unauthorized Invalid Token
-   *
-   * @apiSuccessExample {json} Success-Response:
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "firstname": "John",
-   *       "lastname": "Doe"
-   *     }
-   */
     router
-        .get('/', authenticate(), PersistenceApp.find)
+    .get('/', authenticate(), PersistenceApp.find)
 
-        .get('/autocomplete', authenticate(), PersistenceApp.autocomplete)
+    .get('/:id', authenticate(), PersistenceApp.findOne)
 
-        .get('/upload', authenticate(), UploaderApp.uploader)
+    .patch('/:id', authenticate(), PersistenceApp.update)
 
-        /**
-         * @api {get} /teams/:id Get team information
-         * @apiName Get Single Team
-         * @apiGroup Teams
-         *
-         * @apiParam (Param) {String} id Teams unique ID.
-         *
-         * @apiPermission JWT
-         * @apiHeader (Auth) {String} Authorization JWT {Token}
-         *
-         * @apiError (Error) PermissionError Token dont have permission
-         * @apiError (Error) Unauthorized Invalid Token
-         *
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 200 OK
-         *     {
-         *       "firstname": "John",
-         *       "lastname": "Doe"
-         *     }
-         */
-        .get('/:id', authenticate(), PersistenceApp.findOne)
+    .delete('/:id', authenticate(), PersistenceApp.remove)
 
-        .patch('/:id', authenticate(), PersistenceApp.update)
+    .post('/', authenticate(), PersistenceApp.create)
 
-        /**
-         * @api {delete} /teams/:id Delete team
-         * @apiName Delete Single Team
-         * @apiGroup Teams
-         *
-         * @apiParam (Param) {String} id Teams unique ID.
-         *
-         * @apiPermission JWT
-         * @apiHeader (Auth) {String} Authorization JWT {Token}
-         *
-         * @apiError (Error) PermissionError Token dont have permission
-         * @apiError (Error) Unauthorized Invalid Token
-         *
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 204 OK
-         */
-        .delete('/:id', authenticate(), PersistenceApp.remove)
+    /**
+     * Roles
+     */
+    .post('/:id/roles', authenticate(), AccessApp.create)
 
-        .post('/', authenticate(), PersistenceApp.create)
+    .put('/:id/roles/:idu', authenticate(), AccessApp.update)
 
-        .post('/:id/members', authenticate(), AccessApp.create)
+    .delete('/:id/roles/:idu', authenticate(), AccessApp.remove)
 
-        .put('/:id/members/:idu', authenticate(), AccessApp.update)
+    /**
+     * System
+     */
+    .patch('/:id/system', authenticate(), PersistenceSystem.insertApp)
 
-        /**
-         * @api {delete} /teams/:id/members/:idu Delete member team
-         * @apiName Delete Single Member of Team
-         * @apiGroup Teams
-         *
-         * @apiParam (Param) {String} id Teams unique ID.
-         * @apiParam (Param) {String} id Member unique ID.
-         *
-         * @apiPermission JWT
-         * @apiHeader (Auth) {String} Authorization JWT {Token}
-         *
-         * @apiError (Error) PermissionError Token dont have permission
-         * @apiError (Error) Unauthorized Invalid Token
-         *
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 204 OK
-         */
-        .delete('/:id/members/:idu', authenticate(), AccessApp.remove);
+    .delete('/:id/system', authenticate(), PersistenceSystem.removeApp);
 };

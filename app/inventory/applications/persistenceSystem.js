@@ -17,10 +17,11 @@ const persistenceSystem = (Entity) => (IEntity) => {
                 .then(notExist)
                 .then((e) => {
                     const ids = _.isArray(_.get(req, 'body.id')) ? req.body.id : [];
-                    const system = _.pick(e, 'name', '_id');
+                    const entitier = _.pick(e, 'name', '_id');
+                    const data = {[Entity.name]: entitier};
 
                     return PersistenceSystem(IEntity)
-                        .addList(ids, {system}, req.user);
+                        .addList(ids, data, req.user);
                 })
                 .then(hateaosTransform(Entity).singleTransform)
                 .then(e => res.status(202).json(e))
@@ -34,10 +35,11 @@ const persistenceSystem = (Entity) => (IEntity) => {
                 .then(notExist)
                 .then((e) => {
                     const ids = _.isArray(_.get(req, 'body.id')) ? req.body.id : [];
-                    const system = _.pick(e, 'name', '_id');
+                    const entitier = _.pick(e, 'name', '_id');
+                    const data = {[Entity.name]: entitier};
 
                     return PersistenceSystem(IEntity)
-                        .removeList(ids, {system}, req.user);
+                        .removeList(ids, data, req.user);
                 })
                 .then(e => res.status(204).json(e))
                 .catch(next);

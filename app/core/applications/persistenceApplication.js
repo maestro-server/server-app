@@ -22,7 +22,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
         find (req, res, next) {
 
             let {query, user} = req;
-            query =  strIDtoObjectID(query, Entity.mapRelations)
+            query =  strIDtoObjectID(query, Entity.mapRelations);
             query = _.defaults(query, {limit: 20}, {page: 1});
             query = jsonParser(query, 'query');
 
@@ -67,8 +67,15 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
         update (req, res, next) {
 
+            _.defaults(req.body, Entity.defaults || {});
+
+            const bodyWithOwner = Object.assign(
+                {},
+                strIDtoObjectID(req.body, Entity.mapRelations)
+            );
+
             PersistenceServices(Entity)
-                .update(req.params.id, req.body, req.user)
+                .update(req.params.id, bodyWithOwner, req.user)
                 .then(e => res.status(202).json(e))
                 .catch(next);
         },
