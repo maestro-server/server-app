@@ -12,7 +12,7 @@ const roles = Joi.object().keys({
 
 const clients = Joi.object({
   name: Joi.string().required(),
-  _id: Joi.string().required()
+  _id: Joi.object().required()
 });
 
 const tags = Joi.object().keys({

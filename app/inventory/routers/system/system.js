@@ -6,13 +6,14 @@ const Application = require('../../entities/Application');
 
 const PersistenceApp = require('core/applications/persistenceApplication')(System);
 const PersistenceSystem = require('../../applications/persistenceSystem')(System)(Application);
+const PersistenceAppSystem = require('../../applications/persistenceClients')(System);
 
 const AccessApp = require('core/applications/accessApplication')(System);
 
 module.exports = function (router) {
 
     router
-        .get('/', authenticate(), PersistenceApp.find)
+        .get('/', authenticate(), PersistenceAppSystem.findClients)
 
         .get('/:id', authenticate(), PersistenceApp.findOne)
 

@@ -10,7 +10,7 @@ const transfID = (data, key) => {
     }
 
     return data;
-}
+};
 
 const isID = (obj, relation, key = '_id') => {
     const exist = _.get(obj, relation);
@@ -25,7 +25,7 @@ const isID = (obj, relation, key = '_id') => {
 
 
     return obj;
-}
+};
 
 module.exports = function (query, keys) {
 
