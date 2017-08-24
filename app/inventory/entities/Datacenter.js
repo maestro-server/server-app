@@ -5,7 +5,7 @@ const _ = require('lodash');
 const Datacenters = require('../repositories/dao/datacenter');
 
 const app = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'zones', 'regions', 'provider', 'role', 'metas'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'zones', 'regions', 'provider', 'role', 'metas', 'servers_count'];
 
     const singleFilled = [...resFilled, 'roles', 'owner', 'auth'];
 
@@ -20,7 +20,7 @@ const app = () => {
 
         dao: Datacenters,
 
-        defaults: {},
+        defaults: {servers_count: 0},
 
         mapRelations: [],
 

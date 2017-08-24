@@ -35,3 +35,5 @@ module.exports = function (query, keys) {
 
     return query;
 };
+
+module.exports.transfID = transfID;

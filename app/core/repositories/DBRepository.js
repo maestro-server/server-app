@@ -70,7 +70,6 @@ const DBRepository = (Entity, options={}) => {
         update(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
 
           return new Promise((resolve, reject) => {
-
                 const data = findFilledFormat(post, fill);
                 factoryValid(data, Entity.validators.update);
 
@@ -113,6 +112,22 @@ const DBRepository = (Entity, options={}) => {
                     .then((e) => _.pick(e.get(), resFilled))
                     .then(resolve)
                     .catch(reject);
+            });
+
+        },
+
+        increment(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
+
+          return new Promise((resolve, reject) => {
+                const data = _.pick(post, fill);
+
+                return new DB(data)
+                    .incrementBY(filter, options)
+                    .then(validAccessUpdater)
+                    .then((e) => _.pick(e.get(), resFilled))
+                    .then(resolve)
+                    .catch(reject);
+
             });
 
         },
