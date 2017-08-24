@@ -2,7 +2,11 @@
 
 const authenticate = require('identity/profile/middlewares/authenticate');
 const Datacenter = require('../../entities/Datacenter');
+const Servers = require('../../entities/Servers');
+
 const PersistenceApp = require('core/applications/persistenceApplication')(Datacenter);
+const SyncerApp = require('core/applications/relationsApplication')(Datacenter)(Servers);
+
 const AccessApp = require('core/applications/accessApplication')(Datacenter);
 
 module.exports = function (router) {
@@ -25,5 +29,10 @@ module.exports = function (router) {
 
         .put('/:id/roles/:idu', authenticate(), AccessApp.update)
 
-        .delete('/:id/roles/:idu', authenticate(), AccessApp.remove);
+        .delete('/:id/roles/:idu', authenticate(), AccessApp.remove)
+
+        /*
+        Actions
+        */
+        .patch('/:id/sync_count_servers/', authenticate(), SyncerApp.syncer);
 };

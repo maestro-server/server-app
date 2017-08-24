@@ -10,8 +10,12 @@ const roles = Joi.object().keys({
   email: Joi.string().max(250)
 });
 
+const create = {
+  name: Joi.string().min(3).max(30).required()
+};
+
 const scheme = {
-    name: Joi.string().min(3).max(30).required(),
+    name: Joi.string().min(3).max(30),
     role: Joi.any(),
     zones: Joi.array(),
     regions: Joi.array(),
@@ -29,8 +33,8 @@ const scheme = {
 };
 
 module.exports = {
-    create: scheme,
-    update: scheme,
+    create: Joi.object().keys(Object.assign({}, scheme, create)),
+    update: Joi.object().keys(Object.assign({}, scheme)),
     delete: {},
     list: {}
 };

@@ -5,10 +5,9 @@ const DFactoryDBRepository = require('core/repositories/DBRepository');
 
 const {transfID} = require('core/applications/transforms/strIDtoObjectID');
 
-
 const relationInc = (configs) => (data)  => {
-  const {Entity, field, source} = configs;
-
+  const {Entity, field} = configs;
+  const source = _.get(configs, 'source', `${Entity.name}._id`);
 
   if(_.has(data, source)) {
     const inc = _.get(configs, 'inc', 1);
@@ -22,6 +21,8 @@ const relationInc = (configs) => (data)  => {
       DBRepository
         .increment({_id}, post)
         .catch(console.log);
+
+      return post;
     }
   }
 

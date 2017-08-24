@@ -61,6 +61,7 @@ const DBRepository = (Entity, options={}) => {
         count (filters = {}, fill = Entity.singleFilled) {
             return new Promise((resolve, reject) => {
                 const filter = findFilledFormat(filters, fill);
+
                 return DB.count(filter)
                           .then(resolve)
                           .catch(reject);
