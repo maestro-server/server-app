@@ -47,7 +47,7 @@ const schema = Joi.object().keys({
     memory: Joi.number().positive().max(1024),
     storage: Joi.array().items(storage).unique('name'),
     services: Joi.array().items(services).unique('name'),
-    dc: Joi.object(),
+    datacenters: Joi.object(),
     role: Joi.string().valid('Application', 'Cache', 'Container', 'Database', 'File', 'Loadbalance', 'Monitoring', 'NAT', 'Proxy', 'SMTP', 'VPN', 'Standard').required(),
     environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox').required(),
     auth: Joi.array().items(auth),

@@ -6,7 +6,8 @@ const {ObjectId} = require('mongorito');
 
 const transfID = (data, key) => {
     if(_.has(data, key)) {
-        data[key] = ObjectId(_.get(data, key));
+        const id = ObjectId(_.get(data, key));
+        _.set(data, key, id);
     }
 
     return data;
