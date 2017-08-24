@@ -51,6 +51,13 @@ class Dao extends Model {
         return this[opp](filter, '$pull', options);
     }
 
+    incrementBY(filter, options) {
+        const {oUpdater} = options;
+        const opp = `update${oUpdater||''}Factory`;
+
+        return this[opp](filter, '$inc', options);
+    }
+
     updateFactory(entity, entry, options) {
 
         return this._collection()
