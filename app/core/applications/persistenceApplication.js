@@ -36,6 +36,18 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
                 .catch(next);
         },
 
+        count (req, res, next) {
+
+            let {query, user} = req;
+            query =  strIDtoObjectID(query, Entity.mapRelations);
+            query = jsonParser(query, 'query');
+
+            PersistenceServices(Entity)
+                .count(query, user)
+                .then(count => res.json({count}))
+                .catch(next);
+        },
+
         findOne (req, res, next) {
 
             PersistenceServices(Entity)

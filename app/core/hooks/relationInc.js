@@ -1,5 +1,17 @@
 'use strict';
 
+/*
+hooks: {
+  after_create: {
+    relationInc: {
+      Entity: require('inventory/entities/Datacenter'),
+      field: 'servers_count',
+      source: 'datacenters._id'
+    }
+  }
+},
+*/
+
 const _ = require('lodash');
 const DFactoryDBRepository = require('core/repositories/DBRepository');
 

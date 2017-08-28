@@ -4,25 +4,32 @@ const _ = require('lodash');
 const DBRepository = require('core/repositories/DBRepository');
 const {transfID} = require('core/applications/transforms/strIDtoObjectID');
 
+const accessMergeTransform = require('./transforms/accessMergeTransform');
+
 
 const RelationsSyncerService = (Entity) => (REntity) => {
 
     return {
-        syncer: (data, source = '_id') => {
+        syncer: (data,  owner, source = '_id') => {
 
           return new Promise((resolve, reject) => {
 
               const _id = _.get(transfID(data, source), source);
               const path = `${Entity.name}._id`;
 
-              const fielder = `${REntity.name}_count`;
+              const prepared = _.assign({},
+                {[path]:_id},
+                accessMergeTransform(owner, Entity.access)
+              );
 
               DBRepository(REntity)
-                      .count({[path]:_id}, [path])
-                      .then(total => {
+                      .count(prepared, [path])
+                      .tap(total => {
+                          const fielder = `${REntity.name}_count`;
+
                           return DBRepository(Entity)
                                 .update({_id}, {[fielder]: total})
-                                .catch(console.log);
+                                .catch(reject);
                       })
                       .then(resolve)
                       .catch(reject);
