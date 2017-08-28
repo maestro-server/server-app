@@ -39,7 +39,7 @@ const schema = Joi.object().keys({
       _id: Joi.object(),
       refs: Joi.string()
     }),
-    spec: Joi.object({
+    role: Joi.object({
       role: Joi.string().valid('Application', 'Worker', 'Jobs', 'Service Discovery', 'Monitoring', 'Testing', 'Standard').required(),
       endpoint: Joi.string().uri().max(250),
       path: Joi.string().max(150),
