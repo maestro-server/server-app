@@ -1,15 +1,18 @@
 'use strict';
 
 const authenticate = require('identity/middlewares/authenticate');
-const Application = require('../../entities/Application');
-const PersistenceApp = require('core/applications/persistenceApplication')(Application);
-const PersistenceAppApplications = require('../../applications/persistenceApplications')(Application);
-const AccessApp = require('core/applications/accessApplication')(Application);
+
+const Project = require('../../entities/Project');
+const PersistenceApp = require('core/applications/persistenceApplication')(Project);
+const AccessApp = require('core/applications/accessApplication')(Project);
+
 
 module.exports = function (router) {
 
     router
-        .get('/', authenticate(), PersistenceAppApplications.findApplications)
+        .get('/', authenticate(), PersistenceApp.find)
+
+        .get('/autocomplete', authenticate(), PersistenceApp.autocomplete)
 
         .get('/:id', authenticate(), PersistenceApp.findOne)
 
@@ -27,4 +30,5 @@ module.exports = function (router) {
         .put('/:id/roles/:idu', authenticate(), AccessApp.update)
 
         .delete('/:id/roles/:idu', authenticate(), AccessApp.remove);
+
 };
