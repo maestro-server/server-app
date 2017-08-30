@@ -1,9 +1,9 @@
 'use strict';
 
-const authenticate = require('identity/profile/middlewares/authenticate');
+const authenticate = require('identity/middlewares/authenticate');
 
 const System = require('../../entities/System');
-const Team = require('identity/teams/entities/Teams');
+const Team = require('identity/entities/Teams');
 
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(System)(Team);
 

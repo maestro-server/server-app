@@ -52,21 +52,21 @@
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./architectures/routers"}]
+                "arguments": [{"directory": "path:./orchestration/routers/architectures"}]
             }
         },
         "router-profile": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./identity/profile/routers"}]
+                "arguments": [{"directory": "path:./identity/routers/profile"}]
             }
         },
         "router-projects": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./identity/projects/routers"}]
+                "arguments": [{"directory": "path:./identity/routers/projects"}]
             }
         },
         "router-applications": {
@@ -80,7 +80,7 @@
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./identity/teams/routers"}]
+                "arguments": [{"directory": "path:./identity/routers/teams"}]
             }
         },
         "router-inventory": {

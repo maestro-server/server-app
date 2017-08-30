@@ -1,6 +1,6 @@
 'use strict';
 
-const authenticate = require('identity/profile/middlewares/authenticate');
+const authenticate = require('identity/middlewares/authenticate');
 const Servers = require('../../entities/Servers');
 const PersistenceApp = require('core/applications/persistenceApplication')(Servers);
 const PersistenceAppServers = require('../../applications/persistenceServers')(Servers);
