@@ -12,7 +12,7 @@ const system = () => {
     const filled = [..._.slice(singleFilled, 3)];  // delete id
 
     return {
-        name: "systems",
+        name: "system",
 
         access: 'roles',
 

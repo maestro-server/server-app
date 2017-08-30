@@ -15,8 +15,6 @@ const DBRepository = (Entity, options={}) => {
     return {
         find (query, resFilled = Entity.resFilled) {
 
-
-
             return new Promise((resolve, reject) => {
                 const limit = _.parseInt(query.limit);
                 const page = _.parseInt(query.page);
