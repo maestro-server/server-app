@@ -14,7 +14,7 @@ module.exports = function (router) {
             PersistenceApp.findOne(req, res, next);
         })
 
-        .put('/', authenticate(), function (req, res, next) {
+        .patch('/', authenticate(), function (req, res, next) {
             req.params.id = req.user._id;
 
             PersistenceApp.update(req, res, next);

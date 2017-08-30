@@ -5,9 +5,9 @@ const _ = require('lodash');
 const Projects = require('../repositories/dao/projects');
 
 const projects = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'roles', 'owner'];
 
-    const singleFilled = [...resFilled, 'meta', 'roles', 'owner'];
+    const singleFilled = [...resFilled];
 
     const filled = [..._.slice(singleFilled, 3)]; // delete id
 

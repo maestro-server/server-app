@@ -5,9 +5,9 @@ const _ = require('lodash');
 const Teams = require('../repositories/dao/teams');
 
 const teams = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'email', 'url', 'members', 'owner'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'email', 'url', 'avatar', 'members', 'owner'];
 
-    const singleFilled = [...resFilled, 'meta'];
+    const singleFilled = [...resFilled];
 
     const filled = [..._.slice(singleFilled, 3)]; // delete id
 
