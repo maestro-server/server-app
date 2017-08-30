@@ -12,7 +12,7 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
     const DBRepository = FactoryDBRepository(Entity, {oUpdater: 'Many'});
 
     return {
-        addList(_id, post, owner, access = Access.ROLE_WRITER) {
+        addList(_id, post, owner, access = Access.ROLE_READ) {
 
             return new Promise((resolve, reject) => {
 
@@ -28,7 +28,7 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
         },
 
-        removeList(_id, post, owner, access = Access.ROLE_WRITER) {
+        removeList(_id, post, owner, access = Access.ROLE_WRITE) {
 
             return new Promise((resolve, reject) => {
 

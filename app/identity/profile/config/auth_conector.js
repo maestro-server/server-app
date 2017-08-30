@@ -21,7 +21,6 @@ module.exports = function() {
                     if (!_.isEmpty(e)) {
                         return done(null, e);
                     }
-                    console.log("===============================================");
                     return done(new PermissionError("User not found"), false);
                 })
                 .catch(error => done(error, null));
