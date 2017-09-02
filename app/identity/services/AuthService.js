@@ -13,7 +13,7 @@ const forgotEmailTransform = require('identity/transforms/forgotEmailTransform')
 const decodePassForgot = require('./libs/decodePassForgot');
 
 const MailerService = require('core/services/MailerService');
-const {ObjectId} = require('mongorito');
+const in_maker = require('core/libs/in_maker');
 
 const AuthService = (Entity) => {
 
@@ -98,7 +98,7 @@ const AuthService = (Entity) => {
                 return decodePassForgot(body)
                     .then((e) => {
                         const {password} = body;
-                        const _id = ObjectId(e._id);
+                        const _id = in_maker(e._id);
 
                         return DBRepository
                             .update({_id}, {password}, ['password']);

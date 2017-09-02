@@ -19,7 +19,7 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
         find (query, owner, access = Access.ROLE_READ) {
             return new Promise((resolve, reject) => {
-
+              
                 const prepared = _.assign({},
                   query,
                   accessMergeTransform(owner, Entity.access, query, access),
@@ -43,7 +43,7 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                   accessMergeTransform(owner, Entity.access, query, access),
                   ...regexFilterQuery(_.get(query, 'query'))
                 );
-                
+
                 DBRepository.count(prepared)
                         .then(resolve)
                         .catch(reject);
