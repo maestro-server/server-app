@@ -1,12 +1,12 @@
 'use strict';
 
 const _ = require('lodash');
-const {ObjectId} = require('mongorito');
+const in_maker = require('core/libs/in_maker');
 
 
 const transfID = (data, key) => {
     if(_.has(data, key)) {
-        const id = ObjectId(_.get(data, key));
+        const id = in_maker(_.get(data, key));
         _.set(data, key, id);
     }
 

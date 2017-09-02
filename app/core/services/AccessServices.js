@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const {ObjectId} = require('mongorito');
+const in_maker = require('core/libs/in_maker');
 const Access = require('../entities/accessRole');
 
 const DFactoryDBRepository = require('core/repositories/DBRepository');
@@ -24,7 +24,7 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                 factoryValid(post, accessValid.create);
 
                 const access = Object.assign({}, {
-                    _id: ObjectId(post.id),
+                    _id: in_maker(post.id),
                     refs: post.refs,
                     role: parseInt(post.role)
                 },
@@ -67,7 +67,7 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
                 const arr = {
                     [Entity.access]: {
-                        _id: ObjectId(_idu)
+                        _id: in_maker(_idu)
                     }
                 };
 
