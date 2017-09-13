@@ -52,6 +52,7 @@ const schema = Joi.object().keys({
     environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox').required(),
     auth: Joi.array().items(auth),
     owner: Joi.object({
+      name: Joi.string().max(100),
       email: Joi.string().email(),
       _id: Joi.object(),
       refs: Joi.string()
