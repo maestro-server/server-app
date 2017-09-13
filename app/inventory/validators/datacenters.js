@@ -22,6 +22,7 @@ const scheme = {
     provider: Joi.string(),
     servers_count: Joi.number().positive(),
     owner: Joi.object({
+      name: Joi.string().max(100),
       email: Joi.string().email(),
       _id: Joi.object(),
       refs: Joi.string()
