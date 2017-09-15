@@ -20,7 +20,7 @@ const scheme = {
     zones: Joi.array(),
     regions: Joi.array(),
     provider: Joi.string(),
-    servers_count: Joi.number().positive(),
+    servers_count: Joi.number(),
     owner: Joi.object({
       name: Joi.string().max(100),
       email: Joi.string().email(),
