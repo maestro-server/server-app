@@ -40,10 +40,10 @@ const schema = Joi.object().keys({
       refs: Joi.string()
     }),
     role: Joi.object({
-      role: Joi.string().valid('Application', 'Worker', 'Jobs', 'Service Discovery', 'Monitoring', 'Testing', 'Standard').required(),
+      role: Joi.string().valid('Application', 'Worker', 'Jobs', 'Testing', 'Standard').required(),
       endpoint: Joi.string().uri().max(250),
       path: Joi.string().max(150),
-      command: Joi.string().max(150),
+      code: Joi.string().max(150),
       notes: Joi.string().max(800),
       cron: Joi.string().max(50),
       name: Joi.string().max(150)

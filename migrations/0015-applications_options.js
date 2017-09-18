@@ -6,7 +6,7 @@ exports.up = function (db, next) {
     pets.insert({
         "value": {
             environment: ['Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'],
-            role: ['Application', 'Worker', 'Jobs', 'Service Discovery', 'Monitoring', 'Testing', 'Standard'],
+            role: ['Application', 'Worker', 'Jobs', 'Testing', 'Standard'],
             deploy: ['Git (Github, Bibucket)', 'Continuos Integration (CI)', 'Continuos Deployment (CD)', 'FTP', 'SFTP'],
             clusters: ['No', 'Master/Slave', '12 Factor', 'ZooKeeper', 'Leader election'],
             languages: ['Java', 'NodeJS', 'Python', 'PHP', 'Ruby', '.NET', 'C/C++', 'C#', 'Erlang', 'Elixir', 'Go', 'Perl', 'Haskell', 'Delphi', 'R', 'Rusty', 'Clojure', 'Scala']
