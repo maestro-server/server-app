@@ -7,10 +7,10 @@ const PersistenceSystem = require('../services/PersistenceServices');
 const notExist = require('core/applications/validator/validNotExist');
 const hateaosTransform = require('core/applications/transforms/hateoasTransform');
 
-const persistenceSystem = (Entity) => (IEntity) => {
+const persistenceSystem = (IEntity) => (Entity) => {
 
     return {
-        insertApp(req, res, next) {
+        create(req, res, next) {
 
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)
@@ -28,7 +28,7 @@ const persistenceSystem = (Entity) => (IEntity) => {
                 .catch(next);
         },
 
-        removeApp(req, res, next) {
+        remove(req, res, next) {
 
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)

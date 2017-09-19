@@ -17,7 +17,9 @@ module.exports = function (router) {
 
         .get('/teams/:id/projects/:idu', authenticate(), WrapperPersistenceApp().findOne)
 
-        .patch('/teams/:id/projects/:idu', authenticate(), WrapperPersistenceApp().update)
+        .put('/teams/:id/projects/:idu', authenticate(), WrapperPersistenceApp().update)
+
+        .patch('/teams/:id/projects/:idu', authenticate(), WrapperPersistenceApp().patch)
 
         /**
          * @api {delete} /teams/:id/projects/:idu Delete application of team

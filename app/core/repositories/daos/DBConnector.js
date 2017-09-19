@@ -25,12 +25,11 @@ class Dao extends Model {
         return bcrypt.hashSync(string, crypto.getCryptLevel());
     }
 
+    updateFull(filter, options) {
+        this.set('updated_at', new Date());
+        return this.updateFactory(filter, null, options);
+    }
 
-    /**
-     * Update And Modify
-     * @param filter
-     * @returns {*}
-     */
     updateAndModify(filter, options) {
         this.set('updated_at', new Date());
 
@@ -65,7 +64,8 @@ class Dao extends Model {
                 return this._runHooks('before', 'update');
             })
             .then((collection) => {
-                return collection.update(entity, {[entry]: this.get()}, options);
+                const subs = entry ? {[entry]: this.get()} : this.get();
+                return collection.update(entity, subs, options);
             })
             .then((e) => {
                 return this.isUpdater = e.result;
