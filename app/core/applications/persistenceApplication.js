@@ -92,6 +92,21 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
                 .catch(next);
         },
 
+        patch (req, res, next) {
+
+            _.defaults(req.body, Entity.defaults || {});
+
+            const bodyWithOwner = Object.assign(
+                {},
+                strIDtoObjectID(req.body, Entity.mapRelations)
+            );
+
+            PersistenceServices(Entity)
+                .patch(req.params.id, bodyWithOwner, req.user)
+                .then(e => res.status(202).json(e))
+                .catch(next);
+        },
+
         create (req, res, next) {
 
             _.defaults(req.body, Entity.defaults || {});

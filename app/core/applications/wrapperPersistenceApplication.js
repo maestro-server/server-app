@@ -53,6 +53,19 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
                 .catch(next);
         },
 
+        patch (req, res, next) {
+            const {user, params} = req;
+
+            PersistenceServices(ACEntity)
+                .findOne(params.id, user, Access.ROLE_WRITER)
+                .then(notExist)
+                .then((e) => {
+                    const newReq = changerUser(req, e, params, ACEntity);
+                    PesistenceApp.patch(newReq, res, next);
+                })
+                .catch(next);
+        },
+
         create (req, res, next) {
             const {user, params} = req;
 

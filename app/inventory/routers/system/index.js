@@ -3,12 +3,16 @@
 const authenticate = require('identity/middlewares/authenticate');
 
 const System = require('../../entities/System');
+const Application = require('../../entities/Application');
 const Team = require('identity/entities/Teams');
 
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(System)(Team);
 
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp);
+
+const PersistenceRelation = require('../../applications/persistenceSystem')(Application);
+const WrapperRelationsApp = WrapperPersistenceApp(PersistenceRelation);
 
 module.exports = function (router) {
 
@@ -17,7 +21,9 @@ module.exports = function (router) {
 
         .get('/teams/:id/system/:idu', authenticate(), WrapperPersistenceApp().findOne)
 
-        .patch('/teams/:id/system/:idu', authenticate(), WrapperPersistenceApp().update)
+        .put('/teams/:id/system/:idu', authenticate(), WrapperPersistenceApp().update)
+
+        .patch('/teams/:id/system/:idu', authenticate(), WrapperPersistenceApp().patch)
 
         /**
          * @api {delete} /teams/:id/applications/:idu Delete application of team
@@ -65,6 +71,13 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/teams/:id/system/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
+        .delete('/teams/:id/system/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove)
+
+        /**
+         * Applications
+         */
+        .patch('/teams/:id/system/:idu/applications', authenticate(), WrapperRelationsApp.create)
+
+        .delete('/teams/:id/system/:idu/applications', authenticate(), WrapperRelationsApp.remove);
 
 };

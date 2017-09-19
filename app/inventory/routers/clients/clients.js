@@ -6,7 +6,7 @@ const Client = require('../../entities/Clients');
 const System = require('../../entities/System');
 
 const PersistenceApp = require('core/applications/persistenceApplication')(Client);
-const PersistenceSystem = require('../../applications/persistenceSystem')(Client)(System);
+const PersistenceRelation = require('../../applications/persistenceSystem')(System)(Client);
 
 const AccessApp = require('core/applications/accessApplication')(Client);
 
@@ -17,7 +17,9 @@ module.exports = function (router) {
 
     .get('/:id', authenticate(), PersistenceApp.findOne)
 
-    .patch('/:id', authenticate(), PersistenceApp.update)
+    .put('/:id', authenticate(), PersistenceApp.update)
+
+    .patch('/:id', authenticate(), PersistenceApp.patch)
 
     .delete('/:id', authenticate(), PersistenceApp.remove)
 
@@ -35,7 +37,7 @@ module.exports = function (router) {
     /**
      * System
      */
-    .patch('/:id/system', authenticate(), PersistenceSystem.insertApp)
+    .patch('/:id/system', authenticate(), PersistenceRelation.create)
 
-    .delete('/:id/system', authenticate(), PersistenceSystem.removeApp);
+    .delete('/:id/system', authenticate(), PersistenceRelation.remove);
 };

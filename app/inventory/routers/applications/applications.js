@@ -13,7 +13,9 @@ module.exports = function (router) {
 
         .get('/:id', authenticate(), PersistenceApp.findOne)
 
-        .patch('/:id', authenticate(), PersistenceApp.update)
+        .put('/:id', authenticate(), PersistenceApp.update)
+
+        .patch('/:id', authenticate(), PersistenceApp.patch)
 
         .delete('/:id', authenticate(), PersistenceApp.remove)
 
