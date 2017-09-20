@@ -40,14 +40,14 @@ const UsersPersistence = (Entity) => {
             });
         },
 
-        update (_id, post) {
+        patch (_id, post) {
             return new Promise((resolve, reject) => {
 
                 return validDuplicateUser(DBRepository, post)
                     .then(() => {
                         const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password']);
                         return DBRepository
-                            .update({_id}, post, fill);
+                            .patch({_id}, post, fill);
                     })
                     .then(resolve)
                     .catch(reject);

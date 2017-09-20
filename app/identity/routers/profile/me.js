@@ -17,7 +17,7 @@ module.exports = function (router) {
         .patch('/', authenticate(), function (req, res, next) {
             req.params.id = req.user._id;
 
-            PersistenceApp.update(req, res, next);
+            PersistenceApp.patch(req, res, next);
         })
 
         .delete('/', authenticate(), function (req, res, next) {
