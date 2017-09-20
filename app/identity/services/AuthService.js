@@ -56,7 +56,7 @@ const AuthService = (Entity) => {
                         const {_id} = owner;
 
                         return DBRepository
-                            .update({_id}, data, fill);
+                            .patch({_id}, data, fill);
                     })
                     .then(resolve)
                     .catch(reject);
