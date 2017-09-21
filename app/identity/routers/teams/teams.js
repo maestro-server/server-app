@@ -87,7 +87,9 @@ module.exports = function (router) {
 
         .post('/:id/members', authenticate(), AccessApp.create)
 
-        .put('/:id/members/:idu', authenticate(), AccessApp.update)
+        .put('/:id/members/', authenticate(), AccessApp.update)
+
+        .put('/:id/members/:idu', authenticate(), AccessApp.updateSingle)
 
         /**
          * @api {delete} /teams/:id/members/:idu Delete member team

@@ -4,11 +4,8 @@ const _ = require('lodash');
 
 const findFilledFormat = require('./transforms/findFilledFormat');
 const activeTransform = require('./transforms/activeFormat');
-const updateMerge = require('./transforms/updateMerge');
 
 const validAccessUpdater = require('./validator/validAccessUpdater');
-const validAccessEmpty = require('core/applications/validator/validAccessEmpty');
-
 const factoryValid = require('core/libs/factoryValid');
 
 const DBRepository = (Entity, options={}) => {
@@ -75,16 +72,13 @@ const DBRepository = (Entity, options={}) => {
                 const data = findFilledFormat(post, fill);
                 factoryValid(data, Entity.validators.update);
 
-                return this.findOne(filter)
-                    .then(validAccessEmpty)
-                    .then(updateMerge(data)(Entity))
-                    .then(preparedData => {
-                      return new DB(preparedData)
-                          .updateFull(filter)
-                          .then((e) => _.pick(e.get(), resFilled))
-                          .then(resolve)
-                          .catch(reject);
-                    })
+                console.log(data);
+
+                return new DB(data)
+                    .updateFull(filter)
+                    .then(validAccessUpdater)
+                    .then((e) => _.pick(e.get(), resFilled))
+                    .then(resolve)
                     .catch(reject);
             });
         },
@@ -92,6 +86,7 @@ const DBRepository = (Entity, options={}) => {
         patch(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
 
           return new Promise((resolve, reject) => {
+
                 const data = findFilledFormat(post, fill);
                 factoryValid(data, Entity.validators.update);
 

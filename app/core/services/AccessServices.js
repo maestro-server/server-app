@@ -12,6 +12,9 @@ const accessMergeTransform = require('./transforms/accessMergeTransform');
 const factoryValid = require('core/libs/factoryValid');
 const accessValid = require('core/validators/accessValid');
 
+const validAccessEmpty = require('core/applications/validator/validAccessEmpty');
+const {transfID} = require('core/applications/transforms/strIDtoObjectID');
+
 const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
     const DBRepository = FactoryDBRepository(Entity);
@@ -44,7 +47,29 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
         },
 
-        updateRoles (_id, _idu, roles, owner) {
+        updateRoles (_id, post, owner) {
+
+          return new Promise((resolve, reject) => {
+              const prepared = _.assign({},
+                accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_ADMIN)
+              );
+
+              const roles = post.map(e=>transfID(e, '_id'));
+
+              return DBRepository
+                  .findOne(prepared)
+                  .then(validAccessEmpty)
+                  .then((preparedData) => {
+                    const aa = _.merge(preparedData, {[Entity.access]: roles});
+                    return DBRepository
+                        .update(prepared, aa);
+                  })
+                  .then(resolve)
+                  .catch(reject);
+          });
+        },
+
+        updateSingleRoles (_id, _idu, roles, owner) {
 
             return new Promise((resolve, reject) => {
 
