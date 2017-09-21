@@ -27,7 +27,9 @@ module.exports = function (router) {
          */
         .post('/:id/roles', authenticate(), AccessApp.create)
 
-        .put('/:id/roles/:idu', authenticate(), AccessApp.update)
+        .put('/:id/roles/', authenticate(), AccessApp.update)
+
+        .put('/:id/roles/:idu', authenticate(), AccessApp.updateSingle)
 
         .delete('/:id/roles/:idu', authenticate(), AccessApp.remove);
 };

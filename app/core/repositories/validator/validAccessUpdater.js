@@ -7,7 +7,7 @@ module.exports = function (e) {
     return new Promise((resolve) => {
 
         if (e.hasOwnProperty('isUpdater') && e.isUpdater.n < 1)
-            throw new PermissionError('You dont have access');
+            throw new PermissionError('You not authorize to do this!');
 
         resolve(e);
 

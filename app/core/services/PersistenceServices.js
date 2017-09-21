@@ -9,6 +9,8 @@ const accessMergeTransform = require('./transforms/accessMergeTransform');
 const regexFilterQuery = require('./transforms/regexFilterQuery');
 
 const hookFactory = require('core/hooks/factory');
+const validAccessEmpty = require('core/applications/validator/validAccessEmpty');
+const updateMerge = require('./transforms/updateMerge');
 
 
 const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
@@ -67,11 +69,16 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
             return new Promise((resolve, reject) => {
                 const entityHooks = hookFactory(Entity);
-                const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password', '_id']);
                 const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
-                    .update(prepared, post, fill)
+                    .findOne(prepared)
+                    .then(validAccessEmpty)
+                    .then(updateMerge(post)(Entity))
+                    .then((preparedData) => {
+                      return DBRepository
+                          .update(prepared, preparedData);
+                    })
                     .then(entityHooks('after_update'))
                     .then(resolve)
                     .catch(reject);
@@ -81,6 +88,7 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
         patch (_id, post, owner, access = Access.ROLE_WRITER) {
 
             return new Promise((resolve, reject) => {
+
                 const entityHooks = hookFactory(Entity);
                 const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password', '_id']);
 

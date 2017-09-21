@@ -4,7 +4,7 @@ const _ = require('lodash');
 const in_maker = require('core/libs/in_maker');
 
 
-const transfID = (data, key) => {
+const transfID = (data, key = '_id') => {
     if(_.has(data, key)) {
         const id = in_maker(_.get(data, key));
         _.set(data, key, id);

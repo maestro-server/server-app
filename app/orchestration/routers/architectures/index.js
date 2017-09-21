@@ -46,7 +46,7 @@ module.exports = function (router) {
 
         .post('/teams/:id/architectures/:idu/roles', authenticate(), WrapperAccessApp.create)
 
-        .patch('/teams/:id/architectures/:idu/roles/:ida', authenticate(), WrapperAccessApp.update)
+        .patch('/teams/:id/architectures/:idu/roles/:ida', authenticate(), WrapperAccessApp.patch)
         /**
          * @api {delete} /teams/:id/projects/:idu Delete role of application team
          * @apiName Delete Role of application Team

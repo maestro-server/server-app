@@ -8,7 +8,7 @@ module.exports = function (e) {
     return new Promise((resolve) => {
 
         if (_.isEmpty(e))
-            throw new PermissionError('You dont have access');
+            throw new PermissionError('You not authorize to do this!');
 
         resolve(e);
 

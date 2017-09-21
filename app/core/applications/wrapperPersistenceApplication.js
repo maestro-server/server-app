@@ -13,83 +13,48 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
 
     const PesistenceApp = FactoryPesistenceApp(Entity);
 
+    const factoryWrapper = function(method, access) {
+        return (req, res, next) => {
+          const {user, params} = req;
+
+          PersistenceServices(ACEntity)
+              .findOne(params.id, user, access)
+              .then(notExist)
+              .then((e) => {
+                  const newReq = changerUser(req, e, params, ACEntity);
+                  PesistenceApp[method](newReq, res, next);
+              })
+              .catch(next);
+        };
+    };
+
     return {
         find (req, res, next) {
-            const {user, params} = req;
-
-            PersistenceServices(ACEntity)
-                .findOne(params.id, user, Access.ROLE_READ)
-                .then(notExist)
-                .then((e) => {
-                    const newReq = changerUser(req, e, params, ACEntity);
-                    PesistenceApp.find(newReq, res, next);
-                })
-                .catch(next);
+            factoryWrapper('find', Access.ROLE_READ)(req, res, next);
         },
 
         findOne (req, res, next) {
-            const {user, params} = req;
-
-            PersistenceServices(ACEntity)
-                .findOne(params.id, user, Access.ROLE_READ)
-                .then(notExist)
-                .then((e) => {
-                    const newReq = changerUser(req, e, params, ACEntity);
-                    PesistenceApp.findOne(newReq, res, next);
-                })
-                .catch(next);
+            factoryWrapper('findOne', Access.ROLE_READ)(req, res, next);
         },
 
         update (req, res, next) {
-            const {user, params} = req;
+            factoryWrapper('update', Access.ROLE_WRITER)(req, res, next);
+        },
 
-            PersistenceServices(ACEntity)
-                .findOne(params.id, user, Access.ROLE_WRITER)
-                .then(notExist)
-                .then((e) => {
-                    const newReq = changerUser(req, e, params, ACEntity);
-                    PesistenceApp.update(newReq, res, next);
-                })
-                .catch(next);
+        updateSingle (req, res, next) {
+            factoryWrapper('updateSingle', Access.ROLE_WRITER)(req, res, next);
         },
 
         patch (req, res, next) {
-            const {user, params} = req;
-
-            PersistenceServices(ACEntity)
-                .findOne(params.id, user, Access.ROLE_WRITER)
-                .then(notExist)
-                .then((e) => {
-                    const newReq = changerUser(req, e, params, ACEntity);
-                    PesistenceApp.patch(newReq, res, next);
-                })
-                .catch(next);
+            factoryWrapper('patch', Access.ROLE_WRITER)(req, res, next);
         },
 
         create (req, res, next) {
-            const {user, params} = req;
-
-            PersistenceServices(ACEntity)
-                .findOne(params.id, user, Access.ROLE_WRITER)
-                .then(notExist)
-                .then((e) => {
-                    const newReq = changerUser(req, e, params, ACEntity);
-                    PesistenceApp.create(newReq, res, next);
-                })
-                .catch(next);
+            factoryWrapper('create', Access.ROLE_WRITER)(req, res, next);
         },
 
         remove (req, res, next) {
-            const {user, params} = req;
-
-            PersistenceServices(ACEntity)
-                .findOne(params.id, user, Access.ROLE_WRITER)
-                .then(notExist)
-                .then((e) => {
-                    const newReq = changerUser(req, e, params, ACEntity);
-                    PesistenceApp.remove(newReq, res, next);
-                })
-                .catch(next);
+            factoryWrapper('remove', Access.ROLE_ADMIN)(req, res, next);
         }
     };
 
