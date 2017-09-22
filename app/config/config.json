@@ -83,7 +83,7 @@
                 "arguments": [{"directory": "path:./identity/routers/teams"}]
             }
         },
-        "router-inventory": {
+        "router-system": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
@@ -109,6 +109,62 @@
             "module": {
                 "name": "express-enrouten",
                 "arguments": [{"directory": "path:./inventory/routers/clients"}]
+            }
+        },
+        "router-providers": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./inventory/routers/providers"}]
+            }
+        },
+        "router-playbooks": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./playbooks/routers/playbooks"}]
+            }
+        },
+        "router-access-manager": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./playbooks/routers/access_manager"}]
+            }
+        },
+        "router-task-template": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./playbooks/routers/task_template"}]
+            }
+        },
+        "router-jobs": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./playbooks/routers/jobs"}]
+            }
+        },
+        "router-scheduler": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./playbooks/routers/scheduler"}]
+            }
+        },
+        "router-reports": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./reports/routers/reports"}]
+            }
+        },
+        "router-events": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./reports/routers/events"}]
             }
         },
         "router-adminer": {
