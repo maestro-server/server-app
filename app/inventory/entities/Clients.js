@@ -7,7 +7,7 @@ const Clients = require('../repositories/dao/clients');
 const clients = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'description', 'contacts', 'tags'];
 
-    const singleFilled = [...resFilled, 'meta', 'roles', 'owner'];
+    const singleFilled = [...resFilled, 'roles', 'owner'];
 
     const filled = [..._.slice(singleFilled, 3)]; // delete id
 
