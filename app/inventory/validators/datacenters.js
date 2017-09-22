@@ -30,7 +30,8 @@ const scheme = {
     auth: Joi.array(),
     roles: Joi.array().items(roles).unique('_id'),
     metas: Joi.any(),
-    active: Joi.boolean()
+    active: Joi.boolean(),
+    created_at: Joi.any()
 };
 
 module.exports = {

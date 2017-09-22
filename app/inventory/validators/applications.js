@@ -55,7 +55,8 @@ const schema = Joi.object().keys({
     environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox').required(),
     family: Joi.string().valid('Application', 'LoadBalance', 'Broker', 'DataBase', 'Serveless', 'Api Gateway', 'SearchEngine', 'Cache').default("Application"),
     tags: Joi.array().items(tags),
-    active: Joi.boolean()
+    active: Joi.boolean(),
+    created_at: Joi.any()
 });
 
 module.exports = {
