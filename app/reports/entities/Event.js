@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const Report = require('../repositories/dao/report');
+const Event = require('../repositories/dao/events');
 
 const report = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'description'];
@@ -12,13 +12,13 @@ const report = () => {
     const filled = [..._.slice(singleFilled, 3)];  // delete id
 
     return {
-        name: "reports",
+        name: "events",
 
         access: 'roles',
 
-        validators: require('../validators/reports'),
+        validators: require('../validators/events'),
 
-        dao: Report,
+        dao: Event,
 
         defaults: {},
 

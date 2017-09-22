@@ -35,7 +35,8 @@ const schema = Joi.object().keys({
     }),
     roles: Joi.array().items(roles).unique('_id'),
     tags: Joi.array().items(tags),
-    active: Joi.boolean()
+    active: Joi.boolean(),
+    created_at: Joi.any()
 });
 
 module.exports = {

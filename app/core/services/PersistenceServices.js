@@ -69,6 +69,7 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
             return new Promise((resolve, reject) => {
                 const entityHooks = hookFactory(Entity);
+                const fill = _.slice(Entity.singleFilled, 2);
                 const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
@@ -77,7 +78,7 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                     .then(updateMerge(post)(Entity))
                     .then((preparedData) => {
                       return DBRepository
-                          .update(prepared, preparedData);
+                          .update(prepared, preparedData, fill);
                     })
                     .then(entityHooks('after_update'))
                     .then(resolve)
