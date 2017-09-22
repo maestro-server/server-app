@@ -72,8 +72,6 @@ const DBRepository = (Entity, options={}) => {
                 const data = findFilledFormat(post, fill);
                 factoryValid(data, Entity.validators.update);
 
-                console.log(data);
-
                 return new DB(data)
                     .updateFull(filter)
                     .then(validAccessUpdater)

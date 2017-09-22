@@ -60,9 +60,9 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                   .findOne(prepared)
                   .then(validAccessEmpty)
                   .then((preparedData) => {
-                    const aa = _.merge(preparedData, {[Entity.access]: roles});
+                    const data = _.merge(preparedData, {[Entity.access]: roles});
                     return DBRepository
-                        .update(prepared, aa);
+                        .update(prepared, data);
                   })
                   .then(resolve)
                   .catch(reject);
