@@ -6,7 +6,7 @@ exports.up = function (db, next) {
     pets.insert({
         "value": {
             check: ['Public URL', 'Private URL', 'Admin', 'WebSocket', 'TCP/IP', 'Unix Sock', 'HealthCheck'],
-            apps: ['Application', 'LoadBalance', 'Broker', 'DataBase', 'Serveless', 'Api Gateway', 'SearchEngine', 'Cache']
+            apps: ['Application', 'LoadBalance', 'Broker', 'DataBase', 'Serveless', 'Api Gateway', 'Container Orchestrator', 'Cache', 'CDN', 'Object Storage', 'Monitoring', 'Logs']
         },
         "key": "system_options",
         "active": true,
