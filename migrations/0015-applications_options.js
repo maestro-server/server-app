@@ -11,7 +11,7 @@ exports.up = function (db, next) {
             clusters: ['No', 'Master/Slave', '12 Factor', 'ZooKeeper', 'Leader election'],
             languages: ['Java', 'NodeJS', 'Python', 'PHP', 'Ruby', '.NET', 'C/C++', 'C#', 'Erlang', 'Elixir', 'Go', 'Perl', 'Haskell', 'Delphi', 'R', 'Rusty', 'Clojure', 'Scala']
         },
-        "key": "app_options",
+        "key": "application_options",
         "active": true,
         "updated_at": new Date()
     }, next);
@@ -20,5 +20,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'app_options'}, [], {}, {remove: true}, next);
+    pets.findAndModify({key: 'application_options'}, [], {}, {remove: true}, next);
 };
