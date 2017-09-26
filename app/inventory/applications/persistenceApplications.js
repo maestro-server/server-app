@@ -21,6 +21,7 @@ const persistenceApplications = (Entity, PersistenceServices = DPersistenceServi
                 {dest: 'system.name', source: 'lsystem', module: 'swap'},
                 {dest: 'family', source: 'family', module: 'swap'},
                 {source: 'language', module: 'upperFirst'},
+                {source: 'provider', module: 'upperFirst'},
                 {source: 'environment', module: 'upperFirst'}
             ]);
 

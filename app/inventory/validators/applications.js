@@ -33,6 +33,7 @@ const schema = Joi.object().keys({
     description: Joi.string().max(800),
     system:  Joi.array().items(system).unique(),
     servers: Joi.array().items(server).unique(),
+    targets: Joi.array().items(server).unique(),
     owner: Joi.object({
       name: Joi.string().max(100),
       email: Joi.string().email(),
@@ -40,20 +41,22 @@ const schema = Joi.object().keys({
       refs: Joi.string()
     }),
     role: Joi.object({
-      role: Joi.string().valid('Application', 'Worker', 'Jobs', 'Testing', 'Standard').required(),
-      endpoint: Joi.string().uri().max(250),
+      role: Joi.string().valid('Application', 'Worker', 'Jobs', 'Testing', 'Standard'),
+      endpoint: Joi.string().uri().max(150),
       path: Joi.string().max(150),
       code: Joi.string().max(150),
       notes: Joi.string().max(800),
       cron: Joi.string().max(50),
-      name: Joi.string().max(150)
-    }).required(),
-    language: Joi.string().min(3).max(30).required(),
+      name: Joi.string().max(150),
+      healthcheck: Joi.string().max(150)
+    }),
+    language: Joi.string().min(3).max(30),
+    provider: Joi.string().min(3).max(20),
     cluster: Joi.string().max(80),
     deploy: Joi.array().items(deploy),
     roles: Joi.array().items(roles).unique('_id'),
     environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox').required(),
-    family: Joi.string().valid('Application', 'LoadBalance', 'Broker', 'DataBase', 'Serveless', 'Api Gateway', 'SearchEngine', 'Cache').default("Application"),
+    family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serveless', 'Api Gateway', 'Container Orchestrator', 'Cache', 'CDN', 'Object Storage', 'Monitoring', 'Logs').default("Application"),
     tags: Joi.array().items(tags),
     active: Joi.boolean(),
     created_at: Joi.any()
