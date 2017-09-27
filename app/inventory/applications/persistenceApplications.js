@@ -20,6 +20,7 @@ const persistenceApplications = (Entity, PersistenceServices = DPersistenceServi
             query = filterHooks(query, field, [
                 {dest: 'system.name', source: 'lsystem', module: 'swap'},
                 {dest: 'family', source: 'family', module: 'swap'},
+                {dest: 'role.role', source: 'role', module: 'swap'},
                 {source: 'language', module: 'upperFirst'},
                 {source: 'provider', module: 'upperFirst'},
                 {source: 'environment', module: 'upperFirst'}

@@ -5,7 +5,7 @@ const _ = require('lodash');
 const Applications = require('../repositories/dao/applications');
 
 const app = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'family', 'environment', 'provider', 'system.name', 'system._id', 'servers', 'targets', 'role', 'spec', 'language', 'cluster', 'deploy', 'tags', 'description'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'family', 'environment', 'provider', 'system.name', 'system._id', 'servers', 'targets', 'role.role', 'role', 'spec', 'language', 'cluster', 'deploy', 'tags', 'description'];
 
     const singleFilled = [...resFilled, 'roles', 'system', 'owner'];
 

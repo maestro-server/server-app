@@ -48,7 +48,8 @@ const schema = Joi.object().keys({
       notes: Joi.string().max(800),
       cron: Joi.string().max(50),
       name: Joi.string().max(150),
-      healthcheck: Joi.string().max(150)
+      healthcheck: Joi.string().max(150),
+      extra_config: Joi.string().max(1500),
     }),
     language: Joi.string().min(3).max(30),
     provider: Joi.string().min(3).max(20),
