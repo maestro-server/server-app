@@ -6,8 +6,8 @@ exports.up = function (db, next) {
     pets.insert({
         "value": {
             environment: ['Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'],
-            third: ['ELB (AWS)', 'LB (Digital Ocean)', 'LB (Google Cloud)', 'LB (Azure)', 'NetScaler'],
-            own: ['Haproxy', 'Nginx', 'Httpd', 'F5 Bigip', 'Rancher (Cattle)', 'Kubernetes', 'Docker Swarm', 'PFSense']
+            third: ['Stackto', 'TuTum', 'ECS (AWS)', 'Google Cloud (K8S)'],
+            own: ['Rancher', 'Kurbenetes', 'OpenShift Origin', 'Docker Swarm', 'DC/OS', 'Marathon', 'Portainer', 'Panamax', 'Cloudift', 'Shipyard']
         },
         "key": "containersorchestration_options",
         "active": true,

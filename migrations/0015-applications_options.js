@@ -5,6 +5,7 @@ exports.up = function (db, next) {
     let pets = db.collection('adminer');
     pets.insert({
         "value": {
+            families: ['Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'ApiGateway', 'Container Orchestrator', 'Cache', 'CDN', 'Object Storage', 'Monitoring', 'Logs'],
             environment: ['Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'],
             role: ['Application', 'Worker', 'Jobs', 'Testing', 'Standard'],
             deploy: ['Git (Github, Bibucket)', 'Continuos Integration (CI)', 'Continuos Deployment (CD)', 'FTP', 'SFTP'],

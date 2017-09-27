@@ -6,8 +6,8 @@ exports.up = function (db, next) {
     pets.insert({
         "value": {
             environment: ['Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'],
-            third: ['ELB (AWS)', 'LB (Digital Ocean)', 'LB (Google Cloud)', 'LB (Azure)', 'NetScaler'],
-            own: ['Haproxy', 'Nginx', 'Httpd', 'F5 Bigip', 'Rancher (Cattle)', 'Kubernetes', 'Docker Swarm', 'PFSense']
+            third: ['CloundFront (AWS)', 'Azure CDN', 'Akamai', 'CloudFlare', 'MaxCDN', 'Aryaka', 'Beluga CDN', 'CacheFly', 'CDN.net', 'CDNetwortks', 'CDN77', 'CDNSun', 'CenterServ', 'ChinaCache', 'Cotendo', 'Distil Networks', 'Fastly', 'HP Cloud Services', 'Incapsula', 'Instart Logic', 'KeyCDN', 'LeaseWeb', 'Meta CDN', 'OVH', 'Rackspace Cloud files', 'Setplex', 'Speedera Networks', 'StreamZilla'],
+            own: []
         },
         "key": "cdn_options",
         "active": true,
