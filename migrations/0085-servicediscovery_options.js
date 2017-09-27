@@ -6,10 +6,10 @@ exports.up = function (db, next) {
     pets.insert({
         "value": {
             environment: ['Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'],
-            third: ['S3 (AWS)', 'Rackspace Files', 'Azure Storage', 'Digital Ocean Storage', 'Google Cloud Storage'],
-            own: ['OpenStacj Swift', 'Ceph', 'GlusterFS', 'Cloudian', 'IBM Spectrum Scale', 'Scality']
+            third: ['ELB (AWS)', 'LB (Digital Ocean)', 'LB (Google Cloud)', 'LB (Azure)', 'NetScaler'],
+            own: ['Haproxy', 'Nginx', 'Httpd', 'F5 Bigip', 'Rancher (Cattle)', 'Kubernetes', 'Docker Swarm', 'PFSense']
         },
-        "key": "objectstorage_options",
+        "key": "servicediscovery_options",
         "active": true,
         "updated_at": new Date()
     }, next);
@@ -18,5 +18,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'objectstorage_options'}, [], {}, {remove: true}, next);
+    pets.findAndModify({key: 'servicediscovery_options'}, [], {}, {remove: true}, next);
 };

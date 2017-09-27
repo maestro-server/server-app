@@ -5,8 +5,7 @@ exports.up = function (db, next) {
     let pets = db.collection('adminer');
     pets.insert({
         "value": {
-            check: ['Public URL', 'Private URL', 'Admin', 'WebSocket', 'TCP/IP', 'Unix Sock', 'HealthCheck'],
-            apps: ['Application', 'Loadbalance', 'Broker', 'Database', 'Serveless', 'Api Gateway', 'Container Orchestrator', 'Cache', 'CDN', 'Object Storage', 'Monitoring', 'Logs']
+            check: ['Public URL', 'Private URL', 'Admin', 'WebSocket', 'TCP/IP', 'Unix Sock', 'HealthCheck']
         },
         "key": "system_options",
         "active": true,

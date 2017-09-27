@@ -34,6 +34,7 @@ const schema = Joi.object().keys({
     system:  Joi.array().items(system).unique(),
     servers: Joi.array().items(server).unique(),
     targets: Joi.array().items(server).unique(),
+    own: Joi.number().max(1),
     owner: Joi.object({
       name: Joi.string().max(100),
       email: Joi.string().email(),
@@ -50,6 +51,10 @@ const schema = Joi.object().keys({
       name: Joi.string().max(150),
       healthcheck: Joi.string().max(150),
       extra_config: Joi.string().max(1500),
+      memory: Joi.number().max(16024),
+      timeout: Joi.string().max(20),
+      trigger: Joi.string().max(500),
+      handler: Joi.string().max(80),
     }),
     language: Joi.string().min(3).max(30),
     provider: Joi.string().min(3).max(20),
@@ -57,7 +62,7 @@ const schema = Joi.object().keys({
     deploy: Joi.array().items(deploy),
     roles: Joi.array().items(roles).unique('_id'),
     environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox').required(),
-    family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serveless', 'Api Gateway', 'Container Orchestrator', 'Cache', 'CDN', 'Object Storage', 'Monitoring', 'Logs').default("Application"),
+    family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'Serveless', 'ApiGateway', 'Container Orchestrator', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs').default("Application"),
     tags: Joi.array().items(tags),
     active: Joi.boolean(),
     created_at: Joi.any()
