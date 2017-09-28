@@ -6,8 +6,8 @@ exports.up = function (db, next) {
     pets.insert({
         "value": {
             environment: ['Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'],
-            third: ['ELB (AWS)', 'LB (Digital Ocean)', 'LB (Google Cloud)', 'LB (Azure)', 'NetScaler'],
-            own: ['Haproxy', 'Nginx', 'Httpd', 'F5 Bigip', 'Rancher (Cattle)', 'Kubernetes', 'Docker Swarm', 'PFSense']
+            third: ['AWS Cloud Trails', 'NewRelic', 'DataDog', 'site24x7', 'RollBar', 'Logz.io (ELK Stack)', 'Splunk', 'Papertrail', 'Loggly', 'AlertLogic Log Manager', 'WhatsUpGold', 'Tibco', 'GFI EventsManager', 'SolarWinds Log', 'ManageEngine EventLogAnalyzer', 'Tripwire', 'NetIQ', 'InTrust', 'LogRhythm', 'Sumo Logic'],
+            own: ['GrayLog', 'ELK Stack', 'Fluentd', 'RSyslog', 'Logstash', 'Chukwa']
         },
         "key": "logs_options",
         "active": true,
