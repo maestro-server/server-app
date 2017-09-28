@@ -6,8 +6,8 @@ exports.up = function (db, next) {
     pets.insert({
         "value": {
             environment: ['Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'],
-            third: ['ELB (AWS)', 'LB (Digital Ocean)', 'LB (Google Cloud)', 'LB (Azure)', 'NetScaler'],
-            own: ['Haproxy', 'Nginx', 'Httpd', 'F5 Bigip', 'Rancher (Cattle)', 'Kubernetes', 'Docker Swarm', 'PFSense']
+            third: ['CloudWatch (AWS)', 'Azure Monitoring', 'Google Cloud Monitoring', 'Digital Ocean Monitoring', 'NewRelic', 'DataDog', 'site24x7', 'Dynatrace APM', 'RollBar', 'Pingdom Server', 'Traceview', 'Atatus', 'UpTime CloudWatch', 'Ruxit', 'Stackify', 'Solarwinds', 'LogicMonitor', 'Okmeter.io', 'PageDuty', 'Logz.io (ELK Stack)'],
+            own: ['Nagios', 'Zabbix', 'ELK Stack', 'GrayLog', 'Prometheus', 'Sensu', 'InfluxDb', 'Graphite', 'OpenTSDB']
         },
         "key": "monitor_options",
         "active": true,
