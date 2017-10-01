@@ -60,6 +60,7 @@ const schema = Joi.object().keys({
     provider: Joi.string().min(3).max(20),
     cluster: Joi.string().max(80),
     deploy: Joi.array().items(deploy),
+    type: Joi.string().min(3).max(30),
     roles: Joi.array().items(roles).unique('_id'),
     environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox').required(),
     family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'Serveless', 'ApiGateway', 'Container Orchestrator', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs').default("Application"),
