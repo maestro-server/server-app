@@ -11,7 +11,7 @@ exports.up = function (db, next) {
             cluster: ['Single Instance', 'Master/Replica', 'Sharding'],
             mysql: {
               third: ['RDS (AWS)', 'Relational (Azure)', 'Relacional (GoogleCloud)'],
-              own: ['MySQL', 'Enterprise MySQL', 'MariaDB', 'Percona', 'Aurora (AWS)', 'OurDelta', 'Drizzle']
+              own: ['Oracle MySQL', 'Enterprise MySQL', 'MariaDB', 'Percona', 'Aurora (AWS)', 'OurDelta', 'Drizzle']
             },
             oracle: {
               third: ['RDS (AWS)', 'Relational (Azure)', 'Relacional (GoogleCloud)'],
@@ -19,9 +19,8 @@ exports.up = function (db, next) {
               asm_types: ['Standard'],
               storage_types: ['Default Disk', 'ASM', 'ACFS', 'Thirty Party'],
               role: ['Primary', 'Physical StandBy', 'Logical StandBy'],
-              containers: ['No CDB', 'CDB'],
               cluster: ['RAC', 'Grid System', 'Single Instance'],
-              type: ['Application', 'Manange Oracle Service (ASM, SOA)']
+              type: ['Application', 'Storage (ASM/ACFS)', 'Manange Oracle Service (SOA)']
             },
             third: ['RDS (AWS)', 'DynamoDB (AWS)', 'Relational (Azure)', 'DocumentDB (Azure)', 'BigQuey (Google)', 'Caspio', 'IBM Cloudant', 'Zoho Creator'],
             own: ['PostGres', 'FireBird', 'MSSql', 'NexusDB', 'Redis', 'ElasticSearch', 'Apache Solr', 'MongoDB', 'CouchDB', 'DatomicDB', 'Neo4J', 'Cassandra', 'HBase', 'CloudData', 'Druid', 'ArangoDB', 'OrientDB', 'gunDB', 'RethinkDB', 'Riak', 'LevelDB', 'Voldermort', 'AlchemistDB', 'VelocidtyDB', 'InterBase', 'InfluxDB', 'PromSQL', 'OpenTSDB', 'IBM DB2']
