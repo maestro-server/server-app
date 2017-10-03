@@ -28,6 +28,22 @@ const tags = Joi.object().keys({
   key: Joi.string().max(100)
 });
 
+const cluster = Joi.object().keys({
+  _id: Joi.string().max(100),
+  name: Joi.string().max(100),
+  storage_types: Joi.string().max(100),
+  asm: Joi.object({
+    name: Joi.string().max(100),
+    _id: Joi.string().max(100)
+  })
+});
+
+const asm_groups = Joi.object().keys({
+  name: Joi.string().max(150),
+  size: Joi.string().max(50)
+});
+
+
 const schema = Joi.object().keys({
     name: Joi.string().min(3).max(30).required(),
     description: Joi.string().max(800),
@@ -49,16 +65,29 @@ const schema = Joi.object().keys({
       notes: Joi.string().max(800),
       cron: Joi.string().max(50),
       name: Joi.string().max(150),
+      version: Joi.string().max(30),
+      patch: Joi.string().max(30),
       healthcheck: Joi.string().max(150),
       extra_config: Joi.string().max(1500),
       memory: Joi.number().max(16024),
       timeout: Joi.string().max(20),
       trigger: Joi.string().max(500),
       handler: Joi.string().max(80),
+      port: Joi.number().positive(),
+      sga: Joi.string().max(25),
+      pga: Joi.string().max(25),
+      dns: Joi.string().max(150)
     }),
     language: Joi.string().min(3).max(30),
     provider: Joi.string().min(3).max(20),
-    cluster: Joi.string().max(80),
+    cluster:  Joi.object({
+      type: Joi.string().max(50),
+      crs_version: Joi.string().max(50),
+      items: Joi.array().items(cluster).unique('_id')
+    }),
+    dataguard: Joi.string().max(40),
+    storage_types: Joi.string().max(40),
+    asm_groups: Joi.array().items(asm_groups),
     deploy: Joi.array().items(deploy),
     type: Joi.string().min(3).max(30),
     roles: Joi.array().items(roles).unique('_id'),
