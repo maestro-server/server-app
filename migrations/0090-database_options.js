@@ -15,7 +15,7 @@ exports.up = function (db, next) {
             },
             oracle: {
               third: ['RDS (AWS)', 'Relational (Azure)', 'Relacional (GoogleCloud)'],
-              own: ['Oracle DB', 'Oracle NoSQL', 'Oracle Coherence'],
+              own: ['Oracle Database', 'Oracle NoSQL', 'Oracle Coherence'],
               asm_types: ['Standard'],
               storage_types: ['Default Disk', 'ASM', 'ACFS', 'Thirty Party'],
               role: ['Primary', 'Physical StandBy', 'Logical StandBy'],
