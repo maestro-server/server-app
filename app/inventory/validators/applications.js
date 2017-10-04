@@ -33,7 +33,6 @@ const cluster = Joi.object().keys({
   name: Joi.string().max(100),
   storage_types: Joi.string().max(100),
   asm: Joi.object({
-    name: Joi.string().max(100),
     _id: Joi.string().max(100)
   })
 });
