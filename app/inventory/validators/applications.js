@@ -63,6 +63,7 @@ const schema = Joi.object().keys({
       patch: Joi.string().max(30),
       healthcheck: Joi.string().max(150),
       extra_config: Joi.string().max(1500),
+      tns: Joi.string().max(1500),
       memory: Joi.number().max(16024),
       timeout: Joi.string().max(20),
       trigger: Joi.string().max(500),
