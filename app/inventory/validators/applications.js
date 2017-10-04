@@ -28,14 +28,8 @@ const tags = Joi.object().keys({
   key: Joi.string().max(100)
 });
 
-const cluster = Joi.object().keys({
-  _id: Joi.string().max(100),
-  name: Joi.string().max(100),
-  storage_types: Joi.string().max(100),
-  asm: Joi.object({
-    name: Joi.string().max(100),
-    _id: Joi.string().max(100)
-  })
+const pdbs = Joi.object().keys({
+  name: Joi.string().max(150)
 });
 
 const asm_groups = Joi.object().keys({
@@ -80,16 +74,15 @@ const schema = Joi.object().keys({
     }),
     language: Joi.string().min(3).max(30),
     provider: Joi.string().min(3).max(20),
-    cluster:  Joi.object({
-      type: Joi.string().max(50),
-      crs_version: Joi.string().max(50),
-      items: Joi.array().items(cluster).unique('_id')
-    }),
+    cluster:  Joi.string().max(100),
     dataguard: Joi.string().max(40),
     storage_types: Joi.string().max(40),
     asm_groups: Joi.array().items(asm_groups),
+    pdbs: Joi.array().items(pdbs),
+    crs_version: Joi.string().max(40),
     deploy: Joi.array().items(deploy),
     type: Joi.string().min(3).max(30),
+    modal: Joi.string().max(30),
     roles: Joi.array().items(roles).unique('_id'),
     environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox').required(),
     family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'Serveless', 'ApiGateway', 'ContainerOrchestration', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN').default("Application"),
