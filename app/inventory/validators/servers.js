@@ -11,7 +11,8 @@ const storage = Joi.object().keys({
 const services = Joi.object().keys({
   name: Joi.string(),
   version: Joi.string(),
-  implements: Joi.object()
+  configs: Joi.object(),
+  setups: Joi.object()
 });
 
 const auth = Joi.object().keys({
