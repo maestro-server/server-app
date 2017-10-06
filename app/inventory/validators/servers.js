@@ -12,7 +12,7 @@ const services = Joi.object().keys({
   name: Joi.string(),
   version: Joi.string(),
   configs: Joi.object(),
-  setups: Joi.object()
+  setup: Joi.object()
 });
 
 const auth = Joi.object().keys({
