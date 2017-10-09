@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const Adminer = require('../repositories/dao/db');
+const Adminer = require('../repositories/dao/adminer');
 
 const adminer = () => {
     const resFilled = ['_id', 'key', 'entities', 'value'];
@@ -15,7 +15,7 @@ const adminer = () => {
 
       access: null,
 
-      validators: require('../validators'),
+      validators: require('../validators/adminer'),
 
       dao: Adminer,
 

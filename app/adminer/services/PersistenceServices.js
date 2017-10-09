@@ -1,13 +1,13 @@
 'use strict';
 
-const ProxyDBRepository = require('adminer/repositories/ProxyDBRepository');
+const DFactoryDBRepository = require('core/repositories/DBRepository');
 
 const Persistence = require('core/services/PersistenceServices');
 
 
-const UsersPersistence = (Entity) => {
+const UsersPersistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
-    const DBRepository = ProxyDBRepository(Entity);
+    const DBRepository = FactoryDBRepository(Entity);
 
     return Object.assign({}, Persistence(Entity), {
 
