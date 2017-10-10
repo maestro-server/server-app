@@ -47,9 +47,6 @@ exports.up = function (db, next) {
               {region: 'asia-northeast1 (Asia)', zones: ['asia-northeast1-a', 'asia-northeast1-b', 'asia-northeast1-c']},
               {region: 'australia-southeast1 (Australia)', zones: ['australia-southeast1-a', 'australia-southeast1-b', 'australia-southeast1-c']}
             ]
-          },
-          connections: {
-            openstack: ['SSl without validation', 'SSL', 'Non-SSl']
           }
         },
         "key": "datacenter_options",

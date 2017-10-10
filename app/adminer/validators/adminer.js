@@ -3,7 +3,7 @@
 const Joi = require('joi');
 
 const schema = Joi.object().keys({
-    key: Joi.string().min(3).max(15).required(),
+    key: Joi.string().max(35).required(),
     value: Joi.any().required(),
     active: Joi.boolean()
 });
