@@ -11,5 +11,8 @@ module.exports = function (router) {
 
     router
         .get('/', authenticate(), PersistenceApp.find)
-        .get('/:id', authenticate(), PersistenceApp.findOne);
+
+        .get('/:id', authenticate(), PersistenceApp.findOne)
+
+        .patch('/:id', authenticate(), PersistenceApp.patch);
 };
