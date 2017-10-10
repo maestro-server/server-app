@@ -15,6 +15,8 @@ module.exports = function (router) {
     router
         .get('/teams/:id/datacenters', authenticate(), WrapperPersistenceApp().find)
 
+        .get('/teams/:id/datacenters/count', authenticate(), WrapperPersistenceApp().count)
+
         .get('/teams/:id/datacenters/:idu', authenticate(), WrapperPersistenceApp().findOne)
 
         .put('/teams/:id/datacenters/:idu', authenticate(), WrapperPersistenceApp().update)

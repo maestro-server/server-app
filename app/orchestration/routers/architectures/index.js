@@ -15,6 +15,8 @@ module.exports = function (router) {
     router
         .get('/teams/:id/architectures', authenticate(), WrapperPersistenceApp().find)
 
+        .get('/teams/:id/architectures/count', authenticate(), WrapperPersistenceApp().count)
+
         .get('/teams/:id/architectures/:idu', authenticate(), WrapperPersistenceApp().findOne)
 
         .patch('/teams/:id/architectures/:idu', authenticate(), WrapperPersistenceApp().update)

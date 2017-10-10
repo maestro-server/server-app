@@ -35,6 +35,8 @@ module.exports = function (router) {
     router
         .get('/', authenticate(), PersistenceApp.find)
 
+        .get('/count', authenticate(), PersistenceApp.count)
+
         .get('/autocomplete', authenticate(), PersistenceApp.autocomplete)
 
         .get('/upload', authenticate(), UploaderApp.uploader)
