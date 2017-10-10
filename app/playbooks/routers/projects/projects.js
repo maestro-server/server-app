@@ -12,6 +12,8 @@ module.exports = function (router) {
     router
         .get('/', authenticate(), PersistenceApp.find)
 
+        .get('/count', authenticate(), PersistenceApp.count)
+
         .get('/autocomplete', authenticate(), PersistenceApp.autocomplete)
 
         .get('/:id', authenticate(), PersistenceApp.findOne)

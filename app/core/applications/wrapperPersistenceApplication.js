@@ -33,6 +33,10 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
             factoryWrapper('find', Access.ROLE_READ)(req, res, next);
         },
 
+        count (req, res, next) {
+            factoryWrapper('count', Access.ROLE_READ)(req, res, next);
+        },
+
         findOne (req, res, next) {
             factoryWrapper('findOne', Access.ROLE_READ)(req, res, next);
         },

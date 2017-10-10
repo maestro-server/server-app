@@ -15,6 +15,8 @@ module.exports = function (router) {
     router
         .get('/teams/:id/task_template', authenticate(), WrapperPersistenceApp().find)
 
+        .get('/teams/:id/task_template/count', authenticate(), WrapperPersistenceApp().count)
+
         .get('/teams/:id/task_template/:idu', authenticate(), WrapperPersistenceApp().findOne)
 
         .put('/teams/:id/task_template/:idu', authenticate(), WrapperPersistenceApp().update)
