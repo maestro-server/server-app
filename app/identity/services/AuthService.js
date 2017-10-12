@@ -35,6 +35,7 @@ const AuthService = (Entity) => {
                     .then((e) => {
                         return validPassMatch(password, e);
                     })
+                    .then(e=>_.pick(e, '_id', 'name', 'email', 'avatar'))
                     .then(tokenTransform)
                     .then(resolve)
                     .catch(reject);

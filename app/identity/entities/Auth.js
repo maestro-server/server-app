@@ -5,9 +5,9 @@ const _ = require('lodash');
 const Users = require('../repositories/dao/users');
 
 const auth = () => {
-    const resFilled = ['_id', 'name',  'email', 'password'];
+    const resFilled = ['_id', 'name',  'email', 'avatar'];
 
-    const singleFilled = [...resFilled];
+    const singleFilled = [...resFilled, 'password'];
 
     const filled = [..._.tail(singleFilled), 'newpass']; // delete id
 

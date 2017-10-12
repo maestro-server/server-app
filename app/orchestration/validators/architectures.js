@@ -2,11 +2,14 @@
 
 const Joi = require('joi');
 
+const {roles, owner} = require('core/validators/validators')
+
 const schema = Joi.object().keys({
-    owner: Joi.any(),
-    roles: Joi.any(),
+    name: Joi.string().min(3).max(30).required(),
+    roles: Joi.array().items(roles).unique('_id'),
+    owner,
     active: Joi.boolean(),
-    name: Joi.string().min(3).max(30).required()
+    created_at: Joi.any()
 });
 
 module.exports = {
