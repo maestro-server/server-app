@@ -47,6 +47,5 @@ module.exports = (Entity) => {
 
             return singleHT(item, Entity.name);
         }
-    }
-
-}
+    };
+};

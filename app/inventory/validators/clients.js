@@ -2,7 +2,7 @@
 
 const Joi = require('joi');
 
-const {roles, tags, contacts, owner} = require('core/validators/validators')
+const {roles, tags, contacts, owner} = require('core/validators/validators');
 
 const schema = Joi.object().keys({
     name: Joi.string().min(3).max(30).required(),

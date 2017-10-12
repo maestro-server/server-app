@@ -8,7 +8,7 @@ const swapModule = (obj, omits, data) => {
     if(!_.isEmpty(obj[data.source])) {
         return {[data.dest]: obj[data.source]};
     }
-}
+};
 
 module.exports = function (query, field = 'query', rules = []) {
   if(query.hasOwnProperty(field)) {
