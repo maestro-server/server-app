@@ -165,7 +165,7 @@ describe('e2e users', function () {
             };
 
             request(mock)
-                .put('/me')
+                .patch('/me')
                 .send(data)
                 .expect(401)
                 .end(function (err) {
@@ -179,9 +179,8 @@ describe('e2e users', function () {
                 name: "MyNameIsChange"
             };
 
-
             request(mock)
-                .put('/me')
+                .patch('/me')
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(202)
@@ -200,7 +199,7 @@ describe('e2e users', function () {
             };
 
             request(mock)
-                .put('/me')
+                .patch('/me')
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(409)
@@ -317,7 +316,7 @@ describe('e2e users', function () {
             const data = Object.assign({}, user, {email: user.newemail});
 
             request(mock)
-                .put('/me')
+                .patch('/me')
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(202)

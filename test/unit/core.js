@@ -213,17 +213,17 @@ describe('unit - core', function () {
         });
 
 
-        it('update', function (done) {
-            let updateRoles = sinon.stub().returnsPromise();
+        it('updateSingle', function (done) {
+            let updateSingleRoles = sinon.stub().returnsPromise();
             let SPS = sinon.stub()
                 .returns({
-                    updateRoles
+                    updateSingleRoles
                 });
 
-            AccessApp(Entity, SPS).update(req, res);
+            AccessApp(Entity, SPS).updateSingle(req, res);
 
-            sinon.assert.calledWithExactly(updateRoles, req.params.id, req.params.idu, req.body, req.user);
-            sinon.assert.calledOnce(updateRoles);
+            sinon.assert.calledWithExactly(updateSingleRoles, req.params.id, req.params.idu, req.body, req.user);
+            sinon.assert.calledOnce(updateSingleRoles);
             sinon.assert.calledOnce(SPS);
             done();
         });
@@ -823,7 +823,7 @@ describe('unit - core', function () {
             done();
         });
 
-        it('create', function (done) {
+        it('findOne', function (done) {
             let findOne = sinon.stub().returnsPromise();
             let SPS = sinon.stub()
                 .returns({
@@ -838,28 +838,28 @@ describe('unit - core', function () {
             done();
         });
 
-        it('update', function (done) {
-            let update = sinon.stub().returnsPromise();
+        it('patch', function (done) {
+            let patch = sinon.stub().returnsPromise();
             let SPS = sinon.stub()
                 .returns({
-                    update
+                    patch
                 });
 
             const post = {name: "teste", owner: {name: "notAlloow"}, password: "notAllow"};
-            PersistenceServices(Entity, SPS).update(_id, post, owner);
+            PersistenceServices(Entity, SPS).patch(_id, post, owner);
 
-            expect(update.args[0][2][0]).to.not.have.property("password");
-            expect(update.args[0][2]).to.not.have.property("_id");
-            expect(update.args[0][2]).to.have.all.deep.members(["name"]);
+            expect(patch.args[0][2][0]).to.not.have.property("password");
+            expect(patch.args[0][2]).to.not.have.property("_id");
+            expect(patch.args[0][2]).to.have.all.deep.members(["name"]);
 
-            expect(update.args[0][1]).to.have.property("name");
-            expect(update.args[0][1]).to.have.property("owner");
-            expect(update.args[0][1]).to.have.property("password");
+            expect(patch.args[0][1]).to.have.property("name");
+            expect(patch.args[0][1]).to.have.property("owner");
+            expect(patch.args[0][1]).to.have.property("password");
 
-            expect(update.args[0][0]).to.have.property("_id");
-            expect(update.args[0][0]).to.have.property("roler");
+            expect(patch.args[0][0]).to.have.property("_id");
+            expect(patch.args[0][0]).to.have.property("roler");
 
-            sinon.assert.calledOnce(update);
+            sinon.assert.calledOnce(patch);
             sinon.assert.calledOnce(SPS);
             done();
         });
@@ -945,26 +945,6 @@ describe('unit - core', function () {
 
             sinon.assert.calledOnce(updateByPushUnique);
             sinon.assert.calledOnce(SPS);
-            done();
-        });
-
-        it('updateRoles', function (done) {
-            let updateByPull = sinon.stub().returnsPromise();
-            let SPS = sinon.stub()
-                .returns({
-                    updateByPull
-                });
-
-            const post2 = {role: "3", refs: "users"};
-
-            const Entity2 = {name: "Tester", access: "roler", filled: ['name', 'url']};
-            AccessServices(Entity2, SPS).updateRoles(_id, _id, post2, owner);
-
-            expect(updateByPull.args[0][0]).to.have.property('_id');
-            expect(updateByPull.args[0][0]).to.have.property('roler');
-
-            sinon.assert.calledTwice(SPS);
-            sinon.assert.calledOnce(updateByPull);
             done();
         });
 

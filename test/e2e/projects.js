@@ -737,7 +737,7 @@ describe('e2e projects', function () {
     describe('update teams roles', function () {
         it('Exist roles - update role project', function (done) {
             request(mock)
-                .patch(`/teams/${teams._id}/projects/${teamsAPP[0]._id}/roles/${friend._id}`)
+                .put(`/teams/${teams._id}/projects/${teamsAPP[0]._id}/roles/${friend._id}`)
                 .send({role: "1", refs: "users", name: friend.name, email: friend.email})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
@@ -751,7 +751,7 @@ describe('e2e projects', function () {
 
         it('Exist roles - update role application - validation', function (done) {
             request(mock)
-                .patch(`/teams/${teams._id}/projects/${teamsAPP[0]._id}/roles/${friend._id}`)
+                .put(`/teams/${teams._id}/projects/${teamsAPP[0]._id}/roles/${friend._id}`)
                 .send({name: friend.name, email: friend.email})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(422)
@@ -764,7 +764,7 @@ describe('e2e projects', function () {
 
         it('Exist teams members - update role project without token', function (done) {
             request(mock)
-                .patch(`/teams/${teams._id}/projects/${teamsAPP[0]._id}/roles/${friend._id}`)
+                .put(`/teams/${teams._id}/projects/${teamsAPP[0]._id}/roles/${friend._id}`)
                 .send({role: "1", refs: "users", name: friend.name, email: friend.email})
                 .expect(401)
                 .end(function (err) {
