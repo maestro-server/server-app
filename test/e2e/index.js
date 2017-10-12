@@ -25,7 +25,6 @@ describe('e2e - server up', function () {
             .get('/')
             .expect(200)
             .expect('Content-Type', /json/)
-            .expect(/Maestro\ Server/)
             .end(function (err) {
                 if (err) return done(err);
                 done(err);
