@@ -2,13 +2,7 @@
 
 const Joi = require('joi');
 
-const roles = Joi.object().keys({
-  _id: Joi.object(),
-  role: Joi.number().valid(1, 3, 7).required(),
-  refs: Joi.string().valid("users", "teams", "projects").required(),
-  name: Joi.string().max(100),
-  email: Joi.string().max(250)
-});
+const {roles, owner} = require('core/validators/validators')
 
 const create = {
   name: Joi.string().min(3).max(30).required()
@@ -16,17 +10,11 @@ const create = {
 
 const scheme = {
     name: Joi.string().min(3).max(30),
-    role: Joi.any(),
     zones: Joi.array(),
     regions: Joi.array(),
     provider: Joi.string(),
     servers_count: Joi.number(),
-    owner: Joi.object({
-      name: Joi.string().max(100),
-      email: Joi.string().email(),
-      _id: Joi.object(),
-      refs: Joi.string()
-    }),
+    owner,
     auth: Joi.array(),
     roles: Joi.array().items(roles).unique('_id'),
     metas: Joi.any(),
