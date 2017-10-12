@@ -1,15 +1,7 @@
 'use strict';
 
 const Joi = require('joi');
-
-const clients = Joi.object({
-  name: Joi.string().required(),
-  _id: Joi.object().required()
-});
-
-
-const {entities, roles, tags, owner} = require('core/validators/validators')
-
+const {entities, roles, tags, owner} = require('core/validators/validators');
 
 const schema = Joi.object().keys({
     name: Joi.string().min(3).max(30).required(),

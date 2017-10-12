@@ -2,7 +2,7 @@
 
 const Joi = require('joi');
 
-const {id, roles, deploy, entities, tags, owner, pdbs, asm_groups, env, family} = require('core/validators/validators')
+const {id, roles, deploy, entities, tags, owner, pdbs, asm_groups, env, family} = require('core/validators/validators');
 
 
 const schema = Joi.object().keys({
