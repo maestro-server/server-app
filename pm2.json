@@ -1,0 +1,10 @@
+{
+    "apps": [{
+        "name": "inventory-server",
+        "script": "./server.js",
+        "env": {
+            "production": true,
+            "PORT": 8888
+        }
+    }]
+}
