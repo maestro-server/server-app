@@ -8,6 +8,5 @@ node_modules
 .happypack/
 apidocs/*
 npm-debug*
-Dockerfile
 .dockerignore
 coverage/
