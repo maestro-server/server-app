@@ -8,7 +8,6 @@ const PersistenceApp = (Entity, UploadService=DUploaderService) => {
     return {
 
         uploader (req, res, next) {
-
             UploadService(Entity)
                 .uploadImage(req.query, req.user)
                 .then(e => res.json(e))

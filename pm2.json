@@ -1,0 +1,10 @@
+{
+  "apps": [{
+    "name": "server-maestro",
+    "script": "./server.js",
+    "env": {
+      "production": true,
+      "PORT": 8888
+    }
+  }]
+}

@@ -7,7 +7,7 @@ const mailerConnector = (Mailer = DMailer) => {
 
   const mailer = Mailer;
 
-  if(!mailer.isConnected()) {
+  if(!mailer.isConnected() && process.env.SMTP_HOST) {
     async(function *() {
       yield mailer
           .connect();
