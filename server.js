@@ -6,6 +6,7 @@
 require('dotenv').config();
 
 
+
 let app = require('./app/app');
 let http = require('http');
 
@@ -20,4 +21,10 @@ server = http.createServer(app);
 server.listen(process.env.PORT);
 server.on('listening', function () {
     console.log('Server listening on http://localhost:%d', this.address().port);
+});
+
+process.on('SIGINT', function() {
+    db.stop(function(err) {
+        process.exit(err ? 1 : 0);
+    });
 });

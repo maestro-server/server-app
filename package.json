@@ -19,7 +19,7 @@
   "dependencies": {
     "app-module-path": "^2.2.0",
     "aws-sdk": "^2.54.0",
-    "bcrypt": "^1.0.2",
+    "bcrypt": "^1.0.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
     "co": "^4.6.0",

@@ -2,10 +2,11 @@
 
 const _ = require('lodash');
 
-const DUploaderRepository = require('core/repositories/uploaderRepository');
 const validateFile = require('./validator/uploadValid');
 
-const UploaderService = (Entity, FUploaderRepository = DUploaderRepository) => {
+const UploaderService = (Entity) => {
+  const type = process.env.UPLOAD_TYPE || 'Local';
+  const FUploaderRepository = require(`core/repositories/uploader${type}Repository`);
 
   const UploaderRepository = FUploaderRepository(Entity.name);
 
@@ -17,6 +18,7 @@ const UploaderService = (Entity, FUploaderRepository = DUploaderRepository) => {
                 const {_id} = owner;
 
                 validateFile({type}).check();
+
                 return UploaderRepository
                     .upload(_id, type)
                     .then(resolve)

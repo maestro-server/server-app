@@ -11,9 +11,9 @@ const UserAuth = require('identity/entities/Auth');
  */
 const ProfilePersistenceService = require('identity/services/PersistenceServices');
 const PersistenceApp = require('core/applications/persistenceApplication')(User, ProfilePersistenceService);
-const UploaderApp = require('core/applications/uploadApplication')(User);
-
 const AuthApp = require('identity/applications/authApplication')(UserAuth);
+
+const UploaderApp = require('core/applications/uploadApplication')(User);
 
 module.exports = function (router) {
 
