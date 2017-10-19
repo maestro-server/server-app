@@ -11,6 +11,7 @@
     "unit": "gulp test_unit",
     "lint": "gulp eslint",
     "tdd": "gulp tdd",
+    "package": "docker build -t 'server-maestro' .",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly test/**/*js",
     "migrate": "node ./node_modules/mongodb-migrate -runmm -cfg .migration-config.js up",
     "create_migrate": "node ./node_modules/mongodb-migrate -runmm create",
