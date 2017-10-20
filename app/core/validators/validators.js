@@ -9,7 +9,7 @@ module.exports = {
         role: Joi.number().valid(1, 3, 7).required(),
         refs: Joi.string().valid("users", "teams", "projects", "organization").required(),
         name: Joi.string().max(100),
-        email: Joi.string().max(250)
+        email: Joi.string().email().max(250)
     }),
     deploy: Joi.object().keys({
         type: Joi.string().max(60),
