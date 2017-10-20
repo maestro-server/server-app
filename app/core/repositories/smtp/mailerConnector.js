@@ -14,7 +14,7 @@ const mailerConnector = (Mailer = DMailer) => {
     if (!mailer.isConnected()) {
         try {
             factoryValid(
-                _.pick(process.env, ['SMTP_PORT', 'SMTP_HOST', 'SMTP_PASSWORD', 'SMTP_SENDER']),
+                _.pick(process.env, ['SMTP_PORT', 'SMTP_HOST', 'SMTP_SENDER']),
                 smtpValid
             );
         } catch(e) {
