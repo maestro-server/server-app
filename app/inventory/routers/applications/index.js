@@ -5,23 +5,25 @@ const authenticate = require('identity/middlewares/authenticate');
 const Application = require('../../entities/Application');
 const Team = require('identity/entities/Teams');
 
+const PersistenceAppApplications = require('../../applications/persistenceApplications');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Application)(Team);
+const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
 const AccessApp = require('core/applications/accessApplication');
-const WrapperAccessApp = WrapperPersistenceApp(AccessApp);
+const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 
 module.exports = function (router) {
 
     router
-        .get('/teams/:id/applications', authenticate(), WrapperPersistenceApp().find)
+        .get('/teams/:id/applications', authenticate(), WrapperPersistenceApp(PersistenceAppApplications)('findApplications').find)
 
-        .get('/teams/:id/applications/count', authenticate(), WrapperPersistenceApp().count)
+        .get('/teams/:id/applications/count', authenticate(), WrapperPersistenceAppDefault.count)
 
-        .get('/teams/:id/applications/:idu', authenticate(), WrapperPersistenceApp().findOne)
+        .get('/teams/:id/applications/:idu', authenticate(), WrapperPersistenceAppDefault.findOne)
 
-        .put('/teams/:id/applications/:idu', authenticate(), WrapperPersistenceApp().update)
+        .put('/teams/:id/applications/:idu', authenticate(), WrapperPersistenceAppDefault.update)
 
-        .patch('/teams/:id/applications/:idu', authenticate(), WrapperPersistenceApp().patch)
+        .patch('/teams/:id/applications/:idu', authenticate(), WrapperPersistenceAppDefault.patch)
 
         /**
          * @api {delete} /teams/:id/applications/:idu Delete application of team
@@ -40,9 +42,9 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/teams/:id/applications/:idu', authenticate(), WrapperPersistenceApp().remove)
+        .delete('/teams/:id/applications/:idu', authenticate(), WrapperPersistenceAppDefault.remove)
 
-        .post('/teams/:id/applications', authenticate(), WrapperPersistenceApp().create)
+        .post('/teams/:id/applications', authenticate(), WrapperPersistenceAppDefault.create)
 
         /**
          * Roles
