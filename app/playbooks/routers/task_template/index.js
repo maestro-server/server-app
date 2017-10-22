@@ -5,23 +5,23 @@ const authenticate = require('identity/middlewares/authenticate');
 const TaskTemplate = require('../../entities/TaskTemplate');
 const Team = require('identity/entities/Teams');
 
-const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(TaskTemplate)(Team)();
+const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(TaskTemplate)(Team);
 
 const AccessApp = require('core/applications/accessApplication');
-const WrapperAccessApp = WrapperPersistenceApp(AccessApp);
+const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 
 module.exports = function (router) {
 
     router
-        .get('/teams/:id/task_template', authenticate(), WrapperPersistenceApp().find)
+        .get('/teams/:id/task_template', authenticate(), WrapperPersistenceApp()().find)
 
-        .get('/teams/:id/task_template/count', authenticate(), WrapperPersistenceApp().count)
+        .get('/teams/:id/task_template/count', authenticate(), WrapperPersistenceApp()().count)
 
-        .get('/teams/:id/task_template/:idu', authenticate(), WrapperPersistenceApp().findOne)
+        .get('/teams/:id/task_template/:idu', authenticate(), WrapperPersistenceApp()().findOne)
 
-        .put('/teams/:id/task_template/:idu', authenticate(), WrapperPersistenceApp().update)
+        .put('/teams/:id/task_template/:idu', authenticate(), WrapperPersistenceApp()().update)
 
-        .patch('/teams/:id/task_template/:idu', authenticate(), WrapperPersistenceApp().patch)
+        .patch('/teams/:id/task_template/:idu', authenticate(), WrapperPersistenceApp()().patch)
 
         /**
          * @api {delete} /teams/:id/applications/:idu Delete application of team
@@ -40,9 +40,9 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/teams/:id/task_template/:idu', authenticate(), WrapperPersistenceApp().remove)
+        .delete('/teams/:id/task_template/:idu', authenticate(), WrapperPersistenceApp()().remove)
 
-        .post('/teams/:id/task_template', authenticate(), WrapperPersistenceApp().create)
+        .post('/teams/:id/task_template', authenticate(), WrapperPersistenceApp()().create)
 
         /**
          * Roles
