@@ -1,14 +1,12 @@
 'use strict';
 
 const _ = require('lodash');
-const BASE = require('./helpers/base_url');
 const createLinkPagination = require('./helpers/createLinkPagination');
-
 const factoryObjHateoas = require('./helpers/factoryObjHateoas');
 
 const singleHT = (collection, uri) => {
     const {_id} = collection;
-    const _links = factoryObjHateoas('_self', `${BASE}/${uri}/${_id}`);
+    const _links = factoryObjHateoas('_self', `/${uri}/${_id}`);
     return Object.assign(collection, {_links});
 };
 
@@ -22,8 +20,8 @@ module.exports = (Entity) => {
                 items: singleHT(collections[Entity.access], _.get(collections[Entity.access], 'refs')),
                 _links: Object.assign(
                     {},
-                    factoryObjHateoas('_parent', `${BASE}/${Entity.name}/${_id}`),
-                    factoryObjHateoas('_root', `${BASE}/${Entity.name}`)
+                    factoryObjHateoas('_parent', `/${Entity.name}/${_id}`),
+                    factoryObjHateoas('_root', `/${Entity.name}`)
                 )
             };
         },
