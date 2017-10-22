@@ -9,7 +9,7 @@ const teams = () => {
 
     const singleFilled = [...resFilled];
 
-    const filled = [..._.slice(singleFilled, 3)]; // delete id
+    const filled = [..._.slice(singleFilled, 2)]; // delete id
 
     return {
       name: "teams",

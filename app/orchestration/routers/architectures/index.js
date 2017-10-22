@@ -5,21 +5,21 @@ const authenticate = require('identity/middlewares/authenticate');
 const Architecture = require('../../entities/Architecture');
 const Team = require('identity/entities/Teams');
 
-const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Architecture)(Team)();
+const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Architecture)(Team);
 
 const AccessApp = require('core/applications/accessApplication');
-const WrapperAccessApp = WrapperPersistenceApp(AccessApp);
+const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 
 module.exports = function (router) {
 
     router
-        .get('/teams/:id/architectures', authenticate(), WrapperPersistenceApp().find)
+        .get('/teams/:id/architectures', authenticate(), WrapperPersistenceApp()().find)
 
-        .get('/teams/:id/architectures/count', authenticate(), WrapperPersistenceApp().count)
+        .get('/teams/:id/architectures/count', authenticate(), WrapperPersistenceApp()().count)
 
-        .get('/teams/:id/architectures/:idu', authenticate(), WrapperPersistenceApp().findOne)
+        .get('/teams/:id/architectures/:idu', authenticate(), WrapperPersistenceApp()().findOne)
 
-        .patch('/teams/:id/architectures/:idu', authenticate(), WrapperPersistenceApp().update)
+        .patch('/teams/:id/architectures/:idu', authenticate(), WrapperPersistenceApp()().update)
 
         /**
          * @api {delete} /teams/:id/architectures/:idu Delete application of team
@@ -38,9 +38,9 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/teams/:id/architectures/:idu', authenticate(), WrapperPersistenceApp().remove)
+        .delete('/teams/:id/architectures/:idu', authenticate(), WrapperPersistenceApp()().remove)
 
-        .post('/teams/:id/architectures', authenticate(), WrapperPersistenceApp().create)
+        .post('/teams/:id/architectures', authenticate(), WrapperPersistenceApp()().create)
 
         /**
          * Roles
