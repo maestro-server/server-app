@@ -18,7 +18,7 @@ for (var i = 0; i < 1400; i++) {
             tags: [
               {key: customer_type, value: faker.random.arrayElement(["Gerenciado", 'Compartilhado'])}
             ],
-            environment: faker.random.arrayElement(["Production", 'Staging', 'Development'])
+            environment: faker.random.arrayElement(["Production", 'Staging', 'Development']),
             spec: {
                 name: "app",
                 link: faker.internet.url(),
