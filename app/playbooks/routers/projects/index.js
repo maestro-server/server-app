@@ -5,7 +5,7 @@ const authenticate = require('identity/middlewares/authenticate');
 const Project = require('../../entities/Project');
 const Team = require('identity/entities/Teams');
 
-const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Project)(Team);
+const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Project)(Team)();
 
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp);

@@ -6,14 +6,14 @@ const Application = require('../../entities/Application');
 
 const PersistenceApp = require('core/applications/persistenceApplication')(System);
 const PersistenceRelation = require('../../applications/persistenceSystem')(Application)(System);
-const PersistenceAppSystem = require('../../applications/persistenceClients')(System);
+const PersistenceAppClients = require('../../applications/persistenceClients')(System);
 
 const AccessApp = require('core/applications/accessApplication')(System);
 
 module.exports = function (router) {
 
     router
-        .get('/', authenticate(), PersistenceAppSystem.findClients)
+        .get('/', authenticate(), PersistenceAppClients.findClients)
 
         .get('/count', authenticate(), PersistenceApp.count)
 

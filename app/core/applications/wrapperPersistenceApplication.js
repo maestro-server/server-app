@@ -9,7 +9,7 @@ const notExist = require('core/applications/validator/validNotExist');
 const changerUser = require('./transforms/swapUser');
 
 
-const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = DFactoryPesistenceApp) => {
+const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = DFactoryPesistenceApp) => (apply) => {
 
     const PesistenceApp = FactoryPesistenceApp(Entity);
 
@@ -30,15 +30,18 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
 
     return {
         find (req, res, next) {
-            factoryWrapper('find', Access.ROLE_READ)(req, res, next);
+            const mtd = apply || 'find'
+            factoryWrapper(mtd, Access.ROLE_READ)(req, res, next);
         },
 
         count (req, res, next) {
-            factoryWrapper('count', Access.ROLE_READ)(req, res, next);
+            const mtd = apply || 'count'
+            factoryWrapper(mtd, Access.ROLE_READ)(req, res, next);
         },
 
         findOne (req, res, next) {
-            factoryWrapper('findOne', Access.ROLE_READ)(req, res, next);
+            const mtd = apply || 'findOne'
+            factoryWrapper(mtd, Access.ROLE_READ)(req, res, next);
         },
 
         update (req, res, next) {
