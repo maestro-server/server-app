@@ -22,13 +22,6 @@ describe('unit - core', function () {
      ------------------------------------------------------- applications
      */
 
-    it('applications - transform - baseurl', function () {
-        process.env.BASEURL = "http://localhost:8888";
-        const base = require('core/applications/transforms/helpers/base_url');
-
-        expect(base).to.be.equal(process.env.BASEURL);
-    });
-
     it('applications - transform - createLinkPagination', function (done) {
         const pag = require('core/applications/transforms/helpers/createLinkPagination');
 

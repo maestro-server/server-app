@@ -1,10 +1,9 @@
 'use strict';
 
-const BASE = require('./base_url');
 const factoryObjHateoas = require('./factoryObjHateoas');
 
 module.exports = function (uri, limit, pages, page) {
-    const prefix = `${BASE}/${uri}/?page`;
+    const prefix = `/${uri}/?page`;
 
     let links = factoryObjHateoas('_self', `${prefix}=${page}&limit=${limit}`);
 
