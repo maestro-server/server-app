@@ -5,8 +5,8 @@ const _ = require('lodash');
 const validateFile = require('./validator/uploadValid');
 
 const UploaderService = (Entity) => {
-  const type = process.env.UPLOAD_TYPE || 'Local';
-  const FUploaderRepository = require(`core/repositories/uploader${type}Repository`);
+  const typeU = process.env.UPLOAD_TYPE || 'Local';
+  const FUploaderRepository = require(`core/repositories/uploader${typeU}Repository`);
 
   const UploaderRepository = FUploaderRepository(Entity.name);
 

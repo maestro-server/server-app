@@ -877,34 +877,6 @@ describe('unit - core', function () {
     });
 
 
-    describe('services - UploaderService', function () {
-        const Entity = {name: "Tester", access: "roler", filled: ['name']};
-        const UploaderService = require('core/services/UploaderService');
-
-        const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
-
-        it('uploadImage', function (done) {
-            let upload = sinon.stub().returnsPromise();
-            let SPS = sinon.stub()
-                .returns({
-                    upload
-                });
-
-            const filer = {
-                filetype: "image/jpeg"
-            };
-
-            UploaderService(Entity, SPS).uploadImage(filer, owner);
-
-            expect(upload.args[0][0]).to.have.equal(owner._id);
-            sinon.assert.calledOnce(upload);
-            sinon.assert.calledOnce(SPS);
-            done();
-        });
-
-
-    });
-
     describe('services - AccessServices', function () {
         const Entity = {name: "Tester", access: "roler", filled: ['name']};
         const AccessServices = require('core/services/AccessServices');
