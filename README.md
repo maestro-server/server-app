@@ -54,3 +54,9 @@ AWS_SECRET_ACCESS_KEY=''
 AWS_DEFAULT_REGION=us-east-1
 
 S3_BUCKET_NAME=maestroserver
+
+UPLOAD_TYPE=S3/Local
+
+LOCAL_DIR=/static/upload
+
+URL_DISCOVERY=http://localhost:5000
