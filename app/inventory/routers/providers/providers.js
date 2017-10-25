@@ -24,6 +24,8 @@ module.exports = function (router) {
 
         .post('/', authenticate(), PersistenceProvider.create)
 
+        .put('/:id/check', authenticate(), PersistenceProvider.checkTask)
+
         /**
          * Roles
          */
