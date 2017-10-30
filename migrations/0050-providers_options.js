@@ -9,22 +9,22 @@ exports.up = function (db, next) {
             'permissions': {
                 'AWS': {
                     'server-list': [
-                        {'access': 'describe-instances'}
+                        {'access': 'describe-instances', 'caller': 'ec2'}
                     ],
                     'loadbalance-list': [
-                        {'access': 'describe-load-balancers'},
-                        {'access': 'describe-target-groups'},
-                        {'access': 'describe-target-health'},
-                        {'access': 'describe-auto-scaling-groups'}
+                        {'access': 'describe-load-balancers', 'caller': 'ec2'},
+                        {'access': 'describe-target-groups', 'caller': 'ec2'},
+                        {'access': 'describe-target-health', 'caller': 'ec2'},
+                        {'access': 'describe-auto-scaling-groups', 'caller': 'ec2'}
                     ],
                     'dbs-lists': [
-                        {'access': 'describe-db-instances'}
+                        {'access': 'describe-db-instances', 'caller': 'rds'}
                     ],
                     'storage-object-list': [
-                        {'access': 'list-buckets'}
+                        {'access': 'list-buckets', 'caller': 's3api'}
                     ],
                     'cdns-list': [
-                        {'access': 'list_distributions'}
+                        {'access': 'list_distributions', 'caller': 'ec2'}
                     ]
                 }
             }
