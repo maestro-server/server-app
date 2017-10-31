@@ -6,10 +6,9 @@ const hateaosTransform = require('core/applications/transforms/hateoasTransform'
 const DPersistenceServices = require('core/services/PersistenceServices');
 const aclRoles = require('core/applications/transforms/aclRoles');
 const tokenGenerator = require('../transforms/tokenTransform');
-const notExist = require('core/applications/validator/validNotExist');
-
-const Check = require('../services/CheckTask');
 const Access = require('core/entities/accessRole');
+
+const {DiscoveryHTTPService} = require('core/services/HTTPService');
 
 const ApplicationProvider = (Entity, PersistenceServices = DPersistenceServices) => {
 
@@ -33,16 +32,10 @@ const ApplicationProvider = (Entity, PersistenceServices = DPersistenceServices)
                 .catch(next);
         },
 
-        gettask(req, res, next) {
-
-        },
-
         task(req, res, next) {
 
-            PersistenceServices(Entity)
-                .findOne(req.params.id, req.user)
-                .then(notExist)
-                .then(Check)
+            DiscoveryHTTPService()
+                .find()
                 .then(e => res.json(e))
                 .catch(next);
         }
