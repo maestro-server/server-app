@@ -33,7 +33,11 @@ const ApplicationProvider = (Entity, PersistenceServices = DPersistenceServices)
                 .catch(next);
         },
 
-        checkTask(req, res, next) {
+        gettask(req, res, next) {
+
+        },
+
+        task(req, res, next) {
 
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)
