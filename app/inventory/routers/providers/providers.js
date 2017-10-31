@@ -24,9 +24,8 @@ module.exports = function (router) {
 
         .post('/', authenticate(), PersistenceProvider.create)
 
-        .put('/:id/task', authenticate(), PersistenceProvider.task)
+        .put('/:id/task/:command', authenticate(), PersistenceProvider.task)
 
-        .put('/:id/task/full', authenticate(), PersistenceProvider.task)
 
         /**
          * Roles
