@@ -31,7 +31,7 @@ const HTTPService = (url) => (header = {}) => {
             return factoryRequest('post', path, args);
         },
 
-        put(path, args = {}) {
+        update(path, args = {}) {
             return factoryRequest('put', path, args);
         },
 
