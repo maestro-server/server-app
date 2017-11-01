@@ -45,7 +45,8 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
         },
 
         update (req, res, next) {
-            factoryWrapper('update', Access.ROLE_WRITER)(req, res, next);
+            const mtd = apply || 'update';
+            factoryWrapper(mtd, Access.ROLE_WRITER)(req, res, next);
         },
 
         updateSingle (req, res, next) {
@@ -53,11 +54,13 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
         },
 
         patch (req, res, next) {
-            factoryWrapper('patch', Access.ROLE_WRITER)(req, res, next);
+            const mtd = apply || 'patch'
+            factoryWrapper(mtd, Access.ROLE_WRITER)(req, res, next);
         },
 
         create (req, res, next) {
-            factoryWrapper('create', Access.ROLE_WRITER)(req, res, next);
+            const mtd = apply || 'create'
+            factoryWrapper(mtd, Access.ROLE_WRITER)(req, res, next);
         },
 
         remove (req, res, next) {
