@@ -46,7 +46,7 @@ module.exports = function (router) {
 
         .post('/teams/:id/providers', authenticate(), WrapperPersistenceApp(PersistenceProvider)().create)
 
-        .put('/teams/:id/providers/:idu/task/:command', authenticate(), WrapperPersistenceApp(PersistenceProvider)('task').create)
+        .put('/teams/:id/providers/:idu/task/:command', authenticate(), WrapperPersistenceApp(PersistenceProvider)('task').update)
 
         /**
          * Roles
