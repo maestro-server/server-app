@@ -11,8 +11,14 @@ module.exports = function () {
     };
 
     return function (err, req, res, next) {
-        const code = mapError[err.name] || 500;
-        res.status(code).json({err:err.errors});
+        const mapp = mapError[err.name];
+        const code = mapp || 500;
+
+        if(!mapp) {
+            err = err.toString();
+        }
+
+        res.status(code).json({err});
 
         if(code === 500) {
             console.log(err);
