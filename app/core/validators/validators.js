@@ -38,7 +38,11 @@ module.exports = {
     storage: Joi.object().keys({
         name: Joi.string().max(100),
         size: Joi.number().positive().max(10024),
-        root: Joi.string().max(10)
+        root: Joi.string().max(10),
+        status: Joi.string().max(10),
+        volume_id: Joi.string().max(12),
+        attach_time: Joi.string().max(30),
+        delete_termination: Joi.any()
     }),
     services: Joi.object().keys({
         name: Joi.string(),
