@@ -12,9 +12,11 @@ exports.up = function (db, next) {
                             'access': 'describe_instances',
                             'command': 'ec2',
                             'entity': 'servers',
-                            'vars': {
-                                'pag': 'MaxResults'
-                            }
+                            'result_path': 'Reservations',
+                            'single_result_path': 'Instances.[0]',
+                            'vars': [
+                              {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                            ]
                         }
                     ],
                     'loadbalance-list': [
@@ -23,36 +25,43 @@ exports.up = function (db, next) {
                             'command': 'elbv2',
                             'entity': 'applications',
                             'family': 'Loadbalances',
-                            'vars': {
-                                'pag': 'PageSize'
-                            }
+                            'result_path': 'LoadBalancers',
+                            'single_result_path': '',
+                            'vars': [
+                              {'name':'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                            ]
                         },
                         {
                             'access': 'describe_target_groups',
                             'command': 'elbv2',
                             'entity': 'applications',
                             'family': 'Loadbalances',
-                            'vars': {
-                                'pag': 'PageSize'
-                            }
+                            'result_path': 'LoadBalancers',
+                            'single_result_path': '',
+                            'vars': [
+                              {'name':'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                            ]
                         },
                         {
                             'access': 'describe_target_health',
                             'command': 'elbv2',
                             'entity': 'applications',
                             'family': 'Loadbalances',
-                            'vars': {
-                                'pag': 'PageSize'
-                            }
+                            'single_result_path': '',
+                            'vars': [
+                                {'name':'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                            ]
                         },
                         {
                             'access': 'describe_auto_scaling_groups',
                             'command': 'elbv2',
                             'entity': 'applications',
                             'family': 'Loadbalances',
-                            'vars': {
-                                'pag': 'PageSize'
-                            }
+                            'result_path': 'LoadBalancers',
+                            'single_result_path': '',
+                            'vars': [
+                                {'name':'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                            ]
                         }
                     ],
                     'dbs-lists': [
@@ -61,9 +70,10 @@ exports.up = function (db, next) {
                             'command': 'rds',
                             'entity': 'applications',
                             'family': 'Databases',
-                            'vars': {
-                                'pag': 'MaxRecords'
-                            }
+                            'result_path': 'DBInstances',
+                            'vars': [
+                                {'name':'MaxRecords', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                            ]
                         }
                     ],
                     'storage-object-list': [
@@ -71,7 +81,9 @@ exports.up = function (db, next) {
                             'access': 'list_buckets',
                             'command': 's3api',
                             'entity': 'applications',
-                            'family': 'ObjectStorage'
+                            'family': 'ObjectStorage',
+                            'result_path': 'Buckets',
+                            'vars': []
                         }
                     ],
                     'cdns-list': [
@@ -80,9 +92,10 @@ exports.up = function (db, next) {
                             'command': 'cloudfront',
                             'entity': 'applications',
                             'family': 'CDN',
-                            'vars': {
-                                'pag': 'MaxItems'
-                            }
+                            'result_path': 'DistributionList',
+                            'vars': [
+                                {'name':'MaxItems', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                            ]
                         }
                     ]
                 }
