@@ -5,7 +5,7 @@ exports.up = function (db, next) {
     pets.insert({
         'value': {
             serverType: ['Virtual', 'Exalogic', 'Exadata', 'Physical', 'PSeries'],
-            status: ['Active', 'Avaliable'],
+            status: ['Active', 'Avaliable', 'Stopped'],
             auth: ['PKI', 'AD', 'LDAP', 'Password'],
             role: ['Application', 'Cache', 'Container', 'Database', 'File', 'Loadbalance', 'Monitoring', 'NAT', 'Proxy', 'SMTP', 'VPN', 'Standard'],
             os: ['Linux', 'Windows', 'Solaris', 'FreeBSD', 'MacOS']
