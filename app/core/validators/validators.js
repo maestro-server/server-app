@@ -62,6 +62,6 @@ module.exports = {
         _id: Joi.object(),
         refs: Joi.string()
     }),
-    env: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox').required(),
+    env: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'),
     family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'Serveless', 'ApiGateway', 'ContainerOrchestration', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS').default("Application")
 };
