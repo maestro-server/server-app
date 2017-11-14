@@ -26,7 +26,7 @@ exports.up = function (db, next) {
                             'entity': 'applications',
                             'family': 'Loadbalances',
                             'result_path': 'LoadBalancers',
-                            'single_result_path': '',
+                            'gi ': '',
                             'vars': [
                               {'name':'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
                             ]
