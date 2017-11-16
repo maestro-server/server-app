@@ -12,7 +12,9 @@ const schema = Joi.object().keys({
     provider: Joi.string().max(30).required(),
     regions: Joi.array().unique().required(),
     owner,
-    active: Joi.boolean()
+    owner_user: roles,
+    active: Joi.boolean(),
+    created_at: Joi.any()
 });
 
 module.exports = {
