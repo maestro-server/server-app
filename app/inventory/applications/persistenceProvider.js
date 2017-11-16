@@ -18,11 +18,13 @@ const ApplicationProvider = (Entity, PersistenceServices = DPersistenceServices)
             _.defaults(req.body, Entity.defaults || {});
 
             const conn = tokenGenerator(_.get(req.body, 'conn', {}));
+            const owner_user = _.assign(req.user, {'role': Access.ROLE_ADMIN})
 
             const bodyWithOwner = Object.assign(
                 {},
                 req.body,
                 {conn},
+                {owner_user},
                 aclRoles(req.user, Entity, Access.ROLE_ADMIN)
             );
 
