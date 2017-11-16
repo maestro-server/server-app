@@ -13,6 +13,7 @@ const schema = Joi.object().keys({
     regions: Joi.array().unique().required(),
     owner,
     owner_user: roles,
+    process: Joi.any(),
     active: Joi.boolean(),
     created_at: Joi.any()
 });

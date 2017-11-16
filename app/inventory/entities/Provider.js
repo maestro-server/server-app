@@ -22,6 +22,8 @@ const provider = () => {
 
         defaults: {},
 
+        mapRelations: ['owner_user'],
+
         filled,
         singleFilled,
         resFilled
