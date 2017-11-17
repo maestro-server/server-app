@@ -75,6 +75,23 @@ exports.up = function (db, next) {
                             ]
                         }
                     ]
+                },
+
+
+                'OpenStack': {
+                  'server-list': [
+                      {
+                          'access': 'servers',
+                          'command': 'compute',
+                          'entity': 'servers',
+                          'result_path': '',
+                          'single_result_path': '',
+                          'key_comparer': 'datacenters.instance_id',
+                          'vars': [
+                            {'name':'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                          ]
+                      }
+                  ]
                 }
             }
         },
