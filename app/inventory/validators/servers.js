@@ -25,6 +25,7 @@ const schema = Joi.object().keys({
     tags: Joi.array().items(tags),
     status: Joi.string().valid('Active', 'Avaliable').default('Active'),
     active: Joi.boolean(),
+    meta: Joi.any(),
     owner,
     created_at: Joi.any()
 });
