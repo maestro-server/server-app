@@ -91,6 +91,19 @@ exports.up = function (db, next) {
                             {'name':'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
                           ]
                       }
+                  ],
+                  'loadbalance-list': [
+                      {
+                          'access': 'load_balancers',
+                          'command': 'load_balancer',
+                          'entity': 'applications',
+                          'result_path': '',
+                          'single_result_path': '',
+                          'key_comparer': 'name',
+                          'vars': [
+                              {'name':'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                          ]
+                      }
                   ]
                 }
             }
