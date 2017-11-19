@@ -12,6 +12,7 @@ exports.up = function (db, next) {
 
     const list = [
       {name: 'ELB (AWS)', family: ['Loadbalance'], tags: ['aws'], owner: true},
+      {name: 'OpenStack (HaProxy)', family: ['Loadbalance'], tags: ['openstack'], owner: true},
       {name: 'LB (Digital Ocean)', family: ['Loadbalance'], tags: ['do'], owner: true},
       {name: 'LB (Google Cloud)', family: ['Loadbalance'], tags: ['gcloud'], owner: true},
       {name: 'LB (Azure)', family: ['Loadbalance'], tags: ['azure'], owner: true},
@@ -94,7 +95,7 @@ exports.up = function (db, next) {
 
 
       {name: 'CloundFront (AWS)', family: ['CDN'], tags: ['aws'], owner: true},
-      {name: 'Azure CDN', family: ['ServeCDNrless'], tags: ['azure'], owner: true},
+      {name: 'Azure CDN', family: ['CDN'], tags: ['azure'], owner: true},
       {name: 'MaxCDN', family: ['CDN'], tags: [], owner: true},
       {name: 'Aryaka', family: ['CDN'], tags: [], owner: true},
       {name: 'Beluga CDN', family: ['CDN'], tags: [], owner: true},

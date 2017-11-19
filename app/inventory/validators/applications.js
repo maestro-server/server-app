@@ -28,6 +28,7 @@ const schema = Joi.object().keys({
     roles: Joi.array().items(roles).unique('_id'),
     environment: env,
     family: family,
+    datacenters: Joi.object(),
     tags: Joi.array().items(tags),
     active: Joi.boolean(),
     created_at: Joi.any()
