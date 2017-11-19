@@ -10,7 +10,7 @@ const app = () => {
     'system.name', 'system._id', 'servers',
     'targets', 'role.role', 'role', 'spec', 'asm_groups',
     'language', 'cluster', 'dataguard', 'type', 'storage_types',
-    'crs_version', 'modal', 'pdbs',
+    'crs_version', 'modal', 'pdbs', 'datacenters',
     'deploy', 'tags', 'description'];
 
     const singleFilled = [...resFilled, 'roles', 'system', 'owner'];
