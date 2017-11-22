@@ -16,7 +16,7 @@ exports.up = function (db, next) {
                             'single_result_path': 'Instances',
                             'key_comparer': 'datacenters.instance_id',
                             'vars': [
-                              {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                              {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         }
                     ],
@@ -28,7 +28,7 @@ exports.up = function (db, next) {
                             'result_path': 'LoadBalancers',
                             'key_comparer': 'name',
                             'vars': [
-                              {'name':'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                              {'name':'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         },
                         {
@@ -39,7 +39,7 @@ exports.up = function (db, next) {
                             'single_result_path': '',
                             'key_comparer': 'name',
                             'vars': [
-                              {'name':'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                              {'name':'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         }
                     ],
@@ -50,7 +50,7 @@ exports.up = function (db, next) {
                             'entity': 'applications',
                             'result_path': 'DBInstances',
                             'vars': [
-                                {'name':'MaxRecords', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                                {'name':'MaxRecords', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         }
                     ],
@@ -71,7 +71,7 @@ exports.up = function (db, next) {
                             'entity': 'applications',
                             'result_path': 'DistributionList',
                             'vars': [
-                                {'name':'MaxItems', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                                {'name':'MaxItems', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         }
                     ]
@@ -88,7 +88,7 @@ exports.up = function (db, next) {
                           'single_result_path': '',
                           'key_comparer': 'datacenters.instance_id',
                           'vars': [
-                            {'name':'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                            {'name':'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                           ]
                       }
                   ],
@@ -101,7 +101,7 @@ exports.up = function (db, next) {
                           'single_result_path': '',
                           'key_comparer': 'name',
                           'vars': [
-                              {'name':'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                              {'name':'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                           ]
                       }
                   ]
