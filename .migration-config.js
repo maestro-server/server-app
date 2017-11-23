@@ -3,6 +3,6 @@ require('dotenv').config();
 
 module.exports = {
     "mongoAppDb": {
-        "connectionString": 'mongodb://'+process.env.MONGO_URL
+        "connectionString": 'mongodb://'+process.env.MAESTRO_MONGO_URI
     }
 }

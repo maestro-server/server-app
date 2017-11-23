@@ -98,11 +98,12 @@ const AuthService = (Entity) => {
 
                 return decodePassForgot(body)
                     .then((e) => {
+
                         const {password} = body;
                         const _id = in_maker(e._id);
 
                         return DBRepository
-                            .update({_id}, {password}, ['password']);
+                            .patch({_id}, {password}, ['password']);
                     })
                     .then(resolve)
                     .catch(reject);

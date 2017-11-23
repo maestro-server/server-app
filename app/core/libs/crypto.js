@@ -6,7 +6,7 @@
 
 const crypto = require("crypto");
 
-const CIPHER = process.env.SECRET_CRYPTO_FORGOT || "dsfsdfsd43";
+const CIPHER = process.env.MAESTRO_SECRET_CRYPTO_FORGOT || "dsfsdfsd43";
 
 const factoryCrypto = function() {
     const cryptLevel = 6;

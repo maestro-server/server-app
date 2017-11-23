@@ -14,10 +14,10 @@ let server;
 /*
  * Create and start HTTP server.
  */
-process.env.PORT = process.env.PORT || 8000;
+process.env.MAESTRO_PORT = process.env.MAESTRO_PORT || 8000;
 
 server = http.createServer(app);
-server.listen(process.env.PORT);
+server.listen(process.env.MAESTRO_PORT);
 server.on('listening', function () {
     console.log('Server listening on http://localhost:%d', this.address().port);
 });

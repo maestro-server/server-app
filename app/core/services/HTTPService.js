@@ -42,7 +42,7 @@ const HTTPService = (url) => (header = {}) => {
 };
 
 const DiscoveryHTTPService = (header = {}) => {
-    const url = process.env.DISCOVERY_URL;
+    const url = process.env.MAESTRO_DISCOVERY_URL || 'http://localhost:5000';
     return HTTPService(url)(header);
 }
 

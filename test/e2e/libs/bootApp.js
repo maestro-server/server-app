@@ -10,7 +10,7 @@ const Mongorito = require('mongorito');
 
 const path = require('path');
 
-module.exports = function (conn = process.env.MONGO_URL) {
+module.exports = function (conn = process.env.MAESTRO_MONGO_URI) {
   let options = {
     basedir: path.resolve(__dirname, '../../../app/'),
       onconfig: function (config, next) {

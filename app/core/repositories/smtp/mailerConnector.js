@@ -7,6 +7,8 @@ const async = require('core/libs/db_run');
 const factoryValid = require('core/libs/factoryValid');
 const smtpValid = require('core/validators/smtp_valid');
 
+const ResourceError = require('core/errors/factoryError')('ResourceError');
+
 const mailerConnector = (Mailer = DMailer) => {
 
     const mailer = Mailer;
@@ -18,7 +20,7 @@ const mailerConnector = (Mailer = DMailer) => {
                 smtpValid
             );
         } catch(e) {
-           console.log(e);
+            throw new ResourceError(e);
         }
 
         async(function* () {
