@@ -26,7 +26,7 @@ const interactC = function (db, collections) {
   return pros;
 };
 
-module.exports = function (collections, done, mock, conn = process.env.MONGO_URL) {
+module.exports = function (collections, done, mock, conn = process.env.MAESTRO_MONGO_URI) {
 
     MongoClient.connect('mongodb://'+conn)
         .then((db) => {

@@ -59,6 +59,7 @@ class Dao extends Model {
 
     updateFactory(entity, entry, options) {
 
+
         return this._collection()
             .tap(() => {
                 return this._runHooks('before', 'update');

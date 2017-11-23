@@ -7,7 +7,8 @@ module.exports = function () {
       ConflictError: 409,
       PermissionError: 400,
       ValidatorError: 422,
-      HTTPError: 500
+      HTTPError: 501,
+      ResourceError: 501
     };
 
     return function (err, req, res, next) {

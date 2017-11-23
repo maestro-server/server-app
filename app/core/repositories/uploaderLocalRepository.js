@@ -12,7 +12,7 @@ const UploaderRepository = (folder) => {
             return new Promise((resolve) => {
 
                 const s3 = new aws.S3();
-                const S3_BUCKET = process.env.S3_BUCKET_NAME;
+                const S3_BUCKET = process.env.AWS_S3_BUCKET_NAME || 'maestro';
                 const PATH = S3_BUCKET + '/' + folder;
                 const filename = `${_id}.${mapsFile(type)}`;
 
