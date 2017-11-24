@@ -14,7 +14,7 @@ let server;
 /*
  * Create and start HTTP server.
  */
-process.env.MAESTRO_PORT = process.env.MAESTRO_PORT || 8000;
+process.env.MAESTRO_PORT = process.env.MAESTRO_PORT || 8888;
 
 server = http.createServer(app);
 server.listen(process.env.MAESTRO_PORT);
