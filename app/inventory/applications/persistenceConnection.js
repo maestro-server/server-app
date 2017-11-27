@@ -11,7 +11,7 @@ const notExist = require('core/applications/validator/validNotExist');
 
 const {DiscoveryHTTPService} = require('core/services/HTTPService');
 
-const ApplicationProvider = (Entity, PersistenceServices = DPersistenceServices) => {
+const ApplicationConnection = (Entity, PersistenceServices = DPersistenceServices) => {
 
     return {
         create(req, res, next) {
@@ -49,4 +49,4 @@ const ApplicationProvider = (Entity, PersistenceServices = DPersistenceServices)
     };
 };
 
-module.exports = _.curry(ApplicationProvider);
+module.exports = _.curry(ApplicationConnection);
