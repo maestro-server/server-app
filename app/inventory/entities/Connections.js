@@ -2,9 +2,9 @@
 
 const _ = require('lodash');
 
-const Provider = require('../repositories/dao/provider');
+const Connection = require('../repositories/dao/connection');
 
-const provider = () => {
+const connection = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'conn', 'roles', 'dc', 'owner_user', 'regions', 'provider', 'url', 'project'];
 
     const singleFilled = [...resFilled, 'process', 'owner'];
@@ -12,13 +12,13 @@ const provider = () => {
     const filled = [..._.slice(singleFilled, 3)];  // delete id
 
     return {
-        name: "providers",
+        name: "connections",
 
         access: 'roles',
 
-        validators: require('../validators/providers'),
+        validators: require('../validators/connections'),
 
-        dao: Provider,
+        dao: Connection,
 
         defaults: {},
 
@@ -30,4 +30,4 @@ const provider = () => {
     };
 };
 
-module.exports = provider();
+module.exports = connection();

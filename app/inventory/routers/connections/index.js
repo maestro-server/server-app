@@ -2,11 +2,11 @@
 
 const authenticate = require('identity/middlewares/authenticate');
 
-const Providers = require('../../entities/Provider');
+const Connections = require('../../entities/Connections');
 const Team = require('identity/entities/Teams');
 
-const PersistenceProvider = require('../../applications/persistenceProvider');
-const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Providers)(Team);
+const PersistenceConnection = require('../../applications/persistenceConnection');
+const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Connections)(Team);
 const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
 const AccessApp = require('core/applications/accessApplication');
@@ -15,15 +15,15 @@ const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 module.exports = function (router) {
 
     router
-        .get('/teams/:id/providers', authenticate(), WrapperPersistenceAppDefault.find)
+        .get('/teams/:id/connections', authenticate(), WrapperPersistenceAppDefault.find)
 
-        .get('/teams/:id/providers/count', authenticate(), WrapperPersistenceAppDefault.count)
+        .get('/teams/:id/connections/count', authenticate(), WrapperPersistenceAppDefault.count)
 
-        .get('/teams/:id/providers/:idu', authenticate(), WrapperPersistenceAppDefault.findOne)
+        .get('/teams/:id/connections/:idu', authenticate(), WrapperPersistenceAppDefault.findOne)
 
-        .put('/teams/:id/providers/:idu', authenticate(), WrapperPersistenceAppDefault.update)
+        .put('/teams/:id/connections/:idu', authenticate(), WrapperPersistenceAppDefault.update)
 
-        .patch('/teams/:id/providers/:idu', authenticate(), WrapperPersistenceAppDefault.patch)
+        .patch('/teams/:id/connections/:idu', authenticate(), WrapperPersistenceAppDefault.patch)
 
         /**
          * @api {delete} /teams/:id/applications/:idu Delete application of team
@@ -42,21 +42,21 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/teams/:id/providers/:idu', authenticate(), WrapperPersistenceAppDefault.remove)
+        .delete('/teams/:id/connections/:idu', authenticate(), WrapperPersistenceAppDefault.remove)
 
-        .post('/teams/:id/providers', authenticate(), WrapperPersistenceApp(PersistenceProvider)().create)
+        .post('/teams/:id/connections', authenticate(), WrapperPersistenceApp(PersistenceConnection)().create)
 
-        .put('/teams/:id/providers/:idu/task/:command', authenticate(), WrapperPersistenceApp(PersistenceProvider)('task').update)
+        .put('/teams/:id/connections/:idu/task/:command', authenticate(), WrapperPersistenceApp(PersistenceConnection)('task').update)
 
         /**
          * Roles
          */
 
-        .post('/teams/:id/providers/:idu/roles', authenticate(), WrapperAccessApp.create)
+        .post('/teams/:id/connections/:idu/roles', authenticate(), WrapperAccessApp.create)
 
-        .put('/teams/:id/providers/:idu/roles', authenticate(), WrapperAccessApp.update)
+        .put('/teams/:id/connections/:idu/roles', authenticate(), WrapperAccessApp.update)
 
-        .put('/teams/:id/providers/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
+        .put('/teams/:id/connections/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
         /**
          * @api {delete} /teams/:id/projects/:idu Delete role of application team
          * @apiName Delete Role of application Team
@@ -75,7 +75,7 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/teams/:id/providers/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
+        .delete('/teams/:id/connections/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
 
 
 

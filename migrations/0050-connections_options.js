@@ -108,7 +108,7 @@ exports.up = function (db, next) {
                 }
             }
         },
-        "key": "providers",
+        "key": "connections",
         "active": true,
         "updated_at": new Date()
     }, next);
@@ -117,5 +117,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'providers'}, [], {}, {remove: true}, next);
+    pets.findAndModify({key: 'connections'}, [], {}, {remove: true}, next);
 };

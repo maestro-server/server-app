@@ -111,11 +111,11 @@
                 "arguments": [{"directory": "path:./inventory/routers/clients"}]
             }
         },
-        "router-providers": {
+        "router-connections": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./inventory/routers/providers"}]
+                "arguments": [{"directory": "path:./inventory/routers/connections"}]
             }
         },
         "router-playbooks": {

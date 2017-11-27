@@ -1,11 +1,11 @@
 'use strict';
 
 const authenticate = require('identity/middlewares/authenticate');
-const Providers = require('../../entities/Provider');
+const Connections = require('../../entities/Connections');
 
-const PersistenceProvider = require('../../applications/persistenceProvider')(Providers);
-const PersistenceApp = require('core/applications/persistenceApplication')(Providers);
-const AccessApp = require('core/applications/accessApplication')(Providers);
+const PersistenceConnection = require('../../applications/persistenceConnection')(Connections);
+const PersistenceApp = require('core/applications/persistenceApplication')(Connections);
+const AccessApp = require('core/applications/accessApplication')(Connections);
 
 module.exports = function (router) {
 
@@ -22,9 +22,9 @@ module.exports = function (router) {
 
         .delete('/:id', authenticate(), PersistenceApp.remove)
 
-        .post('/', authenticate(), PersistenceProvider.create)
+        .post('/', authenticate(), PersistenceConnection.create)
 
-        .put('/:id/task/:command', authenticate(), PersistenceProvider.task)
+        .put('/:id/task/:command', authenticate(), PersistenceConnection.task)
 
 
         /**
