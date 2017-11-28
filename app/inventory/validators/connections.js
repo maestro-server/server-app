@@ -13,6 +13,7 @@ const schema = Joi.object().keys({
     dc: Joi.string().max(150).required(),
     provider: Joi.string().max(30).required(),
     regions: Joi.array().unique().required(),
+    dc_id: Joi.string().max(250).required(),
     owner,
     owner_user: roles,
     process: Joi.any(),

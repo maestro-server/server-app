@@ -13,7 +13,7 @@ const scheme = {
     zones: Joi.array(),
     regions: Joi.array(),
     provider: Joi.string(),
-    servers_count: Joi.number(),
+    sucessed: Joi.boolean(),
     owner,
     auth: Joi.array(),
     roles: Joi.array().items(roles).unique('_id'),
