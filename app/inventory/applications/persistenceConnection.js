@@ -11,6 +11,8 @@ const notExist = require('core/applications/validator/validNotExist');
 
 const {DiscoveryHTTPService} = require('core/services/HTTPService');
 
+const Datacenter = require('..//entities/Datacenter');
+
 const ApplicationConnection = (Entity, PersistenceServices = DPersistenceServices) => {
 
     return {
@@ -27,6 +29,11 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                 {owner_user},
                 aclRoles(req.user, Entity, Access.ROLE_ADMIN)
             );
+
+            const dc_id = _.get(req, 'body.dc_id')
+            if (dc_id) {
+                PersistenceServices(Datacenter).patch(dc_id, {'sucessed': true}, req.user);
+            }
 
             PersistenceServices(Entity)
                 .create(bodyWithOwner)
