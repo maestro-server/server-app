@@ -8,6 +8,7 @@ const aclRoles = require('core/applications/transforms/aclRoles');
 const tokenGenerator = require('../transforms/tokenTransform');
 const Access = require('core/entities/accessRole');
 const notExist = require('core/applications/validator/validNotExist');
+const DatacentersConnection = require('../services/DatacentersConnection');
 
 const {DiscoveryHTTPService} = require('core/services/HTTPService');
 
@@ -21,6 +22,7 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
 
             const conn = tokenGenerator(_.get(req.body, 'conn', {}));
             const owner_user = _.assign(req.user, {'role': Access.ROLE_ADMIN});
+            const dc_id = _.get(req, 'body.dc_id');
 
             const bodyWithOwner = Object.assign(
                 {},
@@ -30,7 +32,6 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                 aclRoles(req.user, Entity, Access.ROLE_ADMIN)
             );
 
-            const dc_id = _.get(req, 'body.dc_id')
             if (dc_id) {
                 PersistenceServices(Datacenter).patch(dc_id, {'sucessed': true}, req.user);
             }
@@ -39,6 +40,17 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                 .create(bodyWithOwner)
                 .then(hateaosTransform(Entity).singleTransform)
                 .then(e => res.status(201).json(e))
+                .catch(next);
+        },
+
+        remove (req, res, next) {
+
+            PersistenceServices(Entity)
+                .findOne(req.params.id, req.user)
+                .then(notExist)
+                .then(e => DatacentersConnection(e, req, PersistenceServices, Entity))
+                .then(PersistenceServices(Entity).remove(req.params.id, req.user))
+                .then(e => res.status(204).json(e))
                 .catch(next);
         },
 
