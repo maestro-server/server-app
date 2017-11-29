@@ -20,7 +20,7 @@ module.exports = function (router) {
 
         .patch('/:id', authenticate(), PersistenceApp.patch)
 
-        .delete('/:id', authenticate(), PersistenceApp.remove)
+        .delete('/:id', authenticate(), PersistenceConnection.remove)
 
         .post('/', authenticate(), PersistenceConnection.create)
 
