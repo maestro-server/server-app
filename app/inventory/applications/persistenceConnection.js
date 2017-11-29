@@ -42,6 +42,7 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                 .catch(next);
         },
 
+
         task(req, res, next) {
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)
