@@ -76,6 +76,27 @@
                 "arguments": [{"directory": "path:./inventory/routers/applications"}]
             }
         },
+        "router-volumes": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./inventory/routers/volumes"}]
+            }
+        },
+        "router-images": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./inventory/routers/images"}]
+            }
+        },
+        "router-network": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./inventory/routers/network"}]
+            }
+        },
         "router-teams": {
             "priority": 120,
             "module": {
