@@ -8,6 +8,7 @@ exports.up = function (db, next) {
             types: ['Relational', 'Document Store', 'Key Value', 'Graph', 'MultiModel', 'Object', 'XML DB', 'TimeSeries', 'Scientific', 'Outher'],
             role: ['Master', 'Replica', 'Arbiter', 'Clusterized'],
             cluster: ['Single Instance', 'Master/Replica', 'Sharding'],
+            status: ['Active', 'Avaliable', 'Stopped'],
             oracle: {
               asm_types: ['Standard'],
               storage_types: ['Default Disk', 'ASM', 'ACFS', 'Thirty Party'],
