@@ -2,7 +2,7 @@
 
 const Joi = require('joi');
 
-const {roles, owner} = require('core/validators/validators');
+const {roles, owner, created_at, active} = require('core/validators/validators');
 
 const schema = Joi.object().keys({
     conn: Joi.string().max(900).required(),
@@ -17,8 +17,8 @@ const schema = Joi.object().keys({
     owner,
     owner_user: roles,
     process: Joi.any(),
-    active: Joi.boolean(),
-    created_at: Joi.any()
+    active,
+    created_at
 });
 
 module.exports = {

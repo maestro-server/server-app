@@ -46,6 +46,7 @@ module.exports = {
     }),
     services: Joi.object().keys({
         name: Joi.string(),
+        status: Joi.string().valid('Active', 'Avaliable', 'Stopped').default('Active'),
         version: Joi.string(),
         configs: Joi.object(),
         setup: Joi.object()
@@ -62,6 +63,11 @@ module.exports = {
         _id: Joi.object(),
         refs: Joi.string()
     }),
-    env: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'),
-    family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'Serveless', 'ApiGateway', 'ContainerOrchestration', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS').default("Application")
+    datacenters: Joi.object(),
+    active: Joi.boolean(),
+    status: Joi.string().valid('Active', 'Avaliable', 'Stopped').default('Active'),
+    environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'),
+    family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'Serveless', 'ApiGateway', 'ContainerOrchestration', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS').default("Application"),
+    created_at: Joi.any(),
+    metas: Joi.any()
 };
