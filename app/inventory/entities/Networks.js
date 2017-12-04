@@ -16,7 +16,7 @@ const network = () => {
         '_private_dns_name', 'private_ip_address', 'private_ip_addresses', 'primary', 'private_dns_name', 'private_ip_address',
         'requesterId', 'requester_managed', 'source_dest_check', 'delete_time', 'dailure_code', 'dailure_message', 'nat_gateway_addresses',
         'nat_gateway_id', 'ProvisionedBandwidth', 'entries', 'NetworkAclId', 'vpc_endpoint_id', 'vpc_endpoint_type', 'service_name',
-        'Policy_document', 'route_table_ids', 'subnet_ids', 'groups', 'private_dns_enabled', 'network_interface_ids, dns_entries'];
+        'Policy_document', 'route_table_ids', 'subnet_ids', 'groups', 'private_dns_enabled', 'network_interface_ids, dns_entries', 'roles', 'owner'];
 
     const filled = [..._.slice(singleFilled, 3)];  // delete id
 

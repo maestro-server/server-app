@@ -5,9 +5,9 @@ const _ = require('lodash');
 const Images = require('../repositories/dao/images');
 
 const images = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'datacenters', 'image_id', 'image_type', 'image_location', 'plataform', 'storage', 'state'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'datacenters.name', 'image_id', 'image_type', 'image_location', 'status'];
 
-    const singleFilled = [...resFilled, 'clients', 'roles', 'owner'];
+    const singleFilled = [...resFilled, 'root_device_type', 'datacenters', 'hypervisor', 'plataform', 'storage', 'roles', 'owner'];
 
     const filled = [..._.slice(singleFilled, 3)];  // delete id
 
