@@ -1,9 +1,9 @@
 'use strict';
 
 const authenticate = require('identity/middlewares/authenticate');
-const Networks = require('../../entities/Networks');
-const PersistenceApp = require('core/applications/persistenceApplication')(Networks);
-const AccessApp = require('core/applications/accessApplication')(Networks);
+const Snapshots = require('../../entities/Snapshots');
+const PersistenceApp = require('core/applications/persistenceApplication')(Snapshots);
+const AccessApp = require('core/applications/accessApplication')(Snapshots);
 
 module.exports = function (router) {
 

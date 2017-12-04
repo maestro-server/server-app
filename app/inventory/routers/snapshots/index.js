@@ -2,10 +2,10 @@
 
 const authenticate = require('identity/middlewares/authenticate');
 
-const Networks = require('../../entities/Networks');
+const Snapshots = require('../../entities/Snapshots');
 const Team = require('identity/entities/Teams');
 
-const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Networks)(Team);
+const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Snapshots)(Team);
 const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
 const AccessApp = require('core/applications/accessApplication');
@@ -14,18 +14,18 @@ const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 module.exports = function (router) {
 
     router
-        .get('/teams/:id/network', authenticate(), WrapperPersistenceApp()().find)
+        .get('/teams/:id/images', authenticate(), WrapperPersistenceApp()().find)
 
-        .get('/teams/:id/network/count', authenticate(), WrapperPersistenceAppDefault.count)
+        .get('/teams/:id/images/count', authenticate(), WrapperPersistenceAppDefault.count)
 
-        .get('/teams/:id/network/:idu', authenticate(), WrapperPersistenceAppDefault.findOne)
+        .get('/teams/:id/images/:idu', authenticate(), WrapperPersistenceAppDefault.findOne)
 
-        .put('/teams/:id/network/:idu', authenticate(), WrapperPersistenceAppDefault.update)
+        .put('/teams/:id/images/:idu', authenticate(), WrapperPersistenceAppDefault.update)
 
-        .patch('/teams/:id/network/:idu', authenticate(), WrapperPersistenceAppDefault.patch)
+        .patch('/teams/:id/images/:idu', authenticate(), WrapperPersistenceAppDefault.patch)
 
         /**
-         * @api {delete} /teams/:id/network/:idu Delete application of team
+         * @api {delete} /teams/:id/images/:idu Delete application of team
          * @apiName Delete Single application of Team
          * @apiGroup Teams
          *
@@ -41,19 +41,19 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/teams/:id/network/:idu', authenticate(), WrapperPersistenceAppDefault.remove)
+        .delete('/teams/:id/images/:idu', authenticate(), WrapperPersistenceAppDefault.remove)
 
-        .post('/teams/:id/network', authenticate(), WrapperPersistenceAppDefault.create)
+        .post('/teams/:id/images', authenticate(), WrapperPersistenceAppDefault.create)
 
         /**
          * Roles
          */
 
-        .post('/teams/:id/network/:idu/roles', authenticate(), WrapperAccessApp.create)
+        .post('/teams/:id/images/:idu/roles', authenticate(), WrapperAccessApp.create)
 
-        .put('/teams/:id/network/:idu/roles', authenticate(), WrapperAccessApp.update)
+        .put('/teams/:id/images/:idu/roles', authenticate(), WrapperAccessApp.update)
 
-        .put('/teams/:id/network/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
+        .put('/teams/:id/images/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
         /**
          * @api {delete} /teams/:id/projects/:idu Delete role of application team
          * @apiName Delete Role of application Team
@@ -72,6 +72,6 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/teams/:id/network/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
+        .delete('/teams/:id/images/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
 
 };

@@ -64,6 +64,18 @@ exports.up = function (db, next) {
                             'vars': []
                         }
                     ],
+                    'volumes-list': [
+                        {
+                            'access': 'describe_volumes',
+                            'command': 'ec2',
+                            'entity': 'volumes',
+                            'result_path': 'Volumes',
+                            'key_comparer': 'volume_id',
+                            'vars': [
+                                {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        }
+                    ],
                     'cdns-list': [
                         {
                             'access': 'list_distributions',
@@ -74,7 +86,119 @@ exports.up = function (db, next) {
                                 {'name':'MaxItems', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         }
-                    ]
+                    ],
+                    'snapshot-list': [
+                        {
+                            'access': 'describe_snapshots',
+                            'command': 'ec2',
+                            'entity': 'snapshots',
+                            'result_path': 'Snapshots',
+                            'key_comparer': 'snapshot_id',
+                            'vars': [
+                                {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        }
+                    ],
+                    'images-list': [
+                        {
+                            'access': 'describe_images',
+                            'command': 'ec2',
+                            'entity': 'images',
+                            'result_path': 'Images',
+                            'key_comparer': 'image_id',
+                            'vars': []
+                        }
+                    ],
+                    'security-list': [
+                        {
+                            'access': 'describe_security_groups',
+                            'command': 'ec2',
+                            'entity': 'networks',
+                            'result_path': 'SecurityGroups',
+                            'key_comparer': 'group_id',
+                            'vars': [
+                                {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        }
+                    ],
+                    'network-list': [
+                        {
+                            'access': 'describe_vpcs',
+                            'command': 'ec2',
+                            'entity': 'networks',
+                            'result_path': 'Vpcs',
+                            'key_comparer': 'vpc_id',
+                            'vars': []
+                        },
+                        {
+                            'access': 'describe_subnets',
+                            'command': 'ec2',
+                            'entity': 'networks',
+                            'result_path': 'Subnets',
+                            'key_comparer': 'subnet_id',
+                            'vars': []
+                        },
+                        {
+                            'access': 'describe_vpc_peering_connections',
+                            'command': 'ec2',
+                            'entity': 'networks',
+                            'result_path': 'VpcPeeringConnections',
+                            'key_comparer': 'vpc_peering_connection_id',
+                            'vars': []
+                        },
+                        {
+                            'access': 'describe_vpn_gateways',
+                            'command': 'ec2',
+                            'entity': 'networks',
+                            'result_path': 'VpnGateways',
+                            'key_comparer': 'vpn_gateway_id',
+                            'vars': []
+                        },
+                        {
+                            'access': 'describe_vpc_endpoints',
+                            'command': 'ec2',
+                            'entity': 'networks',
+                            'result_path': 'VpcEndpoints',
+                            'key_comparer': 'vpc_endpoint_id',
+                            'vars': [
+                                {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        },
+                        {
+                            'access': 'describe_route_tables',
+                            'command': 'ec2',
+                            'entity': 'networks',
+                            'result_path': 'RouteTables',
+                            'key_comparer': 'route_table_id',
+                            'vars': []
+                        },
+                        {
+                            'access': 'describe_network_interfaces',
+                            'command': 'ec2',
+                            'entity': 'networks',
+                            'result_path': 'NetworkInterfaces',
+                            'key_comparer': 'network_interface_id',
+                            'vars': []
+                        },
+                        {
+                            'access': 'describe_nat_gateways',
+                            'command': 'ec2',
+                            'entity': 'networks',
+                            'result_path': 'NatGateways',
+                            'key_comparer': 'natgateway_id',
+                            'vars': [
+                                {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        },
+                        {
+                            'access': 'describe_network_acls',
+                            'command': 'ec2',
+                            'entity': 'networks',
+                            'result_path': 'NetworkAcls',
+                            'key_comparer': 'network_acl_id',
+                            'vars': []
+                        }
+                    ],
                 },
 
 
