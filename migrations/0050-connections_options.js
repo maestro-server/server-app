@@ -16,7 +16,7 @@ exports.up = function (db, next) {
                             'single_result_path': 'Instances',
                             'key_comparer': 'datacenters.instance_id',
                             'vars': [
-                              {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         }
                     ],
@@ -28,7 +28,7 @@ exports.up = function (db, next) {
                             'result_path': 'LoadBalancers',
                             'key_comparer': 'name',
                             'vars': [
-                              {'name':'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         },
                         {
@@ -39,7 +39,7 @@ exports.up = function (db, next) {
                             'single_result_path': '',
                             'key_comparer': 'name',
                             'vars': [
-                              {'name':'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         }
                     ],
@@ -50,7 +50,7 @@ exports.up = function (db, next) {
                             'entity': 'applications',
                             'result_path': 'DBInstances',
                             'vars': [
-                                {'name':'MaxRecords', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'MaxRecords', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         }
                     ],
@@ -72,7 +72,7 @@ exports.up = function (db, next) {
                             'result_path': 'Volumes',
                             'key_comparer': 'volume_id',
                             'vars': [
-                                {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         }
                     ],
@@ -83,7 +83,7 @@ exports.up = function (db, next) {
                             'entity': 'applications',
                             'result_path': 'DistributionList',
                             'vars': [
-                                {'name':'MaxItems', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'MaxItems', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         }
                     ],
@@ -95,7 +95,7 @@ exports.up = function (db, next) {
                             'result_path': 'Snapshots',
                             'key_comparer': 'snapshot_id',
                             'vars': [
-                                {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         }
                     ],
@@ -115,9 +115,9 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'networks',
                             'result_path': 'SecurityGroups',
-                            'key_comparer': 'group_id',
+                            'key_comparer': 'security_id',
                             'vars': [
-                                {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         }
                     ],
@@ -161,7 +161,7 @@ exports.up = function (db, next) {
                             'result_path': 'VpcEndpoints',
                             'key_comparer': 'vpc_endpoint_id',
                             'vars': [
-                                {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         },
                         {
@@ -187,7 +187,7 @@ exports.up = function (db, next) {
                             'result_path': 'NatGateways',
                             'key_comparer': 'natgateway_id',
                             'vars': [
-                                {'name':'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
                         },
                         {
@@ -203,32 +203,130 @@ exports.up = function (db, next) {
 
 
                 'OpenStack': {
-                  'server-list': [
-                      {
-                          'access': 'servers',
-                          'command': 'compute',
-                          'entity': 'servers',
-                          'result_path': '',
-                          'single_result_path': '',
-                          'key_comparer': 'datacenters.instance_id',
-                          'vars': [
-                            {'name':'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
-                          ]
-                      }
-                  ],
-                  'loadbalance-list': [
-                      {
-                          'access': 'load_balancers',
-                          'command': 'load_balancer',
-                          'entity': 'applications',
-                          'result_path': '',
-                          'single_result_path': '',
-                          'key_comparer': 'name',
-                          'vars': [
-                              {'name':'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
-                          ]
-                      }
-                  ]
+                    'server-list': [
+                        {
+                            'access': 'servers',
+                            'command': 'compute',
+                            'entity': 'servers',
+                            'result_path': '',
+                            'single_result_path': '',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        }
+                    ],
+                    'loadbalance-list': [
+                        {
+                            'access': 'load_balancers',
+                            'command': 'load_balancer',
+                            'entity': 'applications',
+                            'result_path': '',
+                            'single_result_path': '',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        }
+                    ],
+                    'volumes-list': [
+                        {
+                            'access': 'volumes',
+                            'command': 'block_store',
+                            'entity': 'volumes',
+                            'result_path': '',
+                            'single_result_path': '',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        }
+                    ],
+                    'snapshot-list': [
+                        {
+                            'access': 'snapshots',
+                            'command': 'block_store',
+                            'entity': 'snapshots',
+                            'result_path': '',
+                            'single_result_path': '',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        }
+                    ],
+                    'images-list': [
+                        {
+                            'access': 'images',
+                            'command': 'compute',
+                            'entity': 'images',
+                            'result_path': '',
+                            'single_result_path': '',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        }
+                    ],
+                    'security-list': [
+                        {
+                            'access': 'security_groups',
+                            'command': 'network',
+                            'entity': 'networks',
+                            'result_path': '',
+                            'single_result_path': '',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        }
+                    ],
+                    'network-list': [
+                        {
+                            'access': 'networks',
+                            'command': 'network',
+                            'entity': 'networks',
+                            'result_path': '',
+                            'single_result_path': '',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        },
+                        {
+                            'access': 'subnets',
+                            'command': 'network',
+                            'entity': 'networks',
+                            'result_path': '',
+                            'single_result_path': '',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        },
+                        {
+                            'access': 'ports',
+                            'command': 'network',
+                            'entity': 'networks',
+                            'result_path': '',
+                            'single_result_path': '',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        },
+                        {
+                            'access': 'routers',
+                            'command': 'network',
+                            'entity': 'networks',
+                            'result_path': '',
+                            'single_result_path': '',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        }
+                    ]
                 }
             }
         },
