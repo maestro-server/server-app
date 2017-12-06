@@ -14,7 +14,7 @@ exports.up = function (db, next) {
                             'entity': 'servers',
                             'result_path': 'Reservations',
                             'single_result_path': 'Instances',
-                            'key_comparer': 'datacenters.instance_id',
+                            'key_comparer': 'unique_id',
                             'vars': [
                                 {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
@@ -70,7 +70,7 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'volumes',
                             'result_path': 'Volumes',
-                            'key_comparer': 'volume_id',
+                            'key_comparer': 'unique_id',
                             'vars': [
                                 {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
@@ -93,7 +93,7 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'snapshots',
                             'result_path': 'Snapshots',
-                            'key_comparer': 'snapshot_id',
+                            'key_comparer': 'unique_id',
                             'vars': [
                                 {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
@@ -105,7 +105,7 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'images',
                             'result_path': 'Images',
-                            'key_comparer': 'image_id',
+                            'key_comparer': 'unique_id',
                             'vars': []
                         }
                     ],
@@ -115,7 +115,7 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'networks',
                             'result_path': 'SecurityGroups',
-                            'key_comparer': 'security_id',
+                            'key_comparer': 'unique_id',
                             'vars': [
                                 {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
@@ -127,7 +127,7 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'networks',
                             'result_path': 'Vpcs',
-                            'key_comparer': 'vpc_id',
+                            'key_comparer': 'unique_id',
                             'vars': []
                         },
                         {
@@ -135,7 +135,7 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'networks',
                             'result_path': 'Subnets',
-                            'key_comparer': 'subnet_id',
+                            'key_comparer': 'unique_id',
                             'vars': []
                         },
                         {
@@ -143,7 +143,7 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'networks',
                             'result_path': 'VpcPeeringConnections',
-                            'key_comparer': 'vpc_peering_connection_id',
+                            'key_comparer': 'unique_id',
                             'vars': []
                         },
                         {
@@ -151,7 +151,7 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'networks',
                             'result_path': 'VpnGateways',
-                            'key_comparer': 'vpn_gateway_id',
+                            'key_comparer': 'unique_id',
                             'vars': []
                         },
                         {
@@ -159,7 +159,7 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'networks',
                             'result_path': 'VpcEndpoints',
-                            'key_comparer': 'vpc_endpoint_id',
+                            'key_comparer': 'unique_id',
                             'vars': [
                                 {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
@@ -169,7 +169,7 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'networks',
                             'result_path': 'RouteTables',
-                            'key_comparer': 'route_table_id',
+                            'key_comparer': 'unique_id',
                             'vars': []
                         },
                         {
@@ -177,7 +177,7 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'networks',
                             'result_path': 'NetworkInterfaces',
-                            'key_comparer': 'network_interface_id',
+                            'key_comparer': 'unique_id',
                             'vars': []
                         },
                         {
@@ -185,7 +185,7 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'networks',
                             'result_path': 'NatGateways',
-                            'key_comparer': 'natgateway_id',
+                            'key_comparer': 'unique_id',
                             'vars': [
                                 {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
@@ -195,7 +195,7 @@ exports.up = function (db, next) {
                             'command': 'ec2',
                             'entity': 'networks',
                             'result_path': 'NetworkAcls',
-                            'key_comparer': 'network_acl_id',
+                            'key_comparer': 'unique_id',
                             'vars': []
                         }
                     ],
@@ -273,6 +273,19 @@ exports.up = function (db, next) {
                             'access': 'security_groups',
                             'command': 'network',
                             'entity': 'networks',
+                            'result_path': '',
+                            'single_result_path': '',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ]
+                        }
+                    ],
+                    'flavor-list': [
+                        {
+                            'access': 'flavors',
+                            'command': 'compute',
+                            'entity': 'flavors',
                             'result_path': '',
                             'single_result_path': '',
                             'key_comparer': 'unique_id',
