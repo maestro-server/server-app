@@ -63,6 +63,7 @@ module.exports = {
         _id: Joi.object(),
         refs: Joi.string()
     }),
+    unique_id: Joi.string().max(100),
     datacenters: Joi.object(),
     active: Joi.boolean(),
     status: Joi.string().valid('Active', 'Avaliable', 'Stopped').default('Active'),

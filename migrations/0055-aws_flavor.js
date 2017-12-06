@@ -4592,7 +4592,7 @@ exports.up = function (db, next) {
     ];
 
     let result = list.map(e => {
-        const r = _.mapKeys(e, (v, k) => _.snakeCase(k));
+        const r = _.mapKeys(e, (v, k) => _.snakeCase(_.toLower(k)));
 
         return Object.assign(r, attach);
     });
@@ -4601,7 +4601,7 @@ exports.up = function (db, next) {
 };
 
 exports.down = function (db, next) {
-    let pets = db.collection('adminer');
+    let pets = db.collection('flavors');
 
-    pets.findAndModify({key: 'aws_flavor'}, [], {}, {remove: true}, next);
+    pets.deleteMany({provider: 'AWS'}, next);
 };
