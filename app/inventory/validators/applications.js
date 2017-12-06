@@ -2,7 +2,7 @@
 
 const Joi = require('joi');
 
-const {id, roles, deploy, entities, tags, owner, pdbs, asm_groups, datacenters, environment, family, active, status, created_at} = require('core/validators/validators');
+const {id, roles, deploy, entities, tags, owner, pdbs, asm_groups, datacenters, environment, family, active, status, unique_id, created_at} = require('core/validators/validators');
 
 
 const schema = Joi.object().keys({
@@ -26,6 +26,7 @@ const schema = Joi.object().keys({
     modal: Joi.string().max(30),
     roles: Joi.array().items(roles).unique('_id'),
     tags: Joi.array().items(tags),
+    unique_id,
     status,
     datacenters,
     environment,

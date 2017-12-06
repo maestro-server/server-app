@@ -14,7 +14,7 @@ exports.up = function (db, next) {
                             'entity': 'servers',
                             'result_path': 'Reservations',
                             'single_result_path': 'Instances',
-                            'key_comparer': 'unique_id',
+                            'key_comparer': 'datacenters.id_instance',
                             'vars': [
                                 {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
@@ -210,7 +210,7 @@ exports.up = function (db, next) {
                             'entity': 'servers',
                             'result_path': '',
                             'single_result_path': '',
-                            'key_comparer': 'unique_id',
+                            'key_comparer': 'datacenters.id_instance',
                             'vars': [
                                 {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ]
