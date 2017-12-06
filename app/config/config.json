@@ -146,6 +146,13 @@
                 "arguments": [{"directory": "path:./inventory/routers/connections"}]
             }
         },
+        "router-flavors": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [{"directory": "path:./inventory/routers/flavors"}]
+            }
+        },
         "router-playbooks": {
             "priority": 120,
             "module": {
