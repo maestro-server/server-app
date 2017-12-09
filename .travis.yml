@@ -11,7 +11,6 @@ addons:
 addons:
   code_climate:
     repo_token: 818b5b0a5d1c18b8e8fcc6ebb84e7a37364425a25e72d47ed1fb62ca74309cdb
-
 env:
   - CXX=g++-5 DB=mongodb NODE_ENV=test
 cache:
@@ -19,17 +18,35 @@ cache:
     - node_modules
 services:
   - mongodb
-before_install:
-  - npm install -g node-gyp istanbul
-  - sudo apt-get update -qq
-  - sudo apt-get install -y -qq postfix
-before_script:
-  - sudo service postfix stop
-  - smtp-sink -d "%d.%H.%M.%S" localhost:1025 1000 &
-  - echo -e '#!/usr/bin/env bash\nexit 0' | sudo tee /usr/sbin/sendmail
-script:
-  - npm run coverage
-after_success:
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-  - cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage -p .
-  - cat ./coverage/lcov.info | ./node_modules/.bin/codeclimate-test-reporter
+  - docker
+
+jobs:
+  include:
+    - stage: run tests
+      before_install:
+       - npm install -g node-gyp istanbul
+       - sudo apt-get update -qq
+       - sudo apt-get install -y -qq postfix
+      before_script:
+       - sudo service postfix stop
+       - smtp-sink -d "%d.%H.%M.%S" localhost:1025 1000 &
+       - echo -e '#!/usr/bin/env bash\nexit 0' | sudo tee /usr/sbin/sendmail
+      script:
+       - npm run coverage
+      after_success:
+       - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+       - cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage -p .
+       - cat ./coverage/lcov.info | ./node_modules/.bin/codeclimate-test-reporter
+
+    - stage: build docker image
+      node_js: 6
+      script:
+        - npm run build
+        - docker build -f Dockerfile -t $REPO .
+      after_success:
+        - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+        - docker tag $REPO $DOCKER_USER/$REPO:latest
+        - docker tag $REPO $DOCKER_USER/$REPO:$TRAVIS_BRANCH
+        - docker push $DOCKER_USER/$REPO:latest
+        - docker push $DOCKER_USER/$REPO:$TRAVIS_BRANCH
+
