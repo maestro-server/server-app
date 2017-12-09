@@ -39,7 +39,6 @@ jobs:
     - stage: build docker image
       node_js: 6
       script:
-        - npm run build
         - docker build -f Dockerfile -t $REPO .
       after_success:
         - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
