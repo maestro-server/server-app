@@ -6,3 +6,7 @@ services:
     ports:
       - "1025:25"
       - "1080:80"
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
