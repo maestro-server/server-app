@@ -1,8 +1,11 @@
 'use strict'
 require('dotenv').config();
 
-module.exports = {
+const url = process.env.MAESTRO_MONGO_URI || 'localhost/maestro-client'
+
+
+module.exports = {	
     "mongoAppDb": {
-        "connectionString": 'mongodb://'+process.env.MAESTRO_MONGO_URI
+        "connectionString": 'mongodb://'+url
     }
 }
