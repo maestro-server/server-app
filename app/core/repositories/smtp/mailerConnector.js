@@ -20,7 +20,7 @@ const mailerConnector = (Mailer = DMailer) => {
                 smtpValid
             );
         } catch(e) {
-            throw new ResourceError(e);
+            throw new ResourceError("SMTP Connections not found");
         }
 
         async(function* () {
