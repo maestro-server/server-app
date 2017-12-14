@@ -21,7 +21,7 @@ const connection = () => {
 
         dao: Connection,
 
-        defaults: {},
+        defaults: {'status': 'enabled'},
 
         mapRelations: ['owner_user'],
 
