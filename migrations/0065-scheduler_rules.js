@@ -5,57 +5,52 @@ exports.up = function (db, next) {
     const list = [
         {
             name: 'server-list',
-            time: {minutes: 5},
+            time: 4*60,
             expires: 4*60
         },
         {
             name: 'loadbalance-list',
-            time: {minutes: 5},
+            time: 4*60*60,
             expires: 4*60
         },
         {
             name: 'dbs-list',
-            time: {minutes: 5},
+            time: 24*60*60,
             expires: 4*60
         },
         {
             name: 'storage-object-list',
-            time: {minutes: 5},
+            time: 24*5*60,
             expires: 4*60
         },
         {
             name: 'volumes-list',
-            time: {minutes: 5},
+            time: 4*60*60,
             expires: 4*60
         },
         {
             name: 'cdns-list',
-            time: {minutes: 5},
+            time: 48*60*60,
             expires: 4*60
         },
         {
             name: 'snapshot-list',
-            time: {minutes: 5},
+            time: 24*60*60,
             expires: 4*60
         },
         {
             name: 'images-list',
-            time: {minutes: 5},
+            time: 60*24*60*60,
             expires: 4*60
         },
         {
             name: 'security-list',
-            time: {minutes: 5},
+            time: 6*60*60,
             expires: 4*60
         },
         {
             name: 'network-list',
-            time: {minutes: 5},
-            expires: 4*60
-        },
-        {
-            name: 'flavor-list',
-            time: {minutes: 5},
+            time: 15*24*60*60,
             expires: 4*60
         }
     ]
