@@ -9,7 +9,7 @@ const schema = Joi.object().keys({
     name: Joi.string().max(250).required(),
     url: Joi.string().max(250),
     project: Joi.string().max(250),
-    status: Joi.string().max(10),
+    status: Joi.string().required(),
     roles: Joi.array().items(roles).unique('_id'),
     dc: Joi.string().max(150).required(),
     provider: Joi.string().max(30).required(),

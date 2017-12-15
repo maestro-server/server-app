@@ -83,7 +83,7 @@ exports.up = function (db, next) {
                             'entity': 'applications',
                             'result_path': 'DistributionList',
                             'vars': [
-                                {'name': 'MaxItems', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'MaxItems', 'env': 'MAESTRO_SCAN_QTD', 'default': 120, 'type': 'int'}
                             ]
                         }
                     ],
