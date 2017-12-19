@@ -9,7 +9,7 @@ const schema = Joi.object().keys({
     name: Joi.string().min(3).max(150).required(),
     description: Joi.string().max(800),
     system:  Joi.array().items(entities).unique(),
-    servers: Joi.array().items(id).unique(),
+    servers: Joi.array().items().unique(),
     targets: Joi.array().items(id).unique(),
     own: Joi.number().max(1),
     role: Joi.any(),

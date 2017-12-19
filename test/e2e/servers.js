@@ -4,10 +4,11 @@ require('dotenv').config({path: '.env.test'});
 let chai = require('chai'),
     request = require('supertest'),
     cleaner_db = require('./libs/cleaner_db'),
-    {expect} = chai;
+    {expect} = chai,
+    _ = require('lodash');
 
 
-describe('e2e architectures', function () {
+describe('e2e servers', function () {
 
     let app, mock;
 
@@ -20,6 +21,27 @@ describe('e2e architectures', function () {
         _id: null
     };
 
+    let servers = [{
+        hostname: "Myserver",
+        ipv4_private: "127.0.0.1",
+        ipv4_public: "127.0.0.1",
+        os: {base: 'Linux', dist: 'CentOs', version: "7"},
+        cpu: '24',
+        memory: '24',
+        storage: [{name: '/dev/sda', size: 30, root: "true"}, {name: '/dev/sdb', size: 24}],
+        services: [{name: 'Apache', version: '7'}],
+        role: 'Application',
+        auth: [{name: 'mykey', type: 'PKI', username: 'signorini', key: 'master.pem'}],
+        tags: [{key: 'Tager', value: 'ValueTager'}],
+    }, {
+        hostname: "Secondserver",
+        ipv4_private: "127.0.0.4",
+        ipv4_public: "127.0.0.4",
+        os: {base: 'Windows'},
+        role: 'Application',
+        thisFieldMustnApper: 'NotApper'
+    }];
+
     let friend = {
         name: "Friend",
         email: "friend@maestrousers.com",
@@ -28,14 +50,8 @@ describe('e2e architectures', function () {
         _id: null
     };
 
-    let architectures = [{
-        name: "Myarchitecture"
-    }, {
-        name: "Secondarchitecture"
-    }];
-
     before(function (done) {
-      cleaner_db([{tb: 'users'}, {tb: 'architectures'}, {tb: 'teams'}], () => {
+      cleaner_db([{tb: 'users'}, {tb: 'servers'}, {tb: 'teams'}], () => {
         app = require('./libs/bootApp')();
 
         app.once('start', done);
@@ -54,9 +70,6 @@ describe('e2e architectures', function () {
                 .post('/users')
                 .send(user)
                 .expect(201)
-                .expect('Content-Type', /json/)
-                .expect(/\"name\":\"MaestroUsers\"/)
-                .expect(/maestro@maestrousers\.com/)
                 .expect(/_id/)
                 .end(function (err) {
                     if (err) return done(err);
@@ -89,10 +102,6 @@ describe('e2e architectures', function () {
                 .post('/users/auth')
                 .send(user)
                 .expect(200)
-                .expect('Content-Type', /json/)
-                .expect(/\"name\":\"MaestroUsers\"/)
-                .expect(/maestro@maestrousers\.com/)
-                .expect(/_id/)
                 .expect((res) => {
                     user.token = res.body.token;
                     user._id = res.body.user._id;
@@ -106,19 +115,27 @@ describe('e2e architectures', function () {
 
     /**
      *
-     * Create architecture
+     * Create server
      * @depends create user
-     * @description I like to create a new architecture
+     * @description I like to create a new server
      */
-    describe('create architecture', function () {
-        it('Create architecture - create architecture', function (done) {
+    describe('create server', function () {
+        it('create server - create server', function (done) {
             request(mock)
-                .post('/architectures')
-                .send(architectures[0])
+                .post('/servers')
+                .send(servers[0])
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
-                .expect(/Myarchitecture/)
+                .expect(/Myserver/)
+                .expect(/os/)
+                .expect(/cpu/)
+                .expect(/memory/)
+                .expect(/tags/)
+                .expect(/ValueTager/)
+                .expect(/Apache/)
+                .expect(/master.pem/)
+                .expect(/storage/)
                 .expect(/_id/)
                 .end(function (err) {
                     if (err) return done(err);
@@ -126,10 +143,10 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Create architecture - create architecture without token', function (done) {
+        it('create server - create server without token', function (done) {
             request(mock)
-                .post('/architectures')
-                .send(architectures[0])
+                .post('/servers')
+                .send(servers[0])
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -137,24 +154,25 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Create architecture - create second architecture', function (done) {
+        it('create server - create second server', function (done) {
             request(mock)
-                .post('/architectures')
-                .send(architectures[1])
+                .post('/servers')
+                .send(servers[1])
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .expect(/name/)
                 .expect(/_id/)
+                .expect(res => !res.hasOwnProperty('thisFieldMustnApper'))
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
                 });
         });
 
-        it('Create architecture - validate fail', function (done) {
+        it('create server - validate fail', function (done) {
             request(mock)
-                .post('/architectures')
+                .post('/servers')
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(422)
                 .expect('Content-Type', /json/)
@@ -168,18 +186,19 @@ describe('e2e architectures', function () {
 
     /**
      *
-     * Get architectures
-     * @depends create architecture
-     * @description I like to see my news architectures
+     * Get servers
+     * @depends create server
+     * @description I like to see my news servers
      */
-    describe('read architecture', function () {
-        it('list my architecture', function (done) {
+    describe('read server', function () {
+        it('list my server', function (done) {
             request(mock)
-                .get('/architectures')
+                .get('/servers')
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
-                .expect(/\"name\":\"Myarchitecture\"/)
+                .expect(/\"hostname\":\"Myserver\"/)
+                .expect(/\"ipv4_private\":\"127.0.0.1\"/)
                 .expect(/_id/)
                 .expect(/_link/)
                 .expect(/found/)
@@ -187,8 +206,8 @@ describe('e2e architectures', function () {
                     expect(res.body.items).to.have.length(2);
                 })
                 .expect(function (res) {
-                    Object.assign(architectures[0], res.body.items[0]);
-                    Object.assign(architectures[1], res.body.items[1]);
+                    Object.assign(servers[0], res.body.items[0]);
+                    Object.assign(servers[1], res.body.items[1]);
                 })
                 .end(function (err) {
                     if (err) return done(err);
@@ -196,9 +215,23 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('list my architecture without token', function (done) {
+        it('count my servers', function (done) {
             request(mock)
-                .get('/architectures')
+                .get('/servers/count')
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect(function (res) {
+                    expect(res.body.count).to.equal(2);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('list my server without token', function (done) {
+            request(mock)
+                .get('/servers')
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -206,10 +239,10 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('list my architecture with filter', function (done) {
+        it('list my server with filter', function (done) {
             request(mock)
-                .get('/architectures')
-                .query({name: architectures[0].name})
+                .get('/servers')
+                .query({hostname: servers[0].hostname})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -226,9 +259,9 @@ describe('e2e architectures', function () {
 
         it('test pagination list', function (done) {
             request(mock)
-                .get('/architectures')
+                .get('/servers')
                 .query({limit: 1, page: 2})
-                .expect(/Myarchitecture/)
+                .expect(/Myserver/)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect(function (res) {
@@ -240,9 +273,9 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('Exist architectures - test pagination list', function (done) {
+        it('Exist servers - test pagination list', function (done) {
             request(mock)
-                .get('/architectures')
+                .get('/servers')
                 .query({limit: 1, page: 40})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(404)
@@ -253,24 +286,29 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('see my new architecture', function (done) {
+        it('see my new server', function (done) {
             request(mock)
-                .get('/architectures/' + architectures[0]._id)
+                .get('/servers/' + servers[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .expect(/name/)
                 .expect(/email/)
                 .expect(/_link/)
+                .expect(function (res) {
+                    let roles = res.body['roles'].map(e=>_.omit(e, ['_links']))
+                    Object.assign(servers[0], {roles});
+                })
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
                 });
         });
 
-        it('see my new architecture without token', function (done) {
+
+        it('see my new server without token', function (done) {
             request(mock)
-                .get('/architectures/' + architectures[0]._id)
+                .get('/servers/' + servers[0]._id)
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -280,8 +318,8 @@ describe('e2e architectures', function () {
 
         it('autocomplete', function (done) {
             request(mock)
-                .get('/architectures/autocomplete')
-                .query({complete: "second"})
+                .get('/servers/')
+                .query({query: "{'hostname': 'server'}"})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .end(function (err) {
@@ -292,10 +330,10 @@ describe('e2e architectures', function () {
 
         it('autocomplete - not found', function (done) {
             request(mock)
-                .get('/architectures/autocomplete')
-                .query({})
+                .get("/servers/")
+                .query({query: '{"hostname": "notfuond"}'})
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(404)
+                .expect(e=> e.text.found == 0)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -305,7 +343,7 @@ describe('e2e architectures', function () {
 
         it('autocomplete without token', function (done) {
             request(mock)
-                .get('/architectures/autocomplete')
+                .get('/servers/autocomplete')
                 .query({complete: "second"})
                 .expect(401)
                 .end(function (err) {
@@ -317,31 +355,119 @@ describe('e2e architectures', function () {
 
     /**
      *
-     * Update architecture
-     * @depends create architecture
-     * @description I like to update my architecture witch name ChangeName
+     * Patch server
+     * @depends create server
+     * @description I like to update my server witch name ChangeName, or add some services/auth/tags
      */
-    describe('update architecture', function () {
-        it('update architecture with valid data', function (done) {
-            const data = Object.assign(architectures[0], {name: "ChangeName"});
+    describe('patch server', function () {
+        it('patch server, changing hostname', function (done) {
+            const data = Object.assign(servers[0], {hostname: "ChangeName"});
 
             request(mock)
-                .patch('/architectures/' + architectures[0]._id)
+                .patch('/servers/' + servers[0]._id)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(202)
                 .expect('Content-Type', /json/)
-                .expect(/\"name\":\"ChangeName\"/)
+                .expect(/\"hostname\":\"ChangeName\"/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
                 });
         });
 
-        it('invalid data to update architecture', function (done) {
+        it('patch server add one storage', function (done) {
+            let data = Object.assign({}, servers[0]);
+            data['storage'].push({name: '/dev/sdx', size: 100});
 
             request(mock)
-                .patch('/architectures/' + architectures[0]._id)
+                .patch('/servers/' + servers[0]._id)
+                .send(data)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(202)
+                .expect('Content-Type', /json/)
+                .expect(/storage/)
+                .expect(/\/dev\/sdx/)
+                .expect(function (res) {
+                    expect(res.body['storage']).to.have.length(3);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('patch server add one service (Monitoring 2.3)', function (done) {
+            let data = Object.assign({}, servers[0]);
+            data['services'].push({name: 'Monitoring', version: '2.3'});
+
+            request(mock)
+                .patch('/servers/' + servers[0]._id)
+                .send(data)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(202)
+                .expect('Content-Type', /json/)
+                .expect(/services/)
+                .expect(/Monitoring/)
+                .expect(/2.3/)
+                .expect(function (res) {
+                    expect(res.body['services']).to.have.length(2);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('patch server add new auth (ldap, suprisekey)', function (done) {
+            let data = Object.assign({}, servers[0]);
+            data['auth'].push({name: 'supriseKey', type: 'LDAP', username: 'ldapp'});
+
+            request(mock)
+                .patch('/servers/' + servers[0]._id)
+                .send(data)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(202)
+                .expect('Content-Type', /json/)
+                .expect(/auth/)
+                .expect(/supriseKey/)
+                .expect(/LDAP/)
+                .expect(/ldapp/)
+                .expect(function (res) {
+                    expect(res.body['auth']).to.have.length(2);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('patch server add new tag (newTag, myvalue)', function (done) {
+            let data = Object.assign({}, servers[0]);
+            data['tags'].push({key: 'newTag', value: 'myValue'});
+
+            request(mock)
+                .patch('/servers/' + servers[0]._id)
+                .send(data)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(202)
+                .expect('Content-Type', /json/)
+                .expect(/tags/)
+                .expect(/newTag/)
+                .expect(/myValue/)
+                .expect(function (res) {
+                    expect(res.body['tags']).to.have.length(2);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('invalid data to patch server (empty test data)', function (done) {
+
+            request(mock)
+                .patch('/servers/' + servers[0]._id)
                 .send({})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(422)
@@ -351,11 +477,11 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('try to update architecture withou token', function (done) {
-            const data = Object.assign(architectures[0], {name: "ChangeName"});
+        it('try to patch server without token, and verify the error', function (done) {
+            const data = Object.assign(servers[0], {name: "ChangeName"});
 
             request(mock)
-                .patch('/architectures/' + architectures[0]._id)
+                .patch('/servers/' + servers[0]._id)
                 .send(data)
                 .expect(401)
                 .end(function (err) {
@@ -365,24 +491,56 @@ describe('e2e architectures', function () {
         });
     });
 
-    describe('confirm update architecture', function () {
+    /**
+     *
+     * Put server
+     * @depends create server
+     * @description I like to update my server witch name ChangeName, or change my cpu
+     */
+    describe('update server', function () {
+        it('put server with valid data', function (done) {
+            const data = Object.assign(servers[0], {hostname: "ChangeNameWithPut"});
+
+            request(mock)
+                .put('/servers/' + servers[0]._id)
+                .send(data)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(202)
+                .expect('Content-Type', /json/)
+                .expect(/\"hostname\":\"ChangeNameWithPut\"/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
+    /**
+     *
+     * Check updates/patchs server
+     * @depends create server
+     * @description I like ensure some effects
+     */
+    describe('confirm update server', function () {
 
         it('confirm my changes', function (done) {
             request(mock)
-                .get('/architectures/' + architectures[0]._id)
+                .get('/servers/' + servers[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
-                .expect(/ChangeName/)
+                .expect(/ChangeNameWithPut/)
+                .expect(/newTag/)
+                .expect(/LDAP/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
                 });
         });
 
-        it('confirm if my update dont create new architecture', function (done) {
+        it('confirm if any of my updates/patchs dont create new server', function (done) {
             request(mock)
-                .get('/architectures')
+                .get('/servers')
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -397,20 +555,29 @@ describe('e2e architectures', function () {
     });
 
 
+
+
+
+
+    /*
+    =============================================== roles ==================================================
+     */
+
     /**
      *
      * Create roles
      * @depends create team roles
-     * @description I like to add new role into my Myarchitectures
+     * @description I like to add new role into my Myservers
      */
     describe('e2e teams: add roles', function () {
         it('valid data to add roles', function (done) {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)
-                .post('/architectures/' + architectures[0]._id + '/roles')
+                .post('/servers/' + servers[0]._id + '/roles')
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
+                .expect(e => console.log(e.text))
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .expect(/\"refs\":\"users\"/)
@@ -422,7 +589,7 @@ describe('e2e architectures', function () {
 
         it('invalid data to add roles (miss role)', function (done) {
             request(mock)
-                .post('/architectures/' + architectures[0]._id + '/roles')
+                .post('/servers/' + servers[0]._id + '/roles')
                 .send(friend)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(422)
@@ -436,7 +603,7 @@ describe('e2e architectures', function () {
             const data = {role: "3", id: friend._id, refs: "users"};
 
             request(mock)
-                .post('/architectures/' + architectures[0]._id + '/roles')
+                .post('/servers/' + servers[0]._id + '/roles')
                 .send(data)
                 .expect(401)
                 .end(function (err) {
@@ -451,7 +618,7 @@ describe('e2e architectures', function () {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)
-                .post('/architectures/' + architectures[0]._id + '/roles')
+                .post('/servers/' + servers[0]._id + '/roles')
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(400)
@@ -472,7 +639,7 @@ describe('e2e architectures', function () {
     describe('get roles', function () {
         it('Exist roles - confirm my news roles', function (done) {
             request(mock)
-                .get('/architectures/' + architectures[0]._id)
+                .get('/servers/' + servers[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -492,12 +659,65 @@ describe('e2e architectures', function () {
      *
      * Update roles
      * @depends create role
-     * @description I like to update the role architectures role
+     * @description I like to update the role servers role
      */
     describe('update roles', function () {
-        it('Exist roles - update role architecture', function (done) {
+        it('Exist roles - update role server', function (done) {
             request(mock)
-                .put('/architectures/' + architectures[0]._id + "/roles/" + friend._id)
+                .put('/servers/' + servers[0]._id + "/roles")
+                .send(servers[0].roles)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .expect(/users/)
+                .expect(function (res) {
+                    servers[0]['roles'] = res.body.items
+                    expect(res.body.items).to.have.length(2);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('update role server without token', function (done) {
+            request(mock)
+                .put('/servers/' + servers[0]._id + "/roles")
+                .send(servers[0].roles)
+                .expect(401)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
+    describe('update roles add new role and update all of them', function () {
+        it('Exist roles - update role server, add new role', function (done) {
+            let roles = servers[0].roles
+            roles.push({role: 3, refs: 'organization'});
+
+            request(mock)
+                .put('/servers/' + servers[0]._id + "/roles")
+                .send(roles)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .expect(/organization/)
+                .expect(function (res) {
+                    expect(res.body.items).to.have.length(3);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
+    describe('update single roles', function () {
+        it('Exist roles - update role server', function (done) {
+            request(mock)
+                .put('/servers/' + servers[0]._id + "/roles/" + friend._id)
                 .send({role: "1", refs: "users", name: friend.name, email: friend.email})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
@@ -509,9 +729,9 @@ describe('e2e architectures', function () {
                 });
         });
 
-        it('update role architecture without token', function (done) {
+        it('update single role server without token', function (done) {
             request(mock)
-                .put('/architectures/' + architectures[0]._id + "/roles/" + friend._id)
+                .put('/servers/' + servers[0]._id + "/roles/" + friend._id)
                 .send({role: "1", refs: "users", name: friend.name, email: friend.email})
                 .expect(401)
                 .end(function (err) {
@@ -522,16 +742,16 @@ describe('e2e architectures', function () {
     });
 
     describe('confirm update roles', function () {
-        it('Exist roles - confirm my news architectures', function (done) {
+        it('Exist roles - confirm my news servers', function (done) {
             request(mock)
-                .get('/architectures/' + architectures[0]._id)
+                .get('/servers/' + servers[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .expect(/Friend/)
                 .expect(/\"role\"\:1/)
                 .expect(function (res) {
-                    expect(res.body.roles).to.have.length(2);
+                    expect(res.body.roles).to.have.length(3);
                 })
                 .end(function (err) {
                     if (err) return done(err);
@@ -543,13 +763,13 @@ describe('e2e architectures', function () {
     /**
      *
      * Delete roles
-     * @depends create architecture
+     * @depends create server
      * @description I have SecondApp, and ai like to delete on role
      */
     describe('delete roles', function () {
         it('Exist roles - delete role', function (done) {
             request(mock)
-                .delete('/architectures/' + architectures[0]._id + "/roles/" + friend._id)
+                .delete('/servers/' + servers[0]._id + "/roles/" + friend._id)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(204)
                 .end(function (err) {
@@ -560,7 +780,7 @@ describe('e2e architectures', function () {
 
         it('Exist roles - delete role without token', function (done) {
             request(mock)
-                .delete('/architectures/' + architectures[0]._id + "/roles/" + friend._id)
+                .delete('/servers/' + servers[0]._id + "/roles/" + friend._id)
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -572,12 +792,12 @@ describe('e2e architectures', function () {
     describe('confirm delete roles', function () {
         it('Exist roles - confirm my news role', function (done) {
             request(mock)
-                .get('/architectures/' + architectures[0]._id)
+                .get('/servers/' + servers[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .expect(function (res) {
-                    expect(res.body.roles).to.have.length(1);
+                    expect(res.body.roles).to.have.length(2);
                 })
                 .end(function (err) {
                     if (err) return done(err);
@@ -586,301 +806,22 @@ describe('e2e architectures', function () {
         });
     });
 
-
-    /**
-     *
-     * Delete architectures
-     * @depends create 2
-     * @description I have 2 architectures, i like to delete Secondarchitecture.
-     */
-    describe('delete architecture', function () {
-        it('Exist roles - delete my architecture', function (done) {
-            request(mock)
-                .delete('/architectures/' + architectures[0]._id)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(204)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-    });
-
-    describe('confirm to delete architecture', function () {
-        it('Exist roles - delete my architecture', function (done) {
-            request(mock)
-                .get('/architectures/')
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .expect(function (res) {
-                    expect(res.body.items).to.have.length(1);
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-    });
 
 
     /*
-     ------------------------------------------------------ team app --------
+    =========================================================== delete servers
      */
-    let teams = {
-        name: "MyTeam"
-    };
-
-    let teamsAPP = [{
-        name: "MyarchitectureT"
-    }, {
-        name: "SecondarchitectureT"
-    }];
-
-
-    describe('create team', function () {
-        it('Create team', function (done) {
-            request(mock)
-                .post('/teams')
-                .send(teams)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(201)
-                .expect('Content-Type', /json/)
-                .expect(/MyTeam/)
-                .expect(/_id/)
-                .expect((res) => {
-                    teams._id = res.body._id;
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-    });
-
-    describe('create team architecture', function () {
-        it('Create team architecture - create team architecture', function (done) {
-            request(mock)
-                .post(`/teams/${teams._id}/architectures`)
-                .send(teamsAPP[0])
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(201)
-                .expect('Content-Type', /json/)
-                .expect(/MyarchitectureT/)
-                .expect(/teams/)
-                .expect(/_id/)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-
-        it('Create team architecture - create second architecture', function (done) {
-            request(mock)
-                .post(`/teams/${teams._id}/architectures`)
-                .send(teamsAPP[1])
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(201)
-                .expect('Content-Type', /json/)
-                .expect(/name/)
-                .expect(/_id/)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-    });
 
     /**
      *
-     * Get architectures
-     * @depends create architecture
-     * @description I like to see my news architectures
-     */
-    describe('read team architecture', function () {
-        it('list my architecture', function (done) {
-            request(mock)
-                .get(`/teams/${teams._id}/architectures`)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .expect(/\"name\":\"MyarchitectureT\"/)
-                .expect(/_id/)
-                .expect(function (res) {
-                    expect(res.body.items).to.have.length(2);
-                })
-                .expect(function (res) {
-                    Object.assign(teamsAPP[0], res.body.items[0]);
-                    Object.assign(teamsAPP[1], res.body.items[1]);
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('Exist team architecture - list my architecture without token', function (done) {
-            request(mock)
-                .get(`/teams/${teams._id}/architectures`)
-                .expect(401)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('Exist team architecture - list my architecture with filter', function (done) {
-            request(mock)
-                .get(`/teams/${teams._id}/architectures`)
-                .query({name: teamsAPP[0].name})
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .expect(/name/)
-                .expect(/_id/)
-                .expect(function (res) {
-                    expect(res.body.items).to.have.length(1);
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('Exist team architecture - test pagination list', function (done) {
-            request(mock)
-                .get(`/teams/${teams._id}/architectures`)
-                .query({limit: 1, page: 2})
-                .expect(/Myarchitecture/)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(200)
-                .expect(function (res) {
-                    expect(res.body.items).to.have.length(1);
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('Exist team architecture - see my new architecture', function (done) {
-            request(mock)
-                .get(`/teams/${teams._id}/architectures/${teamsAPP[0]._id}`)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .expect(/name/)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('Exist team architecture - see my new architecture without token', function (done) {
-            request(mock)
-                .get(`/teams/${teams._id}/architectures/${teamsAPP[0]._id}`)
-                .expect(401)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-    });
-
-    /**
-     *
-     * Update architecture
-     * @depends create architecture
-     * @description I like to update my architecture witch name ChangeName
-     */
-    describe('update team architecture', function () {
-        it('Exist team architecture - update architecture with valid data', function (done) {
-            const data = Object.assign(teamsAPP[0], {name: "ChangeName"});
-
-            request(mock)
-                .patch(`/teams/${teams._id}/architectures/${teamsAPP[0]._id}`)
-                .send(data)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(202)
-                .expect('Content-Type', /json/)
-                .expect(/\"name\":\"ChangeName\"/)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('Exist team architecture - invalid data to update architecture', function (done) {
-
-            request(mock)
-                .patch(`/teams/${teams._id}/architectures/${teamsAPP[0]._id}`)
-                .send({})
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(422)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('Exist team architecture - try to update architecture withou token', function (done) {
-            const data = Object.assign(teamsAPP[0], {name: "ChangeName"});
-
-            request(mock)
-                .patch(`/teams/${teams._id}/architectures/${teamsAPP[0]._id}`)
-                .send(data)
-                .expect(401)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-    });
-
-    describe('confirm team update architecture', function () {
-
-        it('Exist team architecture - confirm my changes', function (done) {
-            request(mock)
-                .get(`/teams/${teams._id}/architectures/${teamsAPP[0]._id}`)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .expect(/ChangeName/)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('Exist team architecture - confirm if my update dont create new architecture', function (done) {
-            request(mock)
-                .get(`/teams/${teams._id}/architectures`)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .expect(function (res) {
-                    expect(res.body.items).to.have.length(2);
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-    });
-
-
-    /**
-     *
-     * Delete architectures
+     * Delete servers
      * @depends create 2
-     * @description I have 2 architectures, i like to delete Secondarchitecture.
+     * @description I have 2 servers, i like to delete Secondserver.
      */
-    describe('delete team architecture', function () {
-        it('Exist roles - delete my architecture', function (done) {
+    describe('delete server', function () {
+        it('Exist roles - delete my server', function (done) {
             request(mock)
-                .delete(`/teams/${teams._id}/architectures/${teamsAPP[0]._id}`)
+                .delete('/servers/' + servers[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(204)
                 .end(function (err) {
@@ -890,10 +831,10 @@ describe('e2e architectures', function () {
         });
     });
 
-    describe('confirm team  delete architecture', function () {
-        it('Exist roles - delete my architecture', function (done) {
+    describe('confirm to delete server', function () {
+        it('Exist roles - delete my server', function (done) {
             request(mock)
-                .get(`/teams/${teams._id}/architectures`)
+                .get('/servers/')
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -906,6 +847,7 @@ describe('e2e architectures', function () {
                 });
         });
     });
+
 
 
 });

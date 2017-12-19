@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 const DBRepository = require('core/repositories/DBRepository');
-const {transfID} = require('core/applications/transforms/strIDtoObjectID');
+const {transfID} = require('core/applications/transforms/mapRelationToObjectID');
 
 const accessMergeTransform = require('./transforms/accessMergeTransform');
 

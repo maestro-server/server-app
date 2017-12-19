@@ -4,6 +4,7 @@ require('app-module-path').addPath(`${__dirname}/../../app`); //make more realia
 require('dotenv').config({path: '.env.test'});
 
 let chai = require('chai'),
+    chaid = require('chaid'),
     {expect} = chai,
     sinon = require('sinon'),
     httpMocks = require('node-mocks-http'),
@@ -13,6 +14,7 @@ let chai = require('chai'),
     _ = require('lodash');
 
 chai.use(chaiAsPromised);
+chai.use(chaid);
 sinonStubPromise(sinon);
 
 
@@ -155,6 +157,113 @@ describe('unit - core', function () {
         expect(obj).to.have.property('myRoler').with.lengthOf(collections.myRoler.length);
         done();
     });
+
+    /*
+    ========================== strId
+     */
+
+    it('applications - transform - mapRelationToObjectID - simple object', function (done) {
+        const {ObjectId} = require('mongorito');
+        const strIDtoObject = require('core/applications/transforms/mapRelationToObjectID');
+        const str = "5a32943514ea552585daf6b1"
+
+        const setup = {'tester': {'_id': str}};
+        const key = ['tester'];
+        const compare = {'tester': {'_id': ObjectId(str)}};
+
+        expect(strIDtoObject(setup, key))
+            .to.be.a('object')
+            .to.have.property('tester')
+            .to.be.a('object')
+            .to.have.id(new ObjectId(str));
+
+        expect(strIDtoObject(setup, key).tester._id instanceof ObjectId).to.be.true;
+        done();
+    });
+
+    it('applications - transform - mapRelationToObjectID - array simple str', function (done) {
+        const {ObjectId} = require('mongorito');
+        const strIDtoObject = require('core/applications/transforms/mapRelationToObjectID');
+        const str = "5a32943514ea552585daf6b1";
+        const str2 = "5a2af615a6bbb1d69d4e83e7";
+
+        const setup = {'tester': [str, str2]};
+        const key = ['tester'];
+        const compare = {'tester': [ObjectId(str), ObjectId(str2)]};
+
+        expect(strIDtoObject(setup, key))
+            .to.be.a('object')
+            .to.have.property('tester')
+            .to.same.ids([new ObjectId(str), new ObjectId(str2)]);
+
+        expect(strIDtoObject(setup, key).tester[0] instanceof ObjectId).to.be.true;
+        expect(strIDtoObject(setup, key).tester[1] instanceof ObjectId).to.be.true;
+        done();
+    });
+
+    it('applications - transform - mapRelationToObjectID - array object', function (done) {
+        const {ObjectId} = require('mongorito');
+        const strIDtoObject = require('core/applications/transforms/mapRelationToObjectID');
+        const str = "5a32943514ea552585daf6b1";
+        const str2 = "5a2af615a6bbb1d69d4e83e7";
+
+        const setup = {'tester': [{'_id': str}, {'_id': str2}]};
+        const key = ['tester'];
+        const compare = {'tester': [{'_id': ObjectId(str)}, {'_id': ObjectId(str2)}]};
+
+        expect(strIDtoObject(setup, key))
+            .to.be.a('object')
+            .to.have.property('tester')
+            .to.have.ids([new ObjectId(str), new ObjectId(str2)]);
+
+        expect(strIDtoObject(setup, key).tester[0]._id instanceof ObjectId).to.be.true;
+        expect(strIDtoObject(setup, key).tester[1]._id instanceof ObjectId).to.be.true;
+        done();
+    });
+
+    it('applications - transform - transfID - object simple str', function (done) {
+        const {ObjectId} = require('mongorito');
+        const {transfID} = require('core/applications/transforms/mapRelationToObjectID');
+        const str = "5a32943514ea552585daf6b1";
+
+        const setup = {'tester': str};
+        const key = 'tester';
+        const compare = ObjectId(str);
+
+        expect(transfID(setup, key))
+            .to.be.a('object')
+            .to.have.property('tester')
+            .to.same.id(compare);
+
+        expect(transfID(setup, key).tester instanceof ObjectId).to.be.true;
+        done();
+    });
+
+    it('applications - transform - transfID - deeper object', function (done) {
+        const {ObjectId} = require('mongorito');
+        const {transfID} = require('core/applications/transforms/mapRelationToObjectID');
+        const str = "5a32943514ea552585daf6b1";
+
+        const setup = {'tester': {'another': {'deeper': str}}};
+        const key = 'tester.another.deeper';
+        const compare = ObjectId(str);
+
+        expect(transfID(setup, key))
+            .to.be.a('object')
+            .to.have.property('tester')
+            .to.have.property('another')
+            .to.have.property('deeper')
+            .to.same.id(compare);
+
+        expect(transfID(setup, key).tester.another.deeper instanceof ObjectId).to.be.true;
+        done();
+    });
+
+
+    /*
+    ========================== end strId
+     */
+
 
     it('applications - validator - validAccessEmpty', function (done) {
         const validAccess = require('core/applications/validator/validAccessEmpty');
@@ -574,6 +683,38 @@ describe('unit - core', function () {
                 yield Promise.reject();
             });
         }).to.not.throw();
+        done();
+    });
+
+    it('libs - in_maker - single str', function (done) {
+        const {ObjectId} = require('mongorito');
+        const inMaker = require('core/libs/in_maker');
+        const str = "5a32943514ea552585daf6b1";
+
+        expect(inMaker(str))
+            .to.have.id(new ObjectId(str));
+
+        expect(inMaker(str) instanceof ObjectId).to.be.true;
+        done();
+    });
+
+    it('libs - in_maker - array str', function (done) {
+        const {ObjectId} = require('mongorito');
+        const inMaker = require('core/libs/in_maker');
+
+        const setup = ["5a32943514ea552585daf6b1", "5a32943514ea552585daf6b2", "5a32943514ea552585daf6b3"];
+        const compare = [
+            new ObjectId("5a32943514ea552585daf6b1"),
+            new ObjectId("5a32943514ea552585daf6b2"),
+            new ObjectId("5a32943514ea552585daf6b3")];
+
+        expect(inMaker(setup))
+            .to.have.property('$in')
+            .to.same.ids(compare);
+
+        expect(inMaker(setup)['$in'][0] instanceof ObjectId).to.be.true;
+        expect(inMaker(setup)['$in'][1] instanceof ObjectId).to.be.true;
+        expect(inMaker(setup)['$in'][2] instanceof ObjectId).to.be.true;
         done();
     });
 

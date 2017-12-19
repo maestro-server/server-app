@@ -13,7 +13,7 @@ const factoryValid = require('core/libs/factoryValid');
 const accessValid = require('core/validators/accessValid');
 
 const validAccessEmpty = require('core/applications/validator/validAccessEmpty');
-const {transfID} = require('core/applications/transforms/strIDtoObjectID');
+const {transfID} = require('core/applications/transforms/mapRelationToObjectID');
 
 const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
