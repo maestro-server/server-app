@@ -12,7 +12,7 @@ const Access = require('core/entities/accessRole');
 
 const aclRoles = require('./transforms/aclRoles');
 const jsonParser = require('./transforms/jsonParser');
-const strIDtoObjectID = require('./transforms/strIDtoObjectID');
+const mapRelationToObjectID = require('./transforms/mapRelationToObjectID');
 
 
 const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
@@ -22,7 +22,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
         find (req, res, next) {
 
             let {query, user} = req;
-            query =  strIDtoObjectID(query, Entity.mapRelations);
+            query =  mapRelationToObjectID(query, Entity.mapRelations);
             query = _.defaults(query, {limit: 20}, {page: 1});
             query = jsonParser(query, 'query');
 
@@ -39,7 +39,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
         count (req, res, next) {
 
             let {query, user} = req;
-            query =  strIDtoObjectID(query, Entity.mapRelations);
+            query =  mapRelationToObjectID(query, Entity.mapRelations);
             query = jsonParser(query, 'query');
 
             PersistenceServices(Entity)
@@ -83,7 +83,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
             const bodyWithOwner = Object.assign(
                 {},
-                strIDtoObjectID(req.body, Entity.mapRelations)
+                mapRelationToObjectID(req.body, Entity.mapRelations)
             );
 
             PersistenceServices(Entity)
@@ -98,7 +98,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
             const bodyWithOwner = Object.assign(
                 {},
-                strIDtoObjectID(req.body, Entity.mapRelations)
+                mapRelationToObjectID(req.body, Entity.mapRelations)
             );
 
             PersistenceServices(Entity)
@@ -113,7 +113,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
             const bodyWithOwner = Object.assign(
                 {},
-                strIDtoObjectID(req.body, Entity.mapRelations),
+                mapRelationToObjectID(req.body, Entity.mapRelations),
                 aclRoles(req.user, Entity, Access.ROLE_ADMIN)
             );
 

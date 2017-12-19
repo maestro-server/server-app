@@ -15,7 +15,7 @@ hooks: {
 const _ = require('lodash');
 const DFactoryDBRepository = require('core/repositories/DBRepository');
 
-const {transfID} = require('core/applications/transforms/strIDtoObjectID');
+const {transfID} = require('core/applications/transforms/mapRelationToObjectID');
 
 const relationInc = (configs) => (data)  => {
   const {Entity, field} = configs;
