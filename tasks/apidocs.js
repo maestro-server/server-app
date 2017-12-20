@@ -9,7 +9,7 @@ module.exports = function (gulp, $) {
 
     gulp.task('apidocs', function (done) {
       apidoc({
-            src: "app/controllers/",
+            src: "app/",
             dest: "apidocs/",
             config: "./"
           }, done);

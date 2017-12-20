@@ -397,21 +397,6 @@ describe('e2e servers', function () {
                 });
         });
 
-        it('patch server add new invalidate storage (outherTag key)', function (done) {
-            let data = _.cloneDeep(servers[0]);
-            data['storage'].push({outherKey: 'email', value: "valuee"});
-
-            request(mock)
-                .patch('/servers/' + servers[0]._id)
-                .send(data)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(422)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
         it('patch server add one service (Monitoring 2.3)', function (done) {
             let data = Object.assign({}, servers[0]);
             data['services'].push({name: 'Monitoring', version: '2.3'});
@@ -428,21 +413,6 @@ describe('e2e servers', function () {
                 .expect(function (res) {
                     expect(res.body['services']).to.have.length(2);
                 })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('patch server add new invalidate services (outherTag key)', function (done) {
-            let data = _.cloneDeep(servers[0]);
-            data['services'].push({outherKey: 'email', value: "valuee"});
-
-            request(mock)
-                .patch('/servers/' + servers[0]._id)
-                .send(data)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(422)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -472,21 +442,6 @@ describe('e2e servers', function () {
                 });
         });
 
-        it('patch server add new invalidate auth (outherTag key)', function (done) {
-            let data = _.cloneDeep(servers[0]);
-            data['auth'].push({outherKey: 'email', value: "valuee"});
-
-            request(mock)
-                .patch('/servers/' + servers[0]._id)
-                .send(data)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(422)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
         it('patch server add new tag (newTag, myvalue)', function (done) {
             let data = Object.assign({}, servers[0]);
             data['tags'].push({key: 'newTag', value: 'myValue'});
@@ -503,21 +458,6 @@ describe('e2e servers', function () {
                 .expect(function (res) {
                     expect(res.body['tags']).to.have.length(2);
                 })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('patch server add new invalidate tags (outherTag key)', function (done) {
-            let data = _.cloneDeep(servers[0]);
-            data['tags'].push({outherKey: 'email', value: "valuee"});
-
-            request(mock)
-                .patch('/servers/' + servers[0]._id)
-                .send(data)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(422)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
