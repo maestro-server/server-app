@@ -9,10 +9,10 @@ const create = {
 };
 
 const scheme = {
-    name: Joi.string().min(3).max(30),
+    name: Joi.string().min(3).max(30).required(),
     zones: Joi.array(),
     regions: Joi.array(),
-    provider: Joi.string(),
+    provider: Joi.string().required(),
     server_count: Joi.number(),
     sucessed: Joi.boolean(),
     owner,

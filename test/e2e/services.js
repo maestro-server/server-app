@@ -8,7 +8,7 @@ let chai = require('chai'),
     _ = require('lodash');
 
 
-describe('e2e flavors', function () {
+describe('e2e services', function () {
 
     let app, mock;
 
@@ -21,25 +21,14 @@ describe('e2e flavors', function () {
         _id: null
     };
 
-    let flavors = [{
-        name: "Myflavor",
-        api_name: "My flavor description",
-        provider: "AWS",
-        datacenters: {
-            name: "AWS - Base",
-            _id: "5a3abbce66cc383cbc8e1282",
-            zone: ["us-east-1a", "us-east-1b"]
-        },
-        tags: [{key: 'Tager', value: 'ValueTager'}]
+    let services = [{
+        name: "Myservice",
+        family: ["Loadbalance"],
+        tags: ['azure', 'tester']
     }, {
-        name: "MySecondflavor",
-        api_name: "My 2 flavor description",
-        provider: "AWS",
-        datacenters: {
-            name: "AWS - Base",
-            _id: "5a3abbce66cc383cbc8e1282",
-            zone: ["us-east-1a", "us-east-1b"]
-        },
+        name: "MySecondservice",
+        family: ["DataBase"],
+        tags: ['oracle', 'sql']
     }];
 
     let friend = {
@@ -51,7 +40,7 @@ describe('e2e flavors', function () {
     };
 
     before(function (done) {
-        cleaner_db([{tb: 'users'}, {tb: 'flavors'}, {tb: 'teams'}], () => {
+        cleaner_db([{tb: 'users'}, {tb: 'services'}, {tb: 'teams'}], () => {
             app = require('./libs/bootApp')();
 
             app.once('start', done);
@@ -115,20 +104,22 @@ describe('e2e flavors', function () {
 
     /**
      *
-     * Create flavor
+     * Create service
      * @depends create user
-     * @description I like to create a new flavor
+     * @description I like to create a new service
      */
-    describe('create flavor', function () {
-        it('create flavor - create flavor', function (done) {
+    describe('create service', function () {
+        it('create service - create service', function (done) {
             request(mock)
-                .post('/flavors')
-                .send(flavors[0])
+                .post('/services')
+                .send(services[0])
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
-                .expect(/Myflavor/)
-                .expect(/api_name/)
-                .expect(/provider/)
+                .expect(/Myservice/)
+                .expect(/family/)
+                .expect(/Loadbalance/)
+                .expect(/azure/)
+                .expect(/tester/)
                 .expect(/_id/)
                 .end(function (err) {
                     if (err) return done(err);
@@ -136,10 +127,10 @@ describe('e2e flavors', function () {
                 });
         });
 
-        it('create flavor - create flavor without token', function (done) {
+        it('create service - create service without token', function (done) {
             request(mock)
-                .post('/flavors')
-                .send(flavors[0])
+                .post('/services')
+                .send(services[0])
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -147,10 +138,10 @@ describe('e2e flavors', function () {
                 });
         });
 
-        it('create flavor - create second flavor', function (done) {
+        it('create service - create second service', function (done) {
             request(mock)
-                .post('/flavors')
-                .send(flavors[1])
+                .post('/services')
+                .send(services[1])
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
@@ -163,9 +154,9 @@ describe('e2e flavors', function () {
                 });
         });
 
-        it('create flavor - validate fail', function (done) {
+        it('create service - validate fail', function (done) {
             request(mock)
-                .post('/flavors')
+                .post('/services')
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(422)
                 .expect('Content-Type', /json/)
@@ -179,20 +170,22 @@ describe('e2e flavors', function () {
 
     /**
      *
-     * Get flavors
-     * @depends create flavor
-     * @description I like to see my news flavors
+     * Get services
+     * @depends create service
+     * @description I like to see my news services
      */
-    describe('read flavor', function () {
-        it('list my flavor', function (done) {
+    describe('read service', function () {
+        it('list my service', function (done) {
             request(mock)
-                .get('/flavors')
+                .get('/services')
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
-                .expect(/Myflavor/)
-                .expect(/api_name/)
-                .expect(/provider/)
+                .expect(/Myservice/)
+                .expect(/family/)
+                .expect(/Loadbalance/)
+                .expect(/azure/)
+                .expect(/tester/)
                 .expect(/_id/)
                 .expect(/_link/)
                 .expect(/found/)
@@ -200,8 +193,8 @@ describe('e2e flavors', function () {
                     expect(res.body.items).to.have.length(2);
                 })
                 .expect(function (res) {
-                    Object.assign(flavors[0], res.body.items[0]);
-                    Object.assign(flavors[1], res.body.items[1]);
+                    Object.assign(services[0], res.body.items[0]);
+                    Object.assign(services[1], res.body.items[1]);
                 })
                 .end(function (err) {
                     if (err) return done(err);
@@ -209,9 +202,9 @@ describe('e2e flavors', function () {
                 });
         });
 
-        it('count my flavors', function (done) {
+        it('count my services', function (done) {
             request(mock)
-                .get('/flavors/count')
+                .get('/services/count')
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect(function (res) {
@@ -223,9 +216,9 @@ describe('e2e flavors', function () {
                 });
         });
 
-        it('list my flavor without token', function (done) {
+        it('list my service without token', function (done) {
             request(mock)
-                .get('/flavors')
+                .get('/services')
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -233,10 +226,10 @@ describe('e2e flavors', function () {
                 });
         });
 
-        it('list my flavor with filter', function (done) {
+        it('list my service with filter', function (done) {
             request(mock)
-                .get('/flavors')
-                .query({name: flavors[0].name})
+                .get('/services')
+                .query({name: services[0].name})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -253,9 +246,9 @@ describe('e2e flavors', function () {
 
         it('test pagination list', function (done) {
             request(mock)
-                .get('/flavors')
+                .get('/services')
                 .query({limit: 1, page: 2})
-                .expect(/Myflavor/)
+                .expect(/Myservice/)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect(function (res) {
@@ -267,9 +260,9 @@ describe('e2e flavors', function () {
                 });
         });
 
-        it('Exist flavors - test pagination list', function (done) {
+        it('Exist services - test pagination list', function (done) {
             request(mock)
-                .get('/flavors')
+                .get('/services')
                 .query({limit: 1, page: 40})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(404)
@@ -280,9 +273,9 @@ describe('e2e flavors', function () {
                 });
         });
 
-        it('see my new flavor', function (done) {
+        it('see my new service', function (done) {
             request(mock)
-                .get('/flavors/' + flavors[0]._id)
+                .get('/services/' + services[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -295,9 +288,9 @@ describe('e2e flavors', function () {
         });
 
 
-        it('see my new flavor without token', function (done) {
+        it('see my new service without token', function (done) {
             request(mock)
-                .get('/flavors/' + flavors[0]._id)
+                .get('/services/' + services[0]._id)
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -307,8 +300,8 @@ describe('e2e flavors', function () {
 
         it('autocomplete', function (done) {
             request(mock)
-                .get('/flavors/')
-                .query({query: "{'name': 'flavor'}"})
+                .get('/services/')
+                .query({query: "{'name': 'service'}"})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .end(function (err) {
@@ -319,7 +312,7 @@ describe('e2e flavors', function () {
 
         it('autocomplete - not found', function (done) {
             request(mock)
-                .get("/flavors/")
+                .get("/services/")
                 .query({query: '{"name": "notfuond"}'})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(e=> e.text.found == 0)
@@ -332,7 +325,7 @@ describe('e2e flavors', function () {
 
         it('autocomplete without token', function (done) {
             request(mock)
-                .get('/flavors/autocomplete')
+                .get('/services/autocomplete')
                 .query({complete: "second"})
                 .expect(401)
                 .end(function (err) {
@@ -344,16 +337,16 @@ describe('e2e flavors', function () {
 
     /**
      *
-     * Patch flavor
-     * @depends create flavor
-     * @description I like to update my flavor witch name ChangeName, or add some services/auth/tags
+     * Patch service
+     * @depends create service
+     * @description I like to update my service witch name ChangeName, or add some services/auth/tags
      */
-    describe('patch flavor', function () {
-        it('patch flavor, changing name', function (done) {
-            const data = Object.assign(flavors[0], {name: "ChangeName"});
+    describe('patch service', function () {
+        it('patch service, changing name', function (done) {
+            const data = Object.assign(services[0], {name: "ChangeName"});
 
             request(mock)
-                .patch('/flavors/' + flavors[0]._id)
+                .patch('/services/' + services[0]._id)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(202)
@@ -365,47 +358,10 @@ describe('e2e flavors', function () {
                 });
         });
 
-        it('patch flavor add new tag (newTag, myvalue)', function (done) {
-            let data = Object.assign({}, flavors[0]);
-            data['tags'].push({key: 'newTag', value: 'myValue'});
+        it('invalid data to patch service (empty test data)', function (done) {
 
             request(mock)
-                .patch('/flavors/' + flavors[0]._id)
-                .send(data)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(202)
-                .expect('Content-Type', /json/)
-                .expect(/tags/)
-                .expect(/newTag/)
-                .expect(/myValue/)
-                .expect(function (res) {
-                    expect(res.body['tags']).to.have.length(2);
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('patch flavor add new invalidate tag (outherTag key)', function (done) {
-            let dtd = _.cloneDeep(flavors[0]);
-            dtd['tags'].push({outherKey: 'newTag', value: 'myValue'});
-
-            request(mock)
-                .patch('/flavors/' + flavors[0]._id)
-                .send(dtd)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(422)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('invalid data to patch flavor (empty test data)', function (done) {
-
-            request(mock)
-                .patch('/flavors/' + flavors[0]._id)
+                .patch('/services/' + services[0]._id)
                 .send({})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(422)
@@ -415,11 +371,11 @@ describe('e2e flavors', function () {
                 });
         });
 
-        it('try to patch flavor without token, and verify the error', function (done) {
-            const data = Object.assign(flavors[0], {name: "ChangeName"});
+        it('try to patch service without token, and verify the error', function (done) {
+            const data = Object.assign(services[0], {name: "ChangeName"});
 
             request(mock)
-                .patch('/flavors/' + flavors[0]._id)
+                .patch('/services/' + services[0]._id)
                 .send(data)
                 .expect(401)
                 .end(function (err) {
@@ -431,16 +387,17 @@ describe('e2e flavors', function () {
 
     /**
      *
-     * Put flavor
-     * @depends create flavor
-     * @description I like to update my flavor witch name ChangeName, or change my cpu
+     * Put service
+     * @depends create service
+     * @description I like to update my service witch name ChangeName, or change my cpu
      */
-    describe('update flavor', function () {
-        it('put flavor with valid data', function (done) {
-            const data = Object.assign({}, flavors[0], {name: "ChangeNameWithPut"});
+    describe('update service', function () {
+        it('put service with valid data', function (done) {
+            const data = _.merge({}, services[0], {name: 'ChangeNameWithPut'});
+            console.log(data);
 
             request(mock)
-                .put('/flavors/' + flavors[0]._id)
+                .put('/services/' + services[0]._id)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(e=>console.log(e.text))
@@ -456,29 +413,28 @@ describe('e2e flavors', function () {
 
     /**
      *
-     * Check updates/patchs flavor
-     * @depends create flavor
+     * Check updates/patchs service
+     * @depends create service
      * @description I like ensure some effects
      */
-    describe('confirm update flavor', function () {
+    describe('confirm update service', function () {
 
         it('confirm my changes', function (done) {
             request(mock)
-                .get('/flavors/' + flavors[0]._id)
+                .get('/services/' + services[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .expect(/ChangeNameWithPut/)
-                .expect(/newTag/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
                 });
         });
 
-        it('confirm if any of my updates/patchs dont create new flavor', function (done) {
+        it('confirm if any of my updates/patchs dont create new service', function (done) {
             request(mock)
-                .get('/flavors')
+                .get('/services')
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -498,19 +454,19 @@ describe('e2e flavors', function () {
 
 
     /*
-    =========================================================== delete flavors
+    =========================================================== delete services
      */
 
     /**
      *
-     * Delete flavors
+     * Delete services
      * @depends create 2
-     * @description I have 2 flavors, i like to delete Secondflavor.
+     * @description I have 2 services, i like to delete Secondservice.
      */
-    describe('delete flavor', function () {
-        it('Exist roles - delete my flavor', function (done) {
+    describe('delete service', function () {
+        it('Exist roles - delete my service', function (done) {
             request(mock)
-                .delete('/flavors/' + flavors[0]._id)
+                .delete('/services/' + services[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(204)
                 .end(function (err) {
@@ -520,10 +476,10 @@ describe('e2e flavors', function () {
         });
     });
 
-    describe('confirm to delete flavor', function () {
-        it('Exist roles - delete my flavor', function (done) {
+    describe('confirm to delete service', function () {
+        it('Exist roles - delete my service', function (done) {
             request(mock)
-                .get('/flavors/')
+                .get('/services/')
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
