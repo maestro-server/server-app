@@ -4,7 +4,7 @@ const _ = require('lodash');
 const Services = require('../repositories/dao/services');
 
 const adminer = () => {
-    const resFilled = ['_id', 'name', 'tags', 'owner', 'family'];
+    const resFilled = ['_id', 'active', 'name', 'tags', 'owner', 'family'];
 
     const singleFilled = [...resFilled];
 

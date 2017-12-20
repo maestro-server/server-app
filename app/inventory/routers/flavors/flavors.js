@@ -20,16 +20,5 @@ module.exports = function (router) {
 
         .delete('/:id', authenticate(), PersistenceApp.remove)
 
-        .post('/', authenticate(), PersistenceApp.create)
-
-        /**
-         * Roles
-         */
-        .post('/:id/roles', authenticate(), AccessApp.create)
-
-        .put('/:id/roles/', authenticate(), AccessApp.update)
-
-        .put('/:id/roles/:idu', authenticate(), AccessApp.updateSingle)
-
-        .delete('/:id/roles/:idu', authenticate(), AccessApp.remove);
+        .post('/', authenticate(), PersistenceApp.create);
 };
