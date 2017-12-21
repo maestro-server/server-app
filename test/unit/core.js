@@ -265,7 +265,7 @@ describe('unit - core', function () {
      */
 
 
-    it('applications - validator - validAccessEmpty', function (done) {
+    it('applications - validator - validAccessEmpty - error', function (done) {
         const validAccess = require('core/applications/validator/validAccessEmpty');
 
         expect(validAccess({})).to.be.rejected.notify(done);
@@ -277,14 +277,19 @@ describe('unit - core', function () {
         expect(validAccess({name: "Something"})).to.eventually.have.property("name").notify(done);
     });
 
-    it('applications - validator - validNotFound', function (done) {
+    it('applications - validator - validNotFound - error', function (done) {
         const validNotFound = require('core/applications/validator/validNotFound');
-        expect(validNotFound({}, 10, 10, 2)).to.be.rejected.notify(done);
+
+        expect(function(){
+            validNotFound({}, 10, 10, 2)
+        }).to.throw();
+        done();
     });
 
     it('applications - validator - validNotFound', function (done) {
         const validNotFound = require('core/applications/validator/validNotFound');
-        expect(validNotFound({name: "Something"}, 10, 30, 2)).to.eventually.have.property("name").notify(done);
+        expect(validNotFound({name: "Something"}, 10, 30, 1)).to.have.property("name");
+        done();
     });
 
     it('applications - accessApplication', function (done) {

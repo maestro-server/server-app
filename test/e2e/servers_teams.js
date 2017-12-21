@@ -679,7 +679,6 @@ describe('e2e architectures', function () {
                 .post(`/teams/${teams._id}/servers/${servers[0]._id}/roles`)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(e => console.log(e.text))
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .expect(/\"refs\":\"users\"/)

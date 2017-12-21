@@ -50,7 +50,7 @@ describe('e2e applications', function () {
     };
 
     before(function (done) {
-      cleaner_db([{tb: 'users'}, {tb: 'applications'}, {tb: 'teams'}], () => {
+      cleaner_db([{tb: 'users'}, {tb: 'applications'}], () => {
         app = require('./libs/bootApp')();
 
         app.once('start', done);
@@ -619,7 +619,6 @@ describe('e2e applications', function () {
                 .post('/applications/' + applications[0]._id + '/roles')
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(e => console.log(e.text))
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .expect(/\"refs\":\"users\"/)

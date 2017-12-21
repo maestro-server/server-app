@@ -5,11 +5,10 @@ let chai = require('chai'),
     request = require('supertest'),
     cleaner_db = require('./libs/cleaner_db'),
     {expect} = chai,
-    jwt = require('jwt-simple'),
     _ = require('lodash');
 
 
-describe('e2e connections', function () {
+describe('e2e datacenters', function () {
 
     let app, mock;
 
@@ -22,28 +21,16 @@ describe('e2e connections', function () {
         _id: null
     };
 
-    let connections = [{
-        name: "Myconnection",
-        dc: "AWS - OTB",
-        dc_id: "5a3a8b82fe024f38804b3675",
-        regions: ["us-east"],
-        provider: "AWS",
-        conn: {
-            access: "aaccess",
-            secret: "asecret"
-        }
+    let datacenters = [{
+        name: "Mydatacenter",
+        regions: ["us-virginia", "sp-virginia"],
+        zones: ["us-virginia-1a", "sp-virginia-1b"],
+        provider: "AWS"
     }, {
-        name: "MyOpensatckconnection",
-        dc: "OpenStack - OTB",
-        dc_id: "5a3a8b82fe024f38804b3675",
-        regions: ["br-east"],
-        provider: "Openstack",
-        project: "br-sp1",
-        url: "keystone-url",
-        conn: {
-            username: "aaccess",
-            password: "asecret"
-        },
+        name: "MySeconddatacenter",
+        regions: ["glete", "tambore"],
+        zones: ["br-sp-1a", "br-sp-1b"],
+        provider: "OpenStack",
         thisFieldMustnApper: 'NotApper'
     }];
 
@@ -55,17 +42,27 @@ describe('e2e connections', function () {
         _id: null
     };
 
-    before(function (done) {
-      cleaner_db([{tb: 'users'}, {tb: 'connections'}], () => {
-        app = require('./libs/bootApp')();
+    let teams = {
+        name: "MyTeam"
+    };
 
-        app.once('start', done);
-        mock = app.listen(1341);
-      }, null);
+    let teamsAPP = [{
+        name: "MyarchitectureT"
+    }, {
+        name: "SecondarchitectureT"
+    }];
+
+    before(function (done) {
+        cleaner_db([{tb: 'users'}, {tb: 'datacenters'}, {tb: 'teams'}], () => {
+            app = require('./libs/bootApp')();
+
+            app.once('start', done);
+            mock = app.listen(1341);
+        }, null);
     });
 
     after(function (done) {
-      mock.close(done);
+        mock.close(done);
     });
 
 
@@ -118,26 +115,46 @@ describe('e2e connections', function () {
         });
     });
 
-    /**
-     *
-     * Create connection
-     * @depends create user
-     * @description I like to create a new connection
-     */
-    describe('create connection', function () {
-        it('create connection - create connection', function (done) {
+    describe('create team', function () {
+        it('Create team', function (done) {
             request(mock)
-                .post('/connections')
-                .send(connections[0])
+                .post('/teams')
+                .send(teams)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
-                .expect(/Myconnection/)
-                .expect(/dc/)
-                .expect(/dc_id/)
+                .expect(/MyTeam/)
+                .expect(/_id/)
+                .expect((res) => {
+                    teams._id = res.body._id;
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
+    /**
+     *
+     * Create datacenter
+     * @depends create user
+     * @description I like to create a new datacenter
+     */
+    describe('create datacenter', function () {
+        it('create datacenter - create datacenter', function (done) {
+            request(mock)
+                .post(`/teams/${teams._id}/datacenters`)
+                .send(datacenters[0])
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .expect(/Mydatacenter/)
+                .expect(/zones/)
                 .expect(/regions/)
-                .expect(/conn/)
-                .expect(/AWS - OTB/)
+                .expect(/us-virginia/)
+                .expect(/sp-virginia/)
+                .expect(/AWS/)
                 .expect(/_id/)
                 .end(function (err) {
                     if (err) return done(err);
@@ -145,10 +162,10 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('create connection - create connection without token', function (done) {
+        it('create datacenter - create datacenter without token', function (done) {
             request(mock)
-                .post('/connections')
-                .send(connections[0])
+                .post(`/teams/${teams._id}/datacenters`)
+                .send(datacenters[0])
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -156,10 +173,10 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('create connection - create second connection', function (done) {
+        it('create datacenter - create second datacenter', function (done) {
             request(mock)
-                .post('/connections')
-                .send(connections[1])
+                .post(`/teams/${teams._id}/datacenters`)
+                .send(datacenters[1])
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
@@ -172,9 +189,9 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('create connection - validate fail', function (done) {
+        it('create datacenter - validate fail', function (done) {
             request(mock)
-                .post('/connections')
+                .post(`/teams/${teams._id}/datacenters`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(422)
                 .expect('Content-Type', /json/)
@@ -188,23 +205,23 @@ describe('e2e connections', function () {
 
     /**
      *
-     * Get connections
-     * @depends create connection
-     * @description I like to see my news connections
+     * Get datacenters
+     * @depends create datacenter
+     * @description I like to see my news datacenters
      */
-    describe('read connection', function () {
-        it('list my connection', function (done) {
+    describe('read datacenter', function () {
+        it('list my datacenter', function (done) {
             request(mock)
-                .get('/connections')
+                .get(`/teams/${teams._id}/datacenters`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
-                .expect(/Myconnection/)
-                .expect(/dc/)
-                .expect(/dc_id/)
+                .expect(/Mydatacenter/)
+                .expect(/zones/)
                 .expect(/regions/)
-                .expect(/conn/)
-                .expect(/AWS - OTB/)
+                .expect(/us-virginia/)
+                .expect(/sp-virginia/)
+                .expect(/AWS/)
                 .expect(/_id/)
                 .expect(/_link/)
                 .expect(/found/)
@@ -212,8 +229,8 @@ describe('e2e connections', function () {
                     expect(res.body.items).to.have.length(2);
                 })
                 .expect(function (res) {
-                    Object.assign(connections[0], res.body.items[0]);
-                    Object.assign(connections[1], res.body.items[1]);
+                    Object.assign(datacenters[0], res.body.items[0]);
+                    Object.assign(datacenters[1], res.body.items[1]);
                 })
                 .end(function (err) {
                     if (err) return done(err);
@@ -221,9 +238,9 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('count my connections', function (done) {
+        it('count my datacenters', function (done) {
             request(mock)
-                .get('/connections/count')
+                .get(`/teams/${teams._id}/datacenters/count`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect(function (res) {
@@ -235,9 +252,9 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('list my connection without token', function (done) {
+        it('list my datacenter without token', function (done) {
             request(mock)
-                .get('/connections')
+                .get(`/teams/${teams._id}/datacenters`)
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -245,10 +262,10 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('list my connection with filter', function (done) {
+        it('list my datacenter with filter', function (done) {
             request(mock)
-                .get('/connections')
-                .query({name: connections[0].name})
+                .get(`/teams/${teams._id}/datacenters`)
+                .query({name: datacenters[0].name})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -265,9 +282,9 @@ describe('e2e connections', function () {
 
         it('test pagination list', function (done) {
             request(mock)
-                .get('/connections')
+                .get(`/teams/${teams._id}/datacenters`)
                 .query({limit: 1, page: 2})
-                .expect(/Myconnection/)
+                .expect(/Mydatacenter/)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect(function (res) {
@@ -279,9 +296,9 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('Exist connections - test pagination list', function (done) {
+        it('Exist datacenters - test pagination list', function (done) {
             request(mock)
-                .get('/connections')
+                .get(`/teams/${teams._id}/datacenters`)
                 .query({limit: 1, page: 40})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(404)
@@ -292,22 +309,17 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('see my new connection - OpenStack', function (done) {
+        it('see my new datacenter', function (done) {
             request(mock)
-                .get('/connections/' + connections[0]._id)
+                .get(`/teams/${teams._id}/datacenters/${datacenters[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .expect(/name/)
                 .expect(/_link/)
                 .expect(function (res) {
-                    var conn = res.body['conn']
-                    var decoded = jwt.decode(conn, process.env.MAESTRO_SECRETJWT);
-                    expect(decoded).to.deep.equal({ username: 'aaccess', password: 'asecret' });
-                })
-                .expect(function (res) {
                     let roles = res.body['roles'].map(e=>_.omit(e, ['_links']))
-                    Object.assign(connections[0], {roles});
+                    Object.assign(datacenters[0], {roles});
                 })
                 .end(function (err) {
                     if (err) return done(err);
@@ -315,32 +327,10 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('see my new connection - AWS', function (done) {
-            request(mock)
-                .get('/connections/' + connections[1]._id)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .expect(/name/)
-                .expect(/_link/)
-                .expect(function (res) {
-                    var conn = res.body['conn']
-                    var decoded = jwt.decode(conn, process.env.MAESTRO_SECRETJWT);
-                    expect(decoded).to.deep.equal({ access: 'aaccess', secret: 'asecret' });
-                })
-                .expect(function (res) {
-                    let roles = res.body['roles'].map(e=>_.omit(e, ['_links']))
-                    Object.assign(connections[1], {roles});
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
 
-        it('see my new connection without token', function (done) {
+        it('see my new datacenter without token', function (done) {
             request(mock)
-                .get('/connections/' + connections[0]._id)
+                .get(`/teams/${teams._id}/datacenters/${datacenters[0]._id}`)
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -350,8 +340,8 @@ describe('e2e connections', function () {
 
         it('autocomplete', function (done) {
             request(mock)
-                .get('/connections/')
-                .query({query: "{'name': 'connection'}"})
+                .get(`/teams/${teams._id}/datacenters/`)
+                .query({query: "{'name': 'datacenter'}"})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .end(function (err) {
@@ -362,7 +352,7 @@ describe('e2e connections', function () {
 
         it('autocomplete - not found', function (done) {
             request(mock)
-                .get("/connections/")
+                .get("/datacenters/")
                 .query({query: '{"name": "notfuond"}'})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(e=> e.text.found == 0)
@@ -375,7 +365,7 @@ describe('e2e connections', function () {
 
         it('autocomplete without token', function (done) {
             request(mock)
-                .get('/connections/autocomplete')
+                .get(`/teams/${teams._id}/datacenters/autocomplete`)
                 .query({complete: "second"})
                 .expect(401)
                 .end(function (err) {
@@ -387,16 +377,16 @@ describe('e2e connections', function () {
 
     /**
      *
-     * Patch connection
-     * @depends create connection
-     * @description I like to update my connection witch name ChangeName, or add some services/auth/tags
+     * Patch datacenter
+     * @depends create datacenter
+     * @description I like to update my datacenter witch name ChangeName, or add some services/auth/tags
      */
-    describe('patch connection', function () {
-        it('patch connection, changing name', function (done) {
-            const data = Object.assign(connections[0], {name: "ChangeName"});
+    describe('patch datacenter', function () {
+        it('patch datacenter, changing name', function (done) {
+            const data = Object.assign(datacenters[0], {name: "ChangeName"});
 
             request(mock)
-                .patch('/connections/' + connections[0]._id)
+                .patch(`/teams/${teams._id}/datacenters/${datacenters[0]._id}`)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(202)
@@ -408,10 +398,10 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('invalid data to patch connection (empty test data)', function (done) {
+        it('invalid data to patch datacenter (empty test data)', function (done) {
 
             request(mock)
-                .patch('/connections/' + connections[0]._id)
+                .patch(`/teams/${teams._id}/datacenters/${datacenters[0]._id}`)
                 .send({})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(422)
@@ -421,11 +411,11 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('try to patch connection without token, and verify the error', function (done) {
-            const data = Object.assign(connections[0], {name: "ChangeName"});
+        it('try to patch datacenter without token, and verify the error', function (done) {
+            const data = Object.assign(datacenters[0], {name: "ChangeName"});
 
             request(mock)
-                .patch('/connections/' + connections[0]._id)
+                .patch(`/teams/${teams._id}/datacenters/${datacenters[0]._id}`)
                 .send(data)
                 .expect(401)
                 .end(function (err) {
@@ -437,16 +427,16 @@ describe('e2e connections', function () {
 
     /**
      *
-     * Put connection
-     * @depends create connection
-     * @description I like to update my connection witch name ChangeName, or change my cpu
+     * Put datacenter
+     * @depends create datacenter
+     * @description I like to update my datacenter witch name ChangeName, or change my cpu
      */
-    describe('update connection', function () {
-        it('put connection with valid data', function (done) {
-            const data = Object.assign(connections[0], {name: "ChangeNameWithPut"});
+    describe('update datacenter', function () {
+        it('put datacenter with valid data', function (done) {
+            const data = Object.assign(datacenters[0], {name: "ChangeNameWithPut"});
 
             request(mock)
-                .put('/connections/' + connections[0]._id)
+                .put(`/teams/${teams._id}/datacenters/${datacenters[0]._id}`)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(202)
@@ -461,15 +451,15 @@ describe('e2e connections', function () {
 
     /**
      *
-     * Check updates/patchs connection
-     * @depends create connection
+     * Check updates/patchs datacenter
+     * @depends create datacenter
      * @description I like ensure some effects
      */
-    describe('confirm update connection', function () {
+    describe('confirm update datacenter', function () {
 
         it('confirm my changes', function (done) {
             request(mock)
-                .get('/connections/' + connections[0]._id)
+                .get(`/teams/${teams._id}/datacenters/${datacenters[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -480,9 +470,9 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs dont create new connection', function (done) {
+        it('confirm if any of my updates/patchs dont create new datacenter', function (done) {
             request(mock)
-                .get('/connections')
+                .get(`/teams/${teams._id}/datacenters`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -509,14 +499,14 @@ describe('e2e connections', function () {
      *
      * Create roles
      * @depends create team roles
-     * @description I like to add new role into my Myconnections
+     * @description I like to add new role into my Mydatacenters
      */
     describe('e2e teams: add roles', function () {
         it('valid data to add roles', function (done) {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)
-                .post('/connections/' + connections[0]._id + '/roles')
+                .post(`/teams/${teams._id}/datacenters/${datacenters[0]._id}/roles`)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
@@ -530,7 +520,7 @@ describe('e2e connections', function () {
 
         it('invalid data to add roles (miss role)', function (done) {
             request(mock)
-                .post('/connections/' + connections[0]._id + '/roles')
+                .post(`/teams/${teams._id}/datacenters/${datacenters[0]._id}/roles`)
                 .send(friend)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(422)
@@ -544,7 +534,7 @@ describe('e2e connections', function () {
             const data = {role: "3", id: friend._id, refs: "users"};
 
             request(mock)
-                .post('/connections/' + connections[0]._id + '/roles')
+                .post(`/teams/${teams._id}/datacenters/${datacenters[0]._id}/roles`)
                 .send(data)
                 .expect(401)
                 .end(function (err) {
@@ -559,7 +549,7 @@ describe('e2e connections', function () {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)
-                .post('/connections/' + connections[0]._id + '/roles')
+                .post(`/teams/${teams._id}/datacenters/${datacenters[0]._id}/roles`)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(400)
@@ -580,7 +570,7 @@ describe('e2e connections', function () {
     describe('get roles', function () {
         it('Exist roles - confirm my news roles', function (done) {
             request(mock)
-                .get('/connections/' + connections[0]._id)
+                .get(`/teams/${teams._id}/datacenters/${datacenters[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -600,19 +590,19 @@ describe('e2e connections', function () {
      *
      * Update roles
      * @depends create role
-     * @description I like to update the role connections role
+     * @description I like to update the role datacenters role
      */
     describe('update roles', function () {
-        it('Exist roles - update role connection', function (done) {
+        it('Exist roles - update role datacenter', function (done) {
             request(mock)
-                .put('/connections/' + connections[0]._id + "/roles")
-                .send(connections[0].roles)
+                .put(`/teams/${teams._id}/datacenters/${datacenters[0]._id}/roles`)
+                .send(datacenters[0].roles)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .expect(/users/)
                 .expect(function (res) {
-                    connections[0]['roles'] = res.body.items
+                    datacenters[0]['roles'] = res.body.items
                     expect(res.body.items).to.have.length(2);
                 })
                 .end(function (err) {
@@ -621,10 +611,10 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('update role connection without token', function (done) {
+        it('update role datacenter without token', function (done) {
             request(mock)
-                .put('/connections/' + connections[0]._id + "/roles")
-                .send(connections[0].roles)
+                .put(`/teams/${teams._id}/datacenters/${datacenters[0]._id}/roles`)
+                .send(datacenters[0].roles)
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -634,12 +624,12 @@ describe('e2e connections', function () {
     });
 
     describe('update roles add new role and update all of them', function () {
-        it('Exist roles - update role connection, add new role', function (done) {
-            let roles = connections[0].roles
+        it('Exist roles - update role datacenter, add new role', function (done) {
+            let roles = datacenters[0].roles
             roles.push({role: 3, refs: 'organization'});
 
             request(mock)
-                .put('/connections/' + connections[0]._id + "/roles")
+                .put(`/teams/${teams._id}/datacenters/${datacenters[0]._id}/roles`)
                 .send(roles)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
@@ -656,9 +646,9 @@ describe('e2e connections', function () {
     });
 
     describe('update single roles', function () {
-        it('Exist roles - update role connection', function (done) {
+        it('Exist roles - update role datacenter', function (done) {
             request(mock)
-                .put('/connections/' + connections[0]._id + "/roles/" + friend._id)
+                .put(`/teams/${teams._id}/datacenters/${datacenters[0]._id}/roles/${friend._id}`)
                 .send({role: "1", refs: "users", name: friend.name, email: friend.email})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
@@ -670,9 +660,9 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('update single role connection without token', function (done) {
+        it('update single role datacenter without token', function (done) {
             request(mock)
-                .put('/connections/' + connections[0]._id + "/roles/" + friend._id)
+                .put(`/teams/${teams._id}/datacenters/${datacenters[0]._id}/roles/${friend._id}`)
                 .send({role: "1", refs: "users", name: friend.name, email: friend.email})
                 .expect(401)
                 .end(function (err) {
@@ -683,9 +673,9 @@ describe('e2e connections', function () {
     });
 
     describe('confirm update roles', function () {
-        it('Exist roles - confirm my news connections', function (done) {
+        it('Exist roles - confirm my news datacenters', function (done) {
             request(mock)
-                .get('/connections/' + connections[0]._id)
+                .get(`/teams/${teams._id}/datacenters/${datacenters[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -704,13 +694,13 @@ describe('e2e connections', function () {
     /**
      *
      * Delete roles
-     * @depends create connection
+     * @depends create datacenter
      * @description I have SecondApp, and ai like to delete on role
      */
     describe('delete roles', function () {
         it('Exist roles - delete role', function (done) {
             request(mock)
-                .delete('/connections/' + connections[0]._id + "/roles/" + friend._id)
+                .delete(`/teams/${teams._id}/datacenters/${datacenters[0]._id}/roles/${friend._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(204)
                 .end(function (err) {
@@ -721,7 +711,7 @@ describe('e2e connections', function () {
 
         it('Exist roles - delete role without token', function (done) {
             request(mock)
-                .delete('/connections/' + connections[0]._id + "/roles/" + friend._id)
+                .delete(`/teams/${teams._id}/datacenters/${datacenters[0]._id}/roles/${friend._id}`)
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -733,7 +723,7 @@ describe('e2e connections', function () {
     describe('confirm delete roles', function () {
         it('Exist roles - confirm my news role', function (done) {
             request(mock)
-                .get('/connections/' + connections[0]._id)
+                .get(`/teams/${teams._id}/datacenters/${datacenters[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -750,19 +740,19 @@ describe('e2e connections', function () {
 
 
     /*
-    =========================================================== delete connections
+    =========================================================== delete datacenters
      */
 
     /**
      *
-     * Delete connections
+     * Delete datacenters
      * @depends create 2
-     * @description I have 2 connections, i like to delete Secondconnection.
+     * @description I have 2 datacenters, i like to delete Seconddatacenter.
      */
-    describe('delete connection', function () {
-        it('Exist roles - delete my connection', function (done) {
+    describe('delete datacenter', function () {
+        it('Exist roles - delete my datacenter', function (done) {
             request(mock)
-                .delete('/connections/' + connections[1]._id)
+                .delete(`/teams/${teams._id}/datacenters/${datacenters[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(204)
                 .end(function (err) {
@@ -772,10 +762,10 @@ describe('e2e connections', function () {
         });
     });
 
-    describe('confirm to delete connection', function () {
-        it('Exist roles - delete my connection', function (done) {
+    describe('confirm to delete datacenter', function () {
+        it('Exist roles - delete my datacenter', function (done) {
             request(mock)
-                .get('/connections/')
+                .get(`/teams/${teams._id}/datacenters/`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
