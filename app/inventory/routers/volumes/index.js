@@ -14,7 +14,7 @@ const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 module.exports = function (router) {
 
     router
-        .get('/teams/:id/volumes', authenticate(), WrapperPersistenceApp()().find)
+        .get('/teams/:id/volumes', authenticate(), WrapperPersistenceAppDefault.find)
 
         .get('/teams/:id/volumes/count', authenticate(), WrapperPersistenceAppDefault.count)
 

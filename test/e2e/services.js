@@ -40,7 +40,7 @@ describe('e2e services', function () {
     };
 
     before(function (done) {
-        cleaner_db([{tb: 'users'}, {tb: 'services'}, {tb: 'teams'}], () => {
+        cleaner_db([{tb: 'users'}, {tb: 'services'}], () => {
             app = require('./libs/bootApp')();
 
             app.once('start', done);
@@ -394,13 +394,10 @@ describe('e2e services', function () {
     describe('update service', function () {
         it('put service with valid data', function (done) {
             const data = _.merge({}, services[0], {name: 'ChangeNameWithPut'});
-            console.log(data);
-
             request(mock)
                 .put('/services/' + services[0]._id)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(e=>console.log(e.text))
                 .expect(202)
                 .expect('Content-Type', /json/)
                 .expect(/\"name\":\"ChangeNameWithPut\"/)

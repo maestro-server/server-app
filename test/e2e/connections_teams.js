@@ -55,17 +55,27 @@ describe('e2e connections', function () {
         _id: null
     };
 
-    before(function (done) {
-      cleaner_db([{tb: 'users'}, {tb: 'connections'}], () => {
-        app = require('./libs/bootApp')();
+    let teams = {
+        name: "MyTeam"
+    };
 
-        app.once('start', done);
-        mock = app.listen(1341);
-      }, null);
+    let teamsAPP = [{
+        name: "MyarchitectureT"
+    }, {
+        name: "SecondarchitectureT"
+    }];
+
+    before(function (done) {
+        cleaner_db([{tb: 'users'}, {tb: 'connections'}, {tb: 'teams'}], () => {
+            app = require('./libs/bootApp')();
+
+            app.once('start', done);
+            mock = app.listen(1341);
+        }, null);
     });
 
     after(function (done) {
-      mock.close(done);
+        mock.close(done);
     });
 
 
@@ -118,6 +128,26 @@ describe('e2e connections', function () {
         });
     });
 
+    describe('create team', function () {
+        it('Create team', function (done) {
+            request(mock)
+                .post('/teams')
+                .send(teams)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .expect(/MyTeam/)
+                .expect(/_id/)
+                .expect((res) => {
+                    teams._id = res.body._id;
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
     /**
      *
      * Create connection
@@ -127,7 +157,7 @@ describe('e2e connections', function () {
     describe('create connection', function () {
         it('create connection - create connection', function (done) {
             request(mock)
-                .post('/connections')
+                .post(`/teams/${teams._id}/connections`)
                 .send(connections[0])
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
@@ -147,7 +177,7 @@ describe('e2e connections', function () {
 
         it('create connection - create connection without token', function (done) {
             request(mock)
-                .post('/connections')
+                .post(`/teams/${teams._id}/connections`)
                 .send(connections[0])
                 .expect(401)
                 .end(function (err) {
@@ -158,7 +188,7 @@ describe('e2e connections', function () {
 
         it('create connection - create second connection', function (done) {
             request(mock)
-                .post('/connections')
+                .post(`/teams/${teams._id}/connections`)
                 .send(connections[1])
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
@@ -174,7 +204,7 @@ describe('e2e connections', function () {
 
         it('create connection - validate fail', function (done) {
             request(mock)
-                .post('/connections')
+                .post(`/teams/${teams._id}/connections`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(422)
                 .expect('Content-Type', /json/)
@@ -195,7 +225,7 @@ describe('e2e connections', function () {
     describe('read connection', function () {
         it('list my connection', function (done) {
             request(mock)
-                .get('/connections')
+                .get(`/teams/${teams._id}/connections`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -223,7 +253,7 @@ describe('e2e connections', function () {
 
         it('count my connections', function (done) {
             request(mock)
-                .get('/connections/count')
+                .get(`/teams/${teams._id}/connections/count`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect(function (res) {
@@ -237,7 +267,7 @@ describe('e2e connections', function () {
 
         it('list my connection without token', function (done) {
             request(mock)
-                .get('/connections')
+                .get(`/teams/${teams._id}/connections`)
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -247,7 +277,7 @@ describe('e2e connections', function () {
 
         it('list my connection with filter', function (done) {
             request(mock)
-                .get('/connections')
+                .get(`/teams/${teams._id}/connections`)
                 .query({name: connections[0].name})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
@@ -265,7 +295,7 @@ describe('e2e connections', function () {
 
         it('test pagination list', function (done) {
             request(mock)
-                .get('/connections')
+                .get(`/teams/${teams._id}/connections`)
                 .query({limit: 1, page: 2})
                 .expect(/Myconnection/)
                 .set('Authorization', `JWT ${user.token}`)
@@ -281,7 +311,7 @@ describe('e2e connections', function () {
 
         it('Exist connections - test pagination list', function (done) {
             request(mock)
-                .get('/connections')
+                .get(`/teams/${teams._id}/connections`)
                 .query({limit: 1, page: 40})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(404)
@@ -294,7 +324,7 @@ describe('e2e connections', function () {
 
         it('see my new connection - OpenStack', function (done) {
             request(mock)
-                .get('/connections/' + connections[0]._id)
+                .get(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -317,7 +347,7 @@ describe('e2e connections', function () {
 
         it('see my new connection - AWS', function (done) {
             request(mock)
-                .get('/connections/' + connections[1]._id)
+                .get(`/teams/${teams._id}/connections/${connections[1]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -340,7 +370,7 @@ describe('e2e connections', function () {
 
         it('see my new connection without token', function (done) {
             request(mock)
-                .get('/connections/' + connections[0]._id)
+                .get(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -350,7 +380,7 @@ describe('e2e connections', function () {
 
         it('autocomplete', function (done) {
             request(mock)
-                .get('/connections/')
+                .get(`/teams/${teams._id}/connections/`)
                 .query({query: "{'name': 'connection'}"})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
@@ -375,7 +405,7 @@ describe('e2e connections', function () {
 
         it('autocomplete without token', function (done) {
             request(mock)
-                .get('/connections/autocomplete')
+                .get(`/teams/${teams._id}/connections/autocomplete`)
                 .query({complete: "second"})
                 .expect(401)
                 .end(function (err) {
@@ -396,7 +426,7 @@ describe('e2e connections', function () {
             const data = Object.assign(connections[0], {name: "ChangeName"});
 
             request(mock)
-                .patch('/connections/' + connections[0]._id)
+                .patch(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(202)
@@ -411,7 +441,7 @@ describe('e2e connections', function () {
         it('invalid data to patch connection (empty test data)', function (done) {
 
             request(mock)
-                .patch('/connections/' + connections[0]._id)
+                .patch(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .send({})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(422)
@@ -425,7 +455,7 @@ describe('e2e connections', function () {
             const data = Object.assign(connections[0], {name: "ChangeName"});
 
             request(mock)
-                .patch('/connections/' + connections[0]._id)
+                .patch(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .send(data)
                 .expect(401)
                 .end(function (err) {
@@ -446,7 +476,7 @@ describe('e2e connections', function () {
             const data = Object.assign(connections[0], {name: "ChangeNameWithPut"});
 
             request(mock)
-                .put('/connections/' + connections[0]._id)
+                .put(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(202)
@@ -469,7 +499,7 @@ describe('e2e connections', function () {
 
         it('confirm my changes', function (done) {
             request(mock)
-                .get('/connections/' + connections[0]._id)
+                .get(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -482,7 +512,7 @@ describe('e2e connections', function () {
 
         it('confirm if any of my updates/patchs dont create new connection', function (done) {
             request(mock)
-                .get('/connections')
+                .get(`/teams/${teams._id}/connections`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -516,7 +546,7 @@ describe('e2e connections', function () {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)
-                .post('/connections/' + connections[0]._id + '/roles')
+                .post(`/teams/${teams._id}/connections/${connections[0]._id}/roles`)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
@@ -530,7 +560,7 @@ describe('e2e connections', function () {
 
         it('invalid data to add roles (miss role)', function (done) {
             request(mock)
-                .post('/connections/' + connections[0]._id + '/roles')
+                .post(`/teams/${teams._id}/connections/${connections[0]._id}/roles`)
                 .send(friend)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(422)
@@ -544,7 +574,7 @@ describe('e2e connections', function () {
             const data = {role: "3", id: friend._id, refs: "users"};
 
             request(mock)
-                .post('/connections/' + connections[0]._id + '/roles')
+                .post(`/teams/${teams._id}/connections/${connections[0]._id}/roles`)
                 .send(data)
                 .expect(401)
                 .end(function (err) {
@@ -559,7 +589,7 @@ describe('e2e connections', function () {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)
-                .post('/connections/' + connections[0]._id + '/roles')
+                .post(`/teams/${teams._id}/connections/${connections[0]._id}/roles`)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(400)
@@ -580,7 +610,7 @@ describe('e2e connections', function () {
     describe('get roles', function () {
         it('Exist roles - confirm my news roles', function (done) {
             request(mock)
-                .get('/connections/' + connections[0]._id)
+                .get(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -605,7 +635,7 @@ describe('e2e connections', function () {
     describe('update roles', function () {
         it('Exist roles - update role connection', function (done) {
             request(mock)
-                .put('/connections/' + connections[0]._id + "/roles")
+                .put(`/teams/${teams._id}/connections/${connections[0]._id}/roles`)
                 .send(connections[0].roles)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
@@ -623,7 +653,7 @@ describe('e2e connections', function () {
 
         it('update role connection without token', function (done) {
             request(mock)
-                .put('/connections/' + connections[0]._id + "/roles")
+                .put(`/teams/${teams._id}/connections/${connections[0]._id}/roles`)
                 .send(connections[0].roles)
                 .expect(401)
                 .end(function (err) {
@@ -639,7 +669,7 @@ describe('e2e connections', function () {
             roles.push({role: 3, refs: 'organization'});
 
             request(mock)
-                .put('/connections/' + connections[0]._id + "/roles")
+                .put(`/teams/${teams._id}/connections/${connections[0]._id}/roles`)
                 .send(roles)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
@@ -658,7 +688,7 @@ describe('e2e connections', function () {
     describe('update single roles', function () {
         it('Exist roles - update role connection', function (done) {
             request(mock)
-                .put('/connections/' + connections[0]._id + "/roles/" + friend._id)
+                .put(`/teams/${teams._id}/connections/${connections[0]._id}/roles/${friend._id}`)
                 .send({role: "1", refs: "users", name: friend.name, email: friend.email})
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
@@ -672,7 +702,7 @@ describe('e2e connections', function () {
 
         it('update single role connection without token', function (done) {
             request(mock)
-                .put('/connections/' + connections[0]._id + "/roles/" + friend._id)
+                .put(`/teams/${teams._id}/connections/${connections[0]._id}/roles/${friend._id}`)
                 .send({role: "1", refs: "users", name: friend.name, email: friend.email})
                 .expect(401)
                 .end(function (err) {
@@ -685,7 +715,7 @@ describe('e2e connections', function () {
     describe('confirm update roles', function () {
         it('Exist roles - confirm my news connections', function (done) {
             request(mock)
-                .get('/connections/' + connections[0]._id)
+                .get(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -710,7 +740,7 @@ describe('e2e connections', function () {
     describe('delete roles', function () {
         it('Exist roles - delete role', function (done) {
             request(mock)
-                .delete('/connections/' + connections[0]._id + "/roles/" + friend._id)
+                .delete(`/teams/${teams._id}/connections/${connections[0]._id}/roles/${friend._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(204)
                 .end(function (err) {
@@ -721,7 +751,7 @@ describe('e2e connections', function () {
 
         it('Exist roles - delete role without token', function (done) {
             request(mock)
-                .delete('/connections/' + connections[0]._id + "/roles/" + friend._id)
+                .delete(`/teams/${teams._id}/connections/${connections[0]._id}/roles/${friend._id}`)
                 .expect(401)
                 .end(function (err) {
                     if (err) return done(err);
@@ -733,7 +763,7 @@ describe('e2e connections', function () {
     describe('confirm delete roles', function () {
         it('Exist roles - confirm my news role', function (done) {
             request(mock)
-                .get('/connections/' + connections[0]._id)
+                .get(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
@@ -762,7 +792,7 @@ describe('e2e connections', function () {
     describe('delete connection', function () {
         it('Exist roles - delete my connection', function (done) {
             request(mock)
-                .delete('/connections/' + connections[1]._id)
+                .delete(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(204)
                 .end(function (err) {
@@ -775,7 +805,7 @@ describe('e2e connections', function () {
     describe('confirm to delete connection', function () {
         it('Exist roles - delete my connection', function (done) {
             request(mock)
-                .get('/connections/')
+                .get(`/teams/${teams._id}/connections/`)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)

@@ -42,16 +42,9 @@ describe('e2e flavors', function () {
         },
     }];
 
-    let friend = {
-        name: "Friend",
-        email: "friend@maestrousers.com",
-        password: "mytester",
-        token: null,
-        _id: null
-    };
 
     before(function (done) {
-        cleaner_db([{tb: 'users'}, {tb: 'flavors'}, {tb: 'teams'}], () => {
+        cleaner_db([{tb: 'users'}, {tb: 'flavors'}], () => {
             app = require('./libs/bootApp')();
 
             app.once('start', done);
@@ -71,23 +64,6 @@ describe('e2e flavors', function () {
                 .send(user)
                 .expect(201)
                 .expect(/_id/)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('Create account - success friend', function (done) {
-            request(mock)
-                .post('/users')
-                .send(friend)
-                .expect(201)
-                .expect('Content-Type', /json/)
-                .expect(/\"name\":\"Friend\"/)
-                .expect(/_id/)
-                .expect((res) => {
-                    friend._id = res.body._id;
-                })
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -443,7 +419,6 @@ describe('e2e flavors', function () {
                 .put('/flavors/' + flavors[0]._id)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(e=>console.log(e.text))
                 .expect(202)
                 .expect('Content-Type', /json/)
                 .expect(/\"name\":\"ChangeNameWithPut\"/)

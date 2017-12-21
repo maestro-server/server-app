@@ -44,7 +44,7 @@ describe('e2e volumes', function () {
     };
 
     before(function (done) {
-        cleaner_db([{tb: 'users'}, {tb: 'volumes'}, {tb: 'teams'}], () => {
+        cleaner_db([{tb: 'users'}, {tb: 'volumes'}], () => {
             app = require('./libs/bootApp')();
 
             app.once('start', done);
@@ -405,7 +405,6 @@ describe('e2e volumes', function () {
                 .put('/volumes/' + volumes[0]._id)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(e=>console.log(e.text))
                 .expect(202)
                 .expect('Content-Type', /json/)
                 .expect(/\"name\":\"ChangeNameWithPut\"/)
@@ -476,7 +475,6 @@ describe('e2e volumes', function () {
                 .post('/volumes/' + volumes[0]._id + '/roles')
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(e => console.log(e.text))
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .expect(/\"refs\":\"users\"/)

@@ -14,7 +14,7 @@ const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 module.exports = function (router) {
 
     router
-        .get('/teams/:id/images', authenticate(), WrapperPersistenceApp()().find)
+        .get('/teams/:id/images', authenticate(), WrapperPersistenceAppDefault.find)
 
         .get('/teams/:id/images/count', authenticate(), WrapperPersistenceAppDefault.count)
 
