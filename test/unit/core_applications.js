@@ -60,6 +60,22 @@ describe('unit - core', function () {
         done();
     });
 
+    it('applications - transform - aclRoles', function (done) {
+        const fc = require('core/applications/transforms/aclRoles');
+        const Entity = {access: 'roles'};
+        const role = 7;
+        const post = {data: 'persistence', name: 'Testers'}
+
+        const obj = fc(post, Entity, role);
+
+        console.log(obj);
+
+        expect(obj).to.have.property('owner').to.have.property('name');
+        expect(obj).to.have.property('roles').to.deep.equal([{role: 7, refs: 'users', name: 'Testers'}]);
+
+        done();
+    });
+
     it('applications - transform - formatFirstRole - default values', function (done) {
         const fc = require('core/applications/transforms/formatFirstRole');
 
@@ -157,6 +173,32 @@ describe('unit - core', function () {
         expect(obj).to.have.property('myRoler').with.lengthOf(collections.myRoler.length);
         done();
     });
+
+    it('applications - transform - jsonParser', function (done) {
+        const fc = require('core/applications/transforms/jsonParser');
+
+        const query = '{"myjson": "data"}';
+        const obj = fc({query}, 'query');
+
+        expect(obj).to.have.property('query').to.have.property('myjson').to.equal('data');
+        done();
+    });
+
+    it('applications - transform - jsonParser - invalid Json', function (done) {
+        const fc = require('core/applications/transforms/jsonParser');
+
+        const query = '{"myjson" "data"}';
+        const obj = fc({query}, 'query');
+
+        console.log(obj);
+
+        expect(obj).to.deep.equal({});
+        done();
+    });
+
+
+
+
 
     /*
     ========================== strId
@@ -259,6 +301,41 @@ describe('unit - core', function () {
         done();
     });
 
+    it('applications - transform - swapUser', function (done) {
+        let res = httpMocks.createResponse();
+        let req = httpMocks.createRequest({
+            query: {
+                foo: "bar"
+            },
+            user: {
+                _id: "452ed4a4f4421335e032bf09",
+                name: "Signorini"
+            },
+            params: {
+                id: "34233628",
+                idu: "88459349"
+            },
+            body: {
+                name: "MyBody"
+            }
+        });
+
+        const outherUser = {
+            _id: "452ed4a4f4421335e032bfde",
+            name: "Second"
+        };
+
+        const newParams = {idu: "452ed4a4f4421335e032b789", ida: "452ed4a4f4421335e032b123"}
+        const Entity = {access: "myRoler", name: "users"};
+        const fc = require('core/applications/transforms/swapUser');
+
+        const obj = fc(req, outherUser, newParams, Entity);
+
+        expect(obj).to.have.property('params').to.deep.equal({id: newParams['idu'], idu: newParams['ida']});
+        expect(obj).to.have.property('user').to.deep.equal(Object.assign(outherUser, {refs: Entity.name}));
+        done();
+    });
+
 
     /*
     ========================== end strId
@@ -266,15 +343,39 @@ describe('unit - core', function () {
 
 
     it('applications - validator - validAccessEmpty - error', function (done) {
-        const validAccess = require('core/applications/validator/validAccessEmpty');
+        const fc = require('core/applications/validator/validAccessEmpty');
 
-        expect(validAccess({})).to.be.rejected.notify(done);
+        expect(function(){
+            fc({})
+        }).to.throw('error');
+        done();
     });
 
     it('applications - validator - validAccessEmpty', function (done) {
-        const validAccess = require('core/applications/validator/validAccessEmpty');
+        const fc = require('core/applications/validator/validAccessEmpty');
 
-        expect(validAccess({name: "Something"})).to.eventually.have.property("name").notify(done);
+        expect(function(){
+            fc({name: "Something"})
+        }).to.have.property("name");
+        done();
+    });
+
+    it('applications - validator - validNotExist', function (done) {
+        const fc = require('core/applications/validator/validNotExist');
+
+        expect(function(){
+            fc({name: "Something"})
+        }).to.have.property("name");
+        done();
+    });
+
+    it('applications - validator - validNotExist - Not Found', function (done) {
+        const fc = require('core/applications/validator/validNotExist');
+
+        expect(function(){
+            fc({})
+        }).to.throw('error');
+        done();
     });
 
     it('applications - validator - validNotFound - error', function (done) {
@@ -558,6 +659,54 @@ describe('unit - core', function () {
 
     });
 
+    describe('applications - relationsApplication', function () {
+        const Entity = {name: "Tester", access: "roler"};
+        const REntity = {name: "Relation", access: "roler"};
+
+        const AccessApp = require('core/applications/relationsApplication');
+
+        let res = httpMocks.createResponse();
+        let req = httpMocks.createRequest({
+            query: {
+                foo: "bar"
+            },
+            user: {
+                _id: "452ed4a4f4421335e032bf09",
+                name: "Signorini"
+            }
+        });
+
+
+        it('find', function (done) {
+            let find = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    find
+                });
+
+            AccessApp(Entity)(REntity)()(SPS).find(req, res);
+
+            expect(find.getCalls()[0].args).to.length(3);
+            sinon.assert.calledOnce(find);
+            done();
+        });
+
+        it('count', function (done) {
+            let count = sinon.stub().returnsPromise();
+            let SPS = sinon.stub()
+                .returns({
+                    count
+                });
+
+            AccessApp(Entity)(REntity)()(SPS).count(req, res);
+
+            expect(count.getCalls()[0].args).to.length(3);
+            sinon.assert.calledOnce(count);
+            done();
+        });
+
+    });
+
     describe('applications - uploadApplication', function () {
         const Entity = {name: "Tester", access: "roler"};
 
@@ -591,515 +740,5 @@ describe('unit - core', function () {
         });
 
     });
-
-
-    /*
-     ------------------------------------------------------- libs
-     */
-
-    it('libs - crypto', function (done) {
-        const crypto = require('core/libs/crypto');
-        const text = "my tester";
-        const encrypt = crypto.encrypt(text);
-        const decrypty = crypto.decrypt(encrypt);
-
-        expect(encrypt).to.be.a('string');
-        expect(decrypty).to.equal(text);
-
-        done();
-    });
-
-    it('libs - factoryPromises', function (done) {
-        const factory = require('core/libs/factoryPromisefy');
-        const text = "Texter";
-
-        const promise = (txt) => (new Promise((resolve, reject) => {
-            txt ? resolve(txt) : reject(err);
-        }));
-
-        const fact = factory(() => promise(text));
-
-        expect(fact).to.eventually.equal(text);
-        expect(fact).to.fulfilled.and.notify(done);
-    });
-
-    it('libs - factoryPromises - reject', function (done) {
-        const factory = require('core/libs/factoryPromisefy');
-        const text = false;
-
-        const promise = (txt) => (new Promise((resolve, reject) => {
-            txt ? resolve(txt) : reject(txt);
-        }));
-
-        const fact = factory(() => promise(text));
-
-        expect(fact).be.rejected.and.notify(done);
-    });
-
-    it('libs - factoryValid', function (done) {
-        const fValid = require('core/libs/factoryValid');
-        const Joi = require('joi');
-
-        const data = {name: "Felipe", email: "felipeklerk@yahoo.com.br"};
-        const scheme = Joi.object().keys({
-            name: Joi.string().required(),
-            email: Joi.string().email()
-        });
-
-        const valid = fValid(data, scheme);
-
-        expect(valid).to.be.a('boolean');
-        done();
-    });
-
-    it('libs - factoryValid - invalid', function (done) {
-        const fValid = require('core/libs/factoryValid');
-        const Joi = require('joi');
-
-        const data = {email: "felipeklerk"};
-        const scheme = Joi.object().keys({
-            name: Joi.string().required(),
-            email: Joi.string().email()
-        });
-
-        expect(function () {
-            fValid(data, scheme, "Validator");
-        }).to.throw("Validator");
-        done();
-    });
-
-    it('libs - db run', function (done) {
-        const cor = require('core/libs/db_run');
-
-        expect(function () {
-            cor(function *() {
-                yield Promise.resolve(true);
-            });
-
-        }).to.not.throw("Validator");
-        done();
-    });
-
-    it('libs - db run - error', function (done) {
-        const cor = require('core/libs/db_run');
-
-        expect(function () {
-            cor(function *() {
-                yield Promise.reject();
-            });
-        }).to.not.throw();
-        done();
-    });
-
-    it('libs - in_maker - single str', function (done) {
-        const {ObjectId} = require('mongorito');
-        const inMaker = require('core/libs/in_maker');
-        const str = "5a32943514ea552585daf6b1";
-
-        expect(inMaker(str))
-            .to.have.id(new ObjectId(str));
-
-        expect(inMaker(str) instanceof ObjectId).to.be.true;
-        done();
-    });
-
-    it('libs - in_maker - array str', function (done) {
-        const {ObjectId} = require('mongorito');
-        const inMaker = require('core/libs/in_maker');
-
-        const setup = ["5a32943514ea552585daf6b1", "5a32943514ea552585daf6b2", "5a32943514ea552585daf6b3"];
-        const compare = [
-            new ObjectId("5a32943514ea552585daf6b1"),
-            new ObjectId("5a32943514ea552585daf6b2"),
-            new ObjectId("5a32943514ea552585daf6b3")];
-
-        expect(inMaker(setup))
-            .to.have.property('$in')
-            .to.same.ids(compare);
-
-        expect(inMaker(setup)['$in'][0] instanceof ObjectId).to.be.true;
-        expect(inMaker(setup)['$in'][1] instanceof ObjectId).to.be.true;
-        expect(inMaker(setup)['$in'][2] instanceof ObjectId).to.be.true;
-        done();
-    });
-
-
-    /*
-     ------------------------------------------------------- repositories
-     */
-
-    it('repositories - maps - mapFileType', function (done) {
-        const map = require('core/repositories/maps/mapFileType');
-
-        const test1 = map("image/jpeg");
-        const test2 = map("image/png");
-        const test3 = map("default");
-
-        expect(test1).to.equal('jpg');
-        expect(test2).to.equal('png');
-        expect(test3).to.equal('default');
-
-        done();
-    });
-
-    it('repositories - transforms - activeFormat', function (done) {
-        const format = require('core/repositories/transforms/activeFormat');
-
-        expect(format.active()).to.have.property('active', true);
-        expect(format.active()).to.not.have.property('active', false);
-        done();
-    });
-
-    it('repositories - transforms - activeFormat - desactive', function (done) {
-        const format = require('core/repositories/transforms/activeFormat');
-
-        expect(format.desactive()).to.have.property('active', false);
-        expect(format.desactive()).to.not.have.property('active', true);
-        done();
-    });
-
-    it('repositories - transforms - findFilledFormat', function (done) {
-        const format = require('core/repositories/transforms/findFilledFormat');
-
-        const test1 = format({a: 1, b: 2, c: 3}, ['a', 'b']);
-
-        expect(test1).to.have.property('a');
-        expect(test1).to.have.property('active');
-        expect(test1).to.have.property('b');
-        expect(test1).to.not.have.property('c');
-        done();
-    });
-
-    it('repositories - transforms - findFilledFormat - not have filter', function (done) {
-        const format = require('core/repositories/transforms/findFilledFormat');
-
-        const test1 = format({a: 1, b: 2, c: 3});
-        expect(test1).to.have.property('active');
-
-        expect(test1).to.not.have.property('a');
-        expect(test1).to.not.have.property('b');
-        expect(test1).to.not.have.property('c');
-        done();
-    });
-
-    it('repositories - validator - validAccessUpdater', function (done) {
-        const validator = require('core/repositories/validator/validAccessUpdater');
-
-        const test1 = validator({isUpdater: {n: 30}});
-
-        expect(test1).to.eventually.have.property("isUpdater").notify(done);
-    });
-
-    it('repositories - validator - validAccessUpdater - throw error', function (done) {
-        const validator = require('core/repositories/validator/validAccessUpdater');
-
-        const tt = validator({isUpdater: {n: 0}});
-        expect(tt).to.be.rejectedWith("You dont have access");
-
-        done();
-    });
-
-
-    /*
-     ------------------------------------------------------- services
-     */
-
-    it('services - transforms - accessMergeTransform', function (done) {
-        const transforms = require('core/services/transforms/accessMergeTransform');
-
-        const owner = {name: "Tester", "_id": "452ed4a4f4421335e032bf09"};
-        const fielder = 'roler';
-        const access = 3;
-
-        const tt = transforms(owner, fielder, {}, access);
-
-        expect(tt).to.have.property(fielder)
-            .to.have.property('$elemMatch')
-            .to.have.property('_id');
-
-        expect(tt).to.have.property(fielder)
-            .to.have.property('$elemMatch')
-            .to.have.property('role');
-
-        done();
-    });
-
-    it('services - transforms - accessMergeTransform - owner map', function (done) {
-        const transforms = require('core/services/transforms/accessMergeTransform');
-
-        const owner = [{name: "Tester", "_id": "452ed4a4f4421335e032bf09"}];
-        const fielder = 'roler';
-        const access = 3;
-
-        const tt = transforms(owner, fielder, {}, access);
-
-        expect(tt).to.have.property('$or')
-            .to.be.a('array').with.lengthOf(1);
-
-        done();
-    });
-
-    it('services - transforms - accessMergeTransform - makeAccess - not id', function (done) {
-        const transforms = require('core/services/transforms/accessMergeTransform');
-
-        const owner = {name: "Tester"};
-        const fielder = 'roler';
-        const access = 3;
-
-        const tt = transforms.makeAccess(owner, fielder, access);
-        expect(tt).to.be.a('boolean');
-
-        done();
-    });
-
-    it('services - transforms - accessMergeTransform - makeAccess', function (done) {
-        const transforms = require('core/services/transforms/accessMergeTransform');
-
-        const owner = {name: "Tester", "_id": "452ed4a4f4421335e032bf09"};
-        const fielder = 'roler';
-        const access = 3;
-
-        const tt = transforms.makeAccess(owner, fielder, access);
-
-        expect(tt).to.have.property(fielder)
-            .to.have.property('$elemMatch')
-            .to.have.property('_id');
-
-        expect(tt).to.have.property(fielder)
-            .to.have.property('$elemMatch')
-            .to.have.property('role');
-
-        done();
-    });
-
-
-    it('services - validator - uploadValid - sizeValidate e typeValidate = true', function (done) {
-        const uploadValid = require('core/services/validator/uploadValid');
-        const file = {size: 7894454646, name: "tester", type: "jpg"};
-        const tt = uploadValid(file);
-
-        tt.sizeValidate();
-        expect(tt.pass()).to.be.equal(false);
-
-        done();
-    });
-
-    it('services - validator - uploadValid - typeValidate = false', function (done) {
-        const uploadValid = require('core/services/validator/uploadValid');
-
-        const file = {size: 2000, name: "tester", type: "image/jpeg"};
-        const tt = uploadValid(file);
-
-        expect(tt.pass()).to.be.equal(true);
-
-        done();
-    });
-
-    it('services - validator - uploadValid - check', function (done) {
-        const uploadValid = require('core/services/validator/uploadValid');
-        const file = {size: 7894454646, name: "tester", type: "jpg"};
-        const tt = uploadValid(file);
-
-        expect(tt).to.be.a('object');
-        expect(function () {
-            tt.check();
-        }).to.not.throw("Validator");
-
-        done();
-    });
-
-    it('services - validator - validNotFound', function (done) {
-        const valid = require('core/services/validator/validNotEqual');
-        const tt = valid("roler", "asd");
-
-        expect(tt).to.have.property("roler")
-            .to.have.property('$ne', "asd");
-
-        done();
-    });
-
-    describe('services - PersistenceServices', function () {
-        const Entity = {name: "Tester", access: "roler", filled: ['name']};
-        const PersistenceServices = require('core/services/PersistenceServices');
-
-        const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
-        const _id = "452ed4a4f4421335e032bf09";
-
-        it('find', function (done) {
-            let find = sinon.stub().returnsPromise();
-            let count = sinon.stub().returnsPromise();
-            let SPS = sinon.stub()
-                .returns({
-                    find,
-                    count
-                });
-
-            PersistenceServices(Entity, SPS).find({}, owner);
-            expect(find.args[0][0]).to.be.property("roler")
-                .to.have.property("$elemMatch");
-
-            expect(count.args[0][0]).to.be.property("roler")
-                .to.have.property("$elemMatch");
-
-            sinon.assert.calledOnce(find);
-            sinon.assert.calledOnce(count);
-            sinon.assert.calledOnce(SPS);
-            done();
-        });
-
-        it('findOne', function (done) {
-            let findOne = sinon.stub().returnsPromise();
-            let SPS = sinon.stub()
-                .returns({
-                    findOne
-                });
-
-            PersistenceServices(Entity, SPS).findOne(_id, owner);
-
-            expect(findOne.args[0][0]).to.have.property("_id");
-            sinon.assert.calledOnce(findOne);
-            sinon.assert.calledOnce(SPS);
-            done();
-        });
-
-        it('findOne', function (done) {
-            let findOne = sinon.stub().returnsPromise();
-            let SPS = sinon.stub()
-                .returns({
-                    findOne
-                });
-
-            PersistenceServices(Entity, SPS).findOne(_id, owner);
-
-            expect(findOne.args[0][0]).to.have.property("_id");
-            sinon.assert.calledOnce(findOne);
-            sinon.assert.calledOnce(SPS);
-            done();
-        });
-
-        it('patch', function (done) {
-            let patch = sinon.stub().returnsPromise();
-            let SPS = sinon.stub()
-                .returns({
-                    patch
-                });
-
-            const post = {name: "teste", owner: {name: "notAlloow"}, password: "notAllow"};
-            PersistenceServices(Entity, SPS).patch(_id, post, owner);
-
-            expect(patch.args[0][2][0]).to.not.have.property("password");
-            expect(patch.args[0][2]).to.not.have.property("_id");
-            expect(patch.args[0][2]).to.have.all.deep.members(["name"]);
-
-            expect(patch.args[0][1]).to.have.property("name");
-            expect(patch.args[0][1]).to.have.property("owner");
-            expect(patch.args[0][1]).to.have.property("password");
-
-            expect(patch.args[0][0]).to.have.property("_id");
-            expect(patch.args[0][0]).to.have.property("roler");
-
-            sinon.assert.calledOnce(patch);
-            sinon.assert.calledOnce(SPS);
-            done();
-        });
-
-        it('remove', function (done) {
-            let remove = sinon.stub().returnsPromise();
-            let SPS = sinon.stub()
-                .returns({
-                    remove
-                });
-
-            PersistenceServices(Entity, SPS).remove(_id, owner);
-
-            expect(remove.args[0][0]).to.have.property("_id");
-            expect(remove.args[0][0]).to.have.property("roler");
-            sinon.assert.calledOnce(remove);
-            sinon.assert.calledOnce(SPS);
-            done();
-        });
-
-
-    });
-
-
-    describe('services - AccessServices', function () {
-        const Entity = {name: "Tester", access: "roler", filled: ['name']};
-        const AccessServices = require('core/services/AccessServices');
-
-        const owner = {name: "tester", _id: "452ed4a4f4421335e032bf09"};
-        const _id = "452ed4a4f4421335e032bf09";
-
-        it('addRoles', function (done) {
-            let updateByPushUnique = sinon.stub().returnsPromise();
-            let SPS = sinon.stub()
-                .returns({
-                    updateByPushUnique
-                });
-
-            const post = {role: "1", id: "452ed4a4f4421335e032bf09", name: "Tname", refs: "teams"};
-
-            AccessServices(Entity, SPS).addRoles(_id, post, owner);
-
-            expect(updateByPushUnique.args[0][0]).to.have.property('_id');
-            expect(updateByPushUnique.args[0][0]).to.have.property(Entity.access)
-                .to.have.property('$elemMatch');
-
-            expect(updateByPushUnique.args[0][1]).to.have.property('roler')
-                .to.have.property('role', 1);
-
-            expect(updateByPushUnique.args[0][1]).to.have.property('roler')
-                .to.have.property('role', 1);
-
-
-            expect(updateByPushUnique.args[0][2]).to.have.equal(Entity.access);
-
-            sinon.assert.calledOnce(updateByPushUnique);
-            sinon.assert.calledOnce(SPS);
-            done();
-        });
-
-
-        it('deleteRoles', function (done) {
-            let updateByPull = sinon.stub().returnsPromise();
-            let SPS = sinon.stub()
-                .returns({
-                    updateByPull
-                });
-
-
-            AccessServices(Entity, SPS).deleteRoles(_id, _id, owner);
-
-            expect(updateByPull.args[0][0]).to.have.property('_id');
-            sinon.assert.calledOnce(SPS);
-            sinon.assert.calledOnce(updateByPull);
-            done();
-        });
-
-
-    });
-
-    describe('services - MailerService', function () {
-        const MailerService = require('core/services/MailerService');
-
-        it('sender', function (done) {
-            let sender = sinon.stub().returnsPromise();
-            let SPS = {sender};
-
-            const to = "felipe";
-            const subject = "MySubject";
-            const template = "ok";
-            const data = {};
-
-            MailerService(SPS).sender(to, subject, template, data);
-
-            sinon.assert.calledWith(sender, to, subject, template, data);
-            sinon.assert.calledOnce(sender);
-            done();
-        });
-
-
-    });
-
 
 });
