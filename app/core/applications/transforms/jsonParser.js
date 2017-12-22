@@ -8,7 +8,7 @@ module.exports = function (query, field = 'query') {
     try {
       query[field] = JSON.parse(_.get(query, field));
     } catch(e) {
-      console.log(e);
+      return {};
     }
   }
 
