@@ -3,8 +3,7 @@
 const authenticate = require('identity/middlewares/authenticate');
 const Adminer = require('../entities/Adminer');
 
-const AdminerPersistenceService = require('adminer/services/PersistenceServices');
-const PersistenceApp = require('core/applications/persistenceApplication')(Adminer, AdminerPersistenceService);
+const PersistenceApp = require('core/applications/persistenceApplication')(Adminer);
 
 
 module.exports = function (router) {

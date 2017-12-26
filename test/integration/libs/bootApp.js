@@ -2,19 +2,33 @@
 
 require('app-module-path').addPath(`${__dirname}/../../../app`); //make more realiable to call modules
 
+const express = require('express');
+const kraken = require('kraken-js');
+
 const db_connect = require('core/libs/db_run');
 const Mongorito = require('mongorito');
 
-module.exports = function (done, conn = process.env.MAESTRO_MONGO_URI) {
-  db_connect(function *() {
-      yield Mongorito.connect(conn);
-      done();
-  });
-};
+const path = require('path');
 
-module.exports.discon = function(done) {
-  db_connect(function *() {
-      yield Mongorito.disconnect();
-      done();
+module.exports = function (conn = process.env.MAESTRO_MONGO_URI) {
+  let options = {
+    basedir: path.resolve(__dirname, '../../../app/'),
+      onconfig: function (config, next) {
+          db_connect(function *() {
+              yield Mongorito.connect(conn);
+              next(null, config);
+          });
+      }
+  };
+
+  let app = express();
+
+  app.use(kraken(options));
+
+  app.on('start', function () {
+      console.log('Application ready to serve requests.');
+      console.log('Environment: %s', app.kraken.get('env:env'));
   });
+
+  return app;
 };
