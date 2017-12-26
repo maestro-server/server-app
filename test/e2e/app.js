@@ -386,9 +386,9 @@ describe('e2e applications', function () {
         it('autocomplete - json broken', function (done) {
             request(mock)
                 .get('/applications/')
-                .query({query: '"name": "applications"}'})
+                .query({query: '"name" "applications"}'})
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(500)
+                .expect(200)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);

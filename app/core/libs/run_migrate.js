@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const { exec } = require('child_process');
 
@@ -13,4 +13,4 @@ module.exports = () => {
         console.log(`stdout: ${stdout}`);
         console.log(`stderr: ${stderr}`);
     });
-}
+};

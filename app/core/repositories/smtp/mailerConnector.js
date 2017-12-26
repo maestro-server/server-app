@@ -23,7 +23,7 @@ const mailerConnector = (Mailer = DMailer) => {
             throw new ResourceError("SMTP Connections not found");
         }
 
-        async(function* () {
+        async(function *() {
             yield mailer
                 .connect();
         });

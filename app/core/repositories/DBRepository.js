@@ -1,20 +1,17 @@
 'use strict';
 
 const _ = require('lodash');
-
 const findFilledFormat = require('./transforms/findFilledFormat');
 const activeTransform = require('./transforms/activeFormat');
-
 const validAccessUpdater = require('./validator/validAccessUpdater');
 const factoryValid = require('core/libs/factoryValid');
 
-const DBRepository = (Entity, options={}) => {
+const DBRepository = (Entity, options = {}) => {
 
     const DB = Entity.dao;
 
     return {
-        find (query, resFilled = Entity.resFilled) {
-
+        find(query, resFilled = Entity.resFilled) {
             return new Promise((resolve, reject) => {
                 const limit = _.parseInt(query.limit);
                 const page = _.parseInt(query.page);
@@ -26,14 +23,13 @@ const DBRepository = (Entity, options={}) => {
 
                 const filter = findFilledFormat(query, Entity.singleFilled);
 
-
                 return DB
                     .limit(limit)
                     .skip(skip)
                     .sort(orderBy, direction)
                     .include(resFilled)
                     .find(filter)
-                    .then((e) => _.map(e, (value) =>  value.get()))
+                    .then((e) => _.map(e, (value) => value.get()))
                     .then(resolve)
                     .catch(reject);
             });
@@ -41,35 +37,34 @@ const DBRepository = (Entity, options={}) => {
 
         findOne(filters, resFilled = Entity.singleFilled) {
             return new Promise((resolve, reject) => {
+                const filter = Object.assign({}, filters, activeTransform.active());
 
-              const filter = Object.assign({}, filters, activeTransform.active());
-              return DB
-                      .findOne(filter)
-                      .then((e) => {
-                          if (e)
-                              e = e.get();
+                return DB
+                    .findOne(filter)
+                    .then((e) => {
+                        if (e)
+                            e = e.get();
 
-                          return _.pick(e, resFilled);
-                      })
-                      .then(resolve)
-                      .catch(reject);
+                        return _.pick(e, resFilled);
+                    })
+                    .then(resolve)
+                    .catch(reject);
 
             });
         },
 
-        count (filters = {}, fill = Entity.singleFilled) {
+        count(filters = {}, fill = Entity.singleFilled) {
             return new Promise((resolve, reject) => {
                 const filter = findFilledFormat(filters, fill);
 
                 return DB.count(filter)
-                          .then(resolve)
-                          .catch(reject);
+                    .then(resolve)
+                    .catch(reject);
             });
         },
 
         update(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
-
-          return new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 const data = findFilledFormat(post, fill);
                 factoryValid(data, Entity.validators.update);
 
@@ -83,9 +78,7 @@ const DBRepository = (Entity, options={}) => {
         },
 
         patch(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
-
-          return new Promise((resolve, reject) => {
-
+            return new Promise((resolve, reject) => {
                 const data = findFilledFormat(post, fill);
                 factoryValid(data, Entity.validators.update);
 
@@ -100,7 +93,6 @@ const DBRepository = (Entity, options={}) => {
         },
 
         updateByPushUnique(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
-
             return new Promise((resolve, reject) => {
                 const data = _.pick(post, fill);
 
@@ -116,7 +108,6 @@ const DBRepository = (Entity, options={}) => {
         },
 
         updateByPull(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
-
             return new Promise((resolve, reject) => {
                 const data = _.pick(post, fill);
 
@@ -130,8 +121,7 @@ const DBRepository = (Entity, options={}) => {
         },
 
         increment(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
-
-          return new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 const data = _.pick(post, fill);
 
                 return new DB(data)
@@ -147,7 +137,6 @@ const DBRepository = (Entity, options={}) => {
 
         create(post, fill = Entity.filled, resFilled = Entity.singleFilled) {
             return new Promise((resolve, reject) => {
-
                 const data = findFilledFormat(post, fill);
                 factoryValid(data, Entity.validators.create);
 
@@ -174,8 +163,6 @@ const DBRepository = (Entity, options={}) => {
             });
         }
     };
-
 };
-
 
 module.exports = DBRepository;

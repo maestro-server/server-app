@@ -53,7 +53,7 @@ exports.up = function (db, next) {
             time: 15*24*60*60,
             expires: 4*60
         }
-    ]
+    ];
 
     let col = db.collection('scheduler');
     col.insertMany(list, next);

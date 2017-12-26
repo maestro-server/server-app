@@ -81,18 +81,22 @@ describe('unit - core', function () {
     it('repositories - validator - validAccessUpdater', function (done) {
         const validator = require('core/repositories/validator/validAccessUpdater');
 
-        const test1 = validator({isUpdater: {n: 30}});
-
-        expect(test1).to.eventually.have.property("isUpdater").notify(done);
+        expect(function(){
+           validator({isUpdater: {n: 30}});
+        }).to.not.throw('error');
+        done();
     });
 
     it('repositories - validator - validAccessUpdater - throw error', function (done) {
         const validator = require('core/repositories/validator/validAccessUpdater');
 
-        const tt = validator({isUpdater: {n: 0}});
-        expect(tt).to.be.rejectedWith("You dont have access");
+
+        expect(function(){
+           return validator({isUpdater: {n: 0}});
+        }).to.throw('error');
 
         done();
     });
+
 
 });
