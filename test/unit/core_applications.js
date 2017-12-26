@@ -740,5 +740,4 @@ describe('unit - core', function () {
         });
 
     });
-
 });

@@ -148,6 +148,27 @@ describe('unit - core', function () {
         done();
     });
 
+    it('libs - request', function (done) {
+        const fc = require('core/libs/request');
+        const url = "http://google.com.br"
+
+        const result = fc(url);
+
+        expect(result).to.have.property('get'); // axios object
+        expect(result).to.have.property('post');
+        expect(result).to.have.property('patch');
+        done();
+    });
+
+    it('libs - run migrate', function (done) {
+        const fc = require('core/libs/run_migrate');
+
+        expect(function(){
+            fc({})
+        }).to.not.throw('error');
+        done();
+    });
+
 
 
 });

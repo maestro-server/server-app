@@ -1,4 +1,5 @@
 FROM keymetrics/pm2:6
+MAINTAINER maestro@maestroserver.io
 
 # Bundle APP files
 WORKDIR /data

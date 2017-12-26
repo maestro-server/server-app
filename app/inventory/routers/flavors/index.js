@@ -8,9 +8,6 @@ const Team = require('identity/entities/Teams');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Flavors)(Team);
 const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
-const AccessApp = require('core/applications/accessApplication');
-const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
-
 module.exports = function (router) {
 
     router

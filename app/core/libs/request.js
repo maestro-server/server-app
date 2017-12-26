@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const axios = require('axios');
 
@@ -10,4 +10,4 @@ module.exports = (url, headers = {}) => {
     timeout: timeout,
     headers
   });
-}
+};

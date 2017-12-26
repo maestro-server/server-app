@@ -3,7 +3,6 @@
 const authenticate = require('identity/middlewares/authenticate');
 const Flavors = require('../../entities/Flavors');
 const PersistenceApp = require('core/applications/persistenceApplication')(Flavors);
-const AccessApp = require('core/applications/accessApplication')(Flavors);
 
 module.exports = function (router) {
 

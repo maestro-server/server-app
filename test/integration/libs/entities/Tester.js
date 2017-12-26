@@ -3,7 +3,7 @@
 const Tester = require('../repositories/dao/db');
 
 const tester = () => {
-    const fill = ['name', 'roles', 'owner'];
+    const fill = ['name', 'roles', 'owner', 'increment', 'changer', 'unique_id'];
 
     return {
       name: "tester",

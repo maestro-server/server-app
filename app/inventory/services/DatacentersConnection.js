@@ -5,7 +5,7 @@ const Datacenter = require('..//entities/Datacenter');
 
 
 const DatacentersConnection = (result, req, PersistenceServices, Entity) => {
-    const dc_id = _.get(result, 'dc_id')
+    const dc_id = _.get(result, 'dc_id');
     if (dc_id) {
         return PersistenceServices(Entity)
             .find({dc_id}, req.user)
