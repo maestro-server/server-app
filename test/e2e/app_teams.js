@@ -418,7 +418,7 @@ describe('e2e applications', function () {
                 .get(`/teams/${teams._id}/applications/`)
                 .query({query: '"name": "applications"}'})
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(500)
+                .expect(200)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);

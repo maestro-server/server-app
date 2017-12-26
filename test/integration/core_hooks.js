@@ -21,7 +21,7 @@ describe('unit - core', function () {
 
     describe('Hooks', function () {
         const Entity = require('./libs/entities/Tester');
-        let app = require('./libs/bootApp');
+        let app = require('./libs/bootDB');
 
         const data = {name: "name", notHave: "notHave"};
 

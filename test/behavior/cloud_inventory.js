@@ -131,7 +131,8 @@ describe('behaviors basic actions in cloud inventory', function () {
 
 
     before(function (done) {
-        cleaner_db([{tb: 'users'}, {tb: 'servers'}, {tb: 'applications'}, {tb: 'datacenters'}, {tb: 'clients'}, {tb: 'system'}], () => {
+        cleaner_db([{tb: 'users'}, {tb: 'servers'}, {tb: 'applications'},
+            {tb: 'datacenters'}, {tb: 'clients'}, {tb: 'system'}], () => {
             app = require('./libs/bootApp')();
 
             app.once('start', done);
@@ -451,6 +452,42 @@ describe('behaviors basic actions in cloud inventory', function () {
         });
     });
 
+    describe('add my servers into dcs', function () {
+        it('add dc into servers', function (done) {
+            let data = Object.assign(
+                servers[0],
+                {'datacenters': _.pick(datacenters[0], ['name', '_id'])}
+            );
+
+            request(mock)
+                .put('/servers/' + servers[0]._id)
+                .send(data)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(202)
+                .expect(/datacenters/)
+                .expect('Content-Type', /json/)
+                .expect(/_id/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
+    describe('sync servers count by dc', function () {
+        it('sync', function (done) {
+            request(mock)
+                .patch('/datacenters/' + datacenters[0]._id + '/sync_count_servers')
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
     describe('ensure if my app is configured', function () {
         it('select my first app', function (done) {
 
@@ -525,6 +562,7 @@ describe('behaviors basic actions in cloud inventory', function () {
                 });
         });
     });
+
 
 
 });

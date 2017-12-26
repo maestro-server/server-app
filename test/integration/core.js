@@ -64,7 +64,7 @@ describe('integration - core', function () {
         describe('DBRepository', function () {
             const Entity = require('./libs/entities/Tester');
             const DBRepository = require('core/repositories/DBRepository');
-            let app = require('./libs/bootApp');
+            let app = require('./libs/bootDB');
 
             const data = {name: "name", notHave: "notHave", unique_id: "catchme", increment: 0, roles: ['tester']};
 
