@@ -132,7 +132,7 @@ describe('behaviors basic actions in cloud inventory', function () {
 
     before(function (done) {
         cleaner_db([{tb: 'users'}, {tb: 'servers'}, {tb: 'applications'},
-            {tb: 'datacenters'}, {tb: 'clients'}, {tb: 'system'}], () => {
+            {tb: 'datacenters'}, {tb: 'clients'}, {tb: 'systems'}], () => {
             app = require('./libs/bootApp')();
 
             app.once('start', done);
@@ -450,6 +450,40 @@ describe('behaviors basic actions in cloud inventory', function () {
                     done(err);
                 });
         });
+
+        it('put one system into client - system way', function (done) {
+            let data = Object.assign(system[0], {'clients': [_.pick(clients[0], ['_id', 'name'])]});
+
+            request(mock)
+                .put('/system/' + system[0]._id)
+                .send(data)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(202)
+                .expect(/client/)
+                .expect('Content-Type', /json/)
+                .expect(/_id/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('put another system into client - client way', function (done) {
+            let data = {'id': [_.get(system[0], '_id')]};
+
+            request(mock)
+                .patch('/clients/' + clients[1]._id + '/system')
+                .send(data)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(202)
+                .expect(/client/)
+                .expect('Content-Type', /json/)
+                .expect(/_id/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
     describe('add my servers into dcs', function () {
@@ -488,7 +522,7 @@ describe('behaviors basic actions in cloud inventory', function () {
         });
     });
 
-    describe('ensure if my app is configured', function () {
+    describe('ensure if my setup is ok', function () {
         it('select my first app', function (done) {
 
             request(mock)
@@ -523,15 +557,57 @@ describe('behaviors basic actions in cloud inventory', function () {
                     done(err);
                 });
         });
+
+        it('select my first system', function (done) {
+
+            request(mock)
+                .get('/system/' + system[0]._id)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect(function (res) {
+                    expect(res.body.clients).to.deep.equal(
+                        [
+                            _.pick(clients[0], ['_id', 'name']),
+                            _.pick(clients[1], ['_id', 'name'])
+                        ]);
+                    expect(res.body.clients).to.have.length(2);
+                })
+                .expect(/check/)
+                .expect(/name/)
+                .expect(/tags/)
+                .expect(/description/)
+                .expect(/clients/)
+                .expect(/roles/)
+                .expect(/owner/)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
-    describe('delete system', function () {
+    describe('delete my relations', function () {
         it('delete one system in the app - system way', function (done) {
 
             let data = {'id': [_.get(applications[0], '_id')]};
 
             request(mock)
                 .delete('/system/' + system[0]._id + '/applications')
+                .send(data)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(204)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('delete one client in the system - client way', function (done) {
+
+            let data = {'id': [_.get(system[0], '_id')]};
+
+            request(mock)
+                .delete('/clients/' + clients[0]._id + '/system')
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(204)
@@ -561,8 +637,25 @@ describe('behaviors basic actions in cloud inventory', function () {
                     done(err);
                 });
         });
+
+        it('read system client', function (done) {
+
+            request(mock)
+                .get('/system/' + system[0]._id)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect(function (res) {
+                    expect(res.body.clients).to.deep.equal(
+                        [
+                            _.pick(clients[1], ['_id', 'name'])
+                        ]);
+                    expect(res.body.clients).to.have.length(1);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
-
-
 
 });

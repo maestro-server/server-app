@@ -52,7 +52,7 @@ describe('e2e system', function () {
     }];
 
     before(function (done) {
-        cleaner_db([{tb: 'users'}, {tb: 'system'}, {tb: 'teams'}], () => {
+        cleaner_db([{tb: 'users'}, {tb: 'systems'}, {tb: 'teams'}], () => {
             app = require('./libs/bootApp')();
 
             app.once('start', done);
