@@ -49,7 +49,7 @@ module.exports = function (router) {
          * @apiPermission JWT
          * @apiHeader (Auth) {String} Authorization JWT {Token}
          *
-         * @apiError (Error) PermissionError Token dont have permission
+         * @apiError (Error) PermissionError Token don`t have permission
          * @apiError (Error) Unauthorized Invalid Token
          *
          * @apiSuccessExample {json} Success-Response:
@@ -75,7 +75,7 @@ module.exports = function (router) {
          * @apiPermission JWT
          * @apiHeader (Auth) {String} Authorization JWT {Token}
          *
-         * @apiError (Error) PermissionError Token dont have permission
+         * @apiError (Error) PermissionError Token don`t have permission
          * @apiError (Error) Unauthorized Invalid Token
          *
          * @apiSuccessExample {json} Success-Response:
@@ -102,7 +102,7 @@ module.exports = function (router) {
          * @apiPermission JWT
          * @apiHeader (Auth) {String} Authorization JWT {Token}
          *
-         * @apiError (Error) PermissionError Token dont have permission
+         * @apiError (Error) PermissionError Token don`t have permission
          * @apiError (Error) Unauthorized Invalid Token
          *
          * @apiSuccessExample {json} Success-Response:

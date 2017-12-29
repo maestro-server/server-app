@@ -19,7 +19,7 @@ const persistenceClients = (Entity, PersistenceServices = DPersistenceServices) 
 
             query = filterHooks(query, field, [
                 {dest: 'clients.name', source: 'lclients', module: 'swap'},
-                {source: 'links', module: 'upperFirst'}
+                {source: 'contacts', module: 'upperFirst'}
             ]);
 
             Object.assign(req, {query});

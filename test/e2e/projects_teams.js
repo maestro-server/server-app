@@ -330,7 +330,7 @@ describe('e2e projects', function () {
                 });
         });
 
-        it('Exist team project - confirm if my update dont create new project', function (done) {
+        it('Exist team project - confirm if my update don`t create new project', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/projects`)
                 .set('Authorization', `JWT ${user.token}`)

@@ -451,7 +451,7 @@ describe('e2e flavors', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs dont create new flavor', function (done) {
+        it('confirm if any of my updates/patchs don`t create new flavor', function (done) {
             request(mock)
                 .get('/flavors')
                 .set('Authorization', `JWT ${user.token}`)

@@ -465,7 +465,7 @@ describe('e2e volumes', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs dont create new volume', function (done) {
+        it('confirm if any of my updates/patchs don`t create new volume', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/volumes`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -540,7 +540,7 @@ describe('e2e volumes', function () {
     });
 
     describe('e2e teams: add duplicate role roles', function () {
-        it('dont insert double roles', function (done) {
+        it('don`t insert double roles', function (done) {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)

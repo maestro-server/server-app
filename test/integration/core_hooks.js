@@ -79,7 +79,7 @@ describe('unit - core', function () {
                 done();
             });
 
-            it('dont exist source path', function (done) {
+            it('don`t exist source path', function (done) {
                 const config = {
                     Entity,
                     field: "increment",
