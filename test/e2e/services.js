@@ -429,7 +429,7 @@ describe('e2e services', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs dont create new service', function (done) {
+        it('confirm if any of my updates/patchs don`t create new service', function (done) {
             request(mock)
                 .get('/services')
                 .set('Authorization', `JWT ${user.token}`)

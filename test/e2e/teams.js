@@ -370,7 +370,7 @@ describe('e2e teams', function () {
                 });
         });
 
-        it('Exist team - confirm if my update dont create new team', function (done) {
+        it('Exist team - confirm if my update don`t create new team', function (done) {
             request(mock)
                 .get('/teams')
                 .set('Authorization', `JWT ${user.token}`)

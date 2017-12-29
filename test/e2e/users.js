@@ -368,7 +368,7 @@ describe('e2e users', function () {
     * @description I forgot my password, i like to recovery
     */
     describe('forgot my password', function () {
-        it('If i make a get, dont call id users', function (done) {
+        it('If i make a get, don`t call id users', function (done) {
             request(mock)
                 .get('/users/forgot')
                 .expect(200)

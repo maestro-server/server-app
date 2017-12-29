@@ -317,7 +317,7 @@ describe('e2e projects', function () {
               });
       });
 
-      it('Exist project - confirm if my update dont create a new project', function (done) {
+      it('Exist project - confirm if my update don`t create a new project', function (done) {
           request(mock)
               .get('/projects')
               .set('Authorization', `JWT ${user.token}`)

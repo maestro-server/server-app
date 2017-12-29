@@ -12,8 +12,8 @@ const UploaderApp = require('core/applications/uploadApplication')(Team);
 module.exports = function (router) {
 
   /**
-   * @api {get} /teams/:id Get list of yours teams
-   * @apiName Get Teams
+   * @api {get} /teams/:id 1 - Get list of yours teams
+   * @apiName GetTeams
    * @apiGroup Teams
    *
    * @apiParam (Query) {String} [email] Filter by email.
@@ -42,8 +42,8 @@ module.exports = function (router) {
         .get('/upload', authenticate(), UploaderApp.uploader)
 
         /**
-         * @api {get} /teams/:id Get team information
-         * @apiName Get Single Team
+         * @api {get} /teams/:id 2 - Get single team
+         * @apiName GetSingleTeam
          * @apiGroup Teams
          *
          * @apiParam (Param) {String} id Teams unique ID.
@@ -51,7 +51,7 @@ module.exports = function (router) {
          * @apiPermission JWT
          * @apiHeader (Auth) {String} Authorization JWT {Token}
          *
-         * @apiError (Error) PermissionError Token dont have permission
+         * @apiError (Error) PermissionError Token don`t have permission
          * @apiError (Error) Unauthorized Invalid Token
          *
          * @apiSuccessExample {json} Success-Response:
@@ -77,7 +77,7 @@ module.exports = function (router) {
          * @apiPermission JWT
          * @apiHeader (Auth) {String} Authorization JWT {Token}
          *
-         * @apiError (Error) PermissionError Token dont have permission
+         * @apiError (Error) PermissionError Token don`t have permission
          * @apiError (Error) Unauthorized Invalid Token
          *
          * @apiSuccessExample {json} Success-Response:
@@ -104,7 +104,7 @@ module.exports = function (router) {
          * @apiPermission JWT
          * @apiHeader (Auth) {String} Authorization JWT {Token}
          *
-         * @apiError (Error) PermissionError Token dont have permission
+         * @apiError (Error) PermissionError Token don`t have permission
          * @apiError (Error) Unauthorized Invalid Token
          *
          * @apiSuccessExample {json} Success-Response:

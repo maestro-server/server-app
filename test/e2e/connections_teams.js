@@ -510,7 +510,7 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs dont create new connection', function (done) {
+        it('confirm if any of my updates/patchs don`t create new connection', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/connections`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -585,7 +585,7 @@ describe('e2e connections', function () {
     });
 
     describe('e2e teams: add duplicate role roles', function () {
-        it('dont insert double roles', function (done) {
+        it('don`t insert double roles', function (done) {
             const data = {role: "3", id: friend._id, refs: "users", name: friend.name, email: friend.email};
 
             request(mock)
