@@ -33,7 +33,7 @@ module.exports = function (router) {
          *     <li>environment = upperCase(language)</li>
          *     <li>field is string the querie execute a regex research like "%filter%", EX: {'name': 'serv'}, It will return applications with name 'services58' or '754services'.</li>
          * </ul>
-         * @apiParam (Param) {String} [limi=20] Limit result.
+         * @apiParam (Param) {String} [limit=20] Limit result.
          * @apiParam (Param) {String} [page=1] Show result by page.
          * @apiParam (Param) {String} [name] Filter by name (Exacly).
          * @apiParam (Param) {String} [servers] Filters by id server.
@@ -107,16 +107,15 @@ module.exports = function (router) {
          */
         .get('/:id', authenticate(), PersistenceApp.findOne)
         /**
-         * @api {post} /applications/:id d. Create single app
+         * @api {post} /applications/ d. Create single app
          * @apiName PostApplication
          * @apiGroup Applications
          *
-         * @apiParam (Param) {String} id Application unique id.
          *
          * @apiParam (Body x-www) {String} name Name [min 3, max 150]
          * @apiParam (Body x-www) {String} [description] Short description [max 800]
-         * @apiParam (Body x-www) {Array} [servers] List of ids servers
-         * @apiParam (Body x-www) {Array} [targets] List of ids servers
+         * @apiParam (Body x-www) {Array} [servers] List of ids servers [Array of Ids]
+         * @apiParam (Body x-www) {Array} [targets] List of ids servers [Array of Ids]
          * @apiParam (Body x-www) {Boolean} [own=0] Resposability, 0 = Service installed in own servers, 1 - Third service
          * @apiParam (Body x-www) {Object} role Specification
          * <br/>
@@ -130,7 +129,7 @@ module.exports = function (router) {
          * <br/>}
          *  </code>
          * </pre>
-         * @apiParam (Body x-www) {String} [language] Language, used only in Bussiness Application [NodeJs, Java, Python]
+         * @apiParam (Body x-www) {String} [language] Language, used only in Bussiness Application [NodeJs, Java, Python and etc]
          * @apiParam (Body x-www) {String} [provider] Service name [ELB, Google Cloud Containers, etc]
          * @apiParam (Body x-www) {String} [cluster] If this app run in cluster (No, Master/Slave, 12 Factor, ZooKeeper, Leader election)
          * @apiParam (Body x-www) {String} [dataguard] Used only for Oracle DB. Type of dataguard
@@ -164,7 +163,7 @@ module.exports = function (router) {
          * @apiParam (Body x-www) {Object} [datacenters] Datacenter, normally used in third services
          * <br/>
          * <pre class="prettyprint language-json" data-type="json">
-         * <code>"datacenters": {
+         * <code>{
          * <br/>   "_id": (String),
          * <br/>   "provider": (String),
          * <br/>   "name": (String)
@@ -302,7 +301,7 @@ module.exports = function (router) {
          * @api {put} /applications/:id/roles i. Update access role
          * @apiName PutRoleApp
          * @apiGroup Applications
-         * @apiDescription Update all access roles, remeber if you don´t send your access, after success you lose the access it´s
+         * @apiDescription Update all access roles, remember if you don´t send your access, after success you lose the access it´s
          *
          * @apiParam (Param) {String} id Application unique id.
          *
@@ -339,6 +338,8 @@ module.exports = function (router) {
          *
          * @apiParam (Param) {String} id Application unique id.
          * @apiParam (Param) {String} idu User unique id.
+         *
+         * @apiParam (Body x-www) {String} field Any field describe to create role
          *
          * @apiPermission JWT (Admin)
          * @apiHeader (Header) {String} Authorization JWT {Token}

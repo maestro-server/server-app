@@ -1,0 +1,23 @@
+{
+    "name": "API-Server Maestro - Auth, Users and Teams",
+    "version": "0.1.2",
+    "description": "API documentation - RestFull",
+    "apidoc": {
+        "title": "API - Maestro Server - Auth, Users and Teams",
+        "url": "https://localhost:8888/apidocs/v1"
+    },
+    "order": [
+        "Servers",
+        "Applications",
+        "Datacenters",
+        "Systems",
+        "Clients",
+        "Connections",
+        "Volumes",
+        "Networks",
+        "Images",
+        "Flavors",
+        "Snapshots",
+        "Teams"
+    ]
+}

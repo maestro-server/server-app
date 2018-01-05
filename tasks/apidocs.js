@@ -14,7 +14,7 @@ module.exports = function (gulp, $) {
       apidoc({
             src: "app/" + options.name,
             dest: "apidocs/" + options.name,
-            config: "./"
+            config: "./devtools/docs/" + options.name + "/"
           }, done);
     });
 };
