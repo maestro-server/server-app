@@ -1,13 +1,13 @@
 {
-    "name": "API-Server Maestro - Auth, Users and Teams",
+    "name": "API-Server Maestro - Config and services",
     "version": "0.1.2",
     "description": "API documentation - RestFull",
     "apidoc": {
-        "title": "API - Maestro Server - Auth, Users and Teams",
+        "title": "API - Maestro Server - Config and services",
         "url": "https://localhost:8888/apidocs/v1"
     },
     "order": [
-        "Auth",
-        "Teams"
+        "Adminer",
+        "Services"
     ]
 }

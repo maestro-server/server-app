@@ -15,6 +15,7 @@
     "docs-inventory": "gulp apidocs --name inventory",
     "docs-identity": "gulp apidocs --name identity",
     "docs-reports": "gulp apidocs --name reports",
+    "docs-adminer": "gulp apidocs --name adminer",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly test/**/*js",
     "migrate": "node ./node_modules/mongodb-migrate -runmm -cfg .migration-config.js up",
     "create_migrate": "node ./node_modules/mongodb-migrate -runmm create",
