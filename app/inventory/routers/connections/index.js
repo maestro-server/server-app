@@ -16,7 +16,7 @@ module.exports = function (router) {
 
     router
         /**
-         * @api {get} /teams/:id/connections/ ca. Conn for Team
+         * @api {get} /teams/:id/connections/ ca. List Conn for Team
          * @apiName GetConnTeam
          * @apiGroup Teams
          */
@@ -35,7 +35,7 @@ module.exports = function (router) {
         .get('/teams/:id/connections/:idu', authenticate(), WrapperPersistenceAppDefault.findOne)
         /**
          * @api {put} /teams/:id/connections/:idu cd. Update all Conn for Team
-         * @apiName UpdateSingleListTeam
+         * @apiName UpdateSingleListConnTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/connections/:idu', authenticate(), WrapperPersistenceAppDefault.update)
@@ -65,25 +65,25 @@ module.exports = function (router) {
          */
         /**
          * @api {post} /teams/:id/connections/:idu/roles ch. Create access role
-         * @apiName GetSingleListTeam
+         * @apiName GetSingleListConnTeam
          * @apiGroup Teams
          */
         .post('/teams/:id/connections/:idu/roles', authenticate(), WrapperAccessApp.create)
         /**
          * @api {put} /teams/:id/connections/:idu/roles ci. Update all access role
-         * @apiName GetSingleListTeam
+         * @apiName GetSingleListConnTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/connections/:idu/roles', authenticate(), WrapperAccessApp.update)
         /**
          * @api {put} /teams/:id/connections/:idu/roles/:ida cj. Update access role
-         * @apiName GetSingleListTeam
+         * @apiName GetSingleListConnTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/connections/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
         /**
          * @api {delete} /teams/:id/connections/:idu/roles/:ida cl. Delete access role
-         * @apiName GetSingleListTeam
+         * @apiName GetSingleListConnTeam
          * @apiGroup Teams
          */
         .delete('/teams/:id/connections/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);

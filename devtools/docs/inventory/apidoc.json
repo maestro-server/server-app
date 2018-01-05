@@ -1,9 +1,9 @@
 {
-    "name": "API-Server Maestro",
+    "name": "API-Server Maestro - Inventory",
     "version": "0.1.2",
     "description": "API documentation - RestFull",
     "apidoc": {
-        "title": "API - Maestro Server",
+        "title": "API - Maestro Server - Inventory",
         "url": "https://localhost:8888/apidocs/v1"
     },
     "order": [
