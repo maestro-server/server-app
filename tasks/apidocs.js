@@ -13,8 +13,8 @@ module.exports = function (gulp, $) {
     gulp.task('apidocs', function (done) {
       apidoc({
             src: "app/" + options.name,
-            dest: "apidocs/" + options.name,
-            config: "./devtools/docs/" + options.name + "/"
+            dest: "docs/" + options.name,
+            config: "./devtools/doc/" + options.name + "/"
           }, done);
     });
 };

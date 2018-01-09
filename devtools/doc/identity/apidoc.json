@@ -6,7 +6,12 @@
         "title": "API - Maestro Server - Auth, Users and Teams",
         "url": "https://localhost:8888/apidocs/v1"
     },
+    "header": {
+        "filename": "devtools/docs/header.md"
+    },
     "order": [
+        "Me",
+        "Users",
         "Auth",
         "Teams"
     ]

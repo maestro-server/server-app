@@ -6,7 +6,11 @@
         "title": "API - Maestro Server - Inventory",
         "url": "https://localhost:8888/apidocs/v1"
     },
+    "header": {
+        "filename": "devtools/docs/header.md"
+    },
     "order": [
+        "General",
         "Servers",
         "Applications",
         "Datacenters",
