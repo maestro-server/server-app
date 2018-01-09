@@ -2,7 +2,7 @@
 
 const authenticate = require('identity/middlewares/authenticate');
 
-const App = require('../../entities/Application');
+const Application = require('../../entities/Application');
 const Team = require('identity/entities/Teams');
 
 const PersistenceAppApplications = require('../../applications/persistenceApplications');
