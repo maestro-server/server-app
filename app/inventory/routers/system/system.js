@@ -6,7 +6,7 @@ const Application = require('../../entities/Application');
 
 const PersistenceApp = require('core/applications/persistenceApplication')(System);
 const PersistenceRelation = require('../../applications/persistenceSystem')(Application)(System);
-const PersistenceAppSystems = require('../../applications/persistenceSystems')(System);
+const PersistenceAppClients = require('../../applications/persistenceClients')(System);
 
 const AccessApp = require('core/applications/accessApplication')(System);
 
@@ -53,7 +53,7 @@ module.exports = function (router) {
          *        items: []
          *     }
      */
-        .get('/', authenticate(), PersistenceAppSystems.findSystems)
+        .get('/', authenticate(), PersistenceAppClients.findClients)
         /**
          * @api {get} /system/count b. Count total systems
          * @apiName Get total systems.
