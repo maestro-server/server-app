@@ -10,7 +10,7 @@
         "filename": "devtools/doc/header.md"
     },
     "order": [
-        "General",
+        "Ping",
         "Servers",
         "Applications",
         "Datacenters",
