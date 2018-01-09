@@ -6,6 +6,5 @@ node_modules
 .env.development
 .idea/
 .happypack/
-docs/*
 npm-debug*
 coverage/
