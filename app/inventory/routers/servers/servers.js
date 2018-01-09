@@ -12,7 +12,24 @@ module.exports = function (router) {
 
     router
     /**
-     * @api {get} /servers a. List your servers
+     *
+     * @api {get} / Ping
+     * @apiName GetPing
+     * @apiGroup Ping
+     *
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+         *        app: (String),
+         *        description: (String),
+         *        version: (Float),
+         *        api_timeout: (Number)
+         *     }
+     */
+
+
+     /** @api {get} /servers a. List your servers
      * @apiName GetServer
      * @apiGroup Servers
      *

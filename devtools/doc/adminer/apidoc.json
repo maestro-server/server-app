@@ -6,6 +6,9 @@
         "title": "API - Maestro Server - Config and services",
         "url": "https://localhost:8888/apidocs/v1"
     },
+    "header": {
+      "filename": "devtools/docs/header.md"
+    },
     "order": [
         "Adminer",
         "Services"
