@@ -32,7 +32,7 @@ exports.up = function (db, next) {
                                 {type: 'object', leaf: ['key', 'name']}
                                 },
                         {key: 'status', type: 'string'},
-                        {key: 'metas', type: 'Object', leaf: ['security_groups']},
+                        {key: 'metas', type: 'object', leaf: ['security_groups']},
                         {key: 'datacenters', type: 'object', leaf: ['name', 'provider', 'region', 'zone', 'type', 'instance', 'subnet_id', 'virtualization_type', 'hypervisor', 'root_device_type', 'architecture', 'cloudwatch_monitoring']},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'roles', type: 'array', leaf:
