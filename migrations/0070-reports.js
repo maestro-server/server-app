@@ -29,7 +29,7 @@ exports.up = function (db, next) {
                                 {type: 'object', leaf: ['name', 'version']}
                         },
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                                 },
                         {key: 'status', type: 'string'},
                         {key: 'metas', type: 'object', leaf: ['security_groups']},
@@ -71,7 +71,7 @@ exports.up = function (db, next) {
                         {key: 'datacenters', type: 'object', leaf: ['name', 'provider', 'region', 'zone', 'type', 'instance', 'subnet_id', 'virtualization_type', 'hypervisor', 'root_device_type', 'architecture', 'cloudwatch_monitoring']},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
@@ -90,7 +90,7 @@ exports.up = function (db, next) {
                                 {type: 'object', leaf: ['type', 'endpoint']}},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
@@ -107,7 +107,7 @@ exports.up = function (db, next) {
                                 {type: 'object', leaf: ['channel', 'value']}},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
@@ -127,7 +127,7 @@ exports.up = function (db, next) {
                                 {type: 'string'}},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
@@ -143,7 +143,7 @@ exports.up = function (db, next) {
                         {key: 'email', type: 'string'},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'members', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
@@ -162,7 +162,7 @@ exports.up = function (db, next) {
                                 {type: 'string'}},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
@@ -177,7 +177,7 @@ exports.up = function (db, next) {
                         {key: 'name', type: 'string'},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
@@ -195,7 +195,7 @@ exports.up = function (db, next) {
                         {key: 'disk', type: 'string'},
                         {key: 'datacenters', type: 'object', leaf: ['name', 'provider', 'region', 'zone']},
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'created_at', type: 'date'},
                         {key: 'updated_at', type: 'date'}
@@ -211,7 +211,7 @@ exports.up = function (db, next) {
                         {key: 'image_type', type: 'string'},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
@@ -233,7 +233,7 @@ exports.up = function (db, next) {
                         {key: 'datacenters', type: 'object', leaf: ['name', 'provider', 'region', 'zone']},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
@@ -248,7 +248,7 @@ exports.up = function (db, next) {
                         {key: 'name', type: 'string'},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
@@ -280,7 +280,7 @@ exports.up = function (db, next) {
                         {key: 'datacenters', type: 'object', leaf: ['name', 'provider', 'region', 'zone']},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
@@ -303,7 +303,7 @@ exports.up = function (db, next) {
                         {key: 'datacenters', type: 'object', leaf: ['name', 'provider', 'region', 'zone']},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'name']}
+                                {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
