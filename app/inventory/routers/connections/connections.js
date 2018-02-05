@@ -4,7 +4,7 @@ const authenticate = require('identity/middlewares/authenticate');
 const Connections = require('../../entities/Connections');
 
 const PersistenceConnection = require('../../applications/persistenceConnection')(Connections);
-const Persistenceconnection = require('core/applications/persistenceApplication')(Connections);
+const PersistenceApp = require('core/applications/persistenceApplication')(Connections);
 const Accessconnection = require('core/applications/accessApplication')(Connections);
 
 module.exports = function (router) {
@@ -53,7 +53,7 @@ module.exports = function (router) {
          *        items: []
          *     }
      */
-        .get('/', authenticate(), Persistenceconnection.find)
+        .get('/', authenticate(), PersistenceApp.find)
         /**
          * @api {get} /connections/count b. Count total connections
          * @apiName GetCountConnection
@@ -77,7 +77,7 @@ module.exports = function (router) {
          *        count: (Number)
          *     }
          */
-        .get('/count', authenticate(), Persistenceconnection.count)
+        .get('/count', authenticate(), PersistenceApp.count)
         /**
          * @api {get} /connections/:id c. Get single connection
          * @apiName GetSingleConnection
@@ -103,7 +103,7 @@ module.exports = function (router) {
          *        _links: {}
          *     }
          */
-        .get('/:id', authenticate(), Persistenceconnection.findOne)
+        .get('/:id', authenticate(), PersistenceApp.findOne)
         /**
          * @api {post} /connections/ d. Create single connection
          * @apiName PostConnections
@@ -212,7 +212,7 @@ module.exports = function (router) {
          *        fields: (Mixed)
          *     }
          */
-        .patch('/:id', authenticate(), Persistenceconnection.patch)
+        .patch('/:id', authenticate(), PersistenceApp.patch)
         /**
          * @api {put} /connections/:id f. Full Update connection
          * @apiName PatchSingleConnections
@@ -238,7 +238,7 @@ module.exports = function (router) {
          *        fields: {}
          *     }
          */
-        .put('/:id', authenticate(), Persistenceconnection.update)
+        .put('/:id', authenticate(), PersistenceApp.update)
         /**
          * @api {delete} /connections/:id g. Delete single connection
          * @apiName DeleteSingleConnections

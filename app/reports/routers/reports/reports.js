@@ -3,6 +3,8 @@
 const authenticate = require('identity/middlewares/authenticate');
 const Reports = require('../../entities/Report');
 
+
+const PersistenceReport = require('../../applications/persistenceReports')(Reports);
 const PersistenceApp = require('core/applications/persistenceApplication')(Reports);
 const AccessApp = require('core/applications/accessApplication')(Reports);
 
@@ -15,13 +17,13 @@ module.exports = function (router) {
 
         .get('/:id', authenticate(), PersistenceApp.findOne)
 
+        .post('/', authenticate(), PersistenceReport.create)
+
         .put('/:id', authenticate(), PersistenceApp.update)
 
         .patch('/:id', authenticate(), PersistenceApp.patch)
 
-        .delete('/:id', authenticate(), PersistenceApp.remove)
-
-        .post('/', authenticate(), PersistenceApp.create)
+        .delete('/:id', authenticate(), PersistenceReport.remove)
 
         /**
          * Roles
