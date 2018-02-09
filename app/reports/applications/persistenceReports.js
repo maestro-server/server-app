@@ -45,7 +45,17 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
 
         remove (req, res, next) {
             PersistenceServices(Entity)
-                .remove(req.params.id, req.user)
+                .findOne(req.params.id, req.user)
+                .then(notExist)
+                .then((e) => {
+                    console.log(e);
+                    
+                    const namet = `${}`
+
+                    return ReportHTTPService()
+                        .delete(`/${e.report}`, data);
+                })
+                //.then(PersistenceServices(Entity).remove(req.params.id, req.user))
                 .then(e => res.status(204).json(e))
                 .catch(next);
         },
