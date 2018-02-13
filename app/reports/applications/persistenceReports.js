@@ -5,7 +5,7 @@ const _ = require('lodash');
 const DPersistenceServices = require('core/services/PersistenceServices');
 const aclRoles = require('core/applications/transforms/aclRoles');
 const Access = require('core/entities/accessRole');
-const notExist = require('core/applications/validator/validNotExist');
+const validAccessEmpty = require('core/applications/validator/validAccessEmpty');
 
 const mapRelationToObjectID = require('core/applications/transforms/mapRelationToObjectID');
 
@@ -20,7 +20,7 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
             const bodyWithOwner = Object.assign(
                 {},
                 mapRelationToObjectID(req.body, Entity.mapRelations),
-                aclRoles(req.user, Entity, Access.ROLE_READ)
+                aclRoles(req.user, Entity, Access.ROLE_ADMIN)
             );
 
             const owner_user = _.get(req, 'user._id')
@@ -36,7 +36,7 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
                     }
 
                     return ReportHTTPService()
-                        .create(`/${e.report}`, data);
+                        .create(`/reports/${e.report}`, data);
                 })
                 .then(e => res.status(201).json(e))
                 .catch(next);
@@ -45,17 +45,16 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
 
         remove (req, res, next) {
             PersistenceServices(Entity)
-                .findOne(req.params.id, req.user)
-                .then(notExist)
+                .findOne(req.params.id, req.user, Access.ROLE_ADMIN)
+                .then(validAccessEmpty)
                 .then((e) => {
-                    console.log(e);
-                    
-                    const namet = `${}`
+                    const {_id, report, msg} = e;
+                    const namet = `${_id}__${report}_${msg}`;
 
                     return ReportHTTPService()
-                        .delete(`/${e.report}`, data);
+                       .remove(`/reports/${namet}`);
                 })
-                //.then(PersistenceServices(Entity).remove(req.params.id, req.user))
+                .then(() => PersistenceServices(Entity).remove(req.params.id, req.user))
                 .then(e => res.status(204).json(e))
                 .catch(next);
         },
