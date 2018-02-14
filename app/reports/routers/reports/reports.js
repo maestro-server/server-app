@@ -17,6 +17,8 @@ module.exports = function (router) {
 
         .get('/:id', authenticate(), PersistenceApp.findOne)
 
+        .get('/:id/result', authenticate(), PersistenceReport.getReport)
+
         .post('/', authenticate(), PersistenceReport.create)
 
         .put('/:id', authenticate(), PersistenceApp.update)
