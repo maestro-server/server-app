@@ -59,6 +59,24 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
                 .catch(next);
         },
 
+        getReport (req, res, next) {
+            PersistenceServices(Entity)
+                .findOne(req.params.id, req.user, Access.ROLE_READ)
+                .then(validAccessEmpty)
+                .then((e) => {
+                    const {_id, report, msg} = e;
+                    const namet = `${_id}__${report}_${msg}`;
+
+                    console.log(namet)
+                    console.log("===========================================")
+
+                    return ReportHTTPService()
+                        .find(`/reports/${namet}`);
+                })
+                .then(e => res.json(e))
+                .catch(next);
+        },
+
         task(req, res, next) {
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)
