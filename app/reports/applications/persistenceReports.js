@@ -60,6 +60,10 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
         },
 
         getReport (req, res, next) {
+            const content = _(req.headers)
+                                .get('accept', 'application/json')
+                                .replace('*/*', 'application/json'); 
+
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user, Access.ROLE_READ)
                 .then(validAccessEmpty)
@@ -67,13 +71,10 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
                     const {_id, report, msg} = e;
                     const namet = `${_id}__${report}_${msg}`;
 
-                    console.log(namet)
-                    console.log("===========================================")
-
-                    return ReportHTTPService()
+                    return ReportHTTPService({'Accept': content})
                         .find(`/reports/${namet}`);
                 })
-                .then(e => res.json(e))
+                .then(e => res.set('Content-Type', content).send(e))
                 .catch(next);
         },
 
