@@ -21,6 +21,8 @@ module.exports = function (router) {
 
         .get('/teams/:id/reports/:idu', authenticate(), WrapperPersistenceApp()().findOne)
 
+        .get('/teams/:id/reports/:idu/result', authenticate(), WrapperPersistenceAppReports('getReport').find)
+
         .put('/teams/:id/reports/:idu', authenticate(), WrapperPersistenceApp()().update)
 
         .patch('/teams/:id/reports/:idu', authenticate(), WrapperPersistenceApp()().patch)
