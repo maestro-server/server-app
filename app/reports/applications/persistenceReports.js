@@ -14,7 +14,7 @@ const {ReportHTTPService} = require('core/services/HTTPService');
 const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) => {
 
     return {
-        create (req, res, next) {
+        create(req, res, next) {
             _.defaults(req.body, Entity.defaults || {});
 
             const bodyWithOwner = Object.assign(
@@ -43,26 +43,31 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
 
         },
 
-        remove (req, res, next) {
+        remove(req, res, next) {
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user, Access.ROLE_ADMIN)
                 .then(validAccessEmpty)
-                .then((e) => {
-                    const {_id, report, msg} = e;
-                    const namet = `${_id}__${report}_${msg}`;
-
-                    return ReportHTTPService()
-                       .remove(`/reports/${namet}`);
+                .then(({_id, report, msg, status}) => {
+                    if (status == 'finished')
+                        return ReportHTTPService().remove(`/reports/${_id}__${report}_${msg}`);
                 })
                 .then(() => PersistenceServices(Entity).remove(req.params.id, req.user))
                 .then(e => res.status(204).json(e))
                 .catch(next);
         },
 
-        getReport (req, res, next) {
-            const content = _(req.headers)
-                                .get('accept', 'application/json')
-                                .replace('*/*', 'application/json'); 
+        getReport(req, res, next) {
+            let {query, headers} = req;
+
+            let content = _(headers)
+                .get('accept', 'application/json')
+                .replace('*/*', 'application/json')
+                .split(',', 1);
+
+            if (_.isArray(content))
+                content = _.head(content);
+
+            const params = _.defaults(_.pick(query, ['limit', 'page']), {limit: 1500}, {page: 1})
 
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user, Access.ROLE_READ)
@@ -72,7 +77,7 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
                     const namet = `${_id}__${report}_${msg}`;
 
                     return ReportHTTPService({'Accept': content})
-                        .find(`/reports/${namet}`);
+                        .find(`/reports/${namet}`, {params});
                 })
                 .then(e => res.set('Content-Type', content).send(e))
                 .catch(next);
