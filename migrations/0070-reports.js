@@ -80,7 +80,7 @@ exports.up = function (db, next) {
                     ]
                 },
                 {
-                    name: 'System',
+                    name: 'Systems',
                     order: 3,
                     filters: [
                         {key: 'name', type: 'string'},
