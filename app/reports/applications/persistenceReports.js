@@ -36,7 +36,7 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
                     }
 
                     return ReportHTTPService()
-                        .create(`/reports/${e.report}`, data);
+                        .create(`/reports/${e['report']}`, data);
                 })
                 .then(e => res.status(201).json(e))
                 .catch(next);
