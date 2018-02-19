@@ -65,10 +65,10 @@ const DBRepository = (Entity, options = {}) => {
 
         update(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
             return new Promise((resolve, reject) => {
-                const data = findFilledFormat(post, fill);
+                let data = findFilledFormat(post, fill);
 
                 if(!_.has(options, 'ignoreValid'))
-                  factoryValid(data, Entity.validators.update);
+                  data = factoryValid(data, Entity.validators.update);
 
                 return new DB(data)
                     .updateFull(filter)
@@ -81,10 +81,10 @@ const DBRepository = (Entity, options = {}) => {
 
         patch(filter, post, fill = Entity.filled, resFilled = Entity.singleFilled) {
             return new Promise((resolve, reject) => {
-                const data = findFilledFormat(post, fill);
+                let data = findFilledFormat(post, fill);
 
                 if(!_.has(options, 'ignoreValid'))
-                  factoryValid(data, Entity.validators.update);
+                  data = factoryValid(data, Entity.validators.update);
 
                 return new DB(data)
                     .updateAndModify(filter, options)
@@ -141,8 +141,8 @@ const DBRepository = (Entity, options = {}) => {
 
         create(post, fill = Entity.filled, resFilled = Entity.singleFilled) {
             return new Promise((resolve, reject) => {
-                const data = findFilledFormat(post, fill);
-                factoryValid(data, Entity.validators.create);
+                let data = findFilledFormat(post, fill);
+                data = factoryValid(data, Entity.validators.create);
 
                 return new DB(data)
                     .save()
