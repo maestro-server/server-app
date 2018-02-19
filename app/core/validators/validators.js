@@ -29,7 +29,7 @@ module.exports = {
     }),
     asm_groups: Joi.object().keys({
         name: Joi.string().max(150),
-        size: Joi.string().max(50)
+        size: Joi.number().positive().max(99924)
     }),
     contacts: Joi.object().keys({
         channel: Joi.string().max(250),
@@ -37,7 +37,7 @@ module.exports = {
     }),
     storage: Joi.object().keys({
         name: Joi.string().max(100),
-        size: Joi.number().positive().max(10024),
+        size: Joi.number().positive().max(99924),
         root: Joi.string().max(10),
         status: Joi.string().max(10),
         volume_id: Joi.string().max(35),
