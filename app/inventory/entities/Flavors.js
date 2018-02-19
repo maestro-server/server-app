@@ -19,7 +19,7 @@ const volume = () => {
         'service', 'is_public',
         "windows_sql_ent_reserved_cost", "ebs_optimized_surcharge"];
 
-    const filled = [..._.slice(singleFilled, 3)];  // delete id
+    const filled = [..._.slice(singleFilled, 2)];  // delete id
 
     return {
         name: "flavors",

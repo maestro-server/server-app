@@ -684,7 +684,7 @@ describe('unit - core', function () {
                     find
                 });
 
-            AccessApp(Entity)(REntity)()(SPS).find(req, res);
+            AccessApp()(SPS)(REntity)(Entity).find(req, res);
 
             expect(find.getCalls()[0].args).to.length(3);
             sinon.assert.calledOnce(find);
@@ -698,7 +698,7 @@ describe('unit - core', function () {
                     count
                 });
 
-            AccessApp(Entity)(REntity)()(SPS).count(req, res);
+            AccessApp()(SPS)(REntity)(Entity).count(req, res);
 
             expect(count.getCalls()[0].args).to.length(3);
             sinon.assert.calledOnce(count);

@@ -6,7 +6,7 @@ const DRelationsSyncerService = require('core/services/RelationsSyncerService');
 const DFactoryPesistenceApp = require('core/applications/persistenceApplication');
 
 
-const RelationsApp = (Entity) => (REntity) => (RelationsSyncerService = DRelationsSyncerService)  => (FactoryPesistenceApp = DFactoryPesistenceApp) => {
+const RelationsApp = (RelationsSyncerService = DRelationsSyncerService)  => (FactoryPesistenceApp = DFactoryPesistenceApp) => (REntity) => (Entity) => {
 
     return {
         find: (req, res, next) => {

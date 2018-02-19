@@ -5,7 +5,7 @@ const Datacenter = require('../../entities/Datacenter');
 const Servers = require('../../entities/Servers');
 
 const PersistenceApp = require('core/applications/persistenceApplication')(Datacenter);
-const SyncerApp = require('core/applications/relationsApplication')(Datacenter)(Servers)()();
+const SyncerApp = require('core/applications/relationsApplication')()()(Servers)(Datacenter);
 
 const AccessApp = require('core/applications/accessApplication')(Datacenter);
 
@@ -371,7 +371,7 @@ module.exports = function (router) {
          * @api {patch} /datacenters/:id/sync_count_servers/ b. Sync servers
          * @apiName PatchSyncCountServers
          * @apiGroup Datacenters
-         * @apiDescription Syncronize all servers filters by id dc.
+         * @apiDescription Syncronize all servers filters by id dc. (Count)
          *
          * @apiParam (Param) {String} id Datacenter unique id.
          *
