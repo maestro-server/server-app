@@ -10,7 +10,7 @@ const servers = () => {
     const singleFilled = [...resFilled, 'unique_id', 'cpu', 'memory', 'storage', 'datacenters', 'os', 'auth', 'role', 'environment',
         'roles', 'owner', 'active', 'status', 'meta'];
 
-    const filled = [..._.slice(singleFilled, 3)]; // delete id
+    const filled = [..._.slice(singleFilled, 2)]; // delete id
 
     return {
         name: "servers",
