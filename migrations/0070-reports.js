@@ -13,7 +13,7 @@ exports.up = function (db, next) {
                         {key: 'ipv4_private', type: 'string'},
                         {key: 'ipv4_public', type: 'string'},
                         {key: 'role', type: 'string'},
-                        {key: 'environment', type: 'string'},
+                        {key: 'environment', type: 'select', opts: ['production', 'staging', 'development', 'uta', 'training', 'sandbox']},
                         {key: 'dns_public', type: 'string'},
                         {key: 'dns_private', type: 'string'},
                         {key: 'memory', type: 'number'},
@@ -31,14 +31,15 @@ exports.up = function (db, next) {
                         {key: 'tags', type: 'array', leaf:
                                 {type: 'object', leaf: ['key', 'value']}
                                 },
-                        {key: 'status', type: 'string'},
+                        {key: 'status', type: 'select', opts: ['active', 'avaliable', 'stopped']},
                         {key: 'metas', type: 'object', leaf: ['security_groups']},
                         {key: 'datacenters', type: 'object', leaf: ['name', 'provider', 'region', 'zone', 'type', 'instance', 'subnet_id', 'virtualization_type', 'hypervisor', 'root_device_type', 'architecture', 'cloudwatch_monitoring']},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 },
                 {
@@ -46,8 +47,8 @@ exports.up = function (db, next) {
                     order: 2,
                     filters: [
                         {key: 'name', type: 'string'},
-                        {key: 'family', type: 'string'},
-                        {key: 'environment', type: 'string'},
+                        {key: 'family', type: 'select', opts: ['Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'Object Storage', 'Monitoring', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'Repository', 'DNS', 'CI/CD', 'Auth', 'NAS'],},
+                        {key: 'environment', type: 'select', opts: ['production', 'staging', 'development', 'uta', 'training', 'sandbox']},
                         {key: 'language', type: 'string'},
                         {key: 'provider', type: 'string'},
                         {key: 'cluster', type: 'number'},
@@ -76,7 +77,8 @@ exports.up = function (db, next) {
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 },
                 {
@@ -95,7 +97,8 @@ exports.up = function (db, next) {
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 },
                 {
@@ -112,7 +115,8 @@ exports.up = function (db, next) {
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 },
                 {
@@ -132,7 +136,8 @@ exports.up = function (db, next) {
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 },
                 {
@@ -148,7 +153,8 @@ exports.up = function (db, next) {
                         {key: 'members', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 },
                 {
@@ -167,7 +173,8 @@ exports.up = function (db, next) {
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 },
                 {
@@ -182,7 +189,8 @@ exports.up = function (db, next) {
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 },
                 {
@@ -198,7 +206,8 @@ exports.up = function (db, next) {
                                 {type: 'object', leaf: ['key', 'value']}
                         },
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 },
                 {
@@ -216,7 +225,8 @@ exports.up = function (db, next) {
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 },
                 {
@@ -238,7 +248,8 @@ exports.up = function (db, next) {
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 },
                 {
@@ -253,18 +264,8 @@ exports.up = function (db, next) {
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
-                    ]
-                },
-                {
-                    name: 'Services',
-                    order: 13,
-                    filters: [
-                        {key: 'name', type: 'string'},
-                        {key: 'family', type: 'array', leaf:
-                                {type: 'string'}},
-                        {key: 'tags', type: 'array', leaf:
-                                {type: 'string'}}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 },
                 {
@@ -285,7 +286,8 @@ exports.up = function (db, next) {
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 },
                 {
@@ -308,7 +310,8 @@ exports.up = function (db, next) {
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
                         {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'}
+                        {key: 'updated_at', type: 'date'},
+                        {key: 'active', type: 'boolean'}
                     ]
                 }]
         },

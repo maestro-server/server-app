@@ -13,7 +13,7 @@ const schema = Joi.object().keys({
     targets: Joi.array().items(id).unique(),
     own: Joi.number().max(1),
     role: Joi.any(),
-    language: Joi.string().min(3).max(30),
+    language: Joi.string().min(1).max(30),
     provider: Joi.string().min(3).max(20),
     cluster:  Joi.string().max(100),
     dataguard: Joi.string().max(40),

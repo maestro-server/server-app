@@ -25,7 +25,7 @@ const network = () => {
         'allow_list', 'routes', 'availability_zone_hints', 'allocation_pools', 'use_default_subnet_pool', 'ipv6_address_mode',
         'is_dhcp_enabled'];
 
-    const filled = [..._.slice(singleFilled, 3)];  // delete id
+    const filled = [..._.slice(singleFilled, 2)];  // delete id
 
     return {
         name: "networks",

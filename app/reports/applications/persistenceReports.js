@@ -8,6 +8,8 @@ const Access = require('core/entities/accessRole');
 const validAccessEmpty = require('core/applications/validator/validAccessEmpty');
 
 const mapRelationToObjectID = require('core/applications/transforms/mapRelationToObjectID');
+const jsonParser = require('core/applications/transforms/jsonParser');
+const regexFilterQuery = require('core/services/transforms/regexFilterQuery');
 
 const {ReportHTTPService} = require('core/services/HTTPService');
 
@@ -67,7 +69,9 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
             if (_.isArray(content))
                 content = _.head(content);
 
-            const params = _.defaults(_.pick(query, ['limit', 'page']), {limit: 1500}, {page: 1})
+            query = jsonParser(query, 'query')
+            query['query'] = _.head(regexFilterQuery(_.get(query, 'query')))
+            const params = _.pick(query, ['limit', 'page', 'query', 'orderBy', 'ascending'])
 
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user, Access.ROLE_READ)

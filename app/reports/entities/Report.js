@@ -5,11 +5,11 @@ const _ = require('lodash');
 const Report = require('../repositories/dao/report');
 
 const report = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'description', 'component', 'report', 'filters', 'msg', 'status'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'description', 'component', 'report', 'columns', 'filters', 'msg', 'status'];
 
     const singleFilled = [...resFilled, 'roles', 'owner'];
 
-    const filled = [..._.slice(singleFilled, 3)];  // delete id
+    const filled = [..._.slice(singleFilled, 2)];  // delete id
 
     return {
         name: "reports",

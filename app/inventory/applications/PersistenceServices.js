@@ -6,7 +6,7 @@ const DFactoryDBRepository = require('core/repositories/DBRepository');
 
 const Access = require('core/entities/accessRole');
 const accessMergeTransform = require('./transforms/accessMergeTransform');
-const regexFilterQuery = require('./transforms/regexFilterQuery');
+const regexFilterQuery = require('core/services/transforms/regexFilterQuery');
 
 
 const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
