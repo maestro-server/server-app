@@ -10,5 +10,5 @@ module.exports = (post, scheme, msg = "Validator error") => {
         throw new ValidatorError(valid.error.details, msg);
     }
 
-    return true;
+    return valid.value;
 };
