@@ -5,7 +5,7 @@ const Access = require('core/entities/accessRole');
 const DFactoryPesistenceApp = require('core/applications/persistenceApplication');
 const PersistenceServices = require('core/services/PersistenceServices');
 
-const notExist = require('core/applications/validator/validNotExist');
+const validAccessEmpty = require('core/applications/validator/validAccessEmpty');
 const changerUser = require('./transforms/swapUser');
 
 
@@ -19,7 +19,7 @@ const WrapperPersistenceApp = (Entity) => (ACEntity) => (FactoryPesistenceApp = 
 
           PersistenceServices(ACEntity)
               .findOne(params.id, user, access)
-              .then(notExist)
+              .then(validAccessEmpty)
               .then((e) => {
                   const newReq = changerUser(req, e, params, ACEntity);
                   PesistenceApp[method](newReq, res, next);

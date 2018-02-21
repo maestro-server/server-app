@@ -21,7 +21,7 @@ const options = {
          */
 
         db_connect(function *() {
-            yield Mongorito.connect(process.env.MAESTRO_MONGO_URI || 'localhost');
+            yield Mongorito.connect(process.env.MAESTRO_MONGO_URI || 'localhost/maestro-client');
             next(null, config);
             console.log("Mongo online");
         });

@@ -3,6 +3,7 @@
 const authenticate = require('identity/middlewares/authenticate');
 
 const Datacenter = require('../../entities/Datacenter');
+const Servers = require('../../entities/Servers');
 const Team = require('identity/entities/Teams');
 
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Datacenter)(Team);
@@ -10,6 +11,9 @@ const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
+
+const SyncerApp = require('core/applications/relationsApplication')()()(Servers);
+const WrapperSyncerApp = WrapperPersistenceApp(SyncerApp);
 
 module.exports = function (router) {
 
@@ -87,8 +91,24 @@ module.exports = function (router) {
          * @apiName GetSingleListDcsTeam
          * @apiGroup Teams
          */
-        .delete('/teams/:id/datacenters/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
+        .delete('/teams/:id/datacenters/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove)
 
-
-
+        /**
+         * @api {get} /teams/:id/datacenters/:idu/servers/ dm. Count servers by Dc
+         * @apiName GetListServersDcTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/datacenters/:idu/servers/', authenticate(), WrapperSyncerApp().find)
+        /**
+         * @api {get} /teams/:id/datacenters/count dn. Count Servers by Dcs
+         * @apiName GetCountServersDcTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/datacenters/:idu/servers/count', authenticate(),  WrapperSyncerApp('count').find)
+        /**
+         * @api {patch} /teams/:id/datacenters/:idu/sync_count_servers/ do. Sync servers
+         * @apiName PatchSyncDcTeam
+         * @apiGroup Teams
+         */
+        .patch('/teams/:id/datacenters/:idu/sync_count_servers/', authenticate(),  WrapperSyncerApp('syncer').patch);
 };

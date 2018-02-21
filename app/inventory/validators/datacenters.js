@@ -10,8 +10,8 @@ const create = {
 
 const scheme = {
     name: Joi.string().min(3).max(30).required(),
-    zones: Joi.array(),
-    regions: Joi.array(),
+    zones: Joi.array().unique(),
+    regions: Joi.array().unique(),
     provider: Joi.string().required(),
     servers_count: Joi.number(),
     sucessed: Joi.boolean(),

@@ -14,6 +14,10 @@ const HTTPService = (url) => (header = {}) => {
                 .then(resolve)
                 .catch(e=>{
                     if (e.response) {
+                        if(e.response.data.message) {
+                            const str = _.reduce((result, value) => result = `${result} ${value}`, '')(e.response.data.message);
+                            reject(HTTPError(str));
+                        }
                         reject(HTTPError(e.response.data.error));
                     } else {
                         reject(HTTPError(e.toString()));
@@ -46,7 +50,14 @@ const DiscoveryHTTPService = (header = {}) => {
     return HTTPService(url)(header);
 };
 
+const ReportHTTPService = (header = {}) => {
+    const url = process.env.MAESTRO_REPORT_URL || 'http://localhost:5005';
+    return HTTPService(url)(header);
+};
+
+
 module.exports = {
     HTTPService,
-    DiscoveryHTTPService
+    DiscoveryHTTPService,
+    ReportHTTPService
 };
