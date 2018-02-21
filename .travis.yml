@@ -1,7 +1,6 @@
 language: node_js
 node_js:
   - '6'
-  - '7'
 addons:
   apt:
     sources:
@@ -27,22 +26,29 @@ before_script:
   - sudo service postfix stop
   - smtp-sink -d "%d.%H.%M.%S" localhost:1025 1000 &
   - echo -e '#!/usr/bin/env bash\nexit 0' | sudo tee /usr/sbin/sendmail
-script:
-  - npm run coverage
-after_success:
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-  - cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage -p .
-  - cat ./coverage/lcov.info | ./node_modules/.bin/codeclimate-test-reporter
+
 
 jobs:
   include:
+    - stage: test
+      node_js: 6
+      script:
+        - npm run test
+
+    - stage: coverage
+      script:
+        - npm run coverage
+      after_success:
+        - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+        - cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage -p .
+        - cat ./coverage/lcov.info | ./node_modules/.bin/codeclimate-test-reporter
+        
     - stage: build docker image - base
       if: branch != master
       node_js: 6
       script:
         - docker build -f Dockerfile -t $REPO .
-      after_success:
-        - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+        - docker login -u $DOCKER_USER -p $DOCKER_PASS
         - docker tag $REPO $DOCKER_USER/$REPO:$TRAVIS_BRANCH
         - docker push $DOCKER_USER/$REPO:$TRAVIS_BRANCH
 
@@ -51,7 +57,6 @@ jobs:
       node_js: 6
       script:
         - docker build -f Dockerfile -t $REPO .
-      after_success:
-        - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+        - docker login -u $DOCKER_USER -p $DOCKER_PASS
         - docker tag $REPO $DOCKER_USER/$REPO:latest
         - docker push $DOCKER_USER/$REPO:latest

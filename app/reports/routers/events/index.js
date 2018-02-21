@@ -13,63 +13,79 @@ const WrapperAccessApp = WrapperPersistenceApp(AccessApp);
 module.exports = function (router) {
 
     router
+    /**
+     * @api {get} /teams/:id/events sa. List events for Team
+     * @apiName GetListEvents
+     * @apiGroup Teams
+     * @apiDescription Use for teams scope, have be all actions, params and option in /clients,
+     *
+     * @apiParam (Param) {String} id Team unique ID.
+     * @apiParam (Param) {String} idu Server unique ID.
+     */
         .get('/teams/:id/events', authenticate(), WrapperPersistenceApp().find)
-
+        /**
+         * @api {get} /teams/:id/events/count sb. Count events for Team
+         * @apiName GetCountListEventsTeam
+         * @apiGroup Teams
+         */
         .get('/teams/:id/events/count', authenticate(), WrapperPersistenceApp().count)
-
+        /**
+         * @api {get} /teams/:id/events/:idu sc. Single events for Team
+         * @apiName GetSingleListeventsTeam
+         * @apiGroup Teams
+         */
         .get('/teams/:id/events/:idu', authenticate(), WrapperPersistenceApp().findOne)
-
+        /**
+         * @api {put} /teams/:id/events/:idu sd. Update all events for Team
+         * @apiName UpdateSingleListeventsTeam
+         * @apiGroup Teams
+         */
         .put('/teams/:id/events/:idu', authenticate(), WrapperPersistenceApp().update)
-
+        /**
+         * @api {patch} /teams/:id/events/:idu se. Partial events for Team
+         * @apiName GetPartialSingleListEventsTeam
+         * @apiGroup Teams
+         */
         .patch('/teams/:id/events/:idu', authenticate(), WrapperPersistenceApp().patch)
 
         /**
-         * @api {delete} /teams/:id/applications/:idu Delete application of team
-         * @apiName Delete Single application of Team
+         * @api {delete} /teams/:id/events/:idu sf. Single events for Team
+         * @apiName DeleteSingleListEventsTeam
          * @apiGroup Teams
-         *
-         * @apiParam (Param) {String} id Team unique ID.
-         * @apiParam (Param) {String} idu Application unique ID.
-         *
-         * @apiPermission JWT
-         * @apiHeader (Auth) {String} Authorization JWT {Token}
-         *
-         * @apiError (Error) PermissionError Token don`t have permission
-         * @apiError (Error) Unauthorized Invalid Token
-         *
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 204 OK
          */
         .delete('/teams/:id/events/:idu', authenticate(), WrapperPersistenceApp().remove)
-
+        /**
+         * @api {post} /teams/:id/events/ sg. Create events for Team
+         * @apiName PostSingleListEventsTeam
+         * @apiGroup Teams
+         */
         .post('/teams/:id/events', authenticate(), WrapperPersistenceApp().create)
 
         /**
          * Roles
          */
-
+        /**
+         * @api {post} /teams/:id/events/:idu/roles sh. Create access role
+         * @apiName GetSingleListEventsTeam
+         * @apiGroup Teams
+         */
         .post('/teams/:id/events/:idu/roles', authenticate(), WrapperAccessApp.create)
-
+        /**
+         * @api {put} /teams/:id/events/:idu/roles si. Update all access role
+         * @apiName GetSingleListEventsTeam
+         * @apiGroup Teams
+         */
         .put('/teams/:id/events/:idu/roles', authenticate(), WrapperAccessApp.update)
-
+        /**
+         * @api {put} /teams/:id/events/:idu/roles/:ida sj. Update access role
+         * @apiName GetSingleListEventsTeam
+         * @apiGroup Teams
+         */
         .put('/teams/:id/events/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
         /**
-         * @api {delete} /teams/:id/projects/:idu Delete role of application team
-         * @apiName Delete Role of application Team
+         * @api {delete} /teams/:id/events/:idu/roles/:ida sl. Delete access role
+         * @apiName GetSingleListEventsTeam
          * @apiGroup Teams
-         *
-         * @apiParam (Param) {String} id Teams unique ID.
-         * @apiParam (Param) {String} idu Application unique ID.
-         * @apiParam (Param) {String} ida Role unique ID.
-         *
-         * @apiPermission JWT
-         * @apiHeader (Auth) {String} Authorization JWT {Token}
-         *
-         * @apiError (Error) PermissionError Token don`t have permission
-         * @apiError (Error) Unauthorized Invalid Token
-         *
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 204 OK
          */
         .delete('/teams/:id/events/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
 

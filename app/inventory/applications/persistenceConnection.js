@@ -8,6 +8,7 @@ const aclRoles = require('core/applications/transforms/aclRoles');
 const tokenGenerator = require('../transforms/tokenTransform');
 const Access = require('core/entities/accessRole');
 const notExist = require('core/applications/validator/validNotExist');
+const validAccessEmpty = require('core/applications/validator/validAccessEmpty');
 const DatacentersConnection = require('../services/DatacentersConnection');
 
 const {DiscoveryHTTPService} = require('core/services/HTTPService');
@@ -47,9 +48,9 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
 
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)
-                .then(notExist)
+                .then(validAccessEmpty)
                 .then(e => DatacentersConnection(e, req, PersistenceServices, Entity))
-                .then(PersistenceServices(Entity).remove(req.params.id, req.user))
+                .then(() => PersistenceServices(Entity).remove(req.params.id, req.user))
                 .then(e => res.status(204).json(e))
                 .catch(next);
         },
