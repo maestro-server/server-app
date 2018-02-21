@@ -1,6 +1,6 @@
 {
     "name": "API-Server Maestro - Inventory",
-    "version": "0.1.2",
+    "version": "0.10.3",
     "description": "API documentation - RestFull",
     "apidoc": {
         "title": "API - Maestro Server - Inventory",
