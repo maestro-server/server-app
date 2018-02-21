@@ -73,7 +73,7 @@ describe('unit - core', function () {
 
         const valid = fValid(data, scheme);
 
-        expect(valid).to.be.a('boolean');
+        expect(valid).to.be.a('object');
         done();
     });
 
