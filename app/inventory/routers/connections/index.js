@@ -50,14 +50,18 @@ module.exports = function (router) {
          * @apiName DeleteSingleListConnTeam
          * @apiGroup Teams
          */
-        .delete('/teams/:id/connections/:idu', authenticate(), WrapperPersistenceAppDefault.remove)
+        .delete('/teams/:id/connections/:idu', authenticate(), WrapperPersistenceApp(PersistenceConnection)().remove)
         /**
          * @api {post} /teams/:id/connections/ ag. Create Conn for Team
          * @apiName PostSingleListConnTeam
          * @apiGroup Teams
          */
         .post('/teams/:id/connections', authenticate(), WrapperPersistenceApp(PersistenceConnection)().create)
-
+        /**
+         * @api {post} /teams/:id/connections/:idu/task/:command ag. Execute a command
+         * @apiName PostSingleListConnTeamCommand
+         * @apiGroup Teams
+         */
         .put('/teams/:id/connections/:idu/task/:command', authenticate(), WrapperPersistenceApp(PersistenceConnection)('task').update)
 
         /**

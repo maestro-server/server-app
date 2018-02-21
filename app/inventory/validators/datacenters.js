@@ -9,7 +9,7 @@ const create = {
 };
 
 const scheme = {
-    name: Joi.string().min(3).max(30).required(),
+    name: Joi.string().min(3).max(30),
     zones: Joi.array().unique(),
     regions: Joi.array().unique(),
     provider: Joi.string().required(),
