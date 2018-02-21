@@ -94,5 +94,4 @@ module.exports = function (router) {
         .delete('/teams/:id/reports/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
 
 
-
 };
