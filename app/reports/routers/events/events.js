@@ -10,9 +10,9 @@ module.exports = function (router) {
 
     router
         /**
-         * @api {get} /events a. List your system
-         * @apiName List all active system, have a posibility to use filters, pagination, queries and etc.
-         * @apiGroup Systems
+         * @api {get} /events a. List your event
+         * @apiName List all active event, have a posibility to use filters, pagination, queries and etc.
+         * @apiGroup Events
          *
          * @apiParam (Param) {Json} [query] Create a query to filters, the fields received some transformation.
          * <br/>
@@ -22,7 +22,7 @@ module.exports = function (router) {
              * <br/>}
          *  </code>
          * </pre>
-         * <br/><b>System don´t have modifications, only default regex filter:</b>
+         * <br/><b>Event don´t have modifications, only default regex filter:</b>
          * <br/><i>{alias} = {query into mongodb}</i>
          * <ul>
          *     <li>field is string the querie execute a regex research like "%filter%", EX: {'name': 'serv'}, It will return result with name 'services58' or '754services'.</li>
@@ -30,6 +30,8 @@ module.exports = function (router) {
          * @apiParam (Param) {String} [limit=20] Limit result.
          * @apiParam (Param) {String} [page=1] Show result by page.
          * @apiParam (Param) {String} [name] Filter by name (Exacly).
+         * @apiParam (Param) {String} [status] Filter by status (success, error, process, warning).
+         * @apiParam (Param) {String} [context] Filter by context
          * @apiParam (Param) {String} [field] Filter by any field with exacly value.
          *
          * @apiPermission JWT
@@ -51,9 +53,9 @@ module.exports = function (router) {
          */
         .get('/', authenticate(), PersistenceApp.find)
         /**
-         * @api {get} /events/count b. Count total systems
-         * @apiName Get total systems.
-         * @apiGroup Systems
+         * @api {get} /events/count b. Count total events
+         * @apiName Get total events.
+         * @apiGroup Events
          *
          * @apiParam (Param) {String} [name] Filter by name (Exacly).
          * @apiParam (Param) {String} [field] Filter by exacly value.
@@ -73,11 +75,11 @@ module.exports = function (router) {
          */
         .get('/count', authenticate(), PersistenceApp.count)
         /**
-         * @api {get} /events/:id c. Get single system
-         * @apiName Get single system.
-         * @apiGroup Systems
+         * @api {get} /events/:id c. Get single event
+         * @apiName Get single event.
+         * @apiGroup Events
          *
-         * @apiParam (Param) {String} id System unique id.
+         * @apiParam (Param) {String} id Event unique id.
          *
          * @apiPermission JWT
          * @apiHeader (Auth) {String} Authorization JWT {Token}
@@ -99,13 +101,14 @@ module.exports = function (router) {
          */
         .get('/:id', authenticate(), PersistenceApp.findOne)
         /**
-         * @api {post} /events/ d. Create single system
-         * @apiName PostSystems
-         * @apiGroup Systems
+         * @api {post} /events/ d. Create single event
+         * @apiName PostEvents
+         * @apiGroup Events
          *
          * @apiParam (Body x-www) {String} name Name [min 3, max 30]
-         * @apiParam (Body x-www) {String} [description] Description
-         * @apiParam (Body x-www) {Array} [clients] Clients owners [Array of objects]
+         * @apiParam (Body x-www) {String} [msg] Description
+         * @apiParam (Body x-www) {String} [status] Status (success, error, warning, process)
+         * @apiParam (Body x-www) {String} [context] The  context event (scheduler, playbook, jobs)
          * <br/>
          * <pre class="prettyprint language-json" data-type="json">
          * <code>[{
@@ -157,11 +160,11 @@ module.exports = function (router) {
          */
         .post('/', authenticate(), PersistenceApp.create)
         /**
-         * @api {put} /events/:id f. Full Update system
-         * @apiName PatchSingleSystems
-         * @apiGroup Systems
+         * @api {put} /events/:id f. Full Update event
+         * @apiName PatchSingleEvents
+         * @apiGroup Events
          *
-         * @apiParam (Param) {String} id System unique id.
+         * @apiParam (Param) {String} id Event unique id.
          *
          * @apiParam (Body x-www) {String} name Name [min 3, max 150]
          * @apiParam (Body x-www) {String} field Any field describe in Create Doc
@@ -183,12 +186,12 @@ module.exports = function (router) {
          */
         .put('/:id', authenticate(), PersistenceApp.update)
         /**
-         * @api {patch} /events/:id e. Update system
-         * @apiName PutSingleSystems
-         * @apiGroup Systems
+         * @api {patch} /events/:id e. Update event
+         * @apiName PutSingleEvents
+         * @apiGroup Events
          * @apiDescription Use patch to partial update.
          *
-         * @apiParam (Param) {String} id System unique id.
+         * @apiParam (Param) {String} id Event unique id.
          *
          * @apiParam (Body x-www) {String} name Name [min 3, max 150]
          * @apiParam (Body x-www) {String} field Any field describe in Create Doc
@@ -212,11 +215,11 @@ module.exports = function (router) {
          */
         .patch('/:id', authenticate(), PersistenceApp.patch)
         /**
-         * @api {delete} /events/:id g. Delete single system
-         * @apiName DeleteSingleSystems
-         * @apiGroup Systems
+         * @api {delete} /events/:id g. Delete single event
+         * @apiName DeleteSingleEvents
+         * @apiGroup Events
          *
-         * @apiParam (Param) {String} id System unique id.
+         * @apiParam (Param) {String} id Event unique id.
          *
          * @apiPermission JWT (Admin)
          * @apiHeader (Header) {String} Authorization JWT {Token}
@@ -238,8 +241,8 @@ module.exports = function (router) {
 
          /**
          * @api {post} /events/:id/roles/ h. Add access Role
-         * @apiName PostRoleApp
-         * @apiGroup Applications
+         * @apiName PostRoleEvents
+         * @apiGroup Events
          *
          * @apiParam (Param) {String} id Application unique id.
          *
@@ -263,11 +266,11 @@ module.exports = function (router) {
         .post('/:id/roles', authenticate(), AccessApp.create)
         /**
          * @api {put} /events/:id/roles i. Update access role
-         * @apiName PutRoleApp
-         * @apiGroup Applications
+         * @apiName PutRoleEvents
+         * @apiGroup Events
          * @apiDescription Update all access roles, remember if you don´t send your access, after success you lose the access it´s
          *
-         * @apiParam (Param) {String} id Application unique id.
+         * @apiParam (Param) {String} id Event unique id.
          *
          * @apiParam (Body Raw) {Array} raw List with all roles
          * <br/>
@@ -296,11 +299,11 @@ module.exports = function (router) {
         .put('/:id/roles/', authenticate(), AccessApp.update)
         /**
          * @api {put} /events/:id/roles/:idu j. Update specific access role
-         * @apiName PutSingleRoleApp
-         * @apiGroup Applications
+         * @apiName PutSingleRoleEvents
+         * @apiGroup Events
          * @apiDescription Update access level one role to one application
          *
-         * @apiParam (Param) {String} id Application unique id.
+         * @apiParam (Param) {String} id Event unique id.
          * @apiParam (Param) {String} idu User unique id.
          *
          * @apiParam (Body x-www) {String} field Any field describe to create role
@@ -319,11 +322,11 @@ module.exports = function (router) {
         .put('/:id/roles/:idu', authenticate(), AccessApp.updateSingle)
         /**
          * @api {delete} /events/:id/roles/:idu l. Delete one role
-         * @apiName DeleteRoleApp
-         * @apiGroup Applications
+         * @apiName DeleteRoleEvents
+         * @apiGroup Events
          * @apiDescription Delete unique role.
          *
-         * @apiParam (Param) {String} id Application unique id.
+         * @apiParam (Param) {String} id Event unique id.
          * @apiParam (Param) {String} idu User unique id.
          *
          * @apiPermission JWT (Admin)

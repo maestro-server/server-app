@@ -1,23 +1,17 @@
 {
     "name": "API-Server Maestro - Reports",
-    "version": "0.1.2",
+    "version": "0.10.3",
     "description": "API documentation - RestFull",
     "apidoc": {
         "title": "API - Maestro Server - Reports",
         "url": "https://localhost:8888/apidocs/v1"
     },
+    "header": {
+        "filename": "devtools/doc/header.md"
+    },
     "order": [
-        "Servers",
-        "Applications",
-        "Datacenters",
-        "Systems",
-        "Clients",
-        "Connections",
-        "Volumes",
-        "Networks",
-        "Images",
-        "Flavors",
-        "Snapshots",
+        "Reports",
+        "Events",
         "Teams"
     ]
 }

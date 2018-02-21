@@ -1,6 +1,6 @@
 {
     "name": "API-Server Maestro - Auth, Users and Teams",
-    "version": "0.1.2",
+    "version": "0.10.3",
     "description": "API documentation - RestFull",
     "apidoc": {
         "title": "API - Maestro Server - Auth, Users and Teams",

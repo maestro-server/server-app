@@ -86,6 +86,7 @@ module.exports = function (router) {
          *
          * @apiPermission JWT
          * @apiHeader (Auth) {String} Authorization JWT {Token}
+         * 
          *
          * @apiError (Error) PermissionError Token don`t have permission
          * @apiError (Error) Unauthorized Invalid Token
@@ -103,7 +104,34 @@ module.exports = function (router) {
          *     }
          */
         .get('/:id', authenticate(), PersistenceApp.findOne)
-
+        /**
+         * @api {get} /reports/:id/result d. Get report result
+         * @apiName Get report result.
+         * @apiGroup Reports
+         *
+         * @apiParam (Param) {String} id Report unique id.
+         * @apiParam (Param) {String} [limit=20] Limit result.
+         * @apiParam (Param) {String} [page=1] Show result by page.
+         * @apiParam (Param) {Object} [field] Filter with any field and value.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *        _id: (String)
+         *        created_at: (Datetime)
+         *        updated_at: (Datetime)
+         *        roles: []
+         *        owner: []
+         *        _links: {}
+         *     }
+         */
         .get('/:id/result', authenticate(), PersistenceReport.getReport)
         /**
          * @api {post} /reports/ d. Create single report
@@ -112,41 +140,12 @@ module.exports = function (router) {
          *
          * @apiParam (Body x-www) {String} name Name [min 3, max 30]
          * @apiParam (Body x-www) {String} [description] Description
-         * @apiParam (Body x-www) {String} [component] Component name [min 3, max 30]
-         * @apiParam (Body x-www) {String} [report] Report category (pivot, general)
-         * @apiParam (Body x-www) {String} [columns] Description
-         * @apiParam (Body x-www) {String} [filters] Description
-         * @apiParam (Body x-www) {String} [msg] Description
-         * @apiParam (Body x-www) {String} [status] Description
-         * <br/>
-         * <pre class="prettyprint language-json" data-type="json">
-         * <code>[{
-         * <br/>   "name": (String),
-         * <br/>   "email": (String),
-         * <br/>   "role": (Number), //'1 | 3 | 7'
-         * <br/>   "id": (String),
-         * <br/>   "refs": (String)
-         * <br/>}]
-         *  </code>
-         * </pre>
-         * @apiParam (Body x-www) {Array} [check] Spec information
-         * <br/>
-         * <pre class="prettyprint language-json" data-type="json">
-         * <code>[{
-         * <br/>   "key": (String),
-         * <br/>   "value": (String)
-         * <br/>}]
-         *  </code>
-         * </pre>
-         * @apiParam (Body x-www) {Array} [tags List of tags, [Array of Objects]
-         * <br/>
-         * <pre class="prettyprint language-json" data-type="json">
-         * <code>[{
-         * <br/>   "key": (String),
-         * <br/>   "value": (String)
-         * <br/>}]
-         *  </code>
-         * </pre>
+         * @apiParam (Body x-www) {String} component Component name [min 3, max 30]
+         * @apiParam (Body x-www) {String} report Report category (pivot, general)
+         * @apiParam (Body x-www) {Array} [columns] List of columns mapped, used to create view report.
+         * @apiParam (Body x-www) {String} [filters] Filters used to generate result
+         * @apiParam (Body x-www) {String} [msg] Foreign id table, used to link with other db collection table
+         * @apiParam (Body x-www) {String} [status] Status (finished, process, error)
          *
          * @apiPermission JWT (Write | Admin)
          * @apiHeader (Header) {String} Authorization JWT {Token}

@@ -3610,6 +3610,80 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "/datacenters/:id",
+    "title": "c. Get single dc",
+    "name": "GetCountDatacenter",
+    "group": "Datacenters",
+    "parameter": {
+      "fields": {
+        "Param": [
+          {
+            "group": "Param",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>Datacenter unique id.</p>"
+          }
+        ]
+      }
+    },
+    "permission": [
+      {
+        "name": "JWT"
+      }
+    ],
+    "header": {
+      "fields": {
+        "Auth": [
+          {
+            "group": "Auth",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>JWT {Token}</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error": [
+          {
+            "group": "Error",
+            "optional": false,
+            "field": "PermissionError",
+            "description": "<p>Token don´t have permission</p>"
+          },
+          {
+            "group": "Error",
+            "optional": false,
+            "field": "Unauthorized",
+            "description": "<p>Invalid Token</p>"
+          },
+          {
+            "group": "Error",
+            "optional": false,
+            "field": "NotFound",
+            "description": "<p>Entity not exist</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n   _id: (String)\n   created_at: (Datetime)\n   updated_at: (Datetime)\n   roles: []\n   owner: []\n   _links: {}\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/datacenters/datacenters.js",
+    "groupTitle": "Datacenters"
+  },
+  {
+    "type": "get",
     "url": "/datacenters/count",
     "title": "b. Count total dcs",
     "name": "GetCountDatacenter",
@@ -3688,80 +3762,6 @@ define({ "api": [
         {
           "title": "Success-Response:",
           "content": "HTTP/1.1 200 OK\n{\n   count: (Number)\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "app/inventory/routers/datacenters/datacenters.js",
-    "groupTitle": "Datacenters"
-  },
-  {
-    "type": "get",
-    "url": "/datacenters/:id",
-    "title": "c. Get single dc",
-    "name": "GetCountDatacenter",
-    "group": "Datacenters",
-    "parameter": {
-      "fields": {
-        "Param": [
-          {
-            "group": "Param",
-            "type": "String",
-            "optional": false,
-            "field": "id",
-            "description": "<p>Datacenter unique id.</p>"
-          }
-        ]
-      }
-    },
-    "permission": [
-      {
-        "name": "JWT"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Auth": [
-          {
-            "group": "Auth",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>JWT {Token}</p>"
-          }
-        ]
-      }
-    },
-    "error": {
-      "fields": {
-        "Error": [
-          {
-            "group": "Error",
-            "optional": false,
-            "field": "PermissionError",
-            "description": "<p>Token don´t have permission</p>"
-          },
-          {
-            "group": "Error",
-            "optional": false,
-            "field": "Unauthorized",
-            "description": "<p>Invalid Token</p>"
-          },
-          {
-            "group": "Error",
-            "optional": false,
-            "field": "NotFound",
-            "description": "<p>Entity not exist</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   _id: (String)\n   created_at: (Datetime)\n   updated_at: (Datetime)\n   roles: []\n   owner: []\n   _links: {}\n}",
           "type": "json"
         }
       ]
@@ -4132,7 +4132,7 @@ define({ "api": [
     "title": "b. Sync servers",
     "name": "PatchSyncCountServers",
     "group": "Datacenters",
-    "description": "<p>Syncronize all servers filters by id dc.</p>",
+    "description": "<p>Syncronize all servers filters by id dc. (Count)</p>",
     "parameter": {
       "fields": {
         "Param": [
@@ -10918,6 +10918,16 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "/teams/:id/datacenters/count",
+    "title": "dn. Count Servers by Dcs",
+    "name": "GetCountServersDcTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/datacenters/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "get",
     "url": "/teams/:id/clients",
     "title": "cla. List Clients for Team",
     "name": "GetListClients",
@@ -11100,6 +11110,16 @@ define({ "api": [
     },
     "version": "0.0.0",
     "filename": "app/inventory/routers/servers/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "get",
+    "url": "/teams/:id/datacenters/:idu/servers/",
+    "title": "dm. Count servers by Dc",
+    "name": "GetListServersDcTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/datacenters/index.js",
     "groupTitle": "Teams"
   },
   {
@@ -11337,36 +11357,6 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
-    "type": "get",
-    "url": "/teams/:id/clients/:idu",
-    "title": "clc. Single Client for Team",
-    "name": "GetSingleListClientsTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/inventory/routers/clients/index.js",
-    "groupTitle": "Teams"
-  },
-  {
-    "type": "post",
-    "url": "/teams/:id/clients/:idu/roles",
-    "title": "clh. Create access role",
-    "name": "GetSingleListClientsTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/inventory/routers/clients/index.js",
-    "groupTitle": "Teams"
-  },
-  {
-    "type": "put",
-    "url": "/teams/:id/clients/:idu/roles",
-    "title": "cli. Update all access role",
-    "name": "GetSingleListClientsTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/inventory/routers/clients/index.js",
-    "groupTitle": "Teams"
-  },
-  {
     "type": "delete",
     "url": "/teams/:id/clients/:idu/roles/:ida",
     "title": "cll. Delete access role",
@@ -11387,13 +11377,33 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
-    "type": "post",
-    "url": "/teams/:id/connections/:idu/roles",
-    "title": "ch. Create access role",
-    "name": "GetSingleListConnTeam",
+    "type": "put",
+    "url": "/teams/:id/clients/:idu/roles",
+    "title": "cli. Update all access role",
+    "name": "GetSingleListClientsTeam",
     "group": "Teams",
     "version": "0.0.0",
-    "filename": "app/inventory/routers/connections/index.js",
+    "filename": "app/inventory/routers/clients/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "get",
+    "url": "/teams/:id/clients/:idu",
+    "title": "clc. Single Client for Team",
+    "name": "GetSingleListClientsTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/clients/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "post",
+    "url": "/teams/:id/clients/:idu/roles",
+    "title": "clh. Create access role",
+    "name": "GetSingleListClientsTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/clients/index.js",
     "groupTitle": "Teams"
   },
   {
@@ -11417,9 +11427,9 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
-    "type": "put",
-    "url": "/teams/:id/connections/:idu/roles/:ida",
-    "title": "cj. Update access role",
+    "type": "post",
+    "url": "/teams/:id/connections/:idu/roles",
+    "title": "ch. Create access role",
     "name": "GetSingleListConnTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -11437,29 +11447,19 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
-    "type": "delete",
-    "url": "/teams/:id/datacenters/:idu/roles/:ida",
-    "title": "dl. Delete access role",
-    "name": "GetSingleListDcsTeam",
+    "type": "put",
+    "url": "/teams/:id/connections/:idu/roles/:ida",
+    "title": "cj. Update access role",
+    "name": "GetSingleListConnTeam",
     "group": "Teams",
     "version": "0.0.0",
-    "filename": "app/inventory/routers/datacenters/index.js",
+    "filename": "app/inventory/routers/connections/index.js",
     "groupTitle": "Teams"
   },
   {
     "type": "get",
     "url": "/teams/:id/datacenters/:idu",
     "title": "dc. Single Dcs for Team",
-    "name": "GetSingleListDcsTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/inventory/routers/datacenters/index.js",
-    "groupTitle": "Teams"
-  },
-  {
-    "type": "post",
-    "url": "/teams/:id/datacenters/:idu/roles",
-    "title": "dh. Create access role",
     "name": "GetSingleListDcsTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -11487,6 +11487,26 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
+    "type": "delete",
+    "url": "/teams/:id/datacenters/:idu/roles/:ida",
+    "title": "dl. Delete access role",
+    "name": "GetSingleListDcsTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/datacenters/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "post",
+    "url": "/teams/:id/datacenters/:idu/roles",
+    "title": "dh. Create access role",
+    "name": "GetSingleListDcsTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/datacenters/index.js",
+    "groupTitle": "Teams"
+  },
+  {
     "type": "get",
     "url": "/teams/:id/flavors/:idu",
     "title": "flc. Single Flavors for Team",
@@ -11494,6 +11514,26 @@ define({ "api": [
     "group": "Teams",
     "version": "0.0.0",
     "filename": "app/inventory/routers/flavors/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "delete",
+    "url": "/teams/:id/images/:idu/roles/:ida",
+    "title": "il. Delete access role",
+    "name": "GetSingleListImagesTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/images/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "put",
+    "url": "/teams/:id/images/:idu/roles",
+    "title": "ii. Update all access role",
+    "name": "GetSingleListImagesTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/images/index.js",
     "groupTitle": "Teams"
   },
   {
@@ -11518,16 +11558,6 @@ define({ "api": [
   },
   {
     "type": "put",
-    "url": "/teams/:id/images/:idu/roles",
-    "title": "ii. Update all access role",
-    "name": "GetSingleListImagesTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/inventory/routers/images/index.js",
-    "groupTitle": "Teams"
-  },
-  {
-    "type": "put",
     "url": "/teams/:id/images/:idu/roles/:ida",
     "title": "ij. Update access role",
     "name": "GetSingleListImagesTeam",
@@ -11538,18 +11568,8 @@ define({ "api": [
   },
   {
     "type": "delete",
-    "url": "/teams/:id/images/:idu/roles/:ida",
-    "title": "il. Delete access role",
-    "name": "GetSingleListImagesTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/inventory/routers/images/index.js",
-    "groupTitle": "Teams"
-  },
-  {
-    "type": "put",
-    "url": "/teams/:id/network/:idu/roles",
-    "title": "ni. Update all access role",
+    "url": "/teams/:id/network/:idu/roles/:ida",
+    "title": "nl. Delete access role",
     "name": "GetSingleListNetworkTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -11577,9 +11597,9 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
-    "type": "delete",
-    "url": "/teams/:id/network/:idu/roles/:ida",
-    "title": "nl. Delete access role",
+    "type": "put",
+    "url": "/teams/:id/network/:idu/roles",
+    "title": "ni. Update all access role",
     "name": "GetSingleListNetworkTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -11617,16 +11637,6 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
-    "type": "get",
-    "url": "/teams/:id/servers/:idu",
-    "title": "sc. Single Servers for Team",
-    "name": "GetSingleListServersTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/inventory/routers/servers/index.js",
-    "groupTitle": "Teams"
-  },
-  {
     "type": "post",
     "url": "/teams/:id/servers/:idu/roles",
     "title": "sh. Create access role",
@@ -11637,29 +11647,29 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
-    "type": "put",
-    "url": "/teams/:id/snapshots/:idu/roles/:ida",
-    "title": "snj. Update access role",
-    "name": "GetSingleListSnapshotsTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/inventory/routers/snapshots/index.js",
-    "groupTitle": "Teams"
-  },
-  {
     "type": "get",
-    "url": "/teams/:id/snapshots/:idu",
-    "title": "snc. Single Snapshots for Team",
-    "name": "GetSingleListSnapshotsTeam",
+    "url": "/teams/:id/servers/:idu",
+    "title": "sc. Single Servers for Team",
+    "name": "GetSingleListServersTeam",
     "group": "Teams",
     "version": "0.0.0",
-    "filename": "app/inventory/routers/snapshots/index.js",
+    "filename": "app/inventory/routers/servers/index.js",
     "groupTitle": "Teams"
   },
   {
     "type": "delete",
     "url": "/teams/:id/snapshots/:idu/roles/:ida",
     "title": "snl. Delete access role",
+    "name": "GetSingleListSnapshotsTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/snapshots/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "put",
+    "url": "/teams/:id/snapshots/:idu/roles/:ida",
+    "title": "snj. Update access role",
     "name": "GetSingleListSnapshotsTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -11687,23 +11697,13 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
-    "type": "put",
-    "url": "/teams/:id/system/:idu/roles/:ida",
-    "title": "syj. Update access role",
-    "name": "GetSingleListSystemTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/inventory/routers/system/index.js",
-    "groupTitle": "Teams"
-  },
-  {
     "type": "get",
-    "url": "/teams/:id/system/:idu",
-    "title": "syc. Single System for Team",
-    "name": "GetSingleListSystemTeam",
+    "url": "/teams/:id/snapshots/:idu",
+    "title": "snc. Single Snapshots for Team",
+    "name": "GetSingleListSnapshotsTeam",
     "group": "Teams",
     "version": "0.0.0",
-    "filename": "app/inventory/routers/system/index.js",
+    "filename": "app/inventory/routers/snapshots/index.js",
     "groupTitle": "Teams"
   },
   {
@@ -11738,22 +11738,32 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/teams/:id/applications/:idu",
-    "title": "ac. Single App for Team",
+    "url": "/teams/:id/system/:idu",
+    "title": "syc. Single System for Team",
+    "name": "GetSingleListSystemTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/system/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "put",
+    "url": "/teams/:id/system/:idu/roles/:ida",
+    "title": "syj. Update access role",
+    "name": "GetSingleListSystemTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/system/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "delete",
+    "url": "/teams/:id/applications/:idu/roles/:ida",
+    "title": "al. Delete access role",
     "name": "GetSingleListTeam",
     "group": "Teams",
     "version": "0.0.0",
     "filename": "app/inventory/routers/applications/index.js",
-    "groupTitle": "Teams"
-  },
-  {
-    "type": "post",
-    "url": "/teams/:id/network/:idu/roles",
-    "title": "nh. Create access role",
-    "name": "GetSingleListTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/inventory/routers/network/index.js",
     "groupTitle": "Teams"
   },
   {
@@ -11787,9 +11797,19 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
-    "type": "delete",
-    "url": "/teams/:id/applications/:idu/roles/:ida",
-    "title": "al. Delete access role",
+    "type": "post",
+    "url": "/teams/:id/network/:idu/roles",
+    "title": "nh. Create access role",
+    "name": "GetSingleListTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/network/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "get",
+    "url": "/teams/:id/applications/:idu",
+    "title": "ac. Single App for Team",
     "name": "GetSingleListTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -11807,16 +11827,6 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
-    "type": "get",
-    "url": "/teams/:id/volumes/:idu",
-    "title": "vc. Single Volumes for Team",
-    "name": "GetSingleListVolumesTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/inventory/routers/volumes/index.js",
-    "groupTitle": "Teams"
-  },
-  {
     "type": "post",
     "url": "/teams/:id/volumes/:idu/roles",
     "title": "vh. Create access role",
@@ -11827,9 +11837,9 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
-    "type": "put",
-    "url": "/teams/:id/volumes/:idu/roles/:ida",
-    "title": "vj. Update access role",
+    "type": "get",
+    "url": "/teams/:id/volumes/:idu",
+    "title": "vc. Single Volumes for Team",
     "name": "GetSingleListVolumesTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -11847,6 +11857,16 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
+    "type": "put",
+    "url": "/teams/:id/volumes/:idu/roles/:ida",
+    "title": "vj. Update access role",
+    "name": "GetSingleListVolumesTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/volumes/index.js",
+    "groupTitle": "Teams"
+  },
+  {
     "type": "patch",
     "url": "/teams/:id/system/:idu/applications",
     "title": "sym. Add app system for teams",
@@ -11854,6 +11874,16 @@ define({ "api": [
     "group": "Teams",
     "version": "0.0.0",
     "filename": "app/inventory/routers/system/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "patch",
+    "url": "/teams/:id/datacenters/:idu/sync_count_servers/",
+    "title": "do. Sync servers",
+    "name": "PatchSyncDcTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/datacenters/index.js",
     "groupTitle": "Teams"
   },
   {
@@ -12048,6 +12078,16 @@ define({ "api": [
   },
   {
     "type": "put",
+    "url": "/teams/:id/system/:idu",
+    "title": "syd. Update all System for Team",
+    "name": "UpdateSingleListTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/inventory/routers/system/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "put",
     "url": "/teams/:id/datacenters/:idu",
     "title": "dd. Update all Dcs for Team",
     "name": "UpdateSingleListTeam",
@@ -12064,16 +12104,6 @@ define({ "api": [
     "group": "Teams",
     "version": "0.0.0",
     "filename": "app/inventory/routers/applications/index.js",
-    "groupTitle": "Teams"
-  },
-  {
-    "type": "put",
-    "url": "/teams/:id/system/:idu",
-    "title": "syd. Update all System for Team",
-    "name": "UpdateSingleListTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/inventory/routers/system/index.js",
     "groupTitle": "Teams"
   },
   {
