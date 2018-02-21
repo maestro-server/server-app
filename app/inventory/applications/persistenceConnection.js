@@ -13,8 +13,6 @@ const DatacentersConnection = require('../services/DatacentersConnection');
 
 const {DiscoveryHTTPService} = require('core/services/HTTPService');
 
-const Datacenter = require('..//entities/Datacenter');
-
 const ApplicationConnection = (Entity, PersistenceServices = DPersistenceServices) => {
 
     return {
@@ -23,7 +21,6 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
 
             const conn = tokenGenerator(_.get(req.body, 'conn', {}));
             const owner_user = _.assign(req.user, {'role': Access.ROLE_ADMIN});
-            const dc_id = _.get(req, 'body.dc_id');
 
             const bodyWithOwner = Object.assign(
                 {},
@@ -32,13 +29,10 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                 {owner_user},
                 aclRoles(req.user, Entity, Access.ROLE_ADMIN)
             );
-
-            if (dc_id) {
-                PersistenceServices(Datacenter).patch(dc_id, {'sucessed': true}, req.user);
-            }
-
+ 
             PersistenceServices(Entity)
                 .create(bodyWithOwner)
+                .then(DatacentersConnection(req.body, req, PersistenceServices, Entity).connected())
                 .then(hateaosTransform(Entity).singleTransform)
                 .then(e => res.status(201).json(e))
                 .catch(next);
@@ -49,7 +43,7 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)
                 .then(validAccessEmpty)
-                .then(e => DatacentersConnection(e, req, PersistenceServices, Entity))
+                .then(e => DatacentersConnection(e, req, PersistenceServices, Entity).disconnected())
                 .then(() => PersistenceServices(Entity).remove(req.params.id, req.user))
                 .then(e => res.status(204).json(e))
                 .catch(next);
