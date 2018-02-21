@@ -5,7 +5,7 @@ const Joi = require('joi');
 const createS = {
     name: Joi.string().min(3).max(30).required(),
     email: Joi.string().email().required(),
-    password: Joi.string().min(4).max(30).required().strip()
+    password: Joi.string().min(4).max(30).required()
 };
 
 const sharedS = {
