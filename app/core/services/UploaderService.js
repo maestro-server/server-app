@@ -18,6 +18,7 @@ const UploaderService = (Entity) => {
                 const {_id} = owner;
 
                 validateFile({type}).check();
+                console.log(typeU)
 
                 return UploaderRepository
                     .upload(_id, type)

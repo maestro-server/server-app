@@ -4,6 +4,7 @@ const authenticate = require('identity/middlewares/authenticate');
 
 const User = require('identity/entities/Users');
 const UserAuth = require('identity/entities/Auth');
+const formidable = require('formidable');
 
 /**
  *
@@ -110,6 +111,8 @@ module.exports = function (router) {
          *     {}
          */
         .get('/upload', authenticate(), UploaderApp.uploader)
+
+        .put('/upload', UploaderApp.receiverFile)
 
         .get('/forgot', (req, res) => {
           res.json({});

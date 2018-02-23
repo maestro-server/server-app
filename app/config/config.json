@@ -16,6 +16,9 @@
       "favicon": {
         "enabled": false
       },
+      "multipart": {
+        "enabled": true
+      },
       "filter": {
           "priority": 40,
           "module": {
