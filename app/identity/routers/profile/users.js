@@ -112,7 +112,7 @@ module.exports = function (router) {
          */
         .get('/upload', authenticate(), UploaderApp.uploader)
 
-        .put('/upload', UploaderApp.receiverFile)
+        .put('/upload', authenticate(), UploaderApp.receiverFile)
 
         .get('/forgot', (req, res) => {
           res.json({});

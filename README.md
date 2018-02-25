@@ -55,7 +55,7 @@ AWS_DEFAULT_REGION=us-east-1
 
 S3_BUCKET_NAME=maestroserver
 
-UPLOAD_TYPE=S3/Local
+MAESTRO_UPLOAD_TYPE=S3/Local
 
 LOCAL_DIR=/static/upload
 
