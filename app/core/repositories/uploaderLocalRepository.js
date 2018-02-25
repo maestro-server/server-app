@@ -13,7 +13,7 @@ const UploaderRepository = (folder) => {
 
             return new Promise((resolve) => {
                 console.log(headers);
-                const {authorization, host} = headers
+                const {authorization, host} = headers;
 
                 resolve({
                     signedRequest: `http://${host}/users/upload?ext=${mapsFile(type)}&folder=${folder}`,
