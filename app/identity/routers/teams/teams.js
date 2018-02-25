@@ -107,6 +107,8 @@ module.exports = function (router) {
          */
         .get('/upload', authenticate(), UploaderApp.uploader)
 
+        .put('/upload', authenticate(), UploaderApp.receiverFile)
+
         /**
          * @api {get} /teams/:id e. Get single team
          * @apiName GetSingleTeam
