@@ -26,8 +26,6 @@ const RelationsSyncerService = (Entity) => (REntity) => {
                       .count(prepared, [path])
                       .then(total => {
                           const fielder = `${REntity.name}_count`;
-                          console.log(fielder);
-
                           return DBRepository(Entity, {ignoreValid:true})
                                 .patch({_id}, {[fielder]: total})
                                 .catch(reject);

@@ -12,7 +12,6 @@ const UploaderRepository = (folder) => {
             const filename = `${_id}.${mapsFile(type)}`;
 
             return new Promise((resolve) => {
-                console.log(headers);
                 const {authorization, host} = headers;
 
                 resolve({
