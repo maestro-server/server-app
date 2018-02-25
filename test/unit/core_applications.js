@@ -68,8 +68,6 @@ describe('unit - core', function () {
 
         const obj = fc(post, Entity, role);
 
-        console.log(obj);
-
         expect(obj).to.have.property('owner').to.have.property('name');
         expect(obj).to.have.property('roles').to.deep.equal([{role: 7, refs: 'users', name: 'Testers'}]);
 
@@ -189,8 +187,6 @@ describe('unit - core', function () {
 
         const query = '{"myjson" "data"}';
         const obj = fc({query}, 'query');
-
-        console.log(obj);
 
         expect(obj).to.deep.equal({});
         done();
@@ -725,16 +721,16 @@ describe('unit - core', function () {
 
 
         it('uploader', function (done) {
-            let uploadImage = sinon.stub().returnsPromise();
+            let signed = sinon.stub().returnsPromise();
             let SPS = sinon.stub()
                 .returns({
-                    uploadImage
+                    signed
                 });
 
             AccessApp(Entity, SPS).uploader(req, res);
 
-            sinon.assert.calledWithExactly(uploadImage, req.query, req.user);
-            sinon.assert.calledOnce(uploadImage);
+            sinon.assert.calledWithExactly(signed, req, req.user);
+            sinon.assert.calledOnce(signed);
             sinon.assert.calledOnce(SPS);
             done();
         });
