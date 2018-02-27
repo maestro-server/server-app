@@ -119,7 +119,6 @@ describe('e2e users', function () {
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
-                .expect(/url/)
                 .expect(/filename/)
                 .expect(/signedRequest/)
                 .end(function (err) {

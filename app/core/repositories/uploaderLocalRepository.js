@@ -1,53 +1,46 @@
 'use strict';
 
 const _ = require('lodash');
-const aws = require('aws-sdk');
+const fs = require('fs');
 const mapsFile = require('./maps/mapFileType');
-const UploaderError = require('core/errors/factoryError')('UploaderError');
+const getPwdPath = require('core/libs/pwd');
 
-const factoryValid = require('core/libs/factoryValid');
-const s3Valid = require('core/validators/s3_valid');
-
+const {CONTENT_UPLOAD_DEFAULT, LOCAL_DIR_DEFAULT} = require('core/configs/uploadRole');
 
 const UploaderRepository = (folder) => {
 
-    factoryValid(
-        _.pick(process.env, ['AWS_S3_BUCKET_NAME', 'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY']),
-        s3Valid
-    );
-
     return {
+        upload(_id, type, headers) {
+            const filename = `${_id}.${mapsFile(type)}`;
 
-        upload(_id, type) {
             return new Promise((resolve) => {
+                const {authorization, host} = headers;
 
-                const s3 = new aws.S3();
-                const S3_BUCKET = process.env.AWS_S3_BUCKET_NAME;
-                const PATH = S3_BUCKET + '/' + folder;
-                const filename = `${_id}.${mapsFile(type)}`;
-
-                const s3Params = {
-                    Bucket: PATH,
-                    Key: filename,
-                    Expires: 60,
-                    ContentType: type,
-                    ACL: 'public-read'
-                };
-
-                s3.getSignedUrl('putObject', s3Params, (err, data) => {
-                    if (err) {
-                        throw new UploaderError(err);
-                    }
-
-                    const returnData = {
-                        signedRequest: data,
-                        url: `https://${S3_BUCKET}.s3.amazonaws.com/${folder}/${filename}`,
-                        filename: `${folder}/${filename}`
-                    };
-
-                    resolve(returnData);
+                resolve({
+                    signedRequest: `http://${host}/users/upload?ext=${mapsFile(type)}&folder=${folder}`,
+                    filename: `${folder}/${filename}`,
+                    headers: {"Content-type": CONTENT_UPLOAD_DEFAULT, "Authorization": authorization}
                 });
+            });
 
+        },
+        
+        download(files, query, owner) {
+            return new Promise((resolve, reject) => {
+                const {path} = files.file;
+                const appRoot = getPwdPath();
+                const base = process.env.LOCAL_DIR || LOCAL_DIR_DEFAULT;
+                const filename = `${_.get(owner, '_id')}.${_.get(query, 'ext')}`;
+                const newPath = `${appRoot}${base}/${_.get(query, 'folder')}/`;
+
+                if (!fs.existsSync(newPath)){
+                    fs.mkdirSync(newPath);
+                }
+
+                fs.rename(path, newPath + filename, (err2) => {
+                    if (err2) reject(err2);
+                    resolve();
+                });
             });
         }
     };

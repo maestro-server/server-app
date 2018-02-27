@@ -41,8 +41,9 @@ const UploaderRepository = (folder) => {
 
                     const returnData = {
                         signedRequest: data,
-                        url: `https://${S3_BUCKET}.s3.amazonaws.com/${folder}/${filename}`,
-                        filename: `${folder}/${filename}`
+                        url: `https://s3.amazonaws.com/${S3_BUCKET}/${folder}/${filename}`,
+                        filename: `${folder}/${filename}`,
+                        headers: {"Content-type": type}
                     };
 
                     resolve(returnData);

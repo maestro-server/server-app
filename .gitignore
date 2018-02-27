@@ -8,3 +8,6 @@ node_modules
 .happypack/
 npm-debug*
 coverage/
+public/static/users
+public/static/teams
+public/static/company

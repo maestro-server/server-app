@@ -37,7 +37,8 @@ const DBRepository = (Entity, options = {}) => {
 
         findOne(filters, resFilled = Entity.singleFilled) {
             return new Promise((resolve, reject) => {
-                const filter = Object.assign({}, filters, activeTransform.active());
+                const entityVS = _.get(Entity, 'visibility.single');
+                const filter = Object.assign({}, filters, activeTransform.active(entityVS));
 
                 return DB
                     .findOne(filter)

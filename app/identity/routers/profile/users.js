@@ -92,9 +92,10 @@ module.exports = function (router) {
          */
         .get('/autocomplete', authenticate(), PersistenceApp.autocomplete)
         /**
-         * @api {get} /users/upload d. Upload avatar users
+         * @api {get} /users/upload d. Signed upload workflow
          * @apiName GetUploadUsers
          * @apiGroup Users
+         * @apiDescription Its only to mark and create a token authetication, to upload new files.
          *
          * @apiParam (Body x-www) {Resource} filetype Resource filetype to upload.
          *
@@ -110,6 +111,29 @@ module.exports = function (router) {
          *     {}
          */
         .get('/upload', authenticate(), UploaderApp.uploader)
+
+        /**
+         * @api {put} /users/upload d. Upload file in local server (used only local upload is enabled)
+         * @apiName PutUploadUsers
+         * @apiGroup Users
+         *
+         * @apiParam (params) {String} ext Used to construct url
+         * @apiParam (params) {String} folder Mark a group folder, that file will be upload (users, teams or company)
+         *
+         * @apiParam (Body x-www) {Resource} filetype Resource filetype to upload.
+         *
+         * @apiPermission JWT (Read | Write | Admin)
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound List is empty
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {}
+         */
+        .put('/upload', authenticate(), UploaderApp.receiverFile)
 
         .get('/forgot', (req, res) => {
           res.json({});

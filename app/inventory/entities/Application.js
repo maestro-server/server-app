@@ -30,6 +30,8 @@ const app = () => {
 
         mapRelations: ['system', 'servers'],
 
+        visibility: {single: 'all'},
+
         filled,
         singleFilled,
         resFilled
