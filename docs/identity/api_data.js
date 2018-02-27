@@ -966,9 +966,10 @@ define({ "api": [
   {
     "type": "get",
     "url": "/teams/upload",
-    "title": "d. Get token to upload file",
+    "title": "d. Signed upload workflow",
     "name": "GetTeamsUpload",
     "group": "Teams",
+    "description": "<p>Its only to mark and create a token authetication, to upload new files.</p>",
     "parameter": {
       "fields": {
         "Body x-www": [
@@ -1634,6 +1635,96 @@ define({ "api": [
     "groupTitle": "Teams"
   },
   {
+    "type": "put",
+    "url": "/teams/upload",
+    "title": "d. Upload file in local server (used only local upload is enabled)",
+    "name": "PutUploadTeams",
+    "group": "Teams",
+    "parameter": {
+      "fields": {
+        "params": [
+          {
+            "group": "params",
+            "type": "String",
+            "optional": false,
+            "field": "ext",
+            "description": "<p>Used to construct url</p>"
+          },
+          {
+            "group": "params",
+            "type": "String",
+            "optional": false,
+            "field": "folder",
+            "description": "<p>Mark a group folder, that file will be upload (users, teams or company)</p>"
+          }
+        ],
+        "Body x-www": [
+          {
+            "group": "Body x-www",
+            "type": "Resource",
+            "optional": false,
+            "field": "filetype",
+            "description": "<p>Resource filetype to upload.</p>"
+          }
+        ]
+      }
+    },
+    "permission": [
+      {
+        "name": "JWT (Read | Write | Admin)"
+      }
+    ],
+    "header": {
+      "fields": {
+        "Auth": [
+          {
+            "group": "Auth",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>JWT {Token}</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error": [
+          {
+            "group": "Error",
+            "optional": false,
+            "field": "PermissionError",
+            "description": "<p>Token don`t have permission</p>"
+          },
+          {
+            "group": "Error",
+            "optional": false,
+            "field": "Unauthorized",
+            "description": "<p>Invalid Token</p>"
+          },
+          {
+            "group": "Error",
+            "optional": false,
+            "field": "NotFound",
+            "description": "<p>List is empty</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/identity/routers/teams/teams.js",
+    "groupTitle": "Teams"
+  },
+  {
     "type": "get",
     "url": "/users/autocomplete",
     "title": "c. Get list user with autocomplete",
@@ -1736,9 +1827,10 @@ define({ "api": [
   {
     "type": "get",
     "url": "/users/upload",
-    "title": "d. Upload avatar users",
+    "title": "d. Signed upload workflow",
     "name": "GetUploadUsers",
     "group": "Users",
+    "description": "<p>Its only to mark and create a token authetication, to upload new files.</p>",
     "parameter": {
       "fields": {
         "Body x-www": [
@@ -1952,6 +2044,96 @@ define({ "api": [
         {
           "title": "Success-Response:",
           "content": "HTTP/1.1 201 OK\n{\n   _id: (String)\n   created_at: (Datetime)\n   updated_at: (Datetime)\n   roles: []\n   owner: []\n   _links: {}\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "app/identity/routers/profile/users.js",
+    "groupTitle": "Users"
+  },
+  {
+    "type": "put",
+    "url": "/users/upload",
+    "title": "d. Upload file in local server (used only local upload is enabled)",
+    "name": "PutUploadUsers",
+    "group": "Users",
+    "parameter": {
+      "fields": {
+        "params": [
+          {
+            "group": "params",
+            "type": "String",
+            "optional": false,
+            "field": "ext",
+            "description": "<p>Used to construct url</p>"
+          },
+          {
+            "group": "params",
+            "type": "String",
+            "optional": false,
+            "field": "folder",
+            "description": "<p>Mark a group folder, that file will be upload (users, teams or company)</p>"
+          }
+        ],
+        "Body x-www": [
+          {
+            "group": "Body x-www",
+            "type": "Resource",
+            "optional": false,
+            "field": "filetype",
+            "description": "<p>Resource filetype to upload.</p>"
+          }
+        ]
+      }
+    },
+    "permission": [
+      {
+        "name": "JWT (Read | Write | Admin)"
+      }
+    ],
+    "header": {
+      "fields": {
+        "Auth": [
+          {
+            "group": "Auth",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>JWT {Token}</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error": [
+          {
+            "group": "Error",
+            "optional": false,
+            "field": "PermissionError",
+            "description": "<p>Token don`t have permission</p>"
+          },
+          {
+            "group": "Error",
+            "optional": false,
+            "field": "Unauthorized",
+            "description": "<p>Invalid Token</p>"
+          },
+          {
+            "group": "Error",
+            "optional": false,
+            "field": "NotFound",
+            "description": "<p>List is empty</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{}",
           "type": "json"
         }
       ]
