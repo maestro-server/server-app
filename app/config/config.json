@@ -4,209 +4,320 @@
         "fallback": "en-US"
     },
     "middleware": {
-      "session": {
-        "enabled": false
-      },
-      "static": {
-        "enabled": false
-      },
-      "cookieParser": {
-        "enabled": false
-      },
-      "favicon": {
-        "enabled": false
-      },
-      "filter": {
-          "priority": 40,
-          "module": {
-              "name": "content-filter",
-              "arguments": [{"dispatchToErrorHandler": true}]
-          }
-      },
-      "cors": {
-          "priority": 1,
-          "module": "path:./core/middlewares/cors"
-      },
-      "tokenization": {
-          "priority": 45,
-          "module": "path:./core/middlewares/tokenization"
-      },
-      "appsec": {
-          "priority": 110,
-          "module": {
-              "name": "lusca",
-              "arguments": [
-                  {
-                      "csrf": false
-                  }
-              ]
-          }
+        "session": {
+            "enabled": false
+        },
+        "static": {
+            "enabled": true,
+            "priority": 40,
+            "module": {
+                "name": "serve-static",
+                "arguments": [ "path:./../public" ]
+            }
+        },
+        "cookieParser": {
+            "enabled": false
+        },
+        "favicon": {
+            "enabled": false
+        },
+        "multipart": {
+            "enabled": true,
+            "params": {
+                "keepExtensions": true
+            }
+        },
+        "filter": {
+            "priority": 40,
+            "module": {
+                "name": "content-filter",
+                "arguments": [
+                    {
+                        "dispatchToErrorHandler": true
+                    }
+                ]
+            }
+        },
+        "cors": {
+            "priority": 1,
+            "module": "path:./core/middlewares/cors"
+        },
+        "tokenization": {
+            "priority": 45,
+            "module": "path:./core/middlewares/tokenization"
+        },
+        "appsec": {
+            "priority": 110,
+            "module": {
+                "name": "lusca",
+                "arguments": [
+                    {
+                        "csrf": false
+                    }
+                ]
+            }
         },
         "router": {
             "priority": 120,
             "module": {
-                "arguments": [{"directory": "path:./core/routers"}]
+                "arguments": [
+                    {
+                        "directory": "path:./core/routers"
+                    }
+                ]
             }
         },
         "router-architectures": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./orchestration/routers/architectures"}]
+                "arguments": [
+                    {
+                        "directory": "path:./orchestration/routers/architectures"
+                    }
+                ]
             }
         },
         "router-profile": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./identity/routers/profile"}]
+                "arguments": [
+                    {
+                        "directory": "path:./identity/routers/profile"
+                    }
+                ]
             }
         },
         "router-projects": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./playbooks/routers/projects"}]
+                "arguments": [
+                    {
+                        "directory": "path:./playbooks/routers/projects"
+                    }
+                ]
             }
         },
         "router-applications": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./inventory/routers/applications"}]
+                "arguments": [
+                    {
+                        "directory": "path:./inventory/routers/applications"
+                    }
+                ]
             }
         },
         "router-volumes": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./inventory/routers/volumes"}]
+                "arguments": [
+                    {
+                        "directory": "path:./inventory/routers/volumes"
+                    }
+                ]
             }
         },
         "router-images": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./inventory/routers/images"}]
+                "arguments": [
+                    {
+                        "directory": "path:./inventory/routers/images"
+                    }
+                ]
             }
         },
         "router-network": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./inventory/routers/network"}]
+                "arguments": [
+                    {
+                        "directory": "path:./inventory/routers/network"
+                    }
+                ]
             }
         },
         "router-snapshot": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./inventory/routers/snapshots"}]
+                "arguments": [
+                    {
+                        "directory": "path:./inventory/routers/snapshots"
+                    }
+                ]
             }
         },
         "router-teams": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./identity/routers/teams"}]
+                "arguments": [
+                    {
+                        "directory": "path:./identity/routers/teams"
+                    }
+                ]
             }
         },
         "router-system": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./inventory/routers/system"}]
+                "arguments": [
+                    {
+                        "directory": "path:./inventory/routers/system"
+                    }
+                ]
             }
         },
         "router-datacenters": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./inventory/routers/datacenters"}]
+                "arguments": [
+                    {
+                        "directory": "path:./inventory/routers/datacenters"
+                    }
+                ]
             }
         },
         "router-servers": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./inventory/routers/servers"}]
+                "arguments": [
+                    {
+                        "directory": "path:./inventory/routers/servers"
+                    }
+                ]
             }
         },
         "router-clients": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./inventory/routers/clients"}]
+                "arguments": [
+                    {
+                        "directory": "path:./inventory/routers/clients"
+                    }
+                ]
             }
         },
         "router-connections": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./inventory/routers/connections"}]
+                "arguments": [
+                    {
+                        "directory": "path:./inventory/routers/connections"
+                    }
+                ]
             }
         },
         "router-flavors": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./inventory/routers/flavors"}]
+                "arguments": [
+                    {
+                        "directory": "path:./inventory/routers/flavors"
+                    }
+                ]
             }
         },
         "router-playbooks": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./playbooks/routers/playbooks"}]
+                "arguments": [
+                    {
+                        "directory": "path:./playbooks/routers/playbooks"
+                    }
+                ]
             }
         },
         "router-access-manager": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./playbooks/routers/access_manager"}]
+                "arguments": [
+                    {
+                        "directory": "path:./playbooks/routers/access_manager"
+                    }
+                ]
             }
         },
         "router-task-template": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./playbooks/routers/task_template"}]
+                "arguments": [
+                    {
+                        "directory": "path:./playbooks/routers/task_template"
+                    }
+                ]
             }
         },
         "router-jobs": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./playbooks/routers/jobs"}]
+                "arguments": [
+                    {
+                        "directory": "path:./playbooks/routers/jobs"
+                    }
+                ]
             }
         },
         "router-scheduler": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./playbooks/routers/scheduler"}]
+                "arguments": [
+                    {
+                        "directory": "path:./playbooks/routers/scheduler"
+                    }
+                ]
             }
         },
         "router-reports": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./reports/routers/reports"}]
+                "arguments": [
+                    {
+                        "directory": "path:./reports/routers/reports"
+                    }
+                ]
             }
         },
         "router-events": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./reports/routers/events"}]
+                "arguments": [
+                    {
+                        "directory": "path:./reports/routers/events"
+                    }
+                ]
             }
         },
         "router-adminer": {
             "priority": 120,
             "module": {
                 "name": "express-enrouten",
-                "arguments": [{"directory": "path:./adminer/routers"}]
+                "arguments": [
+                    {
+                        "directory": "path:./adminer/routers"
+                    }
+                ]
             }
         },
         "notFound": {

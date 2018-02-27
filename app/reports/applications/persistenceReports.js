@@ -25,7 +25,7 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
                 aclRoles(req.user, Entity, Access.ROLE_ADMIN)
             );
 
-            const owner_user = _.get(req, 'user._id')
+            const owner_user = _.get(req, 'user._id');
 
             PersistenceServices(Entity)
                 .create(bodyWithOwner)
@@ -35,7 +35,7 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
                         "component": e['component'],
                         "filters": JSON.stringify(e['filters'], null, 2),
                         owner_user
-                    }
+                    };
 
                     return ReportHTTPService()
                         .create(`/reports/${e['report']}`, data);
@@ -69,9 +69,9 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
             if (_.isArray(content))
                 content = _.head(content);
 
-            query = jsonParser(query, 'query')
-            query['query'] = _.head(regexFilterQuery(_.get(query, 'query')))
-            const params = _.pick(query, ['limit', 'page', 'query', 'orderBy', 'ascending'])
+            query = jsonParser(query, 'query');
+            query['query'] = _.head(regexFilterQuery(_.get(query, 'query')));
+            const params = _.pick(query, ['limit', 'page', 'query', 'orderBy', 'ascending']);
 
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user, Access.ROLE_READ)

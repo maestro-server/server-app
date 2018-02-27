@@ -25,6 +25,8 @@ const connection = () => {
 
         mapRelations: ['owner_user'],
 
+        visibility: {single: 'all'},
+
         filled,
         singleFilled,
         resFilled
