@@ -27,6 +27,8 @@ const servers = () => {
 
         hooks: {},
 
+        visibility: {single: 'all'},
+
         filled,
         singleFilled,
         resFilled

@@ -24,6 +24,8 @@ const clients = () => {
 
         mapRelations: [],
 
+        visibility: {single: 'all'},
+
         filled,
         singleFilled,
         resFilled

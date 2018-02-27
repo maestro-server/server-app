@@ -26,6 +26,8 @@ const snapshots = () => {
 
         mapRelations: [],
 
+        visibility: {single: 'all'},
+
         filled,
         singleFilled,
         resFilled

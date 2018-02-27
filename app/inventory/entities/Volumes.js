@@ -26,6 +26,8 @@ const volume = () => {
 
         mapRelations: [],
 
+        visibility: {single: 'all'},
+
         filled,
         singleFilled,
         resFilled

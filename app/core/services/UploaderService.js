@@ -4,6 +4,7 @@ const _ = require('lodash');
 const formidable = require('formidable');
 const validateFile = require('./validator/uploadValid');
 const {TYPE_DEFAULT} = require('core/configs/uploadRole');
+const getPwdPath = require('core/libs/pwd');
 
 const UploaderService = (Entity) => {
   const typeU = process.env.MAESTRO_UPLOAD_TYPE || TYPE_DEFAULT;
@@ -30,7 +31,7 @@ const UploaderService = (Entity) => {
         uploadImage(req, owner) {
             return new Promise((resolve, reject) => {
 
-                const form = new formidable.IncomingForm();
+                const form = new formidable.IncomingForm({uploadDir: getPwdPath()});
                 form.parse(req, (err, fields, files) => {
                     if (err) reject(err);
 
