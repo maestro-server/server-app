@@ -5,7 +5,7 @@ const _ = require('lodash');
 const Networks = require('../repositories/dao/networks');
 
 const network = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'unique_id',  'environment', 'family', git
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'unique_id',  'environment', 'family', 'datacenters.name',
          'status', 'tags'];
 
     const singleFilled = [...resFilled,
