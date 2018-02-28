@@ -26,7 +26,7 @@ module.exports = function (router) {
      * @apiParam (Param) {String} id Team unique ID.
      * @apiParam (Param) {String} idu Server unique ID.
      */
-        .get('/teams/:id/servers', authenticate(), WrapperPersistenceApp(PersistenceAppServers)('findServers').find)
+        .get('/teams/:id/servers', authenticate(), WrapperPersistenceApp(PersistenceAppServers)().find)
         /**
          * @api {get} /teams/:id/servers/count sb. Count Servers for Team
          * @apiName GetCountListServersTeam

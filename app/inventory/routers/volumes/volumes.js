@@ -3,6 +3,8 @@
 const authenticate = require('identity/middlewares/authenticate');
 const Volumes = require('../../entities/Volumes');
 const PersistenceApp = require('core/applications/persistenceApplication')(Volumes);
+const PersistenceAppServers = require('../../applications/persistenceServers')(Volumes);
+
 const AccessApp = require('core/applications/accessApplication')(Volumes);
 
 module.exports = function (router) {
@@ -48,7 +50,7 @@ module.exports = function (router) {
          *        items: []
          *     }
      */
-        .get('/', authenticate(), PersistenceApp.find)
+        .get('/', authenticate(), PersistenceAppServers.find)
         /**
          * @api {get} /volumes/count b. Count total volumes
          * @apiName GetCountVolumes

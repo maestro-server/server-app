@@ -5,6 +5,7 @@ const authenticate = require('identity/middlewares/authenticate');
 const Volumes = require('../../entities/Volumes');
 const Team = require('identity/entities/Teams');
 
+const PersistenceAppServers = require('../../applications/persistenceServers');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Volumes)(Team);
 const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
@@ -23,7 +24,7 @@ module.exports = function (router) {
          * @apiParam (Param) {String} id Team unique ID.
          * @apiParam (Param) {String} idu Volume unique ID.
          */
-        .get('/teams/:id/volumes', authenticate(), WrapperPersistenceAppDefault.find)
+        .get('/teams/:id/volumes', authenticate(), WrapperPersistenceApp(PersistenceAppServers)().find)
         /**
          * @api {get} /teams/:id/volumes/count vb. Count Volumes for Team
          * @apiName GetCountListVolumesTeam

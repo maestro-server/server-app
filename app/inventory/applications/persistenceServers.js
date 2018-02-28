@@ -11,7 +11,7 @@ const filterHooks = require('./transforms/filterHooks');
 const ApplicationServers = (Entity, PersistenceServices = DPersistenceServices) => {
 
     return {
-      findServers(req, res, next) {
+      find(req, res, next) {
           const field = 'query';
           let query = _.clone(req.query);
 

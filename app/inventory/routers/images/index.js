@@ -5,6 +5,7 @@ const authenticate = require('identity/middlewares/authenticate');
 const Images = require('../../entities/Images');
 const Team = require('identity/entities/Teams');
 
+const PersistenceAppServers = require('../../applications/persistenceServers');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Images)(Team);
 const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
@@ -23,7 +24,7 @@ module.exports = function (router) {
      * @apiParam (Param) {String} id Team unique ID.
      * @apiParam (Param) {String} idu Image unique ID.
      */
-        .get('/teams/:id/images', authenticate(), WrapperPersistenceAppDefault.find)
+        .get('/teams/:id/images', authenticate(), WrapperPersistenceApp(PersistenceAppServers)().find)
         /**
          * @api {get} /teams/:id/images/count ib. Count Images for Team
          * @apiName GetCountListImagesTeam
