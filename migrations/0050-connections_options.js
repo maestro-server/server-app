@@ -50,7 +50,7 @@ exports.up = function (db, next) {
                             'entity': 'applications',
                             'result_path': 'DBInstances',
                             'vars': [
-                                {'name': 'MaxRecords', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'MaxRecords', 'env': 'MAESTRO_DB_SCAN_QTD', 'default': 100, 'type': 'int'}
                             ]
                         }
                     ],
