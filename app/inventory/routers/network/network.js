@@ -3,6 +3,7 @@
 const authenticate = require('identity/middlewares/authenticate');
 const Networks = require('../../entities/Networks');
 const PersistenceApp = require('core/applications/persistenceApplication')(Networks);
+const PersistenceAppServers = require('../../applications/persistenceServers')(Networks);
 const AccessApp = require('core/applications/accessApplication')(Networks);
 
 module.exports = function (router) {
@@ -49,7 +50,7 @@ module.exports = function (router) {
          *        items: []
          *     }
      */
-        .get('/', authenticate(), PersistenceApp.find)
+        .get('/', authenticate(), PersistenceAppServers.find)
         /**
          * @api {get} /network/count b. Count total networks
          * @apiName GetTotalNetwork

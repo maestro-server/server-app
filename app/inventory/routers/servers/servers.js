@@ -80,7 +80,7 @@ module.exports = function (router) {
          *        items: []
          *     }
      */
-        .get('/', authenticate(), PersistenceAppServers.findServers)
+        .get('/', authenticate(), PersistenceAppServers.find)
         /**
          * @api {get} /servers/count b. Count total servers
          * @apiName GetCountServer

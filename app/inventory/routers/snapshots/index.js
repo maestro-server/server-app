@@ -5,6 +5,7 @@ const authenticate = require('identity/middlewares/authenticate');
 const Snapshots = require('../../entities/Snapshots');
 const Team = require('identity/entities/Teams');
 
+const PersistenceAppServers = require('../../applications/persistenceServers');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Snapshots)(Team);
 const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
@@ -23,7 +24,7 @@ module.exports = function (router) {
      * @apiParam (Param) {String} id Team unique ID.
      * @apiParam (Param) {String} idu Snapshot unique ID.
      */
-        .get('/teams/:id/snapshots', authenticate(), WrapperPersistenceApp()().find)
+        .get('/teams/:id/snapshots', authenticate(), WrapperPersistenceApp(PersistenceAppServers)().find)
         /**
          * @api {get} /teams/:id/snapshots/count snb. Count Snapshots for Team
          * @apiName GetCountListSnapshotsTeam

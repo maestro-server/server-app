@@ -5,11 +5,11 @@ const _ = require('lodash');
 const Networks = require('../repositories/dao/networks');
 
 const network = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'unique_id',  'environment', 'family',
-        'datacenters', 'status', 'tags'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'unique_id',  'environment', 'family', git
+         'status', 'tags'];
 
     const singleFilled = [...resFilled,
-        'vpc_peering_connection_id', 'vpc_id', 'image_id', 'port_id', 'security_id', 'group_id',
+        'vpc_peering_connection_id', 'vpc_id', 'image_id', 'port_id', 'security_id', 'group_id', 'datacenters',
         'subnet_id', 'route_id', 'vpn_gateway_id', 'vpc_endpoint_id', 'route_table_id', 'network_interface_id',
         'availability_zone', 'available_ip_address_count', 'is_vlan_transparent', 'unique_id',
         'cidr_block', 'default_for_az', 'map_public_ip_on_launch', 'assign_ipv6_address_on_creation', 'dhcp_options_id',
