@@ -77,6 +77,34 @@ environment:
 - "MAESTRO_DISCOVERY_URL=http://discovery:5000"
 ```
 
+#### Dev Env ####
+
+Setup mongodb and fake smtp
+
+```bash
+cd devtools/
+
+docker-compose up -d
+```
+
+Configure database and port application in .env file
+
+```bash
+MAESTRO_PORT=8888
+MAESTRO_MONGO_URI='localhost/maestro-client'
+```
+
+Run all tests or any test type
+
+```bash
+mocha test/**/*js --reporter spec
+
+gulp test_e2e
+gulp test_unit
+gulp eslint
+```
+
+
 ### Env variables ###
 
 | Env Variables                | Example                  | Description                |
