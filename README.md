@@ -7,7 +7,7 @@
 Maestro Server is an open source software platform for management and discovery servers, apps and system for Hybrid IT. Can manage small and large environments, be able to visualize the latest multi-cloud environment state.
 
 ### Demo ###
-To test out the demo, [Demo Online](http://maestroserver.io "Demo Online")
+To test out the demo, [Demo Online](http://demo.maestroserver.io "Demo Online")
 
 # Maestro Server - Server API #
 
