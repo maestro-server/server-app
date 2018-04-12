@@ -46,11 +46,13 @@ Constructed with KrakenJs, we create a lot of middleware and organize by domain.
 
 * NodeJs 6.10
 * MongoDB 3.4
-* AWS S3
+* AWS S3 (If using S3 upload)
 
-## Service dependencies ##
-* Maestro Discovery API
-* Maestro Reports API
+## Service relations ##
+* Maestro Discovery
+* Maestro Reports
+* Maestro Remote Agent
+* Maestro Authenticator
 
 
 ## Setup ##
