@@ -63,6 +63,22 @@ module.exports = {
         _id: Joi.object(),
         refs: Joi.string()
     }),
+    interval: Joi.object({
+        every: Joi.number().max(1024).default(5),
+        period: Joi.string().default('minutes')
+    }),
+    crontab: Joi.object({
+        minute: Joi.string().max(3),
+        hour: Joi.string().max(3).default('*'),
+        day_of_week: Joi.string().max(3).default('*'),
+        day_of_month: Joi.string().max(3).default('*'),
+        month_of_year: Joi.string().max(3).default('*')
+    }),
+    chain: Joi.object({
+        _id: Joi.object(),
+        countdown: Joi.number(),
+        order: Joi.number()
+    }),
     unique_id: Joi.string().max(100),
     datacenters: Joi.object(),
     active: Joi.boolean(),
