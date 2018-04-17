@@ -68,14 +68,15 @@ module.exports = {
         period: Joi.string().default('minutes')
     }),
     crontab: Joi.object({
-        minute: Joi.string().max(3),
-        hour: Joi.string().max(3).default('*'),
-        day_of_week: Joi.string().max(3).default('*'),
-        day_of_month: Joi.string().max(3).default('*'),
-        month_of_year: Joi.string().max(3).default('*')
+        minute: Joi.any(),
+        hour: Joi.any().default('*'),
+        day_of_week: Joi.any().default('*'),
+        day_of_month: Joi.any().default('*'),
+        month_of_year: Joi.any().default('*')
     }),
     chain: Joi.object({
         _id: Joi.object(),
+        name: Joi.string(),
         countdown: Joi.number(),
         order: Joi.number()
     }),
