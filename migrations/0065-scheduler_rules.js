@@ -14,9 +14,9 @@ exports.up = function (db, next) {
                     name: 'connections',
                     description: 'Polling provider',
                     source: 'discovery-app',
-                    url: '/crawler/<provider>/<id>/<task>',
-                    verb: 'PUT',
-                    options: ['server-list', 'loadbalance-list', 'dbs-list', 
+                    url: 'http://discovery-app/crawler/<provider>/<_id>/<task>',
+                    method: 'PUT',
+                    options: ['server-list', 'loadbalance-list', 'dbs-list',
                     'storage-object-list', 'volumes-list', 'cdns-list', 'snapshot-list', 'images-list',
                     'security-list', 'network-list']
                 },
