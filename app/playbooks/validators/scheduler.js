@@ -13,18 +13,24 @@ const schema = Joi.object().keys({
     args: Joi.array().items(Joi.object()),
     kwargs: Joi.object(),
     chain: Joi.array().items(chain),
-    endpoint: Joi.string().uri(),
+    endpoint: Joi.string().uri().required(),
     period_type: Joi.string().valid('interval', 'crontab'),
-    module: Joi.string().valid('webhook', 'connections', 'jobs'),
     method: Joi.string().valid('GET', 'POST', 'PUT', 'DELETE').default('GET'),
     total_run_count: Joi.number().default(1),
     max_execution: Joi.number(),
+    link: Joi.object().keys({
+        name: Joi.string().max(50),
+        provider: Joi.string().max(50),
+        _id: Joi.any(),
+        refs: Joi.string().valid('webhook', 'connections', 'jobs'),
+        task: Joi.string()
+    }),
     roles: Joi.array().items(roles).unique('_id'),
     owner,
     active,
     created_at,
     last_run_at: Joi.any()
-}).or('interval', 'crontab');
+}).xor('interval', 'crontab');
 
 module.exports = {
     create: schema,

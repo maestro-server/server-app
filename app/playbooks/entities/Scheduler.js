@@ -5,8 +5,8 @@ const _ = require('lodash');
 const Scheduler = require('../repositories/dao/scheduler');
 
 const scheduler = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 
-    'interval', 'crontab', 'enabled', 'args', 'kwargs', 'chain', 'endpoint', 'module', 'method',
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name',
+    'interval', 'crontab', 'enabled', 'args', 'kwargs', 'chain', 'endpoint', 'link', 'method',
     'total_run_count', 'max_execution', 'period_type', 'last_run_at'];
 
     const singleFilled = [...resFilled, 'roles', 'owner', '_cls'];
