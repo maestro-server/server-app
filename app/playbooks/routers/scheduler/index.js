@@ -46,6 +46,8 @@ module.exports = function (router) {
 
         .post('/teams/:id/scheduler', authenticate(), WrapperPersistenceAppDefault.create)
 
+        .post('/teams/:id/scheduler/template', authenticate(), WrapperPersistenceApp(PersistenceAppScheduler)('createTemplate').create)
+
         /**
          * Roles
          */

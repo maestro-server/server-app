@@ -25,6 +25,8 @@ module.exports = function (router) {
 
         .post('/', authenticate(), PersistenceApp.create)
 
+        .post('/template', authenticate(), PersistenceAppScheduler.createTemplate)
+
         /**
          * Roles
          */
