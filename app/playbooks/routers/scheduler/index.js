@@ -5,7 +5,9 @@ const authenticate = require('identity/middlewares/authenticate');
 const Schedulers = require('../../entities/Scheduler');
 const Team = require('identity/entities/Teams');
 
+const PersistenceAppScheduler = require('../../applications/persistenceScheduler');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Schedulers)(Team);
+const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
@@ -13,15 +15,15 @@ const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 module.exports = function (router) {
 
     router
-        .get('/teams/:id/scheduler', authenticate(), WrapperPersistenceApp()().find)
+        .get('/teams/:id/scheduler', authenticate(), WrapperPersistenceApp(PersistenceAppScheduler)().find)
 
-        .get('/teams/:id/schedules/count', authenticate(), WrapperPersistenceApp()().count)
+        .get('/teams/:id/schedules/count', authenticate(), WrapperPersistenceAppDefault.count)
 
-        .get('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceApp()().findOne)
+        .get('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceAppDefault.findOne)
 
-        .put('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceApp()().update)
+        .put('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceAppDefault.update)
 
-        .patch('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceApp()().patch)
+        .patch('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceAppDefault.patch)
 
         /**
          * @api {delete} /teams/:id/applications/:idu Delete application of team
@@ -40,9 +42,9 @@ module.exports = function (router) {
          * @apiSuccessExample {json} Success-Response:
          *     HTTP/1.1 204 OK
          */
-        .delete('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceApp()().remove)
+        .delete('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceAppDefault.remove)
 
-        .post('/teams/:id/scheduler', authenticate(), WrapperPersistenceApp()().create)
+        .post('/teams/:id/scheduler', authenticate(), WrapperPersistenceAppDefault.create)
 
         /**
          * Roles

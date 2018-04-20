@@ -9,7 +9,8 @@ exports.up = function (db, next) {
             period_type: ['interval', 'crontab'],
             method: ['GET', 'POST', 'PUT', 'DELETE'],
             kwargs: ['expires', 'max_targets'],
-            modules: [
+            modules: ['connections', 'webhook'],
+            configs: [
                 {
                     name: 'connections',
                     description: 'Polling provider',
