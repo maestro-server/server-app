@@ -15,7 +15,7 @@ const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 module.exports = function (router) {
 
     router
-        .get('/teams/:id/scheduler', authenticate(), WrapperPersistenceApp(PersistenceAppScheduler)().find)
+        .get('/teams/:id/scheduler', authenticate(), WrapperPersistenceAppDefault.find)
 
         .get('/teams/:id/schedules/count', authenticate(), WrapperPersistenceAppDefault.count)
 
