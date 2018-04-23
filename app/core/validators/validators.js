@@ -75,10 +75,9 @@ module.exports = {
         month_of_year: Joi.any().default('*')
     }),
     chain: Joi.object({
-        _id: Joi.object(),
+        _id: Joi.string(),
         name: Joi.string(),
-        countdown: Joi.number(),
-        order: Joi.number()
+        countdown: Joi.number()
     }),
     unique_id: Joi.string().max(100),
     datacenters: Joi.object(),

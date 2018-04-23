@@ -11,7 +11,7 @@ const AccessApp = require('core/applications/accessApplication')(Scheduler);
 module.exports = function (router) {
 
     router
-        .get('/', authenticate(), PersistenceAppScheduler.find)
+        .get('/', authenticate(), PersistenceApp.find)
 
         .get('/count', authenticate(), PersistenceApp.count)
 

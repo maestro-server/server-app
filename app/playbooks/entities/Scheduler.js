@@ -5,13 +5,13 @@ const _ = require('lodash');
 const Scheduler = require('../repositories/dao/scheduler');
 
 const scheduler = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name',
-     'enabled',   'link', 'link._id', 'link.task', 'link.name', 'link.refs', 'interval', 'crontab', 'method',
-        'args', 'kwargs', 'chain', 'endpoint', 'total_run_count', 'max_execution', 'period_type', 'last_run_at'];
+    const resFilled = ['_id', 'updated_at', 'last_run_at', 'created_at', 'name',
+     'enabled',   'link', 'link._id', 'link.task', 'link.name', 'interval', 'crontab', 'method', 'task',
+        'args', 'kwargs', 'chain', 'endpoint', 'total_run_count', 'max_run_count', 'period_type'];
 
-    const singleFilled = [...resFilled, 'roles', 'owner', '_cls'];
+    const singleFilled = [...resFilled, 'msg', 'roles', 'owner', '_cls'];
 
-    const filled = [..._.slice(singleFilled, 2)];  // delete id
+    const filled = [..._.slice(singleFilled, 3)];  // delete id
 
     return {
         name: "scheduler",
@@ -22,7 +22,7 @@ const scheduler = () => {
 
         dao: Scheduler,
 
-        mapRelations: ['chain', 'link'],
+        mapRelations: ['link'],
 
         defaults: {},
 
