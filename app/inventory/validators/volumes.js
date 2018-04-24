@@ -4,6 +4,7 @@ const Joi = require('joi');
 const {roles, tags, owner, created_at, unique_id, active} = require('core/validators/validators');
 
 const schema = Joi.object().keys({
+    status: Joi.string().valid('Active', 'Avaliable', 'Stopped').default('Active'),
     name: Joi.string().min(3).max(30).required(),
     size: Joi.number().required(),
     encrypted: Joi.string().max(30),
@@ -16,7 +17,7 @@ const schema = Joi.object().keys({
     datacenters: Joi.object(),
     roles: Joi.array().items(roles).unique('_id'),
     tags: Joi.array().items(tags),
-    unique_id,
+    unique_id: unique_id.required(),
     active,
     created_at
 });
