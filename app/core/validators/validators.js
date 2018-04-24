@@ -41,6 +41,7 @@ module.exports = {
         root: Joi.string().max(10),
         status: Joi.string().max(10),
         volume_id: Joi.string().max(35),
+        unique_id: Joi.string().max(35),
         attach_time: Joi.string().max(30),
         delete_termination: Joi.any()
     }),
