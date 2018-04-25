@@ -13,7 +13,7 @@ const Access = require('core/entities/accessRole');
 const aclRoles = require('./transforms/aclRoles');
 const jsonParser = require('./transforms/jsonParser');
 const mapRelationToObjectID = require('./transforms/mapRelationToObjectID');
-
+const mapArrIn = require('./transforms/mapArrIn');
 
 const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
@@ -23,10 +23,12 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
             let {query, user} = req;
             query =  mapRelationToObjectID(query, Entity.mapRelations);
+            query =  mapArrIn(query);
             query = _.defaults(query, {limit: 20}, {page: 1});
             query = jsonParser(query, 'query');
 
             const {limit, page} = query;
+
 
             PersistenceServices(Entity)
                 .find(query, user)
@@ -40,6 +42,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
             let {query, user} = req;
             query =  mapRelationToObjectID(query, Entity.mapRelations);
+            query =  mapArrIn(query);
             query = jsonParser(query, 'query');
 
             PersistenceServices(Entity)
