@@ -11,6 +11,7 @@ const regexFilterQuery = require('./transforms/regexFilterQuery');
 const hookFactory = require('core/hooks/factory');
 const validAccessEmpty = require('core/applications/validator/validAccessEmpty');
 const updateMerge = require('./transforms/updateMerge');
+const mapArrIn = require('./transforms/mapArrIn');
 
 
 const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
@@ -21,6 +22,8 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
         find (query, owner, access = Access.ROLE_READ) {
             return new Promise((resolve, reject) => {
+
+                query =  mapArrIn(query);
 
                 const prepared = _.assign({},
                   query,
