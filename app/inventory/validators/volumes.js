@@ -11,6 +11,7 @@ const schema = Joi.object().keys({
     kms_key_id: Joi.string().max(30),
     iops: Joi.string().max(20),
     volume_id: Joi.string().max(30),
+    volume_type: Joi.string().max(50),
     attach_time: Joi.string().max(20),
     state: Joi.string().max(20),
     owner,
