@@ -43,6 +43,11 @@ module.exports = {
         volume_id: Joi.string().max(35),
         unique_id: Joi.string().max(35),
         attach_time: Joi.string().max(30),
+        mount: Joi.string().max(100),
+        ftype: Joi.string().max(100),
+        lvm: Joi.boolean().default(false),
+        pv: Joi.string().max(100),
+        vg: Joi.string().max(100),
         delete_termination: Joi.any()
     }),
     services: Joi.object().keys({
