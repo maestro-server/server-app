@@ -3,7 +3,7 @@
 const _ = require('lodash');
 
 exports.up = function (db, next) {
-    let pets = db.collection('flavors');
+    let pets = db.collection('flavors-public');
 
     const attach = {
         'provider': 'AWS',
@@ -4600,7 +4600,7 @@ exports.up = function (db, next) {
 };
 
 exports.down = function (db, next) {
-    let pets = db.collection('flavors');
+    let pets = db.collection('flavors-public');
 
     pets.deleteMany({provider: 'AWS'}, next);
 };
