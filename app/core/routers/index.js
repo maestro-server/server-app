@@ -6,7 +6,7 @@ module.exports = function (router) {
 
     router.get('/', function (req, res) {
 
-      const api_timeout = process.env.MAESTRO_FRONT_TIMEOUT || 8000;
+      const api_timeout = process.env.MAESTRO_TIMEOUT || 8000;
 
       res.json(
         {
