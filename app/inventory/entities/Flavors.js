@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 const Flavors = require('../repositories/dao/flavors');
 
-const volume = () => {
+const flavors = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'api_name', 'provider', 'datacenters', 'tags'];
 
     const singleFilled = [...resFilled, "memory", "compute_units_ecu", "vcpus", 'unique_id',
@@ -17,12 +17,14 @@ const volume = () => {
         "windows_reserved_cost",  "windows_sql_web_on_demand_cost", "windows_sql_web_reserved_cost",
         "windows_sql_std_on_demand_cost", "windows_sql_std_reserved_cost", "windows_sql_ent_on_demand_cost",
         'service', 'is_public',
-        "windows_sql_ent_reserved_cost", "ebs_optimized_surcharge"];
+        "windows_sql_ent_reserved_cost", "ebs_optimized_surcharge", "roles"];
 
     const filled = [..._.slice(singleFilled, 2)];  // delete id
 
     return {
         name: "flavors",
+
+        access: 'roles',
 
         validators: require('../validators/flavors'),
 
@@ -40,4 +42,4 @@ const volume = () => {
     };
 };
 
-module.exports = volume();
+module.exports = flavors();

@@ -232,6 +232,17 @@
                 ]
             }
         },
+        "router-flavors-public": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [
+                    {
+                        "directory": "path:./inventory/routers/flavors_public"
+                    }
+                ]
+            }
+        },
         "router-playbooks": {
             "priority": 120,
             "module": {
