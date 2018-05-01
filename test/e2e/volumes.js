@@ -24,6 +24,11 @@ describe('e2e volumes', function () {
     let volumes = [{
         name: "Myvolume",
         size: 122,
+        unique_id: "segueb",
+        volume_type: "gps",
+        encrypted: "true",
+        state: "Active",
+        iops: "100/s",
         datacenters: {
             name: "AWS - Base",
             _id: "5a3abbce66cc383cbc8e1282",
@@ -32,7 +37,8 @@ describe('e2e volumes', function () {
         tags: [{key: 'Tager', value: 'ValueTager'}],
     }, {
         name: "MySeconbdvolume",
-        size: 125
+        size: 125,
+        unique_id: "seguea",
     }];
 
     let friend = {
@@ -121,6 +127,8 @@ describe('e2e volumes', function () {
                 .expect(201)
                 .expect(/Myvolume/)
                 .expect(/datacenters/)
+                .expect(/122/)
+                .expect(/segueb/)
                 .expect(/AWS - Base/)
                 .expect(/_id/)
                 .end(function (err) {

@@ -38,7 +38,6 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                     PersistenceServices(Adminer).find({key: 'connections'}, {})
                 ])
                 .then(SchedulerBatch(req)(PersistenceServices).batch)
-                .then(hateaosTransform(Entity).singleTransform)
                 .then(e => res.status(201).json(e))
                 .catch(next);
         },
