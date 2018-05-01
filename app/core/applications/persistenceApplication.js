@@ -40,7 +40,6 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
             let {query, user} = req;
             query =  mapRelationToObjectID(query, Entity.mapRelations);
-            query =  mapArrIn(query);
             query = jsonParser(query, 'query');
 
             PersistenceServices(Entity)
