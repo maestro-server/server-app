@@ -28,7 +28,7 @@ describe('e2e volumes', function () {
         volume_type: "gps",
         encrypted: "true",
         state: "Active",
-        iops: "100/s",
+        iops: 100,
         datacenters: {
             name: "AWS - Base",
             _id: "5a3abbce66cc383cbc8e1282",

@@ -9,7 +9,7 @@ const schema = Joi.object().keys({
     size: Joi.number().required(),
     encrypted: Joi.string().max(30),
     kms_key_id: Joi.string().max(30),
-    iops: Joi.string().max(20),
+    iops: Joi.number(),
     volume_id: Joi.string().max(30),
     volume_type: Joi.string().max(50),
     attach_time: Joi.string().max(20),
