@@ -3,6 +3,8 @@
 const authenticate = require('identity/middlewares/authenticate');
 const Volumes = require('../../entities/Volumes');
 const PersistenceApp = require('core/applications/persistenceApplication')(Volumes);
+const PersistenceAppServers = require('../../applications/persistenceServers')(Volumes);
+
 const AccessApp = require('core/applications/accessApplication')(Volumes);
 
 module.exports = function (router) {
@@ -48,7 +50,7 @@ module.exports = function (router) {
          *        items: []
          *     }
      */
-        .get('/', authenticate(), PersistenceApp.find)
+        .get('/', authenticate(), PersistenceAppServers.find)
         /**
          * @api {get} /volumes/count b. Count total volumes
          * @apiName GetCountVolumes
@@ -107,7 +109,8 @@ module.exports = function (router) {
          * @apiParam (Body x-www) {Number} size Size in GBs
          * @apiParam (Body x-www) {String} [encrypted] Disk is encrypted
          * @apiParam (Body x-www) {String} [volume_id] Id volume
-         * @apiParam (Body x-www) {String} [iops] IOPS
+         * @apiParam (Body x-www) {String} [volume_type] Volume type
+         * @apiParam (Body x-www) {Number} [iops] IOPS
          * @apiParam (Body x-www) {String} [attach_time] Time attachment
          * @apiParam (Body x-www) {Array} [tags List of tags, [Array of Objects]
          * <br/>

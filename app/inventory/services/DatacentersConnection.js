@@ -5,7 +5,6 @@ const Datacenter = require('..//entities/Datacenter');
 
 
 const DatacentersConnection = (result, req, PersistenceServices, Entity) => {
-
     const dc_id = _.get(result, 'dc_id');
 
     return {

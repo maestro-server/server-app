@@ -15,15 +15,15 @@ const WrapperAccessApp = WrapperPersistenceApp()(AccessApp);
 module.exports = function (router) {
 
     router
-    /**
-     * @api {get} /teams/:id/reports sa. List reports for Team
-     * @apiName GetListReports
-     * @apiGroup Teams
-     * @apiDescription Use for teams scope, have be all actions, params and option in /clients,
-     *
-     * @apiParam (Param) {String} id Team unique ID.
-     * @apiParam (Param) {String} idu Server unique ID.
-     */
+        /**
+         * @api {get} /teams/:id/reports sa. List reports for Team
+         * @apiName GetListReports
+         * @apiGroup Teams
+         * @apiDescription Use for teams scope, have be all actions, params and option in /clients,
+         *
+         * @apiParam (Param) {String} id Team unique ID.
+         * @apiParam (Param) {String} idu Server unique ID.
+         */
         .get('/teams/:id/reports', authenticate(), WrapperPersistenceApp()().find)
         /**
          * @api {get} /teams/:id/reports/count sb. Count reports for Team
@@ -37,29 +37,33 @@ module.exports = function (router) {
          * @apiGroup Teams
          */
         .get('/teams/:id/reports/:idu', authenticate(), WrapperPersistenceApp()().findOne)
-        
+        /**
+         * @api {get} /teams/:id/reports/:idu/result sd. Get report data
+         * @apiName GetSingleReportsData
+         * @apiGroup Teams
+         */
         .get('/teams/:id/reports/:idu/result', authenticate(), WrapperPersistenceAppReports('getReport').find)
         /**
-         * @api {put} /teams/:id/reports/:idu sd. Update all reports for Team
+         * @api {put} /teams/:id/reports/:idu se. Update all reports for Team
          * @apiName UpdateSingleListreportsTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/reports/:idu', authenticate(), WrapperPersistenceApp()().update)
         /**
-         * @api {patch} /teams/:id/reports/:idu se. Partial reports for Team
+         * @api {patch} /teams/:id/reports/:idu sf. Partial reports for Team
          * @apiName GetPartialSingleListReportsTeam
          * @apiGroup Teams
          */
         .patch('/teams/:id/reports/:idu', authenticate(), WrapperPersistenceApp()().patch)
 
         /**
-         * @api {delete} /teams/:id/reports/:idu sf. Single reports for Team
+         * @api {delete} /teams/:id/reports/:idu sg. Single reports for Team
          * @apiName DeleteSingleListReportsTeam
          * @apiGroup Teams
          */
         .delete('/teams/:id/reports/:idu', authenticate(), WrapperPersistenceAppReports().remove)
         /**
-         * @api {post} /teams/:id/reports/ sg. Create reports for Team
+         * @api {post} /teams/:id/reports/ sh. Create reports for Team
          * @apiName PostSingleListReportsTeam
          * @apiGroup Teams
          */
@@ -69,25 +73,25 @@ module.exports = function (router) {
          * Roles
          */
         /**
-         * @api {post} /teams/:id/reports/:idu/roles sh. Create access role
+         * @api {post} /teams/:id/reports/:idu/roles si. Create access role
          * @apiName GetSingleListReportsTeam
          * @apiGroup Teams
          */
         .post('/teams/:id/reports/:idu/roles', authenticate(), WrapperAccessApp.create)
         /**
-         * @api {put} /teams/:id/reports/:idu/roles si. Update all access role
+         * @api {put} /teams/:id/reports/:idu/roles sj. Update all access role
          * @apiName GetSingleListReportsTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/reports/:idu/roles', authenticate(), WrapperAccessApp.update)
         /**
-         * @api {put} /teams/:id/reports/:idu/roles/:ida sj. Update access role
+         * @api {put} /teams/:id/reports/:idu/roles/:ida sl. Update access role
          * @apiName GetSingleListReportsTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/reports/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
         /**
-         * @api {delete} /teams/:id/reports/:idu/roles/:ida sl. Delete access role
+         * @api {delete} /teams/:id/reports/:idu/roles/:ida sm. Delete access role
          * @apiName GetSingleListReportsTeam
          * @apiGroup Teams
          */

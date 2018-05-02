@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 
+const Adminer = require('adminer/entities/Adminer');
 const hateaosTransform = require('core/applications/transforms/hateoasTransform');
 const DPersistenceServices = require('core/services/PersistenceServices');
 const aclRoles = require('core/applications/transforms/aclRoles');
@@ -10,6 +11,7 @@ const Access = require('core/entities/accessRole');
 const notExist = require('core/applications/validator/validNotExist');
 const validAccessEmpty = require('core/applications/validator/validAccessEmpty');
 const DatacentersConnection = require('../services/DatacentersConnection');
+const SchedulerBatch = require('../services/SchedulerBatchCreator');
 
 const {DiscoveryHTTPService} = require('core/services/HTTPService');
 
@@ -29,16 +31,18 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                 {owner_user},
                 aclRoles(req.user, Entity, Access.ROLE_ADMIN)
             );
- 
-            PersistenceServices(Entity)
-                .create(bodyWithOwner)
-                .then(DatacentersConnection(req.body, req, PersistenceServices, Entity).connected())
-                .then(hateaosTransform(Entity).singleTransform)
+
+            Promise.all([
+                    PersistenceServices(Entity).create(bodyWithOwner),
+                    DatacentersConnection(req.body, req, PersistenceServices, Entity).connected(),
+                    PersistenceServices(Adminer).find({key: 'connections'}, {})
+                ])
+                .then(SchedulerBatch(req)(PersistenceServices).batch)
                 .then(e => res.status(201).json(e))
                 .catch(next);
         },
 
-        remove (req, res, next) {
+        remove(req, res, next) {
 
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)

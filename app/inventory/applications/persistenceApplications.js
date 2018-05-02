@@ -6,7 +6,7 @@ const DPersistenceServices = require('core/services/PersistenceServices');
 const PersistenceApplication = require('core/applications/persistenceApplication');
 
 const jsonParser = require('core/applications/transforms/jsonParser');
-const filterHooks = require('./transforms/filterHooks');
+const filterHooks = require('core/applications/transforms/filterHooks');
 
 const persistenceApplications = (Entity, PersistenceServices = DPersistenceServices) => {
 

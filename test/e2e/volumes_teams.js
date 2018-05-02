@@ -24,6 +24,7 @@ describe('e2e volumes', function () {
     let volumes = [{
         name: "Myvolume",
         size: 122,
+        unique_id: "seguea",
         datacenters: {
             name: "AWS - Base",
             _id: "5a3abbce66cc383cbc8e1282",
@@ -32,7 +33,8 @@ describe('e2e volumes', function () {
         tags: [{key: 'Tager', value: 'ValueTager'}],
     }, {
         name: "MySeconbdvolume",
-        size: 125
+        size: 125,
+        unique_id: "segueb"
     }];
 
     let friend = {

@@ -6,12 +6,12 @@ const DPersistenceServices = require('core/services/PersistenceServices');
 const PersistenceApplication = require('core/applications/persistenceApplication');
 
 const jsonParser = require('core/applications/transforms/jsonParser');
-const filterHooks = require('./transforms/filterHooks');
+const filterHooks = require('core/applications/transforms/filterHooks');
 
 const ApplicationServers = (Entity, PersistenceServices = DPersistenceServices) => {
 
     return {
-      findServers(req, res, next) {
+      find(req, res, next) {
           const field = 'query';
           let query = _.clone(req.query);
 
