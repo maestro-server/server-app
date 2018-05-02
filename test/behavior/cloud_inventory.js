@@ -325,9 +325,9 @@ describe('behaviors basic actions in cloud inventory', function () {
                 .post('/connections')
                 .send(connections[0])
                 .set('Authorization', `JWT ${user.token}`)
+                .expect(console.log)
                 .expect(201)
                 .expect('Content-Type', /json/)
-                .expect(/_id/)
                 .expect(function (res) {
                     Object.assign(connections[0], res.body);
                 })
@@ -344,7 +344,6 @@ describe('behaviors basic actions in cloud inventory', function () {
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
-                .expect(/_id/)
                 .expect(function (res) {
                     Object.assign(connections[1], res.body);
                 })

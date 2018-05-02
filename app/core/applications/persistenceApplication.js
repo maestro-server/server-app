@@ -14,7 +14,6 @@ const aclRoles = require('./transforms/aclRoles');
 const jsonParser = require('./transforms/jsonParser');
 const mapRelationToObjectID = require('./transforms/mapRelationToObjectID');
 
-
 const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
     return {
@@ -27,6 +26,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
             query = jsonParser(query, 'query');
 
             const {limit, page} = query;
+
 
             PersistenceServices(Entity)
                 .find(query, user)

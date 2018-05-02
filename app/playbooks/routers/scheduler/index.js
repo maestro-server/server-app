@@ -5,7 +5,9 @@ const authenticate = require('identity/middlewares/authenticate');
 const Schedulers = require('../../entities/Scheduler');
 const Team = require('identity/entities/Teams');
 
+const PersistenceAppScheduler = require('../../applications/persistenceScheduler');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Schedulers)(Team);
+const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
@@ -13,63 +15,84 @@ const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 module.exports = function (router) {
 
     router
-        .get('/teams/:id/scheduler', authenticate(), WrapperPersistenceApp()().find)
-
-        .get('/teams/:id/schedules/count', authenticate(), WrapperPersistenceApp()().count)
-
-        .get('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceApp()().findOne)
-
-        .put('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceApp()().update)
-
-        .patch('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceApp()().patch)
-
         /**
-         * @api {delete} /teams/:id/applications/:idu Delete application of team
-         * @apiName Delete Single application of Team
+         * @api {get} /teams/:id/schedules sa. List schedules for Team
+         * @apiName GetListSchedules
          * @apiGroup Teams
+         * @apiDescription Use for teams scope, have be all actions, params and option in /clients,
          *
          * @apiParam (Param) {String} id Team unique ID.
-         * @apiParam (Param) {String} idu Application unique ID.
-         *
-         * @apiPermission JWT
-         * @apiHeader (Auth) {String} Authorization JWT {Token}
-         *
-         * @apiError (Error) PermissionError Token don`t have permission
-         * @apiError (Error) Unauthorized Invalid Token
-         *
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 204 OK
+         * @apiParam (Param) {String} idu Server unique ID.
          */
-        .delete('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceApp()().remove)
-
-        .post('/teams/:id/scheduler', authenticate(), WrapperPersistenceApp()().create)
+        .get('/teams/:id/scheduler', authenticate(), WrapperPersistenceAppDefault.find)
+        /**
+         * @api {get} /teams/:id/schedules/count sb. Count schedules for Team
+         * @apiName GetCountListSchedulesTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/schedules/count', authenticate(), WrapperPersistenceAppDefault.count)
+        /**
+         * @api {get} /teams/:id/schedules/:idu sc. Single schedules for Team
+         * @apiName GetSingleListschedulesTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceAppDefault.findOne)
+        /**
+         * @api {put} /teams/:id/schedules/:idu sd. Update all schedules for Team
+         * @apiName UpdateSingleListschedulesTeam
+         * @apiGroup Teams
+         */
+        .put('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceAppDefault.update)
+        /**
+         * @api {patch} /teams/:id/schedules/:idu se. Partial schedules for Team
+         * @apiName GetPartialSingleListSchedulesTeam
+         * @apiGroup Teams
+         */
+        .patch('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceAppDefault.patch)
+        /**
+         * @api {delete} /teams/:id/schedules/:idu sf. Single schedules for Team
+         * @apiName DeleteSingleListSchedulesTeam
+         * @apiGroup Teams
+         */
+        .delete('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceAppDefault.remove)
+        /**
+         * @api {post} /teams/:id/schedules/ sg. Create schedules for Team
+         * @apiName PostSingleListSchedulesTeam
+         * @apiGroup Teams
+         */
+        .post('/teams/:id/scheduler', authenticate(), WrapperPersistenceAppDefault.create)
+        /**
+         * @api {post} /teams/:id/schedules/ sg. Create schedules for Team
+         * @apiName PostSingleListSchedulesTeam
+         * @apiGroup Teams
+         */
+        .post('/teams/:id/scheduler/template', authenticate(), WrapperPersistenceApp(PersistenceAppScheduler)('createTemplate').create)
 
         /**
          * Roles
          */
-
+        /**
+         * @api {post} /teams/:id/schedules/:idu/roles sh. Create access role
+         * @apiName GetSingleListSchedulesTeam
+         * @apiGroup Teams
+         */
         .post('/teams/:id/scheduler/:idu/roles', authenticate(), WrapperAccessApp.create)
-
+        /**
+         * @api {put} /teams/:id/schedules/:idu/roles si. Update all access role
+         * @apiName GetSingleListSchedulesTeam
+         * @apiGroup Teams
+         */
         .put('/teams/:id/scheduler/:idu/roles', authenticate(), WrapperAccessApp.update)
-
+        /**
+         * @api {put} /teams/:id/schedules/:idu/roles/:ida sj. Update access role
+         * @apiName GetSingleListSchedulesTeam
+         * @apiGroup Teams
+         */
         .put('/teams/:id/scheduler/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
         /**
-         * @api {delete} /teams/:id/projects/:idu Delete role of application team
-         * @apiName Delete Role of application Team
+         * @api {delete} /teams/:id/schedules/:idu/roles/:ida sl. Delete access role
+         * @apiName GetSingleListSchedulesTeam
          * @apiGroup Teams
-         *
-         * @apiParam (Param) {String} id Teams unique ID.
-         * @apiParam (Param) {String} idu Application unique ID.
-         * @apiParam (Param) {String} ida Role unique ID.
-         *
-         * @apiPermission JWT
-         * @apiHeader (Auth) {String} Authorization JWT {Token}
-         *
-         * @apiError (Error) PermissionError Token don`t have permission
-         * @apiError (Error) Unauthorized Invalid Token
-         *
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 204 OK
          */
         .delete('/teams/:id/scheduler/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
 

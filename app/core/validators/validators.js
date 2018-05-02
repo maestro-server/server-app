@@ -41,7 +41,13 @@ module.exports = {
         root: Joi.string().max(10),
         status: Joi.string().max(10),
         volume_id: Joi.string().max(35),
+        unique_id: Joi.string().max(35),
         attach_time: Joi.string().max(30),
+        mount: Joi.string().max(100),
+        ftype: Joi.string().max(100),
+        lvm: Joi.boolean().default(false),
+        pv: Joi.string().max(100),
+        vg: Joi.string().max(100),
         delete_termination: Joi.any()
     }),
     services: Joi.object().keys({
@@ -62,6 +68,22 @@ module.exports = {
         email: Joi.string().email(),
         _id: Joi.object(),
         refs: Joi.string()
+    }),
+    interval: Joi.object({
+        every: Joi.number().max(1024).default(5),
+        period: Joi.string().default('minutes')
+    }),
+    crontab: Joi.object({
+        minute: Joi.any(),
+        hour: Joi.any().default('*'),
+        day_of_week: Joi.any().default('*'),
+        day_of_month: Joi.any().default('*'),
+        month_of_year: Joi.any().default('*')
+    }),
+    chain: Joi.object({
+        _id: Joi.string(),
+        name: Joi.string(),
+        countdown: Joi.number()
     }),
     unique_id: Joi.string().max(100),
     datacenters: Joi.object(),

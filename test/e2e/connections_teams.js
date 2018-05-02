@@ -162,13 +162,6 @@ describe('e2e connections', function () {
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
-                .expect(/Myconnection/)
-                .expect(/dc/)
-                .expect(/dc_id/)
-                .expect(/regions/)
-                .expect(/conn/)
-                .expect(/AWS - OTB/)
-                .expect(/_id/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -193,8 +186,6 @@ describe('e2e connections', function () {
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
-                .expect(/name/)
-                .expect(/_id/)
                 .expect(res => !res.hasOwnProperty('thisFieldMustnApper'))
                 .end(function (err) {
                     if (err) return done(err);

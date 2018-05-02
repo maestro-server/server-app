@@ -3,6 +3,7 @@
 const authenticate = require('identity/middlewares/authenticate');
 const Images = require('../../entities/Images');
 const PersistenceApp = require('core/applications/persistenceApplication')(Images);
+const PersistenceAppServers = require('../../applications/persistenceServers')(Images);
 const AccessApp = require('core/applications/accessApplication')(Images);
 
 module.exports = function (router) {
@@ -48,7 +49,7 @@ module.exports = function (router) {
          *        items: []
          *     }
      */
-        .get('/', authenticate(), PersistenceApp.find)
+        .get('/', authenticate(), PersistenceAppServers.find)
         /**
          * @api {get} /images/count b. Count total apps
          * @apiName GetCountImages

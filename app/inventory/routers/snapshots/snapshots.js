@@ -3,6 +3,7 @@
 const authenticate = require('identity/middlewares/authenticate');
 const Snapshots = require('../../entities/Snapshots');
 const PersistenceApp = require('core/applications/persistenceApplication')(Snapshots);
+const PersistenceAppServers = require('../../applications/persistenceServers')(Snapshots);
 const AccessApp = require('core/applications/accessApplication')(Snapshots);
 
 module.exports = function (router) {
@@ -48,7 +49,7 @@ module.exports = function (router) {
          *        items: []
          *     }
      */
-        .get('/', authenticate(), PersistenceApp.find)
+        .get('/', authenticate(), PersistenceAppServers.find)
         /**
          * @api {get} /snapshots/count b. Count total snapshots
          * @apiName GetTotalSnapshot
