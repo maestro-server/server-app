@@ -2176,7 +2176,7 @@
   {
     "type": "delete",
     "url": "/teams/:id/reports/:idu",
-    "title": "sf. Single reports for Team",
+    "title": "sg. Single reports for Team",
     "name": "DeleteSingleListReportsTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -2278,7 +2278,7 @@
   {
     "type": "patch",
     "url": "/teams/:id/reports/:idu",
-    "title": "se. Partial reports for Team",
+    "title": "sf. Partial reports for Team",
     "name": "GetPartialSingleListReportsTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -2328,7 +2328,17 @@
   {
     "type": "delete",
     "url": "/teams/:id/reports/:idu/roles/:ida",
-    "title": "sl. Delete access role",
+    "title": "sm. Delete access role",
+    "name": "GetSingleListReportsTeam",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/reports/routers/reports/index.js",
+    "groupTitle": "Teams"
+  },
+  {
+    "type": "put",
+    "url": "/teams/:id/reports/:idu/roles",
+    "title": "sj. Update all access role",
     "name": "GetSingleListReportsTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -2338,17 +2348,7 @@
   {
     "type": "post",
     "url": "/teams/:id/reports/:idu/roles",
-    "title": "sh. Create access role",
-    "name": "GetSingleListReportsTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/reports/routers/reports/index.js",
-    "groupTitle": "Teams"
-  },
-  {
-    "type": "put",
-    "url": "/teams/:id/reports/:idu/roles",
-    "title": "si. Update all access role",
+    "title": "si. Create access role",
     "name": "GetSingleListReportsTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -2358,7 +2358,7 @@
   {
     "type": "put",
     "url": "/teams/:id/reports/:idu/roles/:ida",
-    "title": "sj. Update access role",
+    "title": "sl. Update access role",
     "name": "GetSingleListReportsTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -2386,6 +2386,16 @@
     "groupTitle": "Teams"
   },
   {
+    "type": "get",
+    "url": "/teams/:id/reports/:idu/result",
+    "title": "sd. Get report data",
+    "name": "GetSingleReportsData",
+    "group": "Teams",
+    "version": "0.0.0",
+    "filename": "app/reports/routers/reports/index.js",
+    "groupTitle": "Teams"
+  },
+  {
     "type": "post",
     "url": "/teams/:id/events/",
     "title": "sg. Create events for Team",
@@ -2398,7 +2408,7 @@
   {
     "type": "post",
     "url": "/teams/:id/reports/",
-    "title": "sg. Create reports for Team",
+    "title": "sh. Create reports for Team",
     "name": "PostSingleListReportsTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -2418,7 +2428,7 @@
   {
     "type": "put",
     "url": "/teams/:id/reports/:idu",
-    "title": "sd. Update all reports for Team",
+    "title": "se. Update all reports for Team",
     "name": "UpdateSingleListreportsTeam",
     "group": "Teams",
     "version": "0.0.0",
