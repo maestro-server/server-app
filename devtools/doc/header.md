@@ -1,7 +1,7 @@
 Maestro server - Cloud inventory is smart inventory platform, its a database of all information of multi datacenters.
 API Server it`s a component with responsibility for business rules, like authentication, management teams, servers, applications, datacenters and etc.
 ### Sumary:
-| Inventory | Auth, Users and Teams | Configs and services | Reports
+| Inventory | Auth and Users | Configs | Reports
 | ------ | ------ | ------ | ------ |
 | [Servers](../inventory/index.html#api-Servers) | [Me](../identity/index.html#api-Me) | [Adminer](../adminer/index.html#api-Adminer) | |
 | [Applications](../inventory/index.html#api-Applications) | [Users](../identity/index.html#api-Users) | [Services](../adminer/index.html#api-Services) | |
