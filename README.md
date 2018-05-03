@@ -12,7 +12,6 @@ To test out the demo, [Demo Online](http://demo.maestroserver.io "Demo Online")
 ## Documentation ##
 * [UserGuide](http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/inventory.html "User Guide")
 * [API Contract](https://maestro-server.github.io/server-app/docs/inventory/index.html "API Contract")
-* 
 
 # Maestro Server - Server API #
 
