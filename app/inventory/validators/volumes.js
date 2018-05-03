@@ -5,7 +5,7 @@ const {roles, tags, owner, created_at, unique_id, active} = require('core/valida
 
 const schema = Joi.object().keys({
     status: Joi.string().valid('Active', 'Avaliable', 'Stopped').default('Active'),
-    name: Joi.string().min(3).max(30).required(),
+    name: Joi.string().min(3).max(80).required(),
     size: Joi.number().required(),
     encrypted: Joi.string().max(30),
     kms_key_id: Joi.string().max(30),
