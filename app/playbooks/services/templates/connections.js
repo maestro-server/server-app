@@ -29,15 +29,13 @@ const connections = function () {
     return {
         render(data) {
             const {task, _id} = data;
-            const def = process.env.MAESTRO_DISCOVERY_URL || 'http://discovery:5000';
-            _.set(data, 'url_discovery', def);
-
             const interval = _.chain(template)
                 .get('options')
                 .filter((e, k) => k == task)
                 .head()
                 .value();
 
+            data['url_discovery'] = process.env.MAESTRO_DISCOVERY_URL || 'http://discovery:5000';
             const endpoint = _.reduce(data, (result, value, key) => _.replace(result, `<${key}>`, value), _.get(template, 'url'));
             const now = Date.now();
 
