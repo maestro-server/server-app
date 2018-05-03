@@ -29,7 +29,8 @@ const connections = function () {
     return {
         render(data) {
             const {task, _id} = data;
-            _.set(data, 'url_discovery', process.env.MAESTRO_DISCOVERY_URL || 'http://discovery:5000');
+            const def = process.env.MAESTRO_DISCOVERY_URL || 'http://discovery:5000';
+            _.set(data, 'url_discovery', def);
 
             const interval = _.chain(template)
                 .get('options')
