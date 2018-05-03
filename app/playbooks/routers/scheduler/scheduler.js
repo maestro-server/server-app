@@ -27,7 +27,7 @@ module.exports = function (router) {
          * <br/>   "total_run_count": 'search by total runned',
          * <br/>   "max_run_count": 'search by max run allowed'
          * <br/>}
-         *  </code>
+         * </code>
          * </pre>
          * <br/><b>Schedule don´t have modifications, only default regex filter:</b>
          * <br/><i>{alias} = {query into mongodb}</i>
@@ -37,8 +37,9 @@ module.exports = function (router) {
          * @apiParam (Param) {String} [limit=20] Limit result.
          * @apiParam (Param) {String} [page=1] Show result by page.
          * @apiParam (Param) {String} [name] Filter by name (Exacly).
-         * @apiParam (Param) {String} [status] Filter by status (success, error, process, warning).
-         * @apiParam (Param) {String} [context] Filter by context
+         * @apiParam (Param) {String} [task] Filter by task (webhook, connections, jobs).
+         * @apiParam (Param) {String} [period_type] Filter by type (interval, crontab)
+         * @apiParam (Param) {String} [method] Filter by method (get, post, put, delete)
          * @apiParam (Param) {String} [field] Filter by any field with exacly value.
          *
          * @apiPermission JWT
@@ -114,13 +115,32 @@ module.exports = function (router) {
          * @apiGroup Schedules
          *
          * @apiParam (Body x-www) {String} name Name [min 3, max 30]
-         * @apiParam (Body x-www) {String} [description] Description
-         * @apiParam (Body x-www) {String} component Component name [min 3, max 30]
-         * @apiParam (Body x-www) {String} schedule Schedule category (pivot, general)
-         * @apiParam (Body x-www) {Array} [columns] List of columns mapped, used to create view schedule.
-         * @apiParam (Body x-www) {String} [filters] Filters used to generate result
-         * @apiParam (Body x-www) {String} [msg] Foreign id table, used to link with other db collection table
-         * @apiParam (Body x-www) {String} [status] Status (finished, process, error)
+         * @apiParam (Body x-www) {String} task Task (webhook, connections, jobs)
+         * @apiParam (Body x-www) {String} period_type Choose one period (interval, crontab)
+         * @apiParam (Body x-www) {String} method HTTP method (get, post, put, delete)
+         * @apiParam (Body x-www) {Array} [args] Args
+         * <code>[
+         * <br/>   "key": 'name',
+         * <br/>   "value": 'value'
+         * <br/>]
+         * </code>
+         * @apiParam (Body x-www) {Object} [kwargs] Scheduler configuration
+         * @apiParam (Body x-www) {Array} [chain] Chain schedulers
+         * <code>{
+         * <br/>   "name": 'name',
+         * <br/>   "_id": 'id scheduler',
+         * <br/>   "countdown": 'wait time before execute'
+         * <br/>}
+         * </code>
+         * @apiParam (Body x-www) {Object} [link] Detail of Modules
+         * <code>{
+         * <br/>   "name": 'name',
+         * <br/>   "provider": 'provider (AWS)',
+         * <br/>   "_id": 'refs id, used by modules',
+         * <br/>   "task": 'search by task [webhook|connections|jobs]'
+         * <br/>}
+         * </code>
+         * @apiParam (Body x-www) {String} [_cls] Internal Crontoller [PeriodTask]
          *
          * @apiPermission JWT (Write | Admin)
          * @apiHeader (Header) {String} Authorization JWT {Token}
@@ -216,14 +236,42 @@ module.exports = function (router) {
          *     {}
          */
         .delete('/:id', authenticate(), PersistenceApp.remove)
-
+        /**
+         * @api {post} /schedules/template h. Create a template scheduler
+         * @apiName PostTemplateSchedules
+         * @apiGroup Schedules
+         *
+         * @apiParam (Body x-www) {String} name Name [min 3, max 30]
+         * @apiParam (Body x-www) {String} _id Id [Module id]
+         * @apiParam (Body x-www) {String} provider Provider name [AWS, OpenStack]
+         * @apiParam (Body x-www) {String} refs Module name [connections]
+         *
+         * @apiPermission JWT (Write | Admin)
+         * @apiHeader (Header) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) ValidationError Incorrect fields
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 201 OK
+         *     {
+         *        _id: (String)
+         *        created_at: (Datetime)
+         *        updated_at: (Datetime)
+         *        roles: []
+         *        owner: []
+         *        _links: {}
+         *     }
+         */
         .post('/template', authenticate(), PersistenceAppScheduler.createTemplate)
 
         /**
          * Roles
          */
                  /**
-         * @api {post} /schedules/:id/roles/ h. Add access Role
+         * @api {post} /schedules/:id/roles/ i. Add access Role
          * @apiName PostRoleSchedules
          * @apiGroup Schedules
          *
@@ -248,7 +296,7 @@ module.exports = function (router) {
          */
         .post('/:id/roles', authenticate(), AccessApp.create)
         /**
-         * @api {put} /schedules/:id/roles i. Update access role
+         * @api {put} /schedules/:id/roles j. Update access role
          * @apiName PutRoleSchedules
          * @apiGroup Schedules
          * @apiDescription Update all access roles, remember if you don´t send your access, after success you lose the access it´s
@@ -281,7 +329,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/', authenticate(), AccessApp.update)
         /**
-         * @api {put} /schedules/:id/roles/:idu j. Update specific access role
+         * @api {put} /schedules/:id/roles/:idu l. Update specific access role
          * @apiName PutSingleRoleSchedules
          * @apiGroup Schedules
          * @apiDescription Update access level one role to one schedule
@@ -304,7 +352,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/:idu', authenticate(), AccessApp.updateSingle)
         /**
-         * @api {delete} /schedules/:id/roles/:idu l. Delete one role
+         * @api {delete} /schedules/:id/roles/:idu m. Delete one role
          * @apiName DeleteRoleSchedules
          * @apiGroup Schedules
          * @apiDescription Delete unique role.

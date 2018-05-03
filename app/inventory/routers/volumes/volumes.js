@@ -109,7 +109,8 @@ module.exports = function (router) {
          * @apiParam (Body x-www) {Number} size Size in GBs
          * @apiParam (Body x-www) {String} [encrypted] Disk is encrypted
          * @apiParam (Body x-www) {String} [volume_id] Id volume
-         * @apiParam (Body x-www) {String} [iops] IOPS
+         * @apiParam (Body x-www) {String} [volume_type] Volume type
+         * @apiParam (Body x-www) {Number} [iops] IOPS
          * @apiParam (Body x-www) {String} [attach_time] Time attachment
          * @apiParam (Body x-www) {Array} [tags List of tags, [Array of Objects]
          * <br/>
