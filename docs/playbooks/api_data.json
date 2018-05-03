@@ -1162,142 +1162,6 @@
     "groupTitle": "Teams"
   },
   {
-    "type": "delete",
-    "url": "/teams/:id/members/:idu",
-    "title": "Delete member team",
-    "name": "Delete_Single_Member_of_Team",
-    "group": "Teams",
-    "parameter": {
-      "fields": {
-        "Param": [
-          {
-            "group": "Param",
-            "type": "String",
-            "optional": false,
-            "field": "id",
-            "description": "<p>Teams unique ID.</p>"
-          }
-        ]
-      }
-    },
-    "permission": [
-      {
-        "name": "JWT"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Auth": [
-          {
-            "group": "Auth",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>JWT {Token}</p>"
-          }
-        ]
-      }
-    },
-    "error": {
-      "fields": {
-        "Error": [
-          {
-            "group": "Error",
-            "optional": false,
-            "field": "PermissionError",
-            "description": "<p>Token don`t have permission</p>"
-          },
-          {
-            "group": "Error",
-            "optional": false,
-            "field": "Unauthorized",
-            "description": "<p>Invalid Token</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 204 OK",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "app/playbooks/routers/access_manager/access_manager.js",
-    "groupTitle": "Teams"
-  },
-  {
-    "type": "delete",
-    "url": "/teams/:id",
-    "title": "Delete team",
-    "name": "Delete_Single_Team",
-    "group": "Teams",
-    "parameter": {
-      "fields": {
-        "Param": [
-          {
-            "group": "Param",
-            "type": "String",
-            "optional": false,
-            "field": "id",
-            "description": "<p>Teams unique ID.</p>"
-          }
-        ]
-      }
-    },
-    "permission": [
-      {
-        "name": "JWT"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Auth": [
-          {
-            "group": "Auth",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>JWT {Token}</p>"
-          }
-        ]
-      }
-    },
-    "error": {
-      "fields": {
-        "Error": [
-          {
-            "group": "Error",
-            "optional": false,
-            "field": "PermissionError",
-            "description": "<p>Token don`t have permission</p>"
-          },
-          {
-            "group": "Error",
-            "optional": false,
-            "field": "Unauthorized",
-            "description": "<p>Invalid Token</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 204 OK",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "app/playbooks/routers/access_manager/access_manager.js",
-    "groupTitle": "Teams"
-  },
-  {
     "type": "get",
     "url": "/teams/:id/schedules/count",
     "title": "sb. Count schedules for Team",
@@ -1349,16 +1213,6 @@
     "groupTitle": "Teams"
   },
   {
-    "type": "put",
-    "url": "/teams/:id/schedules/:idu/roles/:ida",
-    "title": "sj. Update access role",
-    "name": "GetSingleListSchedulesTeam",
-    "group": "Teams",
-    "version": "0.0.0",
-    "filename": "app/playbooks/routers/scheduler/index.js",
-    "groupTitle": "Teams"
-  },
-  {
     "type": "delete",
     "url": "/teams/:id/schedules/:idu/roles/:ida",
     "title": "sl. Delete access role",
@@ -1369,9 +1223,9 @@
     "groupTitle": "Teams"
   },
   {
-    "type": "post",
-    "url": "/teams/:id/schedules/:idu/roles",
-    "title": "sh. Create access role",
+    "type": "put",
+    "url": "/teams/:id/schedules/:idu/roles/:ida",
+    "title": "sj. Update access role",
     "name": "GetSingleListSchedulesTeam",
     "group": "Teams",
     "version": "0.0.0",
@@ -1389,10 +1243,10 @@
     "groupTitle": "Teams"
   },
   {
-    "type": "get",
-    "url": "/teams/:id/schedules/:idu",
-    "title": "sc. Single schedules for Team",
-    "name": "GetSingleListschedulesTeam",
+    "type": "post",
+    "url": "/teams/:id/schedules/:idu/roles",
+    "title": "sh. Create access role",
+    "name": "GetSingleListSchedulesTeam",
     "group": "Teams",
     "version": "0.0.0",
     "filename": "app/playbooks/routers/scheduler/index.js",
@@ -1400,146 +1254,12 @@
   },
   {
     "type": "get",
-    "url": "/teams/:id",
-    "title": "Get team information",
-    "name": "Get_Single_Team",
+    "url": "/teams/:id/schedules/:idu",
+    "title": "sc. Single schedules for Team",
+    "name": "GetSingleListschedulesTeam",
     "group": "Teams",
-    "parameter": {
-      "fields": {
-        "Param": [
-          {
-            "group": "Param",
-            "type": "String",
-            "optional": false,
-            "field": "id",
-            "description": "<p>Teams unique ID.</p>"
-          }
-        ]
-      }
-    },
-    "permission": [
-      {
-        "name": "JWT"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Auth": [
-          {
-            "group": "Auth",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>JWT {Token}</p>"
-          }
-        ]
-      }
-    },
-    "error": {
-      "fields": {
-        "Error": [
-          {
-            "group": "Error",
-            "optional": false,
-            "field": "PermissionError",
-            "description": "<p>Token don`t have permission</p>"
-          },
-          {
-            "group": "Error",
-            "optional": false,
-            "field": "Unauthorized",
-            "description": "<p>Invalid Token</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"firstname\": \"John\",\n  \"lastname\": \"Doe\"\n}",
-          "type": "json"
-        }
-      ]
-    },
     "version": "0.0.0",
-    "filename": "app/playbooks/routers/access_manager/access_manager.js",
-    "groupTitle": "Teams"
-  },
-  {
-    "type": "get",
-    "url": "/teams/:id",
-    "title": "Get list of yours teams",
-    "name": "Get_Teams",
-    "group": "Teams",
-    "parameter": {
-      "fields": {
-        "Query": [
-          {
-            "group": "Query",
-            "type": "String",
-            "optional": true,
-            "field": "email",
-            "description": "<p>Filter by email.</p>"
-          },
-          {
-            "group": "Query",
-            "type": "String",
-            "optional": true,
-            "field": "name",
-            "description": "<p>Filter by name.</p>"
-          },
-          {
-            "group": "Query",
-            "type": "String",
-            "optional": true,
-            "field": "url",
-            "description": "<p>Filter by url.</p>"
-          }
-        ]
-      }
-    },
-    "permission": [
-      {
-        "name": "JWT"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Auth": [
-          {
-            "group": "Auth",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>JWT {Token}</p>"
-          }
-        ]
-      }
-    },
-    "error": {
-      "fields": {
-        "Error": [
-          {
-            "group": "Error",
-            "optional": false,
-            "field": "Unauthorized",
-            "description": "<p>Invalid Token</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"firstname\": \"John\",\n  \"lastname\": \"Doe\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "version": "0.0.0",
-    "filename": "app/playbooks/routers/access_manager/access_manager.js",
+    "filename": "app/playbooks/routers/scheduler/index.js",
     "groupTitle": "Teams"
   },
   {
