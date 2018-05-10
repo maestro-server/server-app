@@ -30,6 +30,7 @@ const sharedS = {
         _id: Joi.any(),
         task: Joi.string()
     }),
+    msg: Joi.string(),
     roles: Joi.array().items(roles).unique('_id'),
     owner,
     active,
