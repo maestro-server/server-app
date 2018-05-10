@@ -6,6 +6,9 @@
         "title": "API - Maestro Server - Reports",
         "url": "https://localhost:8888/apidocs/v1"
     },
+    "header": {
+        "filename": "devtools/doc/header.md"
+    },
     "order": [
         "Servers",
         "Applications",

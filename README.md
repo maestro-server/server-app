@@ -9,6 +9,10 @@ Maestro Server is an open source software platform for management and discovery 
 ### Demo ###
 To test out the demo, [Demo Online](http://demo.maestroserver.io "Demo Online")
 
+## Documentation ##
+* [UserGuide](http://docs.maestroserver.io/en/latest/userguide/cloud_inventory/inventory.html "User Guide")
+* [API Contract](https://maestro-server.github.io/server-app/docs/inventory/index.html "API Contract")
+
 # Maestro Server - Server API #
 
 Server App is main application, yours responsibility is:
@@ -16,7 +20,6 @@ Server App is main application, yours responsibility is:
  - Authentication and authorization
  - Validate and create entities (crud ops)
  - Proxy to others micro services
- - Unique service can be access by world (besides websocket api)
 
 We using DDD to organize the code, has infra, repositories, entities (values objects), interfaces, application, and domain.
 
@@ -54,13 +57,13 @@ Constructed with KrakenJs, we create a lot of middleware and organize by domain.
 * Maestro Remote Agent
 * Maestro Authenticator
 
-
 ## Setup ##
 
 #### Installation by docker ####
 
 ```bash
-docker run -p 8888:8888 -e "MAESTRO_PORT=8888" -e "MAESTRO_MONGO_URI=mongodb/maestro-client" -e "MAESTRO_DISCOVERY_TIMEOUT=10000" -e "MAESTRO_DISCOVERY_URL=http://discovery:5000" maestroserver/server-maestro
+docker run -p 8888:8888  -e "MAESTRO_MONGO_URI=mongodb/maestro-client" -e "MAESTRO_DISCOVERY_URL=http://discovery:5000" maestroserver/server-maestro 
+maestroserver/server-maestro
 ```
 Or by docker-compose
 
@@ -73,9 +76,7 @@ image: maestroserver/server-maestro
 ports:
 - "8888:8888"
 environment:
-- "MAESTRO_PORT=8888"
 - "MAESTRO_MONGO_URI=mongodb/maestro-client"
-- "MAESTRO_DISCOVERY_TIMEOUT=10000"
 - "MAESTRO_DISCOVERY_URL=http://discovery:5000"
 ```
 
@@ -109,26 +110,31 @@ gulp eslint
 
 ### Env variables ###
 
-| Env Variables                | Example                  | Description                |
-|------------------------------|--------------------------|----------------------------|
-| MAESTRO_PORT                 | 8888                     | NODE_ENV                   |
-| NODE_ENV                     | development|production   |                            |
-| MAESTRO_MONGO_URI            | localhost/maestro-client | DB string connection       |
-| MAESTRO_SECRETJWT            | XXXX                     |                            |
-| MAESTRO_SECRETJWT_FORGOT     | XXXX                     |                            |
-| MAESTRO_SECRET_CRYPTO_FORGOT | XXXX                     |                            |
-| MAESTRO_DISCOVERY_URL        | http://localhost:5000    | Url discovery-app (flask)  |
-| MAESTRO_REPORT_URL           | http://localhost:5005    | Url reports-app (flask)    |
-| SMTP_PORT                    | 1025                     |                            |
-| SMTP_HOST                    | localhost                |                            |
-| SMTP_SENDER                  | felipeklerkk@XXXX        |                            |
-| SMTP_IGNORE                  | true|false               |                            |
-| AWS_ACCESS_KEY_ID            | XXXX                     |                            |
-| AWS_SECRET_ACCESS_KEY        | XXXX                     |                            |
-| AWS_DEFAULT_REGION           | us-east-1                |                            |
-| AWS_S3_BUCKET_NAME           | maestroserver            |                            |
-| MAESTRO_UPLOAD_TYPE          | S3/Local                 | Upload mode                |
-| LOCAL_DIR                    | /public/static/          | Where files willb uploaded |
+| Env Variables                | Example                  | Description                   |
+|------------------------------|--------------------------|-------------------------------|
+| MAESTRO_PORT                 | 8888                     |                               |       
+| NODE_ENV                     | development|production   |                               |       
+| MAESTRO_MONGO_URI            | localhost/maestro-client |  DB string connection         |       
+| MAESTRO_SECRETJWT            | XXXX                     |  Secret key - session         |
+| MAESTRO_SECRETJWT_FORGOT     | XXXX                     |  Secret key - forgot request  |
+| MAESTRO_SECRET_CRYPTO_FORGOT | XXXX                     |  Secret key - forgot content  |
+| MAESTRO_DISCOVERY_URL        | http://localhost:5000    |  Url discovery-app (flask)    |
+| MAESTRO_REPORT_URL           | http://localhost:5005    |  Url reports-app (flask)      |
+| MAESTRO_TIMEOUT              | 1000                     |  Timeout micro service request|
+| SMTP_PORT                    | 1025                     |                               |
+| SMTP_HOST                    | localhost                |                               |
+| SMTP_SENDER                  | felipeklerkk@XXXX        |                               |
+| SMTP_IGNORE                  | true|false               |                               |
+| SMTP_USETSL                  | true|false               |                               |
+| SMTP_USERNAME                |                          |                               |
+| SMTP_PASSWORD                |                          |                               |
+| AWS_ACCESS_KEY_ID            | XXXX                     |                               |
+| AWS_SECRET_ACCESS_KEY        | XXXX                     |                               |
+| AWS_DEFAULT_REGION           | us-east-1                |                               |
+| AWS_S3_BUCKET_NAME           | maestroserver            |                               |
+| MAESTRO_UPLOAD_TYPE          | S3/Local                 |  Upload mode                  |
+| LOCAL_DIR                    | /public/static/          |  Where files will be uploaded |
+| PWD                          | $rootDirectory           |  PWD process                  |
 
 ### Contribute ###
 
