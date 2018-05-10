@@ -21,7 +21,6 @@ const schema = Joi.object().keys({
     auth: Joi.array().items(auth),
     roles: Joi.array().items(roles).unique('_id'),
     tags: Joi.array().items(tags),
-    msg: Joi.string(),
     unique_id,
     datacenters,
     environment,
