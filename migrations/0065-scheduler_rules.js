@@ -16,7 +16,7 @@ exports.up = function (db, next) {
                     name: 'connections',
                     description: 'Polling provider',
                     source: 'discovery-app',
-                    url: `<url_discovery>/crawler/<provider>/<_id>/<task>`,
+                    url: "<url_discovery>/crawler/<provider>/<_id>/<task>",
                     method: 'PUT',
                     options: {
                         'server-list': {
