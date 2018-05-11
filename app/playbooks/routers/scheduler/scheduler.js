@@ -59,7 +59,7 @@ module.exports = function (router) {
              *        items: []
              *     }
          */
-        .get('/', authenticate(), PersistenceApp.find)
+        .get('/', authenticate(), PersistenceAppScheduler.find)
         /**
          * @api {get} /schedules/count b. Count total schedules
          * @apiName Get total schedules.
@@ -91,7 +91,7 @@ module.exports = function (router) {
          *
          * @apiPermission JWT
          * @apiHeader (Auth) {String} Authorization JWT {Token}
-         * 
+         *
          *
          * @apiError (Error) PermissionError Token don`t have permission
          * @apiError (Error) Unauthorized Invalid Token
