@@ -24,7 +24,7 @@ module.exports = function (router) {
          * @apiParam (Param) {String} id Team unique ID.
          * @apiParam (Param) {String} idu Server unique ID.
          */
-        .get('/teams/:id/scheduler', authenticate(), WrapperPersistenceAppDefault.find)
+        .get('/teams/:id/scheduler', authenticate(), WrapperPersistenceApp(PersistenceAppScheduler)().find)
         /**
          * @api {get} /teams/:id/schedules/count sb. Count schedules for Team
          * @apiName GetCountListSchedulesTeam
