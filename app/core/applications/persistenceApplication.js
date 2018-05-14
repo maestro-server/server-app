@@ -27,7 +27,6 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
             const {limit, page} = query;
 
-
             PersistenceServices(Entity)
                 .find(query, user)
                 .then((e) => validNotFound(e, e[1], limit, page))
@@ -39,7 +38,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
         count (req, res, next) {
 
             let {query, user} = req;
-            query =  mapRelationToObjectID(query, Entity.mapRelations);
+            query =  transfID(query, Entity.mapRelations);
             query = jsonParser(query, 'query');
 
             PersistenceServices(Entity)
