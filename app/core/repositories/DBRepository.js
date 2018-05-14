@@ -23,7 +23,6 @@ const DBRepository = (Entity, options = {}) => {
 
                 const filter = findFilledFormat(query, Entity.singleFilled);
 
-
                 return DB
                     .limit(limit)
                     .skip(skip)

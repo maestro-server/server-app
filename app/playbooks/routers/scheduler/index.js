@@ -38,31 +38,37 @@ module.exports = function (router) {
          */
         .get('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceAppDefault.findOne)
         /**
-         * @api {put} /teams/:id/schedules/:idu sd. Update all schedules for Team
+         * @api {get} /teams/:id/schedules/:idu/events sd. Single events of schedules for Team
+         * @apiName GetSingleListEventsSchedulesTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/scheduler/:idu/events', authenticate(), WrapperPersistenceApp(PersistenceAppScheduler)('findOne').find)
+        /**
+         * @api {put} /teams/:id/schedules/:idu se. Update all schedules for Team
          * @apiName UpdateSingleListschedulesTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceAppDefault.update)
         /**
-         * @api {patch} /teams/:id/schedules/:idu se. Partial schedules for Team
+         * @api {patch} /teams/:id/schedules/:idu sf. Partial schedules for Team
          * @apiName GetPartialSingleListSchedulesTeam
          * @apiGroup Teams
          */
         .patch('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceAppDefault.patch)
         /**
-         * @api {delete} /teams/:id/schedules/:idu sf. Single schedules for Team
+         * @api {delete} /teams/:id/schedules/:idu sg. Single schedules for Team
          * @apiName DeleteSingleListSchedulesTeam
          * @apiGroup Teams
          */
         .delete('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceAppDefault.remove)
         /**
-         * @api {post} /teams/:id/schedules/ sg. Create schedules for Team
+         * @api {post} /teams/:id/schedules/ sh. Create schedules for Team
          * @apiName PostSingleListSchedulesTeam
          * @apiGroup Teams
          */
         .post('/teams/:id/scheduler', authenticate(), WrapperPersistenceAppDefault.create)
         /**
-         * @api {post} /teams/:id/schedules/ sg. Create schedules for Team
+         * @api {post} /teams/:id/schedules/ si. Create schedules for Team
          * @apiName PostSingleListSchedulesTeam
          * @apiGroup Teams
          */
@@ -72,25 +78,25 @@ module.exports = function (router) {
          * Roles
          */
         /**
-         * @api {post} /teams/:id/schedules/:idu/roles sh. Create access role
+         * @api {post} /teams/:id/schedules/:idu/roles sj. Create access role
          * @apiName GetSingleListSchedulesTeam
          * @apiGroup Teams
          */
         .post('/teams/:id/scheduler/:idu/roles', authenticate(), WrapperAccessApp.create)
         /**
-         * @api {put} /teams/:id/schedules/:idu/roles si. Update all access role
+         * @api {put} /teams/:id/schedules/:idu/roles sl. Update all access role
          * @apiName GetSingleListSchedulesTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/scheduler/:idu/roles', authenticate(), WrapperAccessApp.update)
         /**
-         * @api {put} /teams/:id/schedules/:idu/roles/:ida sj. Update access role
+         * @api {put} /teams/:id/schedules/:idu/roles/:ida sm. Update access role
          * @apiName GetSingleListSchedulesTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/scheduler/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
         /**
-         * @api {delete} /teams/:id/schedules/:idu/roles/:ida sl. Delete access role
+         * @api {delete} /teams/:id/schedules/:idu/roles/:ida sn. Delete access role
          * @apiName GetSingleListSchedulesTeam
          * @apiGroup Teams
          */

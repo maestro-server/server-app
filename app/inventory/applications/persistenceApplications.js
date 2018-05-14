@@ -18,6 +18,7 @@ const persistenceApplications = (Entity, PersistenceServices = DPersistenceServi
             query = jsonParser(query, field);
 
             query = filterHooks(query, field, [
+                {dest: 'datacenters.name', source: 'datacenters', module: 'swap'},
                 {dest: 'system.name', source: 'lsystem', module: 'swap'},
                 {dest: 'family', source: 'family', module: 'swap'},
                 {dest: 'role.role', source: 'role', module: 'swap'},

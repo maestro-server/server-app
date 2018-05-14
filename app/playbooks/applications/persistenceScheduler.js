@@ -8,6 +8,9 @@ const PersistenceApplication = require('core/applications/persistenceApplication
 const TemplateScheduler = require('../services/templateScheduler');
 const jsonParser = require('core/applications/transforms/jsonParser');
 const filterHooks = require('core/applications/transforms/filterHooks');
+const notExist = require('core/applications/validator/validNotExist');
+
+const SchedulerEvents = require('../services/schedulerEvents');
 
 
 const ApplicationSchedulers = (Entity, PersistenceServices = DPersistenceServices) => {
@@ -26,6 +29,17 @@ const ApplicationSchedulers = (Entity, PersistenceServices = DPersistenceService
             Object.assign(req, { query });
             PersistenceApplication(Entity, PersistenceServices)
                 .find(req, res, next);
+        },
+
+        findEvents(req, res, next) {
+            const {query} = req;
+
+            PersistenceServices(Entity)
+                .findOne(req.params.id, req.user)
+                .then(notExist)
+                .then(SchedulerEvents(query)(PersistenceServices))
+                .then(e => res.json(e))
+                .catch(next);
         },
 
         createTemplate(req, res, next) {

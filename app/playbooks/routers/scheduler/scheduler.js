@@ -110,7 +110,32 @@ module.exports = function (router) {
          */
         .get('/:id', authenticate(), PersistenceApp.findOne)
         /**
-         * @api {post} /schedules/ d. Create single schedule
+         * @api {get} /schedules/:id/events d. Get all events
+         * @apiName Get events of schedule.
+         * @apiGroup Schedules
+         *
+         * @apiParam (Param) {String} id Schedule unique id.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *        _id: (String)
+         *        roles: []
+         *        owner: []
+         *        _links: {}
+         *     }
+         */
+        .get('/:id/events', authenticate(), PersistenceAppScheduler.findEvents)
+        /**
+         * @api {post} /schedules/ e. Create single schedule
          * @apiName PostSchedules
          * @apiGroup Schedules
          *
@@ -189,7 +214,7 @@ module.exports = function (router) {
          */
         .put('/:id', authenticate(), PersistenceApp.update)
         /**
-         * @api {patch} /schedules/:id e. Update schedule
+         * @api {patch} /schedules/:id g. Update schedule
          * @apiName PutSingleSchedules
          * @apiGroup Schedules
          * @apiDescription Use patch to partial update.
@@ -218,7 +243,7 @@ module.exports = function (router) {
          */
         .patch('/:id', authenticate(), PersistenceApp.patch)
         /**
-         * @api {delete} /schedules/:id g. Delete single schedule
+         * @api {delete} /schedules/:id h. Delete single schedule
          * @apiName DeleteSingleSchedules
          * @apiGroup Schedules
          *
@@ -237,7 +262,7 @@ module.exports = function (router) {
          */
         .delete('/:id', authenticate(), PersistenceApp.remove)
         /**
-         * @api {post} /schedules/template h. Create a template scheduler
+         * @api {post} /schedules/template i. Create a template scheduler
          * @apiName PostTemplateSchedules
          * @apiGroup Schedules
          *
@@ -271,7 +296,7 @@ module.exports = function (router) {
          * Roles
          */
                  /**
-         * @api {post} /schedules/:id/roles/ i. Add access Role
+         * @api {post} /schedules/:id/roles/ j. Add access Role
          * @apiName PostRoleSchedules
          * @apiGroup Schedules
          *
@@ -296,7 +321,7 @@ module.exports = function (router) {
          */
         .post('/:id/roles', authenticate(), AccessApp.create)
         /**
-         * @api {put} /schedules/:id/roles j. Update access role
+         * @api {put} /schedules/:id/roles l. Update access role
          * @apiName PutRoleSchedules
          * @apiGroup Schedules
          * @apiDescription Update all access roles, remember if you don´t send your access, after success you lose the access it´s
@@ -329,7 +354,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/', authenticate(), AccessApp.update)
         /**
-         * @api {put} /schedules/:id/roles/:idu l. Update specific access role
+         * @api {put} /schedules/:id/roles/:idu m. Update specific access role
          * @apiName PutSingleRoleSchedules
          * @apiGroup Schedules
          * @apiDescription Update access level one role to one schedule
@@ -352,7 +377,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/:idu', authenticate(), AccessApp.updateSingle)
         /**
-         * @api {delete} /schedules/:id/roles/:idu m. Delete one role
+         * @api {delete} /schedules/:id/roles/:idu n. Delete one role
          * @apiName DeleteRoleSchedules
          * @apiGroup Schedules
          * @apiDescription Delete unique role.

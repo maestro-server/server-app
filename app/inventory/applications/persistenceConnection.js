@@ -3,7 +3,6 @@
 const _ = require('lodash');
 
 const Adminer = require('adminer/entities/Adminer');
-const hateaosTransform = require('core/applications/transforms/hateoasTransform');
 const DPersistenceServices = require('core/services/PersistenceServices');
 const aclRoles = require('core/applications/transforms/aclRoles');
 const tokenGenerator = require('../transforms/tokenTransform');
