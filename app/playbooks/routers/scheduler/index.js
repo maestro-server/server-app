@@ -42,7 +42,7 @@ module.exports = function (router) {
          * @apiName GetSingleListEventsSchedulesTeam
          * @apiGroup Teams
          */
-        .get('/teams/:id/scheduler/:idu/events', authenticate(), WrapperPersistenceApp(PersistenceAppScheduler)('findOne').find)
+        .get('/teams/:id/scheduler/:idu/events', authenticate(), WrapperPersistenceApp(PersistenceAppScheduler)('findEvents').find)
         /**
          * @api {put} /teams/:id/schedules/:idu se. Update all schedules for Team
          * @apiName UpdateSingleListschedulesTeam
