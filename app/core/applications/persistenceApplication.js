@@ -13,6 +13,7 @@ const Access = require('core/entities/accessRole');
 const aclRoles = require('./transforms/aclRoles');
 const jsonParser = require('./transforms/jsonParser');
 const mapRelationToObjectID = require('./transforms/mapRelationToObjectID');
+const {transfID} = require('core/applications/transforms/mapRelationToObjectID');
 
 const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
