@@ -21,9 +21,3 @@ server.listen(process.env.MAESTRO_PORT);
 server.on('listening', function () {
     console.log('Server listening on http://localhost:%d', this.address().port);
 });
-
-process.on('SIGINT', function() {
-    db.stop(function(err) {
-        process.exit(err ? 1 : 0);
-    });
-});
