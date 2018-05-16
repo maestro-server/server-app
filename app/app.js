@@ -7,7 +7,6 @@ const kraken = require('kraken-js');
 
 const db_connect = require('core/libs/db_run');
 const Mongorito = require('mongorito');
-const migrate = require('core/libs/run_migrate');
 
 /*
  * Create and configure application. Also exports application instance for use by tests.
@@ -25,13 +24,6 @@ const options = {
             next(null, config);
             console.log("Mongo online");
         });
-
-        /*
-        If is production, run migrate command and syncronize data
-         */
-        if (process.env.NODE_ENV === 'Production') {
-            migrate();
-        }
     }
 };
 
