@@ -1,9 +1,10 @@
-FROM keymetrics/pm2:6
+FROM keymetrics/pm2:6-alpine
 MAINTAINER maestro@maestroserver.io
 
 # Bundle APP files
 WORKDIR /data
 
+COPY docker-entrypoint.sh /usr/local/bin/
 COPY app/ app/
 COPY templates templates/
 COPY migrations migrations/
@@ -12,8 +13,9 @@ COPY package.json .
 COPY pm2.json .
 COPY server.js .
 
-RUN apk --no-cache add --virtual native-deps g++ gcc libgcc libstdc++ linux-headers make python
+RUN apk --no-cache add --virtual tini native-deps g++ gcc libgcc libstdc++ linux-headers make python
 RUN npm install --only=production
 RUN npm rebuild bcrypt --build-from-source
 
-CMD [ "pm2-docker", "start", "--json", "pm2.json" ]
+ENTRYPOINT ["/sbin/tini","-g","--"]
+CMD ["docker-entrypoint.sh"]
