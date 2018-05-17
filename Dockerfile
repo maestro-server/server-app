@@ -5,11 +5,8 @@ MAINTAINER maestro@maestroserver.io
 WORKDIR /data
 
 COPY docker-entrypoint.sh /usr/local/bin/
-<<<<<<< HEAD
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-=======
->>>>>>> 77d533faf933e1c6564253e3c99c0157050e0bae
 COPY app/ app/
 COPY templates templates/
 COPY migrations migrations/
@@ -18,11 +15,7 @@ COPY package.json .
 COPY pm2.json .
 COPY server.js .
 
-<<<<<<< HEAD
 RUN apk --no-cache add --virtual native-deps g++ gcc libgcc libstdc++ linux-headers make python tini
-=======
-RUN apk --no-cache add --virtual tini native-deps g++ gcc libgcc libstdc++ linux-headers make python
->>>>>>> 77d533faf933e1c6564253e3c99c0157050e0bae
 RUN npm install --only=production
 RUN npm rebuild bcrypt --build-from-source
 
