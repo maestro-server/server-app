@@ -8,7 +8,7 @@ const app = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'name',
     'zones', 'regions', 'provider', 'role', 'metas', 'roles', 'servers_count', 'sucessed'];
 
-    const singleFilled = [...resFilled, 'owner', 'auth'];
+    const singleFilled = [...resFilled, 'owner', 'auth', 'tracker'];
 
     const filled = [..._.slice(singleFilled, 2)]; // delete id
 
