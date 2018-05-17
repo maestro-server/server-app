@@ -47,6 +47,7 @@ jobs:
       if: branch != master
       node_js: 6
       script:
+        - npm version prerelease
         - docker build -f Dockerfile -t $REPO .
         - docker login -u $DOCKER_USER -p $DOCKER_PASS
         - docker tag $REPO $DOCKER_USER/$REPO:$TRAVIS_BRANCH
@@ -56,6 +57,7 @@ jobs:
       if: branch = master
       node_js: 6
       script:
+        - npm version prerelease
         - docker build -f Dockerfile -t $REPO .
         - docker login -u $DOCKER_USER -p $DOCKER_PASS
         - docker tag $REPO $DOCKER_USER/$REPO:latest
