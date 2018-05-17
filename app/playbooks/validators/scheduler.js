@@ -23,6 +23,7 @@ const sharedS = {
     method: Joi.string().valid('GET', 'POST', 'PUT', 'DELETE').default('GET'),
     total_run_count: Joi.number().default(1),
     max_run_count: Joi.number(),
+    run_immediately: Joi.boolean(),
     task: Joi.string().valid('webhook', 'connections', 'jobs').default('webhook'),
     link: Joi.object().keys({
         name: Joi.string().max(50),
