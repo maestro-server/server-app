@@ -45,6 +45,7 @@ const connections = function () {
                 "enabled": true,
                 "period_type": "interval",
                 "task": module,
+                "run_immediately": true,
                 interval,
                 endpoint,
                 link: {
