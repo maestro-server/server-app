@@ -10,7 +10,7 @@ const DatacentersOrphans = (req) => (PersistenceServices) => (data) => {
 
     query = _.defaults(query, {limit: 100}, {page: 1});
     query['dc_id'] = data['_id']
-    query['datacenters.instance_id'] = data['tracker-server-list']
+    query['datacenters.instance_id'] = {'$ne': data['tracker-server-list'] }
 
     const {limit, page} = query;
 
