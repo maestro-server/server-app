@@ -160,15 +160,4 @@ describe('unit - core', function () {
         done();
     });
 
-    it('libs - run migrate', function (done) {
-        const fc = require('core/libs/run_migrate');
-
-        expect(function(){
-            fc({})
-        }).to.not.throw('error');
-        done();
-    });
-
-
-
 });
