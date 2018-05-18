@@ -2,7 +2,6 @@
 
 const _ = require('lodash');
 const Servers = require('../entities/Servers');
-const validNotFound = require('core/applications/validator/validNotFound');
 const hateaosTransform = require('core/applications/transforms/hateoasTransform');
 
 const DatacentersOrphans = (req) => (PersistenceServices) => (data) => {
@@ -14,8 +13,8 @@ const DatacentersOrphans = (req) => (PersistenceServices) => (data) => {
     }
 
     query = _.defaults(query, {limit: 100}, {page: 1});
-    query['dc_id'] = data['_id']
-    query['datacenters.instance_id'] = filter
+    query['dc_id'] = data['_id'];
+    query['datacenters.instance_id'] = filter;
 
     const {limit, page} = query;
 
