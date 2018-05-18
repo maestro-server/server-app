@@ -10,7 +10,6 @@ const ApplicationDatacenters = (Entity, PersistenceServices = DPersistenceServic
 
     return {
         findOrphans(req, res, next) {
-            const {query} = req;
 
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)
