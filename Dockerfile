@@ -15,6 +15,8 @@ COPY package.json .
 COPY pm2.json .
 COPY server.js .
 
+RUN mkdir -p /data/public/static/users/ && mkdir -p /data/public/static/teams/
+
 RUN apk --no-cache add --virtual native-deps g++ gcc libgcc libstdc++ linux-headers make python tini
 RUN npm install --only=production
 RUN npm rebuild bcrypt --build-from-source

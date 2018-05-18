@@ -21,8 +21,6 @@ const DatacentersOrphans = (req) => (PersistenceServices) => (data) => {
     return PersistenceServices(Servers)
         .find(query, user)
         .then((e) => hateaosTransform(Servers).collectionTransform(e[0], e[1], limit, page));
-
-
 };
 
 module.exports = DatacentersOrphans;
