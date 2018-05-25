@@ -6,10 +6,9 @@ exports.up = function (db, next) {
 
     pets.insert({
         "value": {
-            period: ['seconds', 'minutes', 'hours', 'days'],
-            period_type: ['interval', 'crontab'],
+            period: ['seconds', 'minutes', 'hours', 'days', 'weeks'],
+            period_type: ['interval', 'cron'],
             method: ['GET', 'POST', 'PUT', 'DELETE'],
-            kwargs: ['expires', 'max_targets'],
             modules: ['webhook', 'connections'],
             configs: [
                 {
