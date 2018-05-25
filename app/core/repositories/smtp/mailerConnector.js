@@ -20,7 +20,7 @@ const mailerConnector = (Mailer = DMailer) => {
                 smtpValid
             );
         } catch(e) {
-            throw new ResourceError("SMTP Connections not found");
+            console.error("Maestro: SMTP Connections not found, maestro is not able to send any email.");
         }
 
         async(function *() {
