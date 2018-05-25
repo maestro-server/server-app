@@ -2,7 +2,7 @@
 
 const Joi = require('joi');
 
-const {created_at, active, roles, owner, interval, crontab, chain} = require('core/validators/validators');
+const {created_at, active, roles, owner, chain} = require('core/validators/validators');
 
 const createS = {
     name: Joi.string().min(3).max(120).required(),
@@ -14,12 +14,10 @@ const sharedS = {
     endpoint: Joi.string().uri(),
     _cls: Joi.string().default('PeriodicTask'),
     enabled: Joi.boolean().default(true),
-    interval,
-    crontab,
     args: Joi.array().items(Joi.object()),
     kwargs: Joi.object(),
     chain: Joi.array().items(chain),
-    period_type: Joi.string().valid('interval', 'crontab'),
+    period_type: Joi.string().valid('interval', 'cron'),
     method: Joi.string().valid('GET', 'POST', 'PUT', 'DELETE').default('GET'),
     total_run_count: Joi.number().default(1),
     max_run_count: Joi.number(),
@@ -31,6 +29,7 @@ const sharedS = {
         _id: Joi.any(),
         task: Joi.string()
     }),
+    timer: Joi.any(),
     msg: Joi.string(),
     roles: Joi.array().items(roles).unique('_id'),
     owner,
