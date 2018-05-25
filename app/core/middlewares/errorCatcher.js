@@ -22,7 +22,7 @@ module.exports = function () {
         res.status(code).json({err});
 
         if(code === 500) {
-            console.log(err);
+            console.error(err);
         }
         next();
     };

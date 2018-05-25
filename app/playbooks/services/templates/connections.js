@@ -24,7 +24,7 @@ const connections = function () {
                 .pick(['method', 'url', 'options'])
                 .value();
         })
-        .catch(console.log);
+        .catch(console.error);
 
     return {
         render(data) {
