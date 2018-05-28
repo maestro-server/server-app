@@ -87,9 +87,10 @@ exports.up = function (db, next) {
                             'access': 'list_distributions',
                             'command': 'cloudfront',
                             'entity': 'applications',
-                            'result_path': 'DistributionList',
+                            'result_path': 'DistributionList.Items',
+                            'key_comparer': 'unique_id',
                             'vars': [
-                                {'name': 'MaxItems', 'env': 'MAESTRO_SCAN_QTD', 'default': 120, 'type': 'int'}
+                                {'name': 'MaxItems', 'env': 'MAESTRO_SCAN_CDN_QTD', 'default': 100, 'type': 'str'}
                             ],
                             'init_job': true
                         }

@@ -73,12 +73,15 @@ module.exports = {
         every: Joi.number().max(1024).default(5),
         period: Joi.string().default('minutes')
     }),
-    crontab: Joi.object({
-        minute: Joi.any(),
+    cron: Joi.object({
+        second: Joi.any().default(0),
+        minute: Joi.any().default(30),
+        day: Joi.any().default('*'),
         hour: Joi.any().default('*'),
-        day_of_week: Joi.any().default('*'),
-        day_of_month: Joi.any().default('*'),
-        month_of_year: Joi.any().default('*')
+        week: Joi.any().default('*'),
+        month: Joi.any().default('*'),
+        year: Joi.any().default('*'),
+        day_of_week: Joi.any().default('*')
     }),
     chain: Joi.object({
         _id: Joi.string(),
