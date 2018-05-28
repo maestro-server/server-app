@@ -40,7 +40,7 @@ const sharedS = {
 };
 
 module.exports = {
-    create: Joi.object().keys(Object.assign({}, sharedS, createS)).xor('interval', 'crontab'),
+    create: Joi.object().keys(Object.assign({}, sharedS, createS)).xor('interval', 'cron'),
     update: Joi.object().keys(sharedS),
     delete: {},
     list: {}
