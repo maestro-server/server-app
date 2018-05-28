@@ -101,7 +101,7 @@ exports.up = function (db, next) {
         {name: 'Netflix (Hystrix/Zuul)', family: ['ApiGateway'], tags: ['jvm', 'oss'], owner: false},
 
 
-        {name: 'CloundFront (AWS)', family: ['CDN'], tags: ['aws'], owner: true},
+        {name: 'CloudFront (AWS)', family: ['CDN'], tags: ['aws'], owner: true},
         {name: 'Azure CDN', family: ['CDN'], tags: ['azure'], owner: true},
         {name: 'MaxCDN', family: ['CDN'], tags: [], owner: true},
         {name: 'Aryaka', family: ['CDN'], tags: [], owner: true},
