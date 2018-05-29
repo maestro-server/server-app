@@ -21,11 +21,10 @@ module.exports = function (router) {
          * <pre class="prettyprint language-json" data-type="json">
          * <code>{
          * <br/>   "name": 'search by name',
-         * <br/>   "period_type": 'search by type [interval|crontab]',
+         * <br/>   "period_type": 'search by type [interval|cron]',
          * <br/>   "method": 'search by method used [GET|POST|PUT|DELETE]',
          * <br/>   "task": 'search by task [webhook|connections|jobs]',
          * <br/>   "total_run_count": 'search by total runned',
-         * <br/>   "max_run_count": 'search by max run allowed'
          * <br/>}
          * </code>
          * </pre>
@@ -38,7 +37,7 @@ module.exports = function (router) {
          * @apiParam (Param) {String} [page=1] Show result by page.
          * @apiParam (Param) {String} [name] Filter by name (Exacly).
          * @apiParam (Param) {String} [task] Filter by task (webhook, connections, jobs).
-         * @apiParam (Param) {String} [period_type] Filter by type (interval, crontab)
+         * @apiParam (Param) {String} [period_type] Filter by type (interval, cron)
          * @apiParam (Param) {String} [method] Filter by method (get, post, put, delete)
          * @apiParam (Param) {String} [field] Filter by any field with exacly value.
          *
@@ -141,7 +140,7 @@ module.exports = function (router) {
          *
          * @apiParam (Body x-www) {String} name Name [min 3, max 30]
          * @apiParam (Body x-www) {String} task Task (webhook, connections, jobs)
-         * @apiParam (Body x-www) {String} period_type Choose one period (interval, crontab)
+         * @apiParam (Body x-www) {String} period_type Choose one period (interval, cron)
          * @apiParam (Body x-www) {String} method HTTP method (get, post, put, delete)
          * @apiParam (Body x-www) {Array} [args] Args
          * <code>[
