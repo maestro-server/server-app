@@ -57,7 +57,11 @@ exports.up = function (db, next) {
                         'network-list': {
                             every: 7,
                             period: 'days'
-                        }
+                        },
+                        'flavor-list': {
+                            every: 14,
+                            period: 'days'
+                        },
                     }
                 },
                 {
