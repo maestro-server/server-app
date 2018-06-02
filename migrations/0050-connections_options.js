@@ -232,7 +232,8 @@ exports.up = function (db, next) {
                             'single_result_path': '',
                             'key_comparer': 'datacenters.instance_id',
                             'vars': [
-                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'},
+                                {'name': 'details', 'env': 'MAESTRO_OPENSTACK_DETAILS', 'default': true, 'type': 'bool'}
                             ],
                             'init_job': true
                         }
