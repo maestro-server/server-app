@@ -4,12 +4,20 @@ const _ = require('lodash');
 const Servers = require('../entities/Servers');
 const hateaosTransform = require('core/applications/transforms/hateoasTransform');
 
+
+
 const DatacentersOrphans = (req) => (PersistenceServices) => (data) => {
     let {query, user} = req;
     let filter = [];
 
-    if (data['tracker-server-list'] && _.isArray(data['tracker-server-list'])) {
-        filter = {$nin: data['tracker-server-list']};
+    const ips = _.chain(data)
+        .get('tracker.server-list', [])
+        .reduce((arr, value) =>  _.concat(arr, value), [])
+        .uniq()
+        .value();
+
+    if (ips && _.isArray(ips)) {
+        filter = {$nin: ips};
     }
 
     query = _.defaults(query, {limit: 100}, {page: 1});

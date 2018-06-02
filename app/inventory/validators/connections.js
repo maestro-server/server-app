@@ -15,6 +15,8 @@ const schema = Joi.object().keys({
     provider: Joi.string().max(30).required(),
     regions: Joi.array().unique().required(),
     dc_id: Joi.string().max(250).required(),
+    user_domain_id: Joi.string().max(250),
+    api_version: Joi.string().max(5),
     owner,
     owner_user: roles,
     process: Joi.any(),
