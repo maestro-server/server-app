@@ -60,7 +60,7 @@ module.exports = function (router) {
          * @apiName DeleteSingleListSchedulesTeam
          * @apiGroup Teams
          */
-        .delete('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceAppDefault.remove)
+        .delete('/teams/:id/scheduler/:idu', authenticate(), WrapperPersistenceApp(PersistenceAppScheduler)().remove)
         /**
          * @api {post} /teams/:id/schedules/ sh. Create schedules for Team
          * @apiName PostSingleListSchedulesTeam
