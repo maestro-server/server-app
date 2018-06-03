@@ -154,11 +154,12 @@ const DBRepository = (Entity, options = {}) => {
 
         },
 
-        remove(filter) {
+        remove(filter, data = {}) {
             return new Promise((resolve, reject) => {
-                const data = activeTransform.desactive();
+                const desactive = activeTransform.desactive();
+                const ndata = _.assign(data, desactive)
 
-                return new DB(data)
+                return new DB(ndata)
                     .updateAndModify(filter)
                     .then(validAccessUpdater)
                     .then(resolve)

@@ -259,7 +259,7 @@ module.exports = function (router) {
          *     HTTP/1.1 204 OK
          *     {}
          */
-        .delete('/:id', authenticate(), PersistenceApp.remove)
+        .delete('/:id', authenticate(), PersistenceAppScheduler.remove)
         /**
          * @api {post} /schedules/template i. Create a template scheduler
          * @apiName PostTemplateSchedules

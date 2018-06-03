@@ -48,6 +48,17 @@ const ApplicationSchedulers = (Entity, PersistenceServices = DPersistenceService
 
             PersistenceApplication(Entity, PersistenceServices)
                 .create(req, res, next);
+        },
+
+        remove (req, res, next) {
+            const data = {
+                crawling: true
+            }
+
+            PersistenceServices(Entity)
+                .remove(req.params.id, req.user, data)
+                .then(e => res.status(204).json(e))
+                .catch(next);
         }
     };
 };

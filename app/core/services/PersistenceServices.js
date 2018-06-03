@@ -120,14 +120,14 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
             });
         },
 
-        remove(_id, owner, access = Access.ROLE_ADMIN) {
+        remove(_id, owner, body = {}, access = Access.ROLE_ADMIN) {
 
             return new Promise((resolve, reject) => {
                 const entityHooks = hookFactory(Entity);
                 const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
-                    .remove(prepared)
+                    .remove(prepared, body)
                     .then(entityHooks('after_delete'))
                     .then(resolve)
                     .catch(reject);
