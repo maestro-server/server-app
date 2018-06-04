@@ -31,7 +31,7 @@ const DatacentersConnection = (result, req, PersistenceServices, Entity) => {
                     .then(e => {
                         const merge = _.assign({}, dc, {sucessed});
                         if (_.head(e).length <= 1)
-                            PersistenceServices(Datacenter).patch(dc_id, merge, req.user);
+                            return PersistenceServices(Datacenter).patch(dc_id, merge, req.user);
                     })
                     .then(resolve)
                     .catch(reject);

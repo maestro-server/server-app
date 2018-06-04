@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const {Model} = require('mongorito');
 
 const bcrypt = require('bcrypt');
@@ -26,26 +27,31 @@ class Dao extends Model {
     }
 
     updateFull(filter, options) {
+        const opts = _.get(options, 'oUpdater', '');
+        const opp = `update${opts}Factory`;
         this.set('updated_at', new Date());
-        return this.updateFactory(filter, null, options);
+
+        return this[opp](filter, null, options);
     }
 
     updateAndModify(filter, options) {
+        const opts = _.get(options, 'oUpdater', '');
+        const opp = `update${opts}Factory`;
         this.set('updated_at', new Date());
 
-        return this.updateFactory(filter, '$set', options);
+        return this[opp](filter, '$set', options);
     }
 
     updateByPushUnique(filter, options) {
-        const {oUpdater} = options;
-        const opp = `update${oUpdater||''}Factory`;
+        const opts = _.get(options, 'oUpdater', '');
+        const opp = `update${opts}Factory`;
 
         return this[opp](filter, '$addToSet', options);
     }
 
     updateByPull(filter, options) {
-        const {oUpdater} = options;
-        const opp = `update${oUpdater||''}Factory`;
+        const opts = _.get(options, 'oUpdater', '');
+        const opp = `update${opts}Factory`;
 
         return this[opp](filter, '$pull', options);
     }

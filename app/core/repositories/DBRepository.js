@@ -160,7 +160,7 @@ const DBRepository = (Entity, options = {}) => {
                 const ndata = _.assign(data, desactive)
 
                 return new DB(ndata)
-                    .updateAndModify(filter)
+                    .updateAndModify(filter, options)
                     .then(validAccessUpdater)
                     .then(resolve)
                     .catch(reject);
