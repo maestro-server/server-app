@@ -11,6 +11,7 @@ const notExist = require('core/applications/validator/validNotExist');
 const validAccessEmpty = require('core/applications/validator/validAccessEmpty');
 const DatacentersConnection = require('../services/DatacentersConnection');
 const SchedulerBatch = require('../services/SchedulerBatchCreator');
+const SchedulerBatchRemove = require('../services/SchedulerBatchRemove');
 
 const {DiscoveryHTTPService} = require('core/services/HTTPService');
 
@@ -47,7 +48,9 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                 .findOne(req.params.id, req.user)
                 .then(validAccessEmpty)
                 .then(e => DatacentersConnection(e, req, PersistenceServices, Entity).disconnected())
+                .then(() => SchedulerBatchRemove(req)(PersistenceServices).batch())
                 .then(() => PersistenceServices(Entity).remove(req.params.id, req.user))
+                .then(console.log)
                 .then(e => res.status(204).json(e))
                 .catch(next);
         },
