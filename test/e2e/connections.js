@@ -58,10 +58,11 @@ describe('e2e connections', function () {
 
     before(function (done) {
         cleaner_db([{tb: 'users'}, {tb: 'connections'}, {tb: 'schedulers'}, {tb: 'adminer'}], () => {
-            insert_adminer();
-            app = require('./libs/bootApp')();
-            app.once('start', done);
-            mock = app.listen(1341);
+            insert_adminer(() => {
+                app = require('./libs/bootApp')();
+                app.once('start', done);
+                mock = app.listen(1341);
+            });
         }, null);
     });
 
@@ -134,6 +135,7 @@ describe('e2e connections', function () {
                 .post('/connections')
                 .send(connections[0])
                 .set('Authorization', `JWT ${user.token}`)
+                .expect((e) => console.log(e.text))
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .end(function (err) {

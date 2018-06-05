@@ -12,7 +12,7 @@ const connections = function () {
 
     co(function* () {
         return yield PersistenceServices(Adminer)
-            .find({key: 'scheduler_options'}, {})
+            .find({key: 'scheduler_options'}, {});
         })
         .then(e => {
             template = _.chain(e)
@@ -36,9 +36,10 @@ const connections = function () {
                 .value();
 
             data['url_discovery'] = process.env.MAESTRO_DISCOVERY_URL || 'http://discovery:5000';
+            console.log(template)
             const endpoint = _.reduce(data, (result, value, key) => _.replace(result, `<${key}>`, value), _.get(template, 'url'));
             const now = Date.now();
-
+            console.log(endpoint)
             return {
                 "name": `${module} - ${task} - ${_id} (${now})`,
                 "method": _.get(template, 'method'),

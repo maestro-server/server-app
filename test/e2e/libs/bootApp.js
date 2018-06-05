@@ -10,25 +10,28 @@ const Mongorito = require('mongorito');
 
 const path = require('path');
 
+
 module.exports = function (conn = process.env.MAESTRO_MONGO_URI) {
-  let options = {
-    basedir: path.resolve(__dirname, '../../../app/'),
-      onconfig: function (config, next) {
-          db_connect(function *() {
-              yield Mongorito.connect(conn);
-              next(null, config);
-          });
-      }
-  };
 
-  let app = express();
+    let options = {
+        basedir: path.resolve(__dirname, '../../../app/'),
+        onconfig: function (config, next) {
+            db_connect(function* () {
+                yield Mongorito.connect(conn);
+                next(null, config);
+            });
+        }
+    };
 
-  app.use(kraken(options));
+    let app = express();
 
-  app.on('start', function () {
-      console.log('Application ready to serve requests.');
-      console.log('Environment: %s', app.kraken.get('env:env'));
-  });
+    app.use(kraken(options));
 
-  return app;
+    app.on('start', function () {
+        console.log('Application ready to serve requests.');
+        console.log('Environment: %s', app.kraken.get('env:env'));
+    });
+
+
+    return app;
 };
