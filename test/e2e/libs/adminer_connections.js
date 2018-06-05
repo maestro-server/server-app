@@ -65,7 +65,7 @@ module.exports = function (done, conn = process.env.MAESTRO_MONGO_URI) {
                     "active": true,
                     "updated_at": new Date()
                 }
-            ]
+            ];
 
             pets.insertMany(data, done);
         });

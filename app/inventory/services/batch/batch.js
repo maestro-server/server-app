@@ -9,8 +9,8 @@ const mapRelationToObjectID = require('core/applications/transforms/mapRelationT
 const TemplateScheduler = require('playbooks/services/templateScheduler');
 
 
-const mapperBatchInsert = (body, req, PersistenceServices) => {
-    const template = TemplateScheduler().template(body);
+const mapperBatchInsert = async (body, req, PersistenceServices) => {
+    const template = await TemplateScheduler().template(body);
 
     const bodyWithOwner = Object.assign(
         {},
