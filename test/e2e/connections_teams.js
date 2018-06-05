@@ -4,6 +4,7 @@ require('dotenv').config({path: '.env.test'});
 let chai = require('chai'),
     request = require('supertest'),
     cleaner_db = require('./libs/cleaner_db'),
+    insert_adminer = require('./libs/adminer_connections'),
     {expect} = chai,
     jwt = require('jwt-simple'),
     _ = require('lodash');
@@ -37,7 +38,7 @@ describe('e2e connections', function () {
         dc: "OpenStack - OTB",
         dc_id: "5a3a8b82fe024f38804b3675",
         regions: ["br-east"],
-        provider: "Openstack",
+        provider: "AWS",
         project: "br-sp1",
         url: "keystone-url",
         conn: {
@@ -66,7 +67,8 @@ describe('e2e connections', function () {
     }];
 
     before(function (done) {
-        cleaner_db([{tb: 'users'}, {tb: 'connections'}, {tb: 'teams'}], () => {
+        cleaner_db([{tb: 'users'}, {tb: 'connections'}, {tb: 'schedulers'}, {tb: 'adminer'}], () => {
+            insert_adminer();
             app = require('./libs/bootApp')();
 
             app.once('start', done);
@@ -399,6 +401,23 @@ describe('e2e connections', function () {
                 .get(`/teams/${teams._id}/connections/autocomplete`)
                 .query({complete: "second"})
                 .expect(401)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('list my schedulers', function (done) {
+            request(mock)
+                .get(`/teams/${teams._id}/scheduler`)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .expect(/server-list/)
+                .expect(/found/)
+                .expect(function (res) {
+                    expect(res.body.items).to.have.length(2);
+                })
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -785,6 +804,7 @@ describe('e2e connections', function () {
             request(mock)
                 .delete(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
+                .expect(e=>console.log(e.text))
                 .expect(204)
                 .end(function (err) {
                     if (err) return done(err);
@@ -800,6 +820,22 @@ describe('e2e connections', function () {
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
+                .expect(function (res) {
+                    expect(res.body.items).to.have.length(1);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('confirm to delete my schedulers', function (done) {
+            request(mock)
+                .get(`/teams/${teams._id}/scheduler/`)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .expect(/found/)
                 .expect(function (res) {
                     expect(res.body.items).to.have.length(1);
                 })
