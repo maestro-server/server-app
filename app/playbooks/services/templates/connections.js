@@ -6,16 +6,22 @@ const Adminer = require('adminer/entities/Adminer');
 
 const co = require('co');
 
+
 const connections = function () {
     const module = 'connections';
     let template = {};
 
-    co(function* () {
-        return yield PersistenceServices(Adminer)
-            .find({key: 'scheduler_options'}, {});
-        })
-        .then(e => {
-            template = _.chain(e)
+    let aa = function() {
+        return PersistenceServices(Adminer).find({key: 'scheduler_options'}, {});
+    }
+
+
+
+    return {
+        async render(data) {
+            let  response = await aa()
+
+            template = _.chain(response)
                 .head()
                 .head()
                 .get('value.configs')
@@ -23,11 +29,8 @@ const connections = function () {
                 .head()
                 .pick(['method', 'url', 'options'])
                 .value();
-        })
-        .catch(console.error);
 
-    return {
-        render(data) {
+            console.log(response)
             const {task, _id} = data;
             const interval = _.chain(template)
                 .get('options')
