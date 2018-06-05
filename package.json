@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "server": "nodemon -L server.js",
-    "test": "mocha test/**/*js --reporter spec",
+    "test": "mocha test/**/*js --timeout 5000 --reporter spec",
     "e2e": "gulp test_e2e",
     "unit": "gulp test_unit",
     "lint": "gulp eslint",

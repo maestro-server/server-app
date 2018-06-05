@@ -4,24 +4,16 @@ const _ = require('lodash')
 const PersistenceServices = require('core/services/PersistenceServices');
 const Adminer = require('adminer/entities/Adminer');
 
-const co = require('co');
-
-
 const connections = function () {
     const module = 'connections';
-    let template = {};
+    let template = null;
 
-    let aa = function() {
-        return PersistenceServices(Adminer).find({key: 'scheduler_options'}, {});
-    }
+    const populate = async function () {
+        try {
+            const res = await PersistenceServices(Adminer)
+            .find({key: 'scheduler_options'}, {});
 
-
-
-    return {
-        async render(data) {
-            let  response = await aa()
-
-            template = _.chain(response)
+            return _.chain(res)
                 .head()
                 .head()
                 .get('value.configs')
@@ -29,8 +21,17 @@ const connections = function () {
                 .head()
                 .pick(['method', 'url', 'options'])
                 .value();
+        } catch(e) {
+            console.log(e);
+        }
+    }
+    
 
-            console.log(response)
+    return {
+        async render(data) {
+            if (!template)
+                template = await populate();
+
             const {task, _id} = data;
             const interval = _.chain(template)
                 .get('options')
@@ -39,10 +40,10 @@ const connections = function () {
                 .value();
 
             data['url_discovery'] = process.env.MAESTRO_DISCOVERY_URL || 'http://discovery:5000';
-            console.log(template)
+
             const endpoint = _.reduce(data, (result, value, key) => _.replace(result, `<${key}>`, value), _.get(template, 'url'));
             const now = Date.now();
-            console.log(endpoint)
+
             return {
                 "name": `${module} - ${task} - ${_id} (${now})`,
                 "method": _.get(template, 'method'),
