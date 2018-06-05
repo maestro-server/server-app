@@ -804,7 +804,6 @@ describe('e2e connections', function () {
             request(mock)
                 .delete(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(e=>console.log(e.text))
                 .expect(204)
                 .end(function (err) {
                     if (err) return done(err);
