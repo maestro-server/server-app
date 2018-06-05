@@ -50,7 +50,6 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                 .then(e => DatacentersConnection(e, req, PersistenceServices, Entity).disconnected())
                 .then(() => SchedulerBatchRemove(req)(PersistenceServices).batch())
                 .then(() => PersistenceServices(Entity).remove(req.params.id, req.user))
-                .then(console.log)
                 .then(e => res.status(204).json(e))
                 .catch(next);
         },
