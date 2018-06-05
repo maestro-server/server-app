@@ -68,11 +68,11 @@ describe('e2e connections', function () {
 
     before(function (done) {
         cleaner_db([{tb: 'users'}, {tb: 'connections'}, {tb: 'schedulers'}, {tb: 'adminer'}], () => {
-            insert_adminer();
-            app = require('./libs/bootApp')();
-
-            app.once('start', done);
-            mock = app.listen(1341);
+            insert_adminer(() => {
+                app = require('./libs/bootApp')();
+                app.once('start', done);
+                mock = app.listen(1341);
+            });
         }, null);
     });
 
@@ -804,6 +804,7 @@ describe('e2e connections', function () {
             request(mock)
                 .delete(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
+
                 .expect(204)
                 .end(function (err) {
                     if (err) return done(err);
