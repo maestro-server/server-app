@@ -3,10 +3,10 @@
 const _ = require('lodash');
 let MongoClient = require("mongodb").MongoClient;
 
-module.exports = function (table='adminer', done, conn = process.env.MAESTRO_MONGO_URI) {
+module.exports = function (done, conn = process.env.MAESTRO_MONGO_URI) {
     MongoClient.connect('mongodb://'+conn)
         .then((db) => {
-            let pets = db.collection(table);
+            let pets = db.collection('adminer');
 
             const data = [
                 {
