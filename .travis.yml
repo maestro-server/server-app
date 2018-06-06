@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '6'
+  - '8'
 addons:
   apt:
     sources:
@@ -31,7 +31,7 @@ before_script:
 jobs:
   include:
     - stage: test
-      node_js: 6
+      node_js: 8
       script:
         - npm run test
 
@@ -42,10 +42,10 @@ jobs:
         - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
         - cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage -p .
         - cat ./coverage/lcov.info | ./node_modules/.bin/codeclimate-test-reporter
-        
+
     - stage: build docker image - base
       if: branch != master
-      node_js: 6
+      node_js: 9
       script:
         - npm version prerelease
         - docker build -f Dockerfile -t $REPO .
@@ -55,7 +55,7 @@ jobs:
 
     - stage: build docker image - latest
       if: branch = master
-      node_js: 6
+      node_js: 8
       script:
         - npm version prerelease
         - docker build -f Dockerfile -t $REPO .
