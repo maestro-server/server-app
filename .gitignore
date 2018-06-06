@@ -9,7 +9,7 @@ node_modules
 docs/*
 npm-debug*
 coverage/
-.package-lock.json
+package-lock.json
 public/static/users
 public/static/teams
 public/static/company
