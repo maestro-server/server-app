@@ -10,7 +10,14 @@ const TemplateScheduler = require('playbooks/services/templateScheduler');
 
 
 const mapperBatchInsert = async (body, req, PersistenceServices) => {
-    const template = await TemplateScheduler().template(body);
+    let template = []
+
+    try {
+        template = await TemplateScheduler().template(body);
+    } catch(e) {
+        console.log(e);
+    }
+
 
     const bodyWithOwner = Object.assign(
         {},
