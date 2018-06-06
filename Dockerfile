@@ -1,4 +1,4 @@
-FROM keymetrics/pm2:6-alpine
+FROM keymetrics/pm2:8-alpine
 MAINTAINER maestro@maestroserver.io
 
 # Bundle APP files
