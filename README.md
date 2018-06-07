@@ -60,8 +60,7 @@ Constructed with KrakenJs, we create a lot of middleware and organize by domain.
 #### Installation by docker ####
 
 ```bash
-docker run -p 8888:8888  -e "MAESTRO_MONGO_URI=mongodb/maestro-client" -e "MAESTRO_DISCOVERY_URL=http://discovery:5000" maestroserver/server-maestro 
-maestroserver/server-maestro
+docker run -p 8888:8888  -e "MAESTRO_MONGO_URI=mongodb/maestro-client" -e "MAESTRO_DISCOVERY_URI=http://discovery:5000" -e "MAESTRO_REPORT_URI=http://reports:5005" maestroserver/server-maestro
 ```
 Or by docker-compose
 
@@ -69,13 +68,14 @@ Or by docker-compose
 version: '2'
 
 services:
-server:
-image: maestroserver/server-maestro
-ports:
-- "8888:8888"
-environment:
-- "MAESTRO_MONGO_URI=mongodb/maestro-client"
-- "MAESTRO_DISCOVERY_URI=http://discovery:5000"
+    server:
+    image: maestroserver/server-maestro
+    ports:
+    - "8888:8888"
+    environment:
+    - "MAESTRO_MONGO_URI=mongodb/maestro-client"
+    - "MAESTRO_DISCOVERY_URI=http://discovery:5000"
+    - "MAESTRO_REPORT_URI=http://reports:5005"
 ```
 
 #### Dev Env ####
@@ -93,6 +93,8 @@ Configure database and port application in .env file
 ```bash
 MAESTRO_PORT=8888
 MAESTRO_MONGO_URI='localhost/maestro-client'
+MAESTRO_DISCOVERY_URI=http://localhost:5000 // used in connection
+MAESTRO_REPORT_URI=http://localhost:5005 // used in reports
 ```
 
 Development
