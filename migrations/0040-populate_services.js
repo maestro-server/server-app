@@ -332,11 +332,13 @@ exports.up = function (db, next) {
         {name: 'Prolog', family: ['Application'], tags: ['language'], owner: false},
         {name: 'Python', family: ['Application'], tags: ['language'], owner: false},
         {name: 'Python (Jpython)', family: ['Application'], tags: ['language'], owner: false},
-        {name: 'Python (Cpython)', family: ['Application'], tags: ['language'], owner: false},
         {name: 'C#', family: ['Application'], tags: ['language'], owner: false},
         {name: 'Rusty', family: ['Application'], tags: ['language'], owner: false},
         {name: 'OpenJDK (Java)', family: ['Application'], tags: ['language'], owner: false},
         {name: 'Oracle JDK (Java)', family: ['Application'], tags: ['oracle'], owner: false},
+        {name: 'JavaScript', family: ['Application'], tags: [], owner: false},
+        {name: 'JavaScript (Single Page Application)', family: ['Application'], tags: [], owner: false},
+        {name: '.NET Framework', family: ['Application'], tags: [], owner: false},
 
 
         {name: 'Ansible', tags: ['config-manager'], owner: false},
