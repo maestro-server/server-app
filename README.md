@@ -47,15 +47,13 @@ Constructed with KrakenJs, we create a lot of middleware and organize by domain.
 
 ## TechStack ##
 
-* NodeJs 6.10
+* NodeJs 8.11.2
 * MongoDB 3.4
 * AWS S3 (If using S3 upload)
 
 ## Service relations ##
 * Maestro Discovery
 * Maestro Reports
-* Maestro Remote Agent
-* Maestro Authenticator
 
 ## Setup ##
 
@@ -95,6 +93,16 @@ Configure database and port application in .env file
 ```bash
 MAESTRO_PORT=8888
 MAESTRO_MONGO_URI='localhost/maestro-client'
+```
+
+Development
+
+Install nodejs, version above 7.6, mongodb need to be running.
+
+```bash
+npm install
+npm run migrate //populate mongodb
+npm run server
 ```
 
 Run all tests or any test type
