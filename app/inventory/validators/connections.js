@@ -5,8 +5,8 @@ const Joi = require('joi');
 const {roles, owner, created_at, active} = require('core/validators/validators');
 
 const schema = Joi.object().keys({
-    conn: Joi.string().max(1400).required(),
-    name: Joi.string().max(2050).required(),
+    conn: Joi.string().max(1800).required(),
+    name: Joi.string().max(4050).required(),
     url: Joi.string().max(250),
     project: Joi.string().max(250),
     status: Joi.string().required(),
