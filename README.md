@@ -47,23 +47,20 @@ Constructed with KrakenJs, we create a lot of middleware and organize by domain.
 
 ## TechStack ##
 
-* NodeJs 6.10
+* NodeJs 8.11.2
 * MongoDB 3.4
 * AWS S3 (If using S3 upload)
 
 ## Service relations ##
 * Maestro Discovery
 * Maestro Reports
-* Maestro Remote Agent
-* Maestro Authenticator
 
 ## Setup ##
 
 #### Installation by docker ####
 
 ```bash
-docker run -p 8888:8888  -e "MAESTRO_MONGO_URI=mongodb/maestro-client" -e "MAESTRO_DISCOVERY_URL=http://discovery:5000" maestroserver/server-maestro 
-maestroserver/server-maestro
+docker run -p 8888:8888  -e "MAESTRO_MONGO_URI=mongodb/maestro-client" -e "MAESTRO_DISCOVERY_URI=http://discovery:5000" -e "MAESTRO_REPORT_URI=http://reports:5005" maestroserver/server-maestro
 ```
 Or by docker-compose
 
@@ -71,13 +68,14 @@ Or by docker-compose
 version: '2'
 
 services:
-server:
-image: maestroserver/server-maestro
-ports:
-- "8888:8888"
-environment:
-- "MAESTRO_MONGO_URI=mongodb/maestro-client"
-- "MAESTRO_DISCOVERY_URL=http://discovery:5000"
+    server:
+    image: maestroserver/server-maestro
+    ports:
+    - "8888:8888"
+    environment:
+    - "MAESTRO_MONGO_URI=mongodb/maestro-client"
+    - "MAESTRO_DISCOVERY_URI=http://discovery:5000"
+    - "MAESTRO_REPORT_URI=http://reports:5005"
 ```
 
 #### Dev Env ####
@@ -95,6 +93,18 @@ Configure database and port application in .env file
 ```bash
 MAESTRO_PORT=8888
 MAESTRO_MONGO_URI='localhost/maestro-client'
+MAESTRO_DISCOVERY_URI=http://localhost:5000 // used in connection
+MAESTRO_REPORT_URI=http://localhost:5005 // used in reports
+```
+
+Development
+
+Install nodejs, version above 7.6, mongodb need to be running.
+
+```bash
+npm install
+npm run migrate //populate mongodb
+npm run server
 ```
 
 Run all tests or any test type
@@ -118,8 +128,8 @@ gulp eslint
 | MAESTRO_SECRETJWT            | XXXX                     |  Secret key - session         |
 | MAESTRO_SECRETJWT_FORGOT     | XXXX                     |  Secret key - forgot request  |
 | MAESTRO_SECRET_CRYPTO_FORGOT | XXXX                     |  Secret key - forgot content  |
-| MAESTRO_DISCOVERY_URL        | http://localhost:5000    |  Url discovery-app (flask)    |
-| MAESTRO_REPORT_URL           | http://localhost:5005    |  Url reports-app (flask)      |
+| MAESTRO_DISCOVERY_URI        | http://localhost:5000    |  Url discovery-app (flask)    |
+| MAESTRO_REPORT_URI           | http://localhost:5005    |  Url reports-app (flask)      |
 | MAESTRO_TIMEOUT              | 1000                     |  Timeout micro service request|
 | SMTP_PORT                    | 1025                     |                               |
 | SMTP_HOST                    | localhost                |                               |
