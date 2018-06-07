@@ -26,7 +26,7 @@ const sharedS = {
     crawling: Joi.boolean().default(true),
     task: Joi.string().valid('webhook', 'connections', 'jobs').default('webhook'),
     link: Joi.object().keys({
-        name: Joi.string().max(2050),
+        name: Joi.string().max(4050),
         provider: Joi.string().max(50),
         _id: Joi.any(),
         task: Joi.string()
