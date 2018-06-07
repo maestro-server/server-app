@@ -75,7 +75,7 @@ ports:
 - "8888:8888"
 environment:
 - "MAESTRO_MONGO_URI=mongodb/maestro-client"
-- "MAESTRO_DISCOVERY_URL=http://discovery:5000"
+- "MAESTRO_DISCOVERY_URI=http://discovery:5000"
 ```
 
 #### Dev Env ####
@@ -126,8 +126,8 @@ gulp eslint
 | MAESTRO_SECRETJWT            | XXXX                     |  Secret key - session         |
 | MAESTRO_SECRETJWT_FORGOT     | XXXX                     |  Secret key - forgot request  |
 | MAESTRO_SECRET_CRYPTO_FORGOT | XXXX                     |  Secret key - forgot content  |
-| MAESTRO_DISCOVERY_URL        | http://localhost:5000    |  Url discovery-app (flask)    |
-| MAESTRO_REPORT_URL           | http://localhost:5005    |  Url reports-app (flask)      |
+| MAESTRO_DISCOVERY_URI        | http://localhost:5000    |  Url discovery-app (flask)    |
+| MAESTRO_REPORT_URI           | http://localhost:5005    |  Url reports-app (flask)      |
 | MAESTRO_TIMEOUT              | 1000                     |  Timeout micro service request|
 | SMTP_PORT                    | 1025                     |                               |
 | SMTP_HOST                    | localhost                |                               |
