@@ -320,12 +320,48 @@ describe('behaviors basic actions in cloud inventory', function () {
                 });
         });
 
+
+        it('create my first datacenters', function (done) {
+            request(mock)
+                .post('/datacenters')
+                .send(datacenters[0])
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .expect(/_id/)
+                .expect(function (res) {
+                    Object.assign(datacenters[0], res.body);
+                })
+                .expect(res=> connections[0]['dc_id'] = res.body._id)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('create my second datacenters', function (done) {
+            request(mock)
+                .post('/datacenters')
+                .send(datacenters[1])
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .expect(/_id/)
+                .expect(function (res) {
+                    Object.assign(datacenters[1], res.body);
+                })
+                .expect(res=> connections[1]['dc_id'] = res.body._id)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
         it('create my first connections', function (done) {
             request(mock)
                 .post('/connections')
                 .send(connections[0])
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(console.log)
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .expect(function (res) {
@@ -346,40 +382,6 @@ describe('behaviors basic actions in cloud inventory', function () {
                 .expect('Content-Type', /json/)
                 .expect(function (res) {
                     Object.assign(connections[1], res.body);
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('create my first datacenters', function (done) {
-            request(mock)
-                .post('/datacenters')
-                .send(datacenters[0])
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(201)
-                .expect('Content-Type', /json/)
-                .expect(/_id/)
-                .expect(function (res) {
-                    Object.assign(datacenters[0], res.body);
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('create my second datacenters', function (done) {
-            request(mock)
-                .post('/datacenters')
-                .send(datacenters[1])
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(201)
-                .expect('Content-Type', /json/)
-                .expect(/_id/)
-                .expect(function (res) {
-                    Object.assign(datacenters[1], res.body);
                 })
                 .end(function (err) {
                     if (err) return done(err);

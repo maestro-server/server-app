@@ -303,8 +303,8 @@ describe('e2e projects', function () {
       });
     });
 
-    describe('confirm update project', function () {
-      it('Exist projects - confirm my changes', function (done) {
+    describe('ensure update project', function () {
+      it('Exist projects - ensure my changes', function (done) {
           request(mock)
               .get('/projects/'+projects[0]._id)
               .set('Authorization', `JWT ${user.token}`)
@@ -317,7 +317,7 @@ describe('e2e projects', function () {
               });
       });
 
-      it('Exist project - confirm if my update don`t create a new project', function (done) {
+      it('Exist project - ensure if my update don`t create a new project', function (done) {
           request(mock)
               .get('/projects')
               .set('Authorization', `JWT ${user.token}`)
@@ -354,7 +354,7 @@ describe('e2e projects', function () {
       });
     });
 
-    describe('confirm delete project', function () {
+    describe('ensure delete project', function () {
       it('delete my project', function (done) {
           request(mock)
               .get('/projects/')

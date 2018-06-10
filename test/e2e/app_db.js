@@ -567,9 +567,9 @@ describe('e2e applications', function () {
      * @depends create application
      * @description I like ensure some effects
      */
-    describe('confirm update application', function () {
+    describe('ensure update application', function () {
 
-        it('confirm my changes', function (done) {
+        it('ensure my changes', function (done) {
             request(mock)
                 .get('/applications/' + applications[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -583,7 +583,7 @@ describe('e2e applications', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs don`t create new application', function (done) {
+        it('ensure if any of my updates/patchs don`t create new application', function (done) {
             request(mock)
                 .get('/applications')
                 .set('Authorization', `JWT ${user.token}`)
@@ -677,7 +677,7 @@ describe('e2e applications', function () {
      * @description I like to see my roles
      */
     describe('get roles', function () {
-        it('Exist roles - confirm my news roles', function (done) {
+        it('Exist roles - ensure my news roles', function (done) {
             request(mock)
                 .get('/applications/' + applications[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -781,8 +781,8 @@ describe('e2e applications', function () {
         });
     });
 
-    describe('confirm update roles', function () {
-        it('Exist roles - confirm my news applications', function (done) {
+    describe('ensure update roles', function () {
+        it('Exist roles - ensure my news applications', function (done) {
             request(mock)
                 .get('/applications/' + applications[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -829,8 +829,8 @@ describe('e2e applications', function () {
         });
     });
 
-    describe('confirm delete roles', function () {
-        it('Exist roles - confirm my news role', function (done) {
+    describe('ensure delete roles', function () {
+        it('Exist roles - ensure my news role', function (done) {
             request(mock)
                 .get('/applications/' + applications[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -870,7 +870,7 @@ describe('e2e applications', function () {
         });
     });
 
-    describe('confirm to delete application', function () {
+    describe('ensure to delete application', function () {
         it('Exist roles - delete my application', function (done) {
             request(mock)
                 .get('/applications/')
