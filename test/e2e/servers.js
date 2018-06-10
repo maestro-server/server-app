@@ -581,9 +581,9 @@ describe('e2e servers', function () {
      * @depends create server
      * @description I like ensure some effects
      */
-    describe('confirm update server', function () {
+    describe('ensure update server', function () {
 
-        it('confirm my changes', function (done) {
+        it('ensure my changes', function (done) {
             request(mock)
                 .get('/servers/' + servers[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -598,7 +598,7 @@ describe('e2e servers', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs don`t create new server', function (done) {
+        it('ensure if any of my updates/patchs don`t create new server', function (done) {
             request(mock)
                 .get('/servers')
                 .set('Authorization', `JWT ${user.token}`)
@@ -696,7 +696,7 @@ describe('e2e servers', function () {
      * @description I like to see my roles
      */
     describe('get roles', function () {
-        it('Exist roles - confirm my news roles', function (done) {
+        it('Exist roles - ensure my news roles', function (done) {
             request(mock)
                 .get('/servers/' + servers[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -800,8 +800,8 @@ describe('e2e servers', function () {
         });
     });
 
-    describe('confirm update roles', function () {
-        it('Exist roles - confirm my news servers', function (done) {
+    describe('ensure update roles', function () {
+        it('Exist roles - ensure my news servers', function (done) {
             request(mock)
                 .get('/servers/' + servers[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -848,8 +848,8 @@ describe('e2e servers', function () {
         });
     });
 
-    describe('confirm delete roles', function () {
-        it('Exist roles - confirm my news role', function (done) {
+    describe('ensure delete roles', function () {
+        it('Exist roles - ensure my news role', function (done) {
             request(mock)
                 .get('/servers/' + servers[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -890,7 +890,7 @@ describe('e2e servers', function () {
         });
     });
 
-    describe('confirm to delete server', function () {
+    describe('ensure to delete server', function () {
         it('Exist roles - delete my server', function (done) {
             request(mock)
                 .get('/servers/')

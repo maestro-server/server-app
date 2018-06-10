@@ -315,9 +315,9 @@ describe('e2e projects', function () {
         });
     });
 
-    describe('confirm team update project', function () {
+    describe('ensure team update project', function () {
 
-        it('Exist team project - confirm my changes', function (done) {
+        it('Exist team project - ensure my changes', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/projects/${teamsAPP[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -330,7 +330,7 @@ describe('e2e projects', function () {
                 });
         });
 
-        it('Exist team project - confirm if my update don`t create new project', function (done) {
+        it('Exist team project - ensure if my update don`t create new project', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/projects`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -403,7 +403,7 @@ describe('e2e projects', function () {
      * @description I like to see my roles
      */
     describe('get team roles', function () {
-        it('Exist roles - confirm my news roles', function (done) {
+        it('Exist roles - ensure my news roles', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/projects/${teamsAPP[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -467,8 +467,8 @@ describe('e2e projects', function () {
         });
     });
 
-    describe('confirm team update roles', function () {
-        it('Exist roles - confirm my news projects', function (done) {
+    describe('ensure team update roles', function () {
+        it('Exist roles - ensure my news projects', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/projects/${teamsAPP[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -526,8 +526,8 @@ describe('e2e projects', function () {
         });
     });
 
-    describe('confirm team delete roles', function () {
-        it('Exist roles - confirm my news role', function (done) {
+    describe('ensure team delete roles', function () {
+        it('Exist roles - ensure my news role', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/projects/${teamsAPP[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -563,7 +563,7 @@ describe('e2e projects', function () {
         });
     });
 
-    describe('confirm team  delete project', function () {
+    describe('ensure team  delete project', function () {
         it('Exist roles - delete my project', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/projects`)

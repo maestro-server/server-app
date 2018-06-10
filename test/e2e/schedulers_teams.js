@@ -451,9 +451,9 @@ describe('e2e scheduler', function () {
      * @depends create scheduler
      * @description I like ensure some effects
      */
-    describe('confirm update scheduler', function () {
+    describe('ensure update scheduler', function () {
 
-        it('confirm my changes', function (done) {
+        it('ensure my changes', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/scheduler/${scheduler[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -466,7 +466,7 @@ describe('e2e scheduler', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs don`t create new scheduler', function (done) {
+        it('ensure if any of my updates/patchs don`t create new scheduler', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/scheduler`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -564,7 +564,7 @@ describe('e2e scheduler', function () {
      * @description I like to see my roles
      */
     describe('get roles', function () {
-        it('Exist roles - confirm my news roles', function (done) {
+        it('Exist roles - ensure my news roles', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/scheduler/${scheduler[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -668,8 +668,8 @@ describe('e2e scheduler', function () {
         });
     });
 
-    describe('confirm update roles', function () {
-        it('Exist roles - confirm my news scheduler', function (done) {
+    describe('ensure update roles', function () {
+        it('Exist roles - ensure my news scheduler', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/scheduler/${scheduler[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -716,8 +716,8 @@ describe('e2e scheduler', function () {
         });
     });
 
-    describe('confirm delete roles', function () {
-        it('Exist roles - confirm my news role', function (done) {
+    describe('ensure delete roles', function () {
+        it('Exist roles - ensure my news role', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/scheduler/${scheduler[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -758,7 +758,7 @@ describe('e2e scheduler', function () {
         });
     });
 
-    describe('confirm to delete scheduler', function () {
+    describe('ensure to delete scheduler', function () {
         it('Exist roles - delete my scheduler', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/scheduler/`)

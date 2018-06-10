@@ -570,9 +570,9 @@ describe('e2e system', function () {
      * @depends create system
      * @description I like ensure some effects
      */
-    describe('confirm update system', function () {
+    describe('ensure update system', function () {
 
-        it('confirm my changes', function (done) {
+        it('ensure my changes', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/system/${system[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -586,7 +586,7 @@ describe('e2e system', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs don`t create new system', function (done) {
+        it('ensure if any of my updates/patchs don`t create new system', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/system`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -684,7 +684,7 @@ describe('e2e system', function () {
      * @description I like to see my roles
      */
     describe('get roles', function () {
-        it('Exist roles - confirm my news roles', function (done) {
+        it('Exist roles - ensure my news roles', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/system/${system[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -788,8 +788,8 @@ describe('e2e system', function () {
         });
     });
 
-    describe('confirm update roles', function () {
-        it('Exist roles - confirm my news system', function (done) {
+    describe('ensure update roles', function () {
+        it('Exist roles - ensure my news system', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/system/${system[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -836,8 +836,8 @@ describe('e2e system', function () {
         });
     });
 
-    describe('confirm delete roles', function () {
-        it('Exist roles - confirm my news role', function (done) {
+    describe('ensure delete roles', function () {
+        it('Exist roles - ensure my news role', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/system/${system[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -878,7 +878,7 @@ describe('e2e system', function () {
         });
     });
 
-    describe('confirm to delete system', function () {
+    describe('ensure to delete system', function () {
         it('Exist roles - delete my system', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/system/`)

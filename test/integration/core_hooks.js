@@ -72,7 +72,6 @@ describe('unit - core', function () {
                 };
 
                 const fc = require('core/hooks/relationInc');
-
                 const result = fc(config)(data);
 
                 expect(result).to.deep.equal({ [config.field]: 1 });
