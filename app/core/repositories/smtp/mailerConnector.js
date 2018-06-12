@@ -7,11 +7,7 @@ const async = require('core/libs/db_run');
 const factoryValid = require('core/libs/factoryValid');
 const smtpValid = require('core/validators/smtp_valid');
 
-const ResourceError = require('core/errors/factoryError')('ResourceError');
-
-const mailerConnector = (Mailer = DMailer) => {
-
-    const mailer = Mailer;
+const mailerConnector = (mailer = DMailer) => {
 
     if (!mailer.isConnected()) {
         try {
@@ -19,28 +15,29 @@ const mailerConnector = (Mailer = DMailer) => {
                 _.pick(process.env, ['SMTP_PORT', 'SMTP_HOST', 'SMTP_SENDER']),
                 smtpValid
             );
+
+            async(function *() {
+                yield mailer.connect();
+                console.log("Maestro: SMTP Connected");
+            });
         } catch(e) {
             console.error("Maestro: SMTP Connections not found, maestro is not able to send any email.");
         }
-
-        async(function *() {
-            yield mailer
-                .connect();
-        });
     }
 
     return {
-        sender(to, subject, template, context, text = "") {
+        sender(to, subject, template, context) {
 
             return new Promise((resolve, reject) => {
-                const from = process.env.SMTP_SENDER;
+                if (!mailer.isConnected())
+                    reject("Maestro: SMTP is not connected, maestro is not able to send any email.");
 
+                const from = process.env.SMTP_SENDER;
                 mailer.transporter.sendMail(
-                    {from, to, subject, text, template, context},
+                    {from, to, subject, template, context},
                     (err) => {
-                        if (err) {
+                        if (err)
                             reject(err);
-                        }
 
                         resolve(true);
                     }

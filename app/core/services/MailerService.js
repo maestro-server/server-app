@@ -12,11 +12,8 @@ const mailerService = (FmailerConnector = DmailerConnector) => {
             return new Promise((resolve, reject) => {
 
                 mailerConnector.sender(to, subject, template, data)
-                    .then((e) => resolve(e))
-                    .catch((err) => {
-                        reject(err);
-                    });
-
+                    .then(resolve)
+                    .catch(reject);
             });
 
         }
