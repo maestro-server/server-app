@@ -22,7 +22,7 @@ const options = {
         db_connect(function *() {
             yield Mongorito.connect(process.env.MAESTRO_MONGO_URI || 'localhost/maestro-client');
             next(null, config);
-            console.log("Mongo online");
+            console.log("Maestro: Mongo online");
         });
     }
 };
@@ -33,6 +33,5 @@ app.use(kraken(options));
 
 
 app.on('start', function () {
-    console.log('Application ready to serve requests.');
-    console.log('Environment: %s', app.kraken.get('env:env'));
+    console.log('Maestro: Application ready to serve requests. -- Environment: %s', app.kraken.get('env:env'));
 });

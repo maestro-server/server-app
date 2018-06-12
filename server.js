@@ -19,5 +19,5 @@ process.env.MAESTRO_PORT = process.env.MAESTRO_PORT || 8888;
 server = http.createServer(app);
 server.listen(process.env.MAESTRO_PORT);
 server.on('listening', function () {
-    console.log('Server listening on http://localhost:%d', this.address().port);
+    console.log('Maestro: Server listening on http://localhost:%d', this.address().port);
 });
