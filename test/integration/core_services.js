@@ -6,11 +6,9 @@ require('dotenv').config({path: '.env.test'});
 let chai = require('chai'),
     {expect} = chai,
     sinon = require('sinon'),
-    chaiAsPromised = require("chai-as-promised"),
-    sinonStubPromise = require('sinon-stub-promise');
+    chaiAsPromised = require("chai-as-promised");
 
 chai.use(chaiAsPromised);
-sinonStubPromise(sinon);
 
 
 describe('unit - core', function () {

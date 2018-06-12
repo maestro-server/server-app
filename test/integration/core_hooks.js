@@ -9,12 +9,10 @@ let chai = require('chai'),
     sinon = require('sinon'),
     chaiAsPromised = require("chai-as-promised"),
     cleaner_db = require('../e2e/libs/cleaner_db'),
-    sinonStubPromise = require('sinon-stub-promise'),
     _ = require('lodash');
 
 chai.use(chaiAsPromised);
 chai.use(chaid);
-sinonStubPromise(sinon);
 
 
 describe('unit - core', function () {
