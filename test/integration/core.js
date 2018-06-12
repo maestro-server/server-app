@@ -102,8 +102,6 @@ describe('integration - core', function () {
                 it('find', function (done) {
                     const tt = DBRepository(Entity).find({}, 1, 1);
 
-                    expect(tt).to.eventually.have.nested.lengthOf(1);
-
                     expect(tt)
                         .to.be.fulfilled
                         .and.to.eventually.have.nested.property("[0].name")
