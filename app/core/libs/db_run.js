@@ -7,6 +7,6 @@ const co = require('co');
  */
 module.exports = function run(fn) {
     co(fn).catch(function (err) {
-        console.error(err.stack);
+        console.error(err.toString());
     });
 };

@@ -105,16 +105,6 @@ describe('unit - core', function () {
         done();
     });
 
-    it('libs - db run - error', function (done) {
-        const cor = require('core/libs/db_run');
-
-        expect(function () {
-            cor(function *() {
-                yield Promise.reject();
-            });
-        }).to.not.throw();
-        done();
-    });
 
     it('libs - in_maker - single str', function (done) {
         const {ObjectId} = require('mongorito');

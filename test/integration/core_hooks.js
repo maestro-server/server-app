@@ -58,25 +58,6 @@ describe('unit - core', function () {
 
 
         describe('relationInc', function () {
-            it('exist source path', function (done) {
-                const config = {
-                    Entity,
-                    field: "increment",
-                    source: "teams._id"
-                };
-
-                const data = {
-                    name: "teste result",
-                    increment: 0,
-                    teams: {_id: "452ed4a4f4421335e032bf09"}
-                };
-
-                const fc = require('core/hooks/relationInc');
-                const result = fc(config)(data);
-
-                expect(result).to.deep.equal({ [config.field]: 1 });
-                done();
-            });
 
             it('don`t exist source path', function (done) {
                 const config = {
