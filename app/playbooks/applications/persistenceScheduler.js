@@ -53,7 +53,7 @@ const ApplicationSchedulers = (Entity, PersistenceServices = DPersistenceService
         remove (req, res, next) {
             const data = {
                 crawling: true
-            }
+            };
 
             PersistenceServices(Entity)
                 .remove(req.params.id, req.user, data)

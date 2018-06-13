@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const Scheduler = require('playbooks/entities/Scheduler');
 const Access = require('core/entities/accessRole');
 
@@ -10,7 +9,7 @@ const TemplateScheduler = require('playbooks/services/templateScheduler');
 
 
 const mapperBatchInsert = async (body, req, PersistenceServices) => {
-    let template = []
+    let template = [];
 
     try {
         template = await TemplateScheduler().template(body);
