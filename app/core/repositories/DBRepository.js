@@ -157,7 +157,7 @@ const DBRepository = (Entity, options = {}) => {
         remove(filter, data = {}) {
             return new Promise((resolve, reject) => {
                 const desactive = activeTransform.desactive();
-                const ndata = _.assign(data, desactive)
+                const ndata = _.assign(data, desactive);
 
                 return new DB(ndata)
                     .updateAndModify(filter, options)

@@ -1,6 +1,6 @@
 'use strict';
 
-const _ = require('lodash')
+const _ = require('lodash');
 const PersistenceServices = require('core/services/PersistenceServices');
 const Adminer = require('adminer/entities/Adminer');
 
@@ -24,8 +24,8 @@ const connections = function () {
         } catch(e) {
             console.log(e);
         }
-    }
-    
+    };
+
 
     return {
         async render(data) {

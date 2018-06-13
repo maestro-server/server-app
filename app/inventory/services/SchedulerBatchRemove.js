@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const Access = require('core/entities/accessRole');
 const DFactoryDBRepository = require('core/repositories/DBRepository');
 const accessMergeTransform = require('core/services/transforms/accessMergeTransform');
@@ -19,7 +18,7 @@ const SchedulerBatch = (req) => (PersistenceServices, FactoryDBRepository = DFac
 
             const prepared = accessMergeTransform(req.user, Scheduler.access, filters, access);
 
-            const crawling = true
+            const crawling = true;
             return DBRepository
                 .remove(prepared, {crawling});
         }

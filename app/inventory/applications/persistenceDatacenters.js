@@ -3,7 +3,7 @@
 const _ = require('lodash');
 const DPersistenceServices = require('core/services/PersistenceServices');
 const notExist = require('core/applications/validator/validNotExist');
-const DatacenterOrphans = require('../services/DatacentersOrphans')
+const DatacenterOrphans = require('../services/DatacentersOrphans');
 
 
 const ApplicationDatacenters = (Entity, PersistenceServices = DPersistenceServices) => {
