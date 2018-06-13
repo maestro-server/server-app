@@ -9,6 +9,7 @@ node_modules
 docs/*
 npm-debug*
 coverage/
+.nyc_output/
 public/static/users
 public/static/teams
 public/static/company
