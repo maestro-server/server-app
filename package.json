@@ -1,6 +1,6 @@
 {
   "name": "server-app",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Server app - Maestro",
   "author": "Felipe Klerk Signorini &lt;felipeklerk@yahoo.com.br&gt;",
   "main": "server.js",
@@ -26,7 +26,7 @@
     "app-module-path": "~2.2.0",
     "aws-sdk": "^2.258.1",
     "axios": "^0.18.0",
-    "bcrypt": "~2.0.0",
+    "bcrypt": "^2.0.1",
     "bluebird": "~3.5.0",
     "body-parser": "^1.18.3",
     "co": "~4.6.0",
