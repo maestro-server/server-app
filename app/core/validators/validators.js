@@ -63,6 +63,12 @@ module.exports = {
         username: Joi.string().max(100),
         key: Joi.string().max(100)
     }),
+    entries:  Joi.object({
+        name: Joi.string().max(250),
+        family: Joi.string(),
+        _id: Joi.object(),
+        endpoint: Joi.string()
+    }),
     owner: Joi.object({
         name: Joi.string().max(100),
         email: Joi.string().email(),
