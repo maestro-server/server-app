@@ -6,7 +6,7 @@ const Volume = require('../repositories/dao/volumes');
 
 const volume = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'size', 'unique_id',
-        'iops', 'datacenters', 'encrypted', 'attach_time', 'status', 'tags'];
+        'iops', 'datacenters.name', 'datacenters', 'encrypted', 'attach_time', 'status', 'tags'];
 
     const singleFilled = [...resFilled, 'kms_key_id', 'roles', 'owner', 'source_volume_id',
         'migration_id', 'image_id', 'volume_type', 'snapshot_id', 'project_id', 'service'];
