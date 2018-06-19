@@ -13,7 +13,7 @@ const app = () => {
     'crs_version', 'modal', 'pdbs', 'datacenters.name', 'datacenters',
     'deploy', 'tags', 'description', 'read_status'];
 
-    const singleFilled = [...resFilled, 'roles', 'system', 'owner'];
+    const singleFilled = [...resFilled, 'roles', 'deps', 'system', 'owner'];
 
     const filled = [..._.slice(singleFilled, 2)]; // delete id
 
@@ -28,7 +28,7 @@ const app = () => {
 
         defaults: {family: 'Application'},
 
-        mapRelations: ['system', 'servers'],
+        mapRelations: ['system', 'servers', 'deps'],
 
         visibility: {single: 'all'},
 
