@@ -8,12 +8,12 @@ const app = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'unique_id',
     'name', 'status', 'family', 'environment', 'provider', 'own',
     'system.name', 'system._id', 'servers', 'engine',
-    'targets', 'role.role', 'role', 'spec', 'asm_groups',
+    'targets', 'deps', 'role.role', 'role', 'spec', 'asm_groups',
     'language', 'cluster', 'dataguard', 'type', 'storage_types',
     'crs_version', 'modal', 'pdbs', 'datacenters.name', 'datacenters',
     'deploy', 'tags', 'description', 'read_status'];
 
-    const singleFilled = [...resFilled, 'roles', 'deps', 'system', 'owner'];
+    const singleFilled = [...resFilled, 'roles', 'system', 'owner'];
 
     const filled = [..._.slice(singleFilled, 2)]; // delete id
 
@@ -28,7 +28,7 @@ const app = () => {
 
         defaults: {family: 'Application'},
 
-        mapRelations: ['system', 'servers', 'deps'],
+        mapRelations: ['system', 'servers', 'deps', 'targets'],
 
         visibility: {single: 'all'},
 
