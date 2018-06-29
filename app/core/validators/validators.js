@@ -66,7 +66,7 @@ module.exports = {
     entries:  Joi.object({
         name: Joi.string().max(250),
         family: Joi.string(),
-        _id: Joi.object(),
+        _id: Joi.object().required(),
         endpoint: Joi.string(),
         environment: Joi.string()
     }),
