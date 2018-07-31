@@ -52,6 +52,7 @@ exports.up = function (db, next) {
                             'command': 'rds',
                             'entity': 'applications',
                             'result_path': 'DBInstances',
+							'key_comparer': 'unique_id',
                             'vars': [
                                 {'name': 'MaxRecords', 'env': 'MAESTRO_DB_SCAN_QTD', 'default': 100, 'type': 'int'}
                             ],
