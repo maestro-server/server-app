@@ -401,7 +401,7 @@ describe('behaviors basic actions in cloud inventory', function () {
             let data = Object.assign(
                 applications[0],
                 {'servers': [_.get(servers[0], '_id'), _.get(servers[1], '_id')]},
-                {'targets': [_.get(servers[0], '_id')]}
+                {'targets': [_.pick(servers[0], ['_id', 'name'])]}
             );
 
             request(mock)
@@ -549,7 +549,7 @@ describe('behaviors basic actions in cloud inventory', function () {
                 .expect(function (res) {
                     expect(res.body.targets).to.deep.equal(
                         [
-                            _.get(servers[0], '_id')
+                            _.pick(servers[0], '_id')
                         ]);
                     expect(res.body.targets).to.have.length(1);
                 })
@@ -573,7 +573,6 @@ describe('behaviors basic actions in cloud inventory', function () {
                         ]);
                     expect(res.body.clients).to.have.length(2);
                 })
-                .expect(/check/)
                 .expect(/name/)
                 .expect(/tags/)
                 .expect(/description/)
