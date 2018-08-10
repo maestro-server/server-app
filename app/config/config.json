@@ -89,17 +89,6 @@
                 ]
             }
         },
-        "router-projects": {
-            "priority": 120,
-            "module": {
-                "name": "express-enrouten",
-                "arguments": [
-                    {
-                        "directory": "path:./playbooks/routers/projects"
-                    }
-                ]
-            }
-        },
         "router-applications": {
             "priority": 120,
             "module": {
