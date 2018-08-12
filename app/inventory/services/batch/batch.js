@@ -1,11 +1,11 @@
 'use strict';
 
-const Scheduler = require('playbooks/entities/Scheduler');
+const Scheduler = require('reports/entities/Scheduler');
 const Access = require('core/entities/accessRole');
 
 const aclRoles = require('core/applications/transforms/aclRoles');
 const mapRelationToObjectID = require('core/applications/transforms/mapRelationToObjectID');
-const TemplateScheduler = require('playbooks/services/templateScheduler');
+const TemplateScheduler = require('reports/services/templateScheduler');
 
 
 const mapperBatchInsert = async (body, req, PersistenceServices) => {

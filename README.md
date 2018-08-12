@@ -41,7 +41,7 @@ Constructed with KrakenJs, we create a lot of middleware and organize by domain.
 * Servers
 * Reports
 * Events
-* Playbooks
+* Analytics
 * Jobs
 * Inventory
 

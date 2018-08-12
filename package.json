@@ -16,7 +16,7 @@
     "docs-identity": "gulp apidocs --name identity",
     "docs-reports": "gulp apidocs --name reports",
     "docs-adminer": "gulp apidocs --name adminer",
-    "docs-playbook": "gulp apidocs --name playbooks",
+    "docs-analytics": "gulp apidocs --name analytics",
     "coverage": "nyc --reporter=lcov mocha test/**/*js --timeout 5000 --exit",
     "migrate": "node ./node_modules/mongodb-migrate -runmm -cfg .migration-config.js up",
     "create_migrate": "node ./node_modules/mongodb-migrate -runmm create",
