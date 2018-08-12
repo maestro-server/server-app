@@ -1,9 +1,9 @@
 {
-    "name": "API-Server Maestro - Playbooks",
+    "name": "API-Server Maestro - Analytics",
     "version": "0.1.2",
     "description": "API documentation - RestFull",
     "apidoc": {
-        "title": "API - Maestro Server - Playbooks",
+        "title": "API - Maestro Server - Analytics",
         "url": "https://localhost:8888/apidocs/v1"
     },
     "header": {
