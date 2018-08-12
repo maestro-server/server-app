@@ -26,6 +26,6 @@ exclude_paths:
 - "app/identity/routers/"
 - "app/adminer/routers/"
 - "app/reports/routers/"
-- "app/playbooks/routers/"
+- "app/analytics/routers/"
 - "app/orchestration/routers/"
 - "app/config/routers/"
