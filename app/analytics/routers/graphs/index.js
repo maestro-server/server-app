@@ -5,10 +5,12 @@ const authenticate = require('identity/middlewares/authenticate');
 const Graph = require('../../entities/Graph');
 const Team = require('identity/entities/Teams');
 
+const PersistenceGraph = require('../../applications/persistenceGraph');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Graph)(Team);
+const WrapperPersistenceAppGraphs = WrapperPersistenceApp(PersistenceGraph);
 
 const AccessApp = require('core/applications/accessApplication');
-const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
+const WrapperAccessApp = WrapperPersistenceApp()(AccessApp);
 
 module.exports = function (router) {
 
@@ -25,7 +27,7 @@ module.exports = function (router) {
 
         .delete('/teams/:id/graphs/:idu', authenticate(), WrapperPersistenceApp()().remove)
 
-        .post('/teams/:id/graphs', authenticate(), WrapperPersistenceApp()().create)
+        .post('/teams/:id/graphs', authenticate(), WrapperPersistenceAppGraphs().create)
 
         /**
          * Roles
