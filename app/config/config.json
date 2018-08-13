@@ -265,6 +265,28 @@
                 ]
             }
         },
+        "router-graph": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [
+                    {
+                        "directory": "path:./analytics/routers/graphs"
+                    }
+                ]
+            }
+        },
+        "router-projects": {
+            "priority": 120,
+            "module": {
+                "name": "express-enrouten",
+                "arguments": [
+                    {
+                        "directory": "path:./analytics/routers/projects"
+                    }
+                ]
+            }
+        },
         "router-adminer": {
             "priority": 120,
             "module": {
