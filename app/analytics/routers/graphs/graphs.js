@@ -4,6 +4,8 @@ const authenticate = require('identity/middlewares/authenticate');
 
 const Graph = require('../../entities/Graph');
 const PersistenceApp = require('core/applications/persistenceApplication')(Graph);
+const PersistenceGraph = require('../../applications/persistenceGraph')(Graph);
+
 const AccessApp = require('core/applications/accessApplication')(Graph);
 
 
@@ -24,7 +26,7 @@ module.exports = function (router) {
 
         .delete('/:id', authenticate(), PersistenceApp.remove)
 
-        .post('/', authenticate(), PersistenceApp.create)
+        .post('/', authenticate(), PersistenceGraph.create)
 
         /**
          * Roles
