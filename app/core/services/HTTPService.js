@@ -55,9 +55,15 @@ const ReportHTTPService = (header = {}) => {
     return HTTPService(url)(header);
 };
 
+const AnalyticsHTTPService = (header = {}) => {
+    const url = process.env.MAESTRO_ANALYTICS_URI || 'http://localhost:5020';
+    return HTTPService(url)(header);
+};
+
 
 module.exports = {
     HTTPService,
     DiscoveryHTTPService,
-    ReportHTTPService
+    ReportHTTPService,
+    AnalyticsHTTPService
 };
