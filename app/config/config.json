@@ -67,17 +67,6 @@
                 ]
             }
         },
-        "router-architectures": {
-            "priority": 120,
-            "module": {
-                "name": "express-enrouten",
-                "arguments": [
-                    {
-                        "directory": "path:./orchestration/routers/architectures"
-                    }
-                ]
-            }
-        },
         "router-profile": {
             "priority": 120,
             "module": {
