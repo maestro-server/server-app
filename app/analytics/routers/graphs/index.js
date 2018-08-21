@@ -15,13 +15,13 @@ const WrapperAccessApp = WrapperPersistenceApp()(AccessApp);
 module.exports = function (router) {
 
     router
-        .get('/teams/:id/graphs', authenticate(), WrapperPersistenceApp()().find)
+        .get('/teams/:id/graphs', authenticate(), WrapperPersistenceAppGraphs().find)
 
         .get('/teams/:id/graphs/count', authenticate(), WrapperPersistenceApp()().count)
 
         .get('/teams/:id/graphs/:idu', authenticate(), WrapperPersistenceApp()().findOne)
 
-        .put('/teams/:id/graphs/:idu', authenticate(), WrapperPersistenceApp()().update)
+        .put('/teams/:id/graphs/:idu', authenticate(), WrapperPersistenceAppGraphs().update)
 
         .patch('/teams/:id/graphs/:idu', authenticate(), WrapperPersistenceApp()().patch)
 
