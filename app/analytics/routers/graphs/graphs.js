@@ -12,7 +12,7 @@ const AccessApp = require('core/applications/accessApplication')(Graph);
 module.exports = function (router) {
 
     router
-        .get('/', authenticate(), PersistenceApp.find)
+        .get('/', authenticate(), PersistenceGraph.find)
 
         .get('/count', authenticate(), PersistenceApp.count)
 
@@ -20,7 +20,7 @@ module.exports = function (router) {
 
         .get('/:id', authenticate(), PersistenceApp.findOne)
 
-        .put('/:id', authenticate(), PersistenceApp.update)
+        .put('/:id', authenticate(), PersistenceGraph.update)
 
         .patch('/:id', authenticate(), PersistenceApp.patch)
 
