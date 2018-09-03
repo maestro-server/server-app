@@ -26,7 +26,10 @@ module.exports = function (router) {
 
         .delete('/:id', authenticate(), PersistenceApp.remove)
 
+        .post('/:id/public', authenticate(), PersistenceGraph.createPublicToken)
+
         .post('/', authenticate(), PersistenceGraph.create)
+
 
         /**
          * Roles

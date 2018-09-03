@@ -12,7 +12,9 @@ const mapRelationToObjectID = require('core/applications/transforms/mapRelationT
 const filterHooks = require('core/applications/transforms/filterHooks');
 const {AnalyticsHTTPService} = require('core/services/HTTPService');
 
-const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) => {
+const PublicAnalyticsToken = require('../services/PublicAnalyticsToken');
+
+const PersistenceGraph = (Entity, PersistenceServices = DPersistenceServices) => {
 
     return {
         find(req, res, next) {
@@ -81,8 +83,19 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
                 .then(e => res.status(201).json(e))
                 .catch(next);
 
+        },
+
+        createPublicToken(req, res, next) {
+
+            const _id = _.get(req.params, '_id');
+            const owner_id = _.get(req, 'user._id');
+
+            PublicAnalyticsToken(Entity)
+                .generate(_id, owner_id)
+                .then(e => res.status(201).json(e))
+                .catch(next);
         }
     };
 };
 
-module.exports = _.curry(ApplicationReport);
+module.exports = _.curry(PersistenceGraph);
