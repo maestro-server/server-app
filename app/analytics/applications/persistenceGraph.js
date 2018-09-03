@@ -5,6 +5,7 @@ const _ = require('lodash');
 const DPersistenceServices = require('core/services/PersistenceServices');
 const PersistenceApplication = require('core/applications/persistenceApplication');
 const aclRoles = require('core/applications/transforms/aclRoles');
+const notExist = require('core/applications/validator/validNotExist');
 const Access = require('core/entities/accessRole');
 
 const jsonParser = require('core/applications/transforms/jsonParser');
@@ -88,10 +89,11 @@ const PersistenceGraph = (Entity, PersistenceServices = DPersistenceServices) =>
         createPublicToken(req, res, next) {
 
             const _id = _.get(req.params, '_id');
-            const owner_id = _.get(req, 'user._id');
 
-            PublicAnalyticsToken(Entity)
-                .generate(_id, owner_id)
+            PersistenceServices(Entity)
+                .findOne(req.params.id, req.user)
+                .then(notExist)
+                .then(() => PublicAnalyticsToken(Entity).generate(_id))
                 .then(e => res.status(201).json(e))
                 .catch(next);
         }

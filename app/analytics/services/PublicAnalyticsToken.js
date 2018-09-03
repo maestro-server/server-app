@@ -1,19 +1,19 @@
 'use strict';
 
-const _ = require('lodash');
-const FactoryDBRepository = require('core/repositories/DBRepository');
-
+const tokenTransform = require('../transforms/public_analytics');
 
 const PublicAnalyticsToken = (Entity) => {
 
-    const DBRepository = FactoryDBRepository(Entity);
-
     return {
-        generate (id, owner_id) {
+        generate (id) {
 
             return new Promise((resolve, reject) => {
-                resolve("ok");
-                
+                try {
+                    const pay = tokenTransform(id, Entity.name);
+                    resolve(pay);
+                } catch(error) {
+                    reject(error);
+                }
             });
         }
     };

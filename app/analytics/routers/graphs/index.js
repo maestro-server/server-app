@@ -27,6 +27,8 @@ module.exports = function (router) {
 
         .delete('/teams/:id/graphs/:idu', authenticate(), WrapperPersistenceApp()().remove)
 
+        .post('/teams/:id/graphs/:idu/public', authenticate(), WrapperPersistenceAppGraphs('createPublicToken').create)
+
         .post('/teams/:id/graphs', authenticate(), WrapperPersistenceAppGraphs().create)
 
         /**
