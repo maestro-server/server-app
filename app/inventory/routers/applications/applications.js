@@ -5,6 +5,7 @@ const Application = require('../../entities/Application');
 const PersistenceApp = require('core/applications/persistenceApplication')(Application);
 const PersistenceAppApplications = require('../../applications/persistenceApplications')(Application);
 const AccessApp = require('core/applications/accessApplication')(Application);
+const DependenciesApp = require('inventory/applications/dependenciesApplication')(Application);
 
 module.exports = function (router) {
 
@@ -373,5 +374,14 @@ module.exports = function (router) {
          *     HTTP/1.1 204 OK
          *     {}
          */
-        .delete('/:id/roles/:idu', authenticate(), AccessApp.remove);
+        .delete('/:id/roles/:idu', authenticate(), AccessApp.remove)
+
+        /**
+         * Dependencies
+         */
+        .post('/:id/deps', authenticate(), DependenciesApp.create)
+
+        .put('/:id/deps/:idu', authenticate(), DependenciesApp.updateSingle)
+
+        .delete('/:id/deps/:idu', authenticate(), DependenciesApp.remove);
 };

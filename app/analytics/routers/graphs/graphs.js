@@ -41,5 +41,4 @@ module.exports = function (router) {
         .put('/:id/roles/:idu', authenticate(), AccessApp.updateSingle)
 
         .delete('/:id/roles/:idu', authenticate(), AccessApp.remove);
-
 };
