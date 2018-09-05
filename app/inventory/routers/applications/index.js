@@ -12,6 +12,9 @@ const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 
+const DependenciesApp = require('inventory/applications/dependenciesApplication');
+const WrappeDepsApp = WrapperPersistenceApp(DependenciesApp)();
+
 module.exports = function (router) {
 
     router
@@ -89,6 +92,28 @@ module.exports = function (router) {
          * @apiName GetSingleListTeam
          * @apiGroup Teams
          */
-        .delete('/teams/:id/applications/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
+        .delete('/teams/:id/applications/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove)
+
+        /**
+         * Dependencies
+         */
+        /**
+         * @api {post} /teams/:id/applications/:idu/deps am. Create new dependence
+         * @apiName CreateSingleDependence
+         * @apiGroup Teams
+         */
+        .post('/teams/:id/applications/:idu/deps', authenticate(), WrappeDepsApp.create)
+        /**
+         * @api {put} /teams/:id/applications/:idu/deps/:ida an. Update a single dependence
+         * @apiName UpdateSingleDependence
+         * @apiGroup Teams
+         */
+        .put('/teams/:id/applications/:idu/deps/:ida', authenticate(), WrappeDepsApp.updateSingle)
+        /**
+         * @api {delete} /teams/:id/applications/:idu/deps/:ida ao. Delete single dependence
+         * @apiName DeleteSingledependence
+         * @apiGroup Teams
+         */
+        .delete('/teams/:id/applications/:idu/deps/:ida', authenticate(), WrappeDepsApp.remove);
 
 };

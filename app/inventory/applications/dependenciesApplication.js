@@ -3,7 +3,6 @@
 const _ = require('lodash');
 
 const DDepServices = require('inventory/services/DependenciesServices');
-const hateaosTransform = require('core/applications/transforms/hateoasTransform');
 
 const DepsApp = (Entity, DepServices = DDepServices) => {
 

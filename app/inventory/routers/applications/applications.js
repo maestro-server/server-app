@@ -379,9 +379,71 @@ module.exports = function (router) {
         /**
          * Dependencies
          */
+        /**
+         * @api {post} /applications/:id/deps/ h. Add dependecy App
+         * @apiName PostDepApp
+         * @apiGroup Applications
+         *
+         * @apiParam (Param) {String} id Application unique id.
+         *
+         * @apiParam (Body x-www) {String} name App name
+         * @apiParam (Body x-www) {String} [family] App family
+         * @apiParam (Body x-www) {String} id Dependency App unique Id
+         *
+         * @apiPermission JWT (Admin)
+         * @apiHeader (Header) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 201 OK
+         *     {}
+         */
         .post('/:id/deps', authenticate(), DependenciesApp.create)
-
+        /**
+         * @api {put} /applications/:id/deps/:idu j. Update specific access role
+         * @apiName PutSingleDepApp
+         * @apiGroup Applications
+         * @apiDescription Update name or family of any dependecy app.
+         *
+         * @apiParam (Param) {String} id Application unique id.
+         * @apiParam (Param) {String} idu Dependency Application unique id.
+         *
+         * @apiParam (Body x-www) {String} field Any field describe to create role
+         *
+         * @apiPermission JWT (Admin)
+         * @apiHeader (Header) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 202 OK
+         *     {}
+         */
         .put('/:id/deps/:idu', authenticate(), DependenciesApp.updateSingle)
-
+        /** 
+         * @api {delete} /applications/:id/deps/:idu l. Delete one dependency
+         * @apiName DeleteDepApp
+         * @apiGroup Applications
+         * @apiDescription Delete unique dependecy.
+         *
+         * @apiParam (Param) {String} id Application unique id.
+         * @apiParam (Param) {String} idu Dependency Application unique id.
+         *
+         * @apiPermission JWT (Admin)
+         * @apiHeader (Header) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 204 OK
+         *     {}
+         */
         .delete('/:id/deps/:idu', authenticate(), DependenciesApp.remove);
 };
