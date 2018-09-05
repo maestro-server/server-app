@@ -88,10 +88,11 @@ const PersistenceGraph = (Entity, PersistenceServices = DPersistenceServices) =>
 
         createPublicToken(req, res, next) {
 
-            const _id = _.get(req.params, '_id');
+            const _id = _.get(req.params, 'id');
+            const spublic = _.get(req.body, 'public', true);
 
             PersistenceServices(Entity)
-                .findOne(req.params.id, req.user)
+                .patch(req.params.id, {spublic}, req.user)
                 .then(notExist)
                 .then(() => PublicAnalyticsToken(Entity).generate(_id))
                 .then(e => res.status(201).json(e))
