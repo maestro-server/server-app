@@ -24,7 +24,7 @@ const DepsServices = (Entity, field, FactoryDBRepository = DFactoryDBRepository)
                 factoryValid(post, depsValid.create);
 
                 const access = Object.assign({}, {
-                    _id: in_maker(post.id)
+                    _id: in_maker(post._id)
                 },
                     _.pick(post, 'name', 'family')
                 );
