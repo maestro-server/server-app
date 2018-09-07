@@ -2,17 +2,19 @@
 
 const Joi = require('joi');
 
-const {family} = require('core/validators/validators');
+const {family, environment} = require('core/validators/validators');
 
 const addDep = {
-    id: Joi.string().required(),
+    _id: Joi.string().required(),
     name: Joi.string().required(),
-    family: family.required()
+    family: family.required(),
+    environment
 };
 
 const updateDep = {
     name: Joi.string().required(),
-    family: family.required()
+    family: family.required(),
+    environment
 };
 
 module.exports = {
