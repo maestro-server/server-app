@@ -7,7 +7,7 @@ const Applications = require('../repositories/dao/applications');
 const app = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'unique_id',
     'name', 'status', 'family', 'environment', 'provider', 'own',
-    'system.name', 'system._id', 'servers', 'engine',
+    'system.name', 'system._id', 'servers', 'engine', 'size',
     'targets', 'deps', 'role.role', 'role', 'spec', 'asm_groups',
     'language', 'cluster', 'dataguard', 'type', 'storage_types',
     'crs_version', 'modal', 'pdbs', 'datacenters.name', 'datacenters',
