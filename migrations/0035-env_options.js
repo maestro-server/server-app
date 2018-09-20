@@ -6,7 +6,7 @@ exports.up = function (db, next) {
     pets.insert({
         "value": {
           environment: ['Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'],
-          size: ['nano', 'small', 'medium', 'large', 'xlarge', '2xlarge', '4xlarge', '8xlarge', '16xlarge', '32xlarge', '64xlarge']
+          size: ['nano', 'small', 'medium', 'large', 'xlarge', '2xlarge', '4xlarge', '8xlarge', '16xlarge', '32xlarge']
         },
         "key": "env_options",
         "active": true,
