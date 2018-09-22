@@ -54,6 +54,8 @@ Constructed with KrakenJs, we create a lot of middleware and organize by domain.
 ## Service relations ##
 * Maestro Discovery
 * Maestro Reports
+* Maestro Analytics
+* Maestro Analytics Front
 
 ## Setup ##
 
@@ -76,6 +78,8 @@ services:
     - "MAESTRO_MONGO_URI=mongodb/maestro-client"
     - "MAESTRO_DISCOVERY_URI=http://discovery:5000"
     - "MAESTRO_REPORT_URI=http://reports:5005"
+    - "MAESTRO_ANALYTICS_URI=http://analytics:5020"
+    - "MAESTRO_ANALYTICS_FRONT_URI=http://analytics_front:9999"
 ```
 
 #### Dev Env ####
@@ -95,6 +99,8 @@ MAESTRO_PORT=8888
 MAESTRO_MONGO_URI='localhost/maestro-client'
 MAESTRO_DISCOVERY_URI=http://localhost:5000 // used in connection
 MAESTRO_REPORT_URI=http://localhost:5005 // used in reports
+MAESTRO_ANALYTICS_URI=http://analytics:5020 // used in analytics
+MAESTRO_ANALYTICS_FRONT_URI=http://analytics_front:9999 // used in analytics front
 ```
 
 Development
@@ -120,31 +126,33 @@ gulp eslint
 
 ### Env variables ###
 
-| Env Variables                | Example                  | Description                   |
-|------------------------------|--------------------------|-------------------------------|
-| MAESTRO_PORT                 | 8888                     |                               |       
-| NODE_ENV                     | development|production   |                               |       
-| MAESTRO_MONGO_URI            | localhost/maestro-client |  DB string connection         |       
-| MAESTRO_SECRETJWT            | XXXX                     |  Secret key - session         |
-| MAESTRO_SECRETJWT_FORGOT     | XXXX                     |  Secret key - forgot request  |
-| MAESTRO_SECRET_CRYPTO_FORGOT | XXXX                     |  Secret key - forgot content  |
-| MAESTRO_DISCOVERY_URI        | http://localhost:5000    |  Url discovery-app (flask)    |
-| MAESTRO_REPORT_URI           | http://localhost:5005    |  Url reports-app (flask)      |
-| MAESTRO_TIMEOUT              | 1000                     |  Timeout micro service request|
-| SMTP_PORT                    | 1025                     |                               |
-| SMTP_HOST                    | localhost                |                               |
-| SMTP_SENDER                  | felipeklerkk@XXXX        |                               |
-| SMTP_IGNORE                  | true|false               |                               |
-| SMTP_USETSL                  | true|false               |                               |
-| SMTP_USERNAME                |                          |                               |
-| SMTP_PASSWORD                |                          |                               |
-| AWS_ACCESS_KEY_ID            | XXXX                     |                               |
-| AWS_SECRET_ACCESS_KEY        | XXXX                     |                               |
-| AWS_DEFAULT_REGION           | us-east-1                |                               |
-| AWS_S3_BUCKET_NAME           | maestroserver            |                               |
-| MAESTRO_UPLOAD_TYPE          | S3/Local                 |  Upload mode                  |
-| LOCAL_DIR                    | /public/static/          |  Where files will be uploaded |
-| PWD                          | $rootDirectory           |  PWD process                  |
+| Env Variables                | Example                  | Description                    |
+|------------------------------|--------------------------|--------------------------------|
+| MAESTRO_PORT                 | 8888                     |                                |       
+| NODE_ENV                     | development|production   |                                |       
+| MAESTRO_MONGO_URI            | localhost/maestro-client |  DB string connection          |       
+| MAESTRO_SECRETJWT            | XXXX                     |  Secret key - session          |
+| MAESTRO_SECRETJWT_FORGOT     | XXXX                     |  Secret key - forgot request   |
+| MAESTRO_SECRET_CRYPTO_FORGOT | XXXX                     |  Secret key - forgot content   |
+| MAESTRO_DISCOVERY_URI        | http://localhost:5000    |  Url discovery-app (flask)     |
+| MAESTRO_REPORT_URI           | http://localhost:5005    |  Url reports-app (flask)       |
+| MAESTRO_ANALYTICS_URI        | http://localhost:5020    |  Url Analytics-app (flask)     |
+| MAESTRO_ANALYTICS_FRONT_URI  | http://localhost:9999    |  Url Analytics Front-app (node)|
+| MAESTRO_TIMEOUT              | 1000                     |  Timeout micro service request |
+| SMTP_PORT                    | 1025                     |                                |
+| SMTP_HOST                    | localhost                |                                |
+| SMTP_SENDER                  | felipeklerkk@XXXX        |                                |
+| SMTP_IGNORE                  | true|false               |                                |
+| SMTP_USETSL                  | true|false               |                                |
+| SMTP_USERNAME                |                          |                                |
+| SMTP_PASSWORD                |                          |                                |
+| AWS_ACCESS_KEY_ID            | XXXX                     |                                |
+| AWS_SECRET_ACCESS_KEY        | XXXX                     |                                |
+| AWS_DEFAULT_REGION           | us-east-1                |                                |
+| AWS_S3_BUCKET_NAME           | maestroserver            |                                |
+| MAESTRO_UPLOAD_TYPE          | S3/Local                 |  Upload mode                   |
+| LOCAL_DIR                    | /public/static/          |  Where files will be uploaded  |
+| PWD                          | $rootDirectory           |  PWD process                   |
 
 ### Contribute ###
 
