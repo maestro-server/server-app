@@ -6,6 +6,7 @@ const express = require('express');
 const kraken = require('kraken-js');
 
 const db_connect = require('core/libs/db_run');
+const dbpath = require('core/libs/dbpath')();
 const Mongorito = require('mongorito');
 
 /*
@@ -20,7 +21,7 @@ const options = {
          */
 
         db_connect(function *() {
-            yield Mongorito.connect(process.env.MAESTRO_MONGO_URI || 'localhost/maestro-client');
+            yield Mongorito.connect(dbpath);
             next(null, config);
             console.log("Maestro: Mongo online");
         });
