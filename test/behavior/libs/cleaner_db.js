@@ -1,5 +1,7 @@
 "use strict";
 
+require('app-module-path').addPath(`${__dirname}/../../../app`); //make more realiable to call modules
+
 const _ = require('lodash');
 let MongoClient = require("mongodb").MongoClient;
 const dbpath = require('core/libs/dbpath')();
