@@ -7,10 +7,10 @@ const kraken = require('kraken-js');
 
 const db_connect = require('core/libs/db_run');
 const Mongorito = require('mongorito');
-
+const dbpath = require('core/libs/dbpath')();
 const path = require('path');
 
-module.exports = function (conn = process.env.MAESTRO_MONGO_URI) {
+module.exports = function (conn = dbpath) {
   let options = {
     basedir: path.resolve(__dirname, '../../../app/'),
       onconfig: function (config, next) {

@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 let MongoClient = require("mongodb").MongoClient;
-
+const dbpath = require('core/libs/dbpath')();
 
 const interactC = function (db, collections) {
   let pros=[];
@@ -26,7 +26,7 @@ const interactC = function (db, collections) {
   return pros;
 };
 
-module.exports = function (collections, done, mock, conn = process.env.MAESTRO_MONGO_URI) {
+module.exports = function (collections, done, mock, conn = dbpath) {
 
     MongoClient.connect('mongodb://'+conn)
         .then((db) => {
