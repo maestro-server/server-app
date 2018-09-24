@@ -133,7 +133,7 @@ gulp eslint
 | MAESTRO_PORT                 | 8888                     |                                |       
 | NODE_ENV                     | development|production   |                                |       
 | MAESTRO_MONGO_URI            | localhost                |  DB string connection          |
-| MAESTRO_MONGO_DATABASE       | maestro-client           |  Database name                 |       
+| MAESTRO_MONGO_DATABASE       | maestro-client           |  Database name                 |  
 | MAESTRO_SECRETJWT            | XXXX                     |  Secret key - session          |
 | MAESTRO_SECRETJWT_FORGOT     | XXXX                     |  Secret key - forgot request   |
 | MAESTRO_SECRET_CRYPTO_FORGOT | XXXX                     |  Secret key - forgot content   |
