@@ -27,6 +27,10 @@ const HTTPService = (url) => (header = {}) => {
     };
 
     return {
+        info() {
+            return {url, ...header};
+        },
+
         find(path, args = {}) {
             return factoryRequest('get', path, args);
         },
@@ -55,9 +59,21 @@ const ReportHTTPService = (header = {}) => {
     return HTTPService(url)(header);
 };
 
+const AnalyticsHTTPService = (header = {}) => {
+    const url = process.env.MAESTRO_ANALYTICS_URI || 'http://localhost:5020';
+    return HTTPService(url)(header);
+};
+
+const AnalyticsFrontHTTPService = (header = {}) => {
+    const url = process.env.MAESTRO_ANALYTICS_FRONT_URI || 'http://localhost:9999';
+    return HTTPService(url)(header);
+};
+
 
 module.exports = {
     HTTPService,
     DiscoveryHTTPService,
-    ReportHTTPService
+    ReportHTTPService,
+    AnalyticsHTTPService,
+    AnalyticsFrontHTTPService
 };

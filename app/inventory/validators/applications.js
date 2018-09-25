@@ -26,6 +26,7 @@ const schema = Joi.object().keys({
     roles: Joi.array().items(roles).unique('_id'),
     tags: Joi.array().items(tags),
     engine: Joi.string(),
+    size: Joi.string().default('medium'),
     targets: Joi.array().items(entries).unique(),
     deps: Joi.array().items(entries).unique(),
     unique_id,

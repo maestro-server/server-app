@@ -66,7 +66,7 @@ module.exports = {
     entries:  Joi.object({
         name: Joi.string().max(250),
         family: Joi.string(),
-        _id: Joi.object(),
+        _id: Joi.object().required(),
         endpoint: Joi.string(),
         environment: Joi.string()
     }),
@@ -100,7 +100,7 @@ module.exports = {
     active: Joi.boolean(),
     status: Joi.string().valid('Active', 'Avaliable', 'Stopped').default('Active'),
     environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'),
-    family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'Serveless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS').default("Application"),
+    family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS').default("Application"),
     created_at: Joi.any(),
     metas: Joi.any()
 };
