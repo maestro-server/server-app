@@ -2,8 +2,9 @@
 
 const _ = require('lodash');
 let MongoClient = require("mongodb").MongoClient;
+const dbpath = require('core/libs/dbpath')();
 
-module.exports = function (data, table, done, conn = process.env.MAESTRO_MONGO_URI) {
+module.exports = function (data, table, done, conn = dbpath) {
     MongoClient.connect('mongodb://'+conn)
         .then((db) => {
             let pets = db.collection(table);

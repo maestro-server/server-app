@@ -62,7 +62,7 @@ Constructed with KrakenJs, we create a lot of middleware and organize by domain.
 #### Installation by docker ####
 
 ```bash
-docker run -p 8888:8888  -e "MAESTRO_MONGO_URI=mongodb/maestro-client" -e "MAESTRO_DISCOVERY_URI=http://discovery:5000" -e "MAESTRO_REPORT_URI=http://reports:5005" maestroserver/server-maestro
+docker run -p 8888:8888  -e "MAESTRO_MONGO_URI=mongodb" -e "MAESTRO_MONGO_DATABASE=maestro-client" -e "MAESTRO_DISCOVERY_URI=http://discovery:5000" -e "MAESTRO_REPORT_URI=http://reports:5005" maestroserver/server-maestro
 ```
 Or by docker-compose
 
@@ -75,7 +75,8 @@ services:
     ports:
     - "8888:8888"
     environment:
-    - "MAESTRO_MONGO_URI=mongodb/maestro-client"
+    - "MAESTRO_MONGO_URI=mongodb"
+    - "MAESTRO_MONGO_DATABASE=maestro-client"
     - "MAESTRO_DISCOVERY_URI=http://discovery:5000"
     - "MAESTRO_REPORT_URI=http://reports:5005"
     - "MAESTRO_ANALYTICS_URI=http://analytics:5020"
@@ -96,7 +97,8 @@ Configure database and port application in .env file
 
 ```bash
 MAESTRO_PORT=8888
-MAESTRO_MONGO_URI='localhost/maestro-client'
+MAESTRO_MONGO_URI='localhost'
+MAESTRO_MONGO_DATABASE='maestro-client'
 MAESTRO_DISCOVERY_URI=http://localhost:5000 // used in connection
 MAESTRO_REPORT_URI=http://localhost:5005 // used in reports
 MAESTRO_ANALYTICS_URI=http://analytics:5020 // used in analytics
@@ -130,7 +132,8 @@ gulp eslint
 |------------------------------|--------------------------|--------------------------------|
 | MAESTRO_PORT                 | 8888                     |                                |       
 | NODE_ENV                     | development|production   |                                |       
-| MAESTRO_MONGO_URI            | localhost/maestro-client |  DB string connection          |       
+| MAESTRO_MONGO_URI            | localhost                |  DB string connection          |
+| MAESTRO_MONGO_DATABASE       | maestro-client           |  Database name                 |  
 | MAESTRO_SECRETJWT            | XXXX                     |  Secret key - session          |
 | MAESTRO_SECRETJWT_FORGOT     | XXXX                     |  Secret key - forgot request   |
 | MAESTRO_SECRET_CRYPTO_FORGOT | XXXX                     |  Secret key - forgot content   |
