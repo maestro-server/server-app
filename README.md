@@ -108,7 +108,7 @@ MAESTRO_ANALYTICS_FRONT_URI=http://analytics_front:9999 // used in analytics fro
 
 Development
 
-Install nodejs, version above 7.6, mongodb need to be running.
+Install nodejs, version above 7.6, and mongodb need to be running.
 
 ```bash
 npm install
