@@ -1,7 +1,7 @@
 'use strict'
 require('dotenv').config();
 
-const dbpath = require('core/libs/dbpath')();
+const dbpath = require('./app/core/libs/dbpath')();
 
 module.exports = {
     "mongoAppDb": {
