@@ -42,6 +42,7 @@ Constructed with KrakenJs, we create a lot of middleware and organize by domain.
 * Reports
 * Events
 * Analytics
+* Graphs
 * Jobs
 * Inventory
 
@@ -137,6 +138,7 @@ gulp eslint
 | MAESTRO_SECRETJWT            | XXXX                     |  Secret key - session          |
 | MAESTRO_SECRETJWT_FORGOT     | XXXX                     |  Secret key - forgot request   |
 | MAESTRO_SECRET_CRYPTO_FORGOT | XXXX                     |  Secret key - forgot content   |
+|                              |                          |                                |
 | MAESTRO_DISCOVERY_URI        | http://localhost:5000    |  Url discovery-app (flask)     |
 | MAESTRO_REPORT_URI           | http://localhost:5005    |  Url reports-app (flask)       |
 | MAESTRO_ANALYTICS_URI        | http://localhost:5020    |  Url Analytics-app (flask)     |
