@@ -40,12 +40,14 @@
     "jwt-simple": "~0.5.3",
     "kraken-js": "^2.2.0",
     "lodash": "^4.17.11",
+    "minipass": "^2.3.4",
     "mongodb-migrate": "~2.0.2",
     "mongorito": "~2.2.0",
     "nodemailer": "^4.6.8",
     "nodemailer-express-handlebars": "^3.0.0",
     "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "yallist": "^3.0.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",
