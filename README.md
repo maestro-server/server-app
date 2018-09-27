@@ -63,7 +63,7 @@ Constructed with KrakenJs, we create a lot of middleware and organize by domain.
 #### Installation by docker ####
 
 ```bash
-docker run -p 8888:8888  -e "MAESTRO_MONGO_URI=mongodb" -e "MAESTRO_MONGO_DATABASE=maestro-client" -e "MAESTRO_DISCOVERY_URI=http://discovery:5000" -e "MAESTRO_REPORT_URI=http://reports:5005" maestroserver/server-maestro
+docker run -p 8888:8888  -e "MAESTRO_MONGO_URI=mongodb" -e "MAESTRO_MONGO_DATABASE=maestro-client" -e "MAESTRO_DISCOVERY_URI=http://discovery:5000" -e "MAESTRO_REPORT_URI=http://reports:5005" -e "MAESTRO_ANALYTICS_URI=http://analytics:5020" maestroserver/server-maestro
 ```
 Or by docker-compose
 
@@ -81,7 +81,6 @@ services:
     - "MAESTRO_DISCOVERY_URI=http://discovery:5000"
     - "MAESTRO_REPORT_URI=http://reports:5005"
     - "MAESTRO_ANALYTICS_URI=http://analytics:5020"
-    - "MAESTRO_ANALYTICS_FRONT_URI=http://analytics_front:9999"
 ```
 
 #### Dev Env ####
@@ -103,7 +102,6 @@ MAESTRO_MONGO_DATABASE='maestro-client'
 MAESTRO_DISCOVERY_URI=http://localhost:5000 // used in connection
 MAESTRO_REPORT_URI=http://localhost:5005 // used in reports
 MAESTRO_ANALYTICS_URI=http://analytics:5020 // used in analytics
-MAESTRO_ANALYTICS_FRONT_URI=http://analytics_front:9999 // used in analytics front
 ```
 
 Development
@@ -143,7 +141,6 @@ gulp eslint
 | MAESTRO_DISCOVERY_URI                | http://localhost:5000    |  Url discovery-app (flask)     |
 | MAESTRO_REPORT_URI                   | http://localhost:5005    |  Url reports-app (flask)       |
 | MAESTRO_ANALYTICS_URI                | http://localhost:5020    |  Url Analytics-app (flask)     |
-| MAESTRO_ANALYTICS_FRONT_URI          | http://localhost:9999    |  Url Analytics Front-app (node)|
 | MAESTRO_TIMEOUT                      | 1000                     |  Timeout micro service request |
 | SMTP_PORT                            | 1025                     |                                |
 | SMTP_HOST                            | localhost                |                                |
