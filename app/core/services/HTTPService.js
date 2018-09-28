@@ -64,16 +64,9 @@ const AnalyticsHTTPService = (header = {}) => {
     return HTTPService(url)(header);
 };
 
-const AnalyticsFrontHTTPService = (header = {}) => {
-    const url = process.env.MAESTRO_ANALYTICS_FRONT_URI || 'http://localhost:9999';
-    return HTTPService(url)(header);
-};
-
-
 module.exports = {
     HTTPService,
     DiscoveryHTTPService,
     ReportHTTPService,
-    AnalyticsHTTPService,
-    AnalyticsFrontHTTPService
+    AnalyticsHTTPService
 };
