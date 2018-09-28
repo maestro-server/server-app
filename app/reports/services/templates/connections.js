@@ -39,8 +39,6 @@ const connections = function () {
                 .head()
                 .value();
 
-            data['url_discovery'] = process.env.MAESTRO_DISCOVERY_URI || 'http://discovery:5000';
-
             const endpoint = _.reduce(data, (result, value, key) => _.replace(result, `<${key}>`, value), _.get(template, 'url'));
             const now = Date.now();
 
