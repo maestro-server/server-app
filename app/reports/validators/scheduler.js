@@ -6,12 +6,12 @@ const {created_at, active, roles, owner, interval, cron, chain} = require('core/
 
 const createS = {
     name: Joi.string().min(3).max(120).required(),
-    endpoint: Joi.string().uri().required(),
+    endpoint: Joi.string().required(),
 };
 
 const sharedS = {
     name: Joi.string().min(3).max(120),
-    endpoint: Joi.string().uri(),
+    endpoint: Joi.string(),
     _cls: Joi.string().default('PeriodicTask'),
     enabled: Joi.boolean().default(true),
     interval,
@@ -25,6 +25,7 @@ const sharedS = {
     run_immediately: Joi.boolean().default(false),
     crawling: Joi.boolean().default(true),
     task: Joi.string().valid('webhook', 'connections', 'jobs').default('webhook'),
+    source: Joi.string().valid('discovery', 'report', 'analytic'),
     link: Joi.object().keys({
         name: Joi.string().max(4050),
         provider: Joi.string().max(50),
