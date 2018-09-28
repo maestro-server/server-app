@@ -49,6 +49,7 @@ const connections = function () {
                 "period_type": "interval",
                 "task": module,
                 "run_immediately": true,
+                'source': _.get(template, 'sopurce'),
                 interval,
                 endpoint,
                 link: {
