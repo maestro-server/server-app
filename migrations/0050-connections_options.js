@@ -46,6 +46,30 @@ exports.up = function (db, next) {
                             'init_job': true
                         }
                     ],
+					'autoscaling-list': [
+                        {
+                            'access': 'describe_auto_scaling_groups',
+                            'command': 'autoscaling',
+                            'entity': 'applications',
+                            'result_path': 'AutoScalingGroups',
+                            'key_comparer': 'datacenters.arn',
+                            'vars': [
+                                {'name': 'MaxRecords', 'env': 'MAESTRO_SCAN_QTD', 'default': 123, 'type': 'int'}
+                            ],
+                            'init_job': true
+                        },
+						{
+                            'access': 'describe_scaling_plans',
+                            'command': 'autoscaling-plans',
+                            'entity': 'applications',
+                            'result_path': 'ScalingPlans',
+                            'key_comparer': 'name',
+                            'vars': [
+                                {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 50, 'type': 'int'}
+                            ],
+                            'init_job': true
+                        }
+                    ],
                     'dbs-list': [
                         {
                             'access': 'describe_db_instances',
