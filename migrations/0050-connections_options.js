@@ -52,9 +52,9 @@ exports.up = function (db, next) {
                             'command': 'autoscaling',
                             'entity': 'applications',
                             'result_path': 'AutoScalingGroups',
-                            'key_comparer': 'datacenters.arn',
+                            'key_comparer': 'unique_id',
                             'vars': [
-                                {'name': 'MaxRecords', 'env': 'MAESTRO_SCAN_QTD', 'default': 123, 'type': 'int'}
+                                {'name': 'MaxRecords', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
                             ],
                             'init_job': true
                         },
@@ -63,7 +63,7 @@ exports.up = function (db, next) {
                             'command': 'autoscaling-plans',
                             'entity': 'applications',
                             'result_path': 'ScalingPlans',
-                            'key_comparer': 'name',
+                            'key_comparer': 'unique_id',
                             'vars': [
                                 {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 50, 'type': 'int'}
                             ],
