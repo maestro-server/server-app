@@ -26,6 +26,7 @@ exports.up = function (db, next) {
                             'access': 'describe_load_balancers',
                             'command': 'elbv2',
                             'entity': 'applications',
+                            'family': 'Loadbalance',
                             'result_path': 'LoadBalancers',
                             'key_comparer': 'unique_id',
                             'vars': [
@@ -37,6 +38,7 @@ exports.up = function (db, next) {
                             'access': 'describe_load_balancers',
                             'command': 'elb',
                             'entity': 'applications',
+                            'family': 'Loadbalance',
                             'result_path': 'LoadBalancerDescriptions',
                             'single_result_path': '',
                             'key_comparer': 'unique_id',
@@ -51,6 +53,7 @@ exports.up = function (db, next) {
                             'access': 'describe_auto_scaling_groups',
                             'command': 'autoscaling',
                             'entity': 'applications',
+                            'family': 'AutoScaling',
                             'result_path': 'AutoScalingGroups',
                             'key_comparer': 'unique_id',
                             'vars': [
@@ -62,6 +65,7 @@ exports.up = function (db, next) {
                             'access': 'describe_scaling_plans',
                             'command': 'autoscaling-plans',
                             'entity': 'applications',
+                            'family': 'AutoScalingPlan',
                             'result_path': 'ScalingPlans',
                             'key_comparer': 'unique_id',
                             'vars': [
@@ -75,6 +79,7 @@ exports.up = function (db, next) {
                             'access': 'describe_db_instances',
                             'command': 'rds',
                             'entity': 'applications',
+                            'family': 'Database',
                             'result_path': 'DBInstances',
 							'key_comparer': 'unique_id',
                             'vars': [
@@ -88,6 +93,7 @@ exports.up = function (db, next) {
                             'access': 'list_buckets',
                             'command': 's3',
                             'entity': 'applications',
+                            'family': 'ObjectStorage',
                             'result_path': 'Buckets',
                             'key_comparer': 'unique_id',
                             'vars': [],
@@ -112,6 +118,7 @@ exports.up = function (db, next) {
                             'access': 'list_distributions',
                             'command': 'cloudfront',
                             'entity': 'applications',
+                            'family': 'CDN',
                             'result_path': 'DistributionList.Items',
                             'key_comparer': 'unique_id',
                             'vars': [
@@ -268,6 +275,7 @@ exports.up = function (db, next) {
                             'access': 'load_balancers',
                             'command': 'load_balancer',
                             'entity': 'applications',
+                            'family': 'Loadbalance',
                             'result_path': '',
                             'single_result_path': '',
                             'key_comparer': 'unique_id',
