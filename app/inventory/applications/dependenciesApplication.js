@@ -26,6 +26,14 @@ const DepsApp = (Entity, DepServices = DDepServices) => {
                 .catch(next);
         },
 
+        updateMany: (req, res, next) => {
+
+            DepServices(Entity, field)
+                .updateManyDep(req.body, req.user)
+                .then(e => res.status(201).json(e))
+                .catch(next);
+        },
+
         remove: (req, res, next) => {
 
             DepServices(Entity, field)

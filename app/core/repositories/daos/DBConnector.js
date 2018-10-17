@@ -86,7 +86,8 @@ class Dao extends Model {
                 return this._runHooks('before', 'update');
             })
             .then((collection) => {
-                return collection.updateMany(entity, {[entry]: this.get()}, options);
+                const subs = entry ? {[entry]: this.get()} : this.get();
+                return collection.updateMany(entity, subs, options);
             })
             .then((e) => {
                 return this.isUpdater = e.result;
@@ -94,6 +95,21 @@ class Dao extends Model {
             .return(this);
     }
 
+    updateBatch(entity, entry, options) {
+
+        return this._collection()
+            .tap(() => {
+                return this._runHooks('before', 'update');
+            })
+            .then((collection) => {
+                const subs = entry ? {[entry]: this.get()} : this.get();
+                return collection.updateMany(entity, subs, options);
+            })
+            .then((e) => {
+                return this.isUpdater = e.result;
+            })
+            .return(this);
+    }
 }
 
 module.exports = Dao;

@@ -194,8 +194,43 @@ module.exports = function (router) {
          *     }
          */
         .post('/', authenticate(), PersistenceApp.create)
+         /**
+         * @api {post} /applications/deps/ e. Update multiple dependencies
+         * @apiName PostMultiDepApp
+         * @apiGroup Applications
+         *
+         *
+         * @apiParam (Body raw) {String} tree Application tree, hash table, app id and deps [Json]
+         * <br/>
+         * <pre class="prettyprint language-json" data-type="json">
+         * <code>{
+         * <br/>    "root": [{
+         * <br/>        "_id": "<uuid>",
+         * <br/>        "name": "<String>",
+         * <br/>        "family": "<Application>"
+         * <br/>    }],
+         * <br/>    "<uuid>": [{
+         * <br/>        "_id": "<uuid>",
+         * <br/>        "name": "<string>",
+         * <br/>        "family": "<Application>"
+         * <br/>    }]
+         * <br/>}
+         *  </code>
+         * </pre>
+         * @apiPermission JWT (Admin)
+         * @apiHeader (Header) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 201 OK
+         *     {}
+         */
+        .post('/deps', authenticate(), DependenciesApp.updateMany)
+
         /**
-         * @api {patch} /applications/:id e. Update app
+         * @api {patch} /applications/:id f. Update app
          * @apiName PutSingleApplication
          * @apiGroup Applications
          * @apiDescription Use patch to partial update.
@@ -224,7 +259,7 @@ module.exports = function (router) {
          */
         .patch('/:id', authenticate(), PersistenceApp.patch)
         /**
-         * @api {put} /applications/:id f. Full Update app
+         * @api {put} /applications/:id g. Full Update app
          * @apiName PatchSingleApplication
          * @apiGroup Applications
          *
@@ -251,7 +286,7 @@ module.exports = function (router) {
         .put('/:id', authenticate(), PersistenceApp.update)
 
         /**
-         * @api {delete} /applications/:id g. Delete single app
+         * @api {delete} /applications/:id h. Delete single app
          * @apiName DeleteSingleApplication
          * @apiGroup Applications
          *
@@ -274,7 +309,7 @@ module.exports = function (router) {
          * Roles
          */
         /**
-         * @api {post} /applications/:id/roles/ h. Add access Role
+         * @api {post} /applications/:id/roles/ i. Add access Role
          * @apiName PostRoleApp
          * @apiGroup Applications
          *
@@ -299,7 +334,7 @@ module.exports = function (router) {
          */
         .post('/:id/roles', authenticate(), AccessApp.create)
         /**
-         * @api {put} /applications/:id/roles i. Update access role
+         * @api {put} /applications/:id/roles j. Update access role
          * @apiName PutRoleApp
          * @apiGroup Applications
          * @apiDescription Update all access roles, remember if you don´t send your access, after success you lose the access it´s
@@ -332,7 +367,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/', authenticate(), AccessApp.update)
         /**
-         * @api {put} /applications/:id/roles/:idu j. Update specific access role
+         * @api {put} /applications/:id/roles/:idu l. Update specific access role
          * @apiName PutSingleRoleApp
          * @apiGroup Applications
          * @apiDescription Update access level one role to one application
@@ -355,7 +390,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/:idu', authenticate(), AccessApp.updateSingle)
         /**
-         * @api {delete} /applications/:id/roles/:idu l. Delete one role
+         * @api {delete} /applications/:id/roles/:idu m. Delete one role
          * @apiName DeleteRoleApp
          * @apiGroup Applications
          * @apiDescription Delete unique role.
@@ -380,7 +415,7 @@ module.exports = function (router) {
          * Dependencies
          */
         /**
-         * @api {post} /applications/:id/deps/ h. Add dependecy App
+         * @api {post} /applications/:id/deps/ n. Add dependecy App
          * @apiName PostDepApp
          * @apiGroup Applications
          *
@@ -403,7 +438,7 @@ module.exports = function (router) {
          */
         .post('/:id/deps', authenticate(), DependenciesApp.create)
         /**
-         * @api {put} /applications/:id/deps/:idu j. Update specific access role
+         * @api {put} /applications/:id/deps/:idu o. Update specific access role
          * @apiName PutSingleDepApp
          * @apiGroup Applications
          * @apiDescription Update name or family of any dependecy app.
@@ -426,7 +461,7 @@ module.exports = function (router) {
          */
         .put('/:id/deps/:idu', authenticate(), DependenciesApp.updateSingle)
         /** 
-         * @api {delete} /applications/:id/deps/:idu l. Delete one dependency
+         * @api {delete} /applications/:id/deps/:idu p. Delete one dependency
          * @apiName DeleteDepApp
          * @apiGroup Applications
          * @apiDescription Delete unique dependecy.
