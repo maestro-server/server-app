@@ -509,20 +509,6 @@ describe('behaviors basic actions in cloud inventory', function () {
         });
     });
 
-    describe('sync servers count by dc', function () {
-        it('sync', function (done) {
-            request(mock)
-                .patch('/datacenters/' + datacenters[0]._id + '/sync_count_servers')
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-    });
-
     describe('ensure if my setup is ok', function () {
         it('select my first app', function (done) {
 
