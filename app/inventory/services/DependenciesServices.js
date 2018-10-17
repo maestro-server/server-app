@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 const in_maker = require('core/libs/in_maker');
+const {transfID} = require('core/applications/transforms/mapRelationToObjectID');
 const Access = require('core/entities/accessRole');
 
 const DFactoryDBRepository = require('core/repositories/DBRepository');
@@ -56,6 +57,25 @@ const DepsServices = (Entity, field, FactoryDBRepository = DFactoryDBRepository)
                     })
                     .then(resolve)
                     .catch(reject);
+            });
+        },
+
+        updateManyDep (post, owner) {
+            return new Promise((resolve, reject) => {
+                factoryValid(post, depsValid.updateMany);
+
+                //const access = transfID(post, ['_id']);
+
+                //const filters = 
+
+                resolve();
+                
+                /*
+                return DBRepository
+                    .updateBatch(prepared, arr, field)
+                    .then(resolve)
+                    .catch(reject);
+                    */
             });
         },
 

@@ -17,7 +17,12 @@ const updateDep = {
     environment
 };
 
+const updateManyDep = {
+    root: Joi.array().unique()
+};
+
 module.exports = {
     create: Joi.object().keys(addDep),
-    update: Joi.object().keys(updateDep)
+    update: Joi.object().keys(updateDep),
+    updateMany: Joi.object().keys(updateManyDep)
 };
