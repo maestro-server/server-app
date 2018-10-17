@@ -6,7 +6,7 @@ const Datacenters = require('../repositories/dao/datacenter');
 
 const app = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'name',
-    'zones', 'regions', 'provider', 'role', 'metas', 'roles', 'servers_count', 'sucessed'];
+    'zones', 'regions', 'provider', 'role', 'metas', 'roles', 'sucessed'];
 
     const singleFilled = [...resFilled, 'owner', 'auth', 'tracker'];
 
@@ -21,7 +21,7 @@ const app = () => {
 
         dao: Datacenters,
 
-        defaults: {servers_count: 0},
+        defaults: {},
 
         mapRelations: [],
 

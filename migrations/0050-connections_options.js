@@ -27,7 +27,7 @@ exports.up = function (db, next) {
                             'command': 'elbv2',
                             'entity': 'applications',
                             'result_path': 'LoadBalancers',
-                            'key_comparer': 'name',
+                            'key_comparer': 'unique_id',
                             'vars': [
                                 {'name': 'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ],
@@ -39,7 +39,7 @@ exports.up = function (db, next) {
                             'entity': 'applications',
                             'result_path': 'LoadBalancerDescriptions',
                             'single_result_path': '',
-                            'key_comparer': 'name',
+                            'key_comparer': 'unique_id',
                             'vars': [
                                 {'name': 'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ],
@@ -89,7 +89,7 @@ exports.up = function (db, next) {
                             'command': 's3',
                             'entity': 'applications',
                             'result_path': 'Buckets',
-                            'key_comparer': 'name',
+                            'key_comparer': 'unique_id',
                             'vars': [],
                             'init_job': true
                         }

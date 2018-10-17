@@ -2,11 +2,9 @@
 
 const _ = require('lodash');
 
-const DRelationsSyncerService = require('core/services/RelationsSyncerService');
 const DFactoryPesistenceApp = require('core/applications/persistenceApplication');
 
-
-const RelationsApp = (RelationsSyncerService = DRelationsSyncerService)  => (FactoryPesistenceApp = DFactoryPesistenceApp) => (REntity) => (Entity) => {
+const RelationsApp = ()  => (FactoryPesistenceApp = DFactoryPesistenceApp) => (REntity) => (Entity) => {
 
     return {
         find: (req, res, next) => {
@@ -21,15 +19,6 @@ const RelationsApp = (RelationsSyncerService = DRelationsSyncerService)  => (Fac
 
           FactoryPesistenceApp(REntity)
               .count(req, res, next);
-        },
-
-        syncer: (req, res, next) => {
-            const source = 'params.id';
-
-            RelationsSyncerService(Entity)(REntity)
-                .syncer(req, req.user, source)
-                .then(e => res.json(e))
-                .catch(next);
         }
 
     };

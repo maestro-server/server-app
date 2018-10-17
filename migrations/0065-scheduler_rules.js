@@ -26,6 +26,10 @@ exports.up = function (db, next) {
                             every: 6,
                             period: 'hours'
                         },
+                        'autoscaling-list': {
+                            every: 24,
+                            period: 'hours'
+                        },
                         'dbs-list': {
                             every: 24,
                             period: 'hours'

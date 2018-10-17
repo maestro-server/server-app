@@ -392,26 +392,5 @@ module.exports = function (router) {
          *        count: (Number)
          *     }
          */
-        .get('/:id/servers/count', authenticate(), SyncerApp.count)
-        /**
-         * @api {patch} /datacenters/:id/sync_count_servers/ b. Sync servers
-         * @apiName PatchSyncCountServers
-         * @apiGroup Datacenters
-         * @apiDescription Syncronize all servers filters by id dc. (Count)
-         *
-         * @apiParam (Param) {String} id Datacenter unique id.
-         *
-         * @apiPermission JWT (Read | Write | Admin)
-         * @apiHeader (Header) {String} Authorization JWT {Token}
-         *
-         * @apiError (Error) PermissionError Token don`t have permission
-         * @apiError (Error) Unauthorized Invalid Token
-         * @apiError (Error) NotFound Entity not exist
-         *
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 204 OK
-         *     {}
-         *
-         */
-        .patch('/:id/sync_count_servers/', authenticate(), SyncerApp.syncer);
+        .get('/:id/servers/count', authenticate(), SyncerApp.count);
 };
