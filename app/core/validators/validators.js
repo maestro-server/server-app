@@ -95,7 +95,7 @@ module.exports = {
         name: Joi.string(),
         countdown: Joi.number()
     }),
-    unique_id: Joi.string().max(100),
+    unique_id: Joi.string().max(300),
     datacenters: Joi.object(),
     active: Joi.boolean(),
     status: Joi.string().valid('Active', 'Avaliable', 'Stopped').default('Active'),

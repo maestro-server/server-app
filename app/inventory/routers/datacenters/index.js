@@ -111,11 +111,5 @@ module.exports = function (router) {
          * @apiName GetCountServersDcTeam
          * @apiGroup Teams
          */
-        .get('/teams/:id/datacenters/:idu/servers/count', authenticate(),  WrapperSyncerApp('count').find)
-        /**
-         * @api {patch} /teams/:id/datacenters/:idu/sync_count_servers/ do. Sync servers
-         * @apiName PatchSyncDcTeam
-         * @apiGroup Teams
-         */
-        .patch('/teams/:id/datacenters/:idu/sync_count_servers/', authenticate(),  WrapperSyncerApp('syncer').patch);
+        .get('/teams/:id/datacenters/:idu/servers/count', authenticate(),  WrapperSyncerApp('count').find);
 };
