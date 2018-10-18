@@ -2,20 +2,25 @@
 
 const _ = require('lodash');
 const in_maker = require('core/libs/in_maker');
-const {transfID} = require('core/applications/transforms/mapRelationToObjectID');
 const Access = require('core/entities/accessRole');
 
 const DFactoryDBRepository = require('core/repositories/DBRepository');
-const validNotEqual = require('core/services/validator/validNotEqual');
+const DFactoryDBBatch = require('core/repositories/DBRepositoryBatch');
 
+const validNotEqual = require('core/services/validator/validNotEqual');
+const mapRelationToObjectID = require('core/applications/transforms/mapRelationToObjectID');
 const accessMergeTransform = require('core/services/transforms/accessMergeTransform');
 
 const factoryValid = require('core/libs/factoryValid');
 const depsValid = require('inventory/validators/depsValid');
+const batchDepsToUpdate = require('./batch/batchDepsToUpdate');
+const systemEndpoint = require('./sync/systemEndpoint');
 
-const DepsServices = (Entity, field, FactoryDBRepository = DFactoryDBRepository) => {
+
+const DepsServices = (Entity, field, FactoryDBRepository = DFactoryDBRepository, FactoryDBBatch = DFactoryDBBatch) => {
 
     const DBRepository = FactoryDBRepository(Entity);
+    const DBBatch = FactoryDBBatch(Entity);
 
     return {
         addDep (_id, post, owner) {
@@ -62,20 +67,25 @@ const DepsServices = (Entity, field, FactoryDBRepository = DFactoryDBRepository)
 
         updateManyDep (post, owner) {
             return new Promise((resolve, reject) => {
-                factoryValid(post, depsValid.updateMany);
 
-                //const access = transfID(post, ['_id']);
+                post =  mapRelationToObjectID(post, ['systems']);
 
-                //const filters = 
+                const {tree, systems} = factoryValid(post, depsValid.updateMany);
 
-                resolve();
-                
-                /*
-                return DBRepository
-                    .updateBatch(prepared, arr, field)
+                if (_.has(tree, 'root')) {
+                    if (systems)
+                        systemEndpoint(systems, owner)().addEndpoint(tree['root']);
+                    delete tree['root'];
+                }
+
+                if (_.isEmpty(tree)) resolve();
+
+                const data = batchDepsToUpdate(tree, owner, Entity.access, systems);
+
+                return DBBatch
+                    .batch(data)
                     .then(resolve)
                     .catch(reject);
-                    */
             });
         },
 
