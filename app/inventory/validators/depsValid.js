@@ -1,8 +1,7 @@
 'use strict';
 
 const Joi = require('joi');
-
-const {family, environment} = require('core/validators/validators');
+const {family, environment, entries} = require('core/validators/validators');
 
 const addDep = {
     _id: Joi.string().required(),
@@ -17,12 +16,14 @@ const updateDep = {
     environment
 };
 
-const updateManyDep = {
-    root: Joi.array().unique()
+const updateBatchDeps = {
+    tree: Joi.object(),
+    systems: Joi.array().max(3).items(entries).unique()
 };
+
 
 module.exports = {
     create: Joi.object().keys(addDep),
     update: Joi.object().keys(updateDep),
-    updateMany: Joi.object().keys(updateManyDep)
+    updateMany: Joi.object().keys(updateBatchDeps)
 };

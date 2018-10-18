@@ -6,6 +6,7 @@ module.exports = function () {
       NotFoundError: 404,
       ConflictError: 409,
       PermissionError: 400,
+      ProcessError: 400,
       ValidatorError: 422,
       HTTPError: 501,
       ResourceError: 501

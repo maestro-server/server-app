@@ -95,18 +95,14 @@ class Dao extends Model {
             .return(this);
     }
 
-    updateBatch(entity, entry, options) {
+    updateBatch(data, options) {
 
         return this._collection()
-            .tap(() => {
-                return this._runHooks('before', 'update');
-            })
             .then((collection) => {
-                const subs = entry ? {[entry]: this.get()} : this.get();
-                return collection.updateMany(entity, subs, options);
+                return collection.bulkWrite(data, options);
             })
             .then((e) => {
-                return this.isUpdater = e.result;
+                return this.isBatch = e;
             })
             .return(this);
     }
