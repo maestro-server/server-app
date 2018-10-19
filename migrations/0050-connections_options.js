@@ -147,7 +147,8 @@ exports.up = function (db, next) {
                             'result_path': 'Snapshots',
                             'key_comparer': 'unique_id',
                             'vars': [
-                                {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'},
+                                {'name': 'OwnerIds', 'env': 'MAESTRO_OWNERIDS', 'default': ['self'], 'type': 'list'}
                             ],
                             'init_job': false
                         }
