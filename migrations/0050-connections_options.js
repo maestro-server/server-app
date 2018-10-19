@@ -125,6 +125,18 @@ exports.up = function (db, next) {
                                 {'name': 'MaxItems', 'env': 'MAESTRO_SCAN_CDN_QTD', 'default': 100, 'type': 'str'}
                             ],
                             'init_job': true
+                        },
+                        {
+                            'access': 'list_streaming_distributions',
+                            'command': 'cloudfront',
+                            'entity': 'applications',
+                            'family': 'CDN',
+                            'result_path': 'StreamingDistributionList.Items',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'MaxItems', 'env': 'MAESTRO_SCAN_CDN_QTD', 'default': 100, 'type': 'str'}
+                            ],
+                            'init_job': true
                         }
                     ],
                     'snapshot-list': [
