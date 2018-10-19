@@ -150,7 +150,7 @@ exports.up = function (db, next) {
                                 {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'},
                                 {'name': 'OwnerIds', 'env': 'MAESTRO_OWNERIDS', 'default': ['self'], 'type': 'list'}
                             ],
-                            'init_job': false
+                            'init_job': true
                         }
                     ],
                     'images-list': [
@@ -160,8 +160,10 @@ exports.up = function (db, next) {
                             'entity': 'images',
                             'result_path': 'Images',
                             'key_comparer': 'unique_id',
-                            'vars': [],
-                            'init_job': false
+                            'vars': [
+                                {'name': 'Owners', 'env': 'MAESTRO_OWNERIDS', 'default': ['self'], 'type': 'list'}
+                            ],
+                            'init_job': true
                         }
                     ],
                     'security-list': [
