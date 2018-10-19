@@ -5,7 +5,7 @@ const _ = require('lodash');
 const Snapshots = require('../repositories/dao/snapshots');
 
 const snapshots = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'datacenters.name', 'volume_id', 'volume_size',
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'datacenters.name', 'datacenters.region', 'datacenters.zone', 'volume_id', 'volume_size',
         'status', 'snapshot_id', 'progress'];
 
     const singleFilled = [...resFilled, 'datacenters',  'unique_id', 'kms_key_id', 'encrypted', 'description', 'project_id', 'service',
