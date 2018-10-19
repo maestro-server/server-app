@@ -184,6 +184,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'Vpcs',
                             'key_comparer': 'unique_id',
+                            'family': 'Vpc',
                             'vars': [],
                             'init_job': true
                         },
@@ -193,6 +194,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'Subnets',
                             'key_comparer': 'unique_id',
+                            'family': 'Subnet',
                             'vars': [],
                             'init_job': true
                         },
@@ -202,6 +204,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'VpcPeeringConnections',
                             'key_comparer': 'unique_id',
+                            'family': 'Vpc',
                             'vars': [],
                             'init_job': true
                         },
@@ -211,6 +214,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'VpnGateways',
                             'key_comparer': 'unique_id',
+                            'family': 'VpcPeering',
                             'vars': [],
                             'init_job': true
                         },
@@ -220,6 +224,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'VpcEndpoints',
                             'key_comparer': 'unique_id',
+                            'family': 'VpcEndpoint',
                             'vars': [
                                 {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ],
@@ -231,6 +236,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'RouteTables',
                             'key_comparer': 'unique_id',
+                            'family': 'RouteTable',
                             'vars': [],
                             'init_job': true
                         },
@@ -240,6 +246,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'NetworkInterfaces',
                             'key_comparer': 'unique_id',
+                            'family': 'NetworkInterfaces',
                             'vars': [],
                             'init_job': true
                         },
@@ -249,6 +256,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'NatGateways',
                             'key_comparer': 'unique_id',
+                            'family': 'NatGateway',
                             'vars': [
                                 {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ],
@@ -260,6 +268,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'NetworkAcls',
                             'key_comparer': 'unique_id',
+                            'family': 'NetworkAcl',
                             'vars': [],
                             'init_job': true
                         }
