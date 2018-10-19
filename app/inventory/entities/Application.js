@@ -11,7 +11,7 @@ const app = () => {
     'targets', 'deps', 'role.role', 'role', 'spec', 'asm_groups',
     'language', 'cluster', 'dataguard', 'type', 'storage_types',
     'crs_version', 'modal', 'pdbs', 'datacenters.name', 'datacenters',
-    'deploy', 'tags', 'description', 'read_status'];
+    'deploy', 'tags', 'description', 'read_status', 'state'];
 
     const singleFilled = [...resFilled, 'roles', 'system', 'owner'];
 
