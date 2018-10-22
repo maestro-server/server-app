@@ -41,7 +41,7 @@ describe('unit - identity', function () {
 
         const password = bcrypt.hashSync('mystring', crypto.getCryptLevel());
 
-        expect(validator('mystring', {password})).to.have.property('password');
+        expect(validator('mystring')({password})).to.have.property('password');
         done();
     });
 
@@ -53,7 +53,7 @@ describe('unit - identity', function () {
         const password = bcrypt.hashSync('mystring', crypto.getCryptLevel());
 
         expect(function(){
-            expect(validator('notString', {password})).to.have.property('password');
+            expect(validator('notString')({password})).to.have.property('password');
         }).to.throw('error');
         done();
     });

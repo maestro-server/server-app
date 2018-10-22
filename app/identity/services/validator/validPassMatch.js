@@ -4,7 +4,7 @@ const PermissionError = require('core/errors/factoryError')('PermissionError');
 const bcrypt = require('bcrypt');
 
 
-module.exports = function(password, obj) {
+module.exports = (password) => (obj) => {
 
     if(obj.hasOwnProperty('password')) {
         if(obj && bcrypt.compareSync(password, obj.password)) {
