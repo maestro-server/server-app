@@ -126,7 +126,6 @@ describe('e2e images', function () {
                 .expect(/xUnix/)
                 .expect(/image_location/)
                 .expect(/imagem\ plataform/)
-                .expect(/5a3abbce66cc383cbc8e1282/)
                 .expect(/_id/)
                 .end(function (err) {
                     if (err) return done(err);
@@ -192,7 +191,6 @@ describe('e2e images', function () {
                 .expect(/plataform/)
                 .expect(/image_location/)
                 .expect(/imagem\ plataform/)
-                .expect(/5a3abbce66cc383cbc8e1282/)
                 .expect(/_id/)
                 .expect(/_link/)
                 .expect(/found/)
