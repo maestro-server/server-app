@@ -10,9 +10,12 @@ const accessMergeTransform = require('core/services/transforms/accessMergeTransf
 const depsToUpdate = (data, owner, acc='access') => {
     let tmp = [];
     _.forEach(data, (value, key) => {
+        const deps = value.map(e=>transfID(e, '_id'))
+
         const item = {'$set':
-                {'deps': transfID(value)}
+                {'deps': deps}
         };
+
         const _id = in_maker(key);
         const filter = accessMergeTransform(owner, acc, {_id}, Access.ROLE_WRITE);
 
