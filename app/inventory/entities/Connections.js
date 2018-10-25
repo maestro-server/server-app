@@ -5,7 +5,7 @@ const _ = require('lodash');
 const Connection = require('../repositories/dao/connection');
 
 const connection = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'conn', 'status', 'roles', 'dc',
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'conn', 'status', 'roles', 'dc', 'active',
         'owner_user', 'regions', 'provider', 'url', 'project', 'dc_id', 'user_domain_id', 'api_version'];
 
     const singleFilled = [...resFilled, 'process', 'owner'];
