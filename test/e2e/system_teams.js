@@ -25,7 +25,7 @@ describe('e2e system', function () {
         name: "Firstsystem",
         description: "Description of my system",
         clients:  [{name: "Name client", _id: "5a38847dd74db113823cd00e"}],
-        check:  [{key: 'Checker', value: 'ValueChecker'}],
+        entry:  [{name: 'Checker', _id: '5a38847dd74db113823cd00e'}],
         tags: [{key: 'Tager', value: 'ValueTager'}]
     }, {
         name: "Secondsystem",
@@ -151,11 +151,10 @@ describe('e2e system', function () {
                 .expect(/description/)
                 .expect(/Firstsystem/)
                 .expect(/clients/)
-                .expect(/check/)
+                .expect(/entry/)
                 .expect(/tags/)
                 .expect(/ValueTager/)
                 .expect(/Checker/)
-                .expect(/ValueChecker/)
                 .expect(/_id/)
                 .end(function (err) {
                     if (err) return done(err);
@@ -221,11 +220,10 @@ describe('e2e system', function () {
                 .expect('Content-Type', /json/)
                 .expect(/\"name\":\"Firstsystem\"/)
                 .expect(/clients/)
-                .expect(/check/)
+                .expect(/entry/)
                 .expect(/tags/)
                 .expect(/ValueTager/)
                 .expect(/Checker/)
-                .expect(/ValueChecker/)
                 .expect(/_id/)
                 .expect(/_link/)
                 .expect(/found/)
@@ -440,7 +438,7 @@ describe('e2e system', function () {
 
         it('patch system add one check (Valuer2, Checker2)', function (done) {
             let data = Object.assign({}, system[0]);
-            data['check'].push({key: 'Valuer2', value: 'Checker2'});
+            data['entry'] = [{name: 'Valuer2', _id: '5a38847dd74db113823cd00e'}];
 
             request(mock)
                 .patch(`/teams/${teams._id}/system/${system[0]._id}`)
@@ -448,11 +446,10 @@ describe('e2e system', function () {
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(202)
                 .expect('Content-Type', /json/)
-                .expect(/check/)
+                .expect(/entry/)
                 .expect(/Valuer2/)
-                .expect(/Checker2/)
                 .expect(function (res) {
-                    expect(res.body['check']).to.have.length(2);
+                    expect(res.body['entry']).to.have.length(1);
                 })
                 .end(function (err) {
                     if (err) return done(err);
@@ -462,7 +459,7 @@ describe('e2e system', function () {
 
         it('patch system add new invalidate check (outherTag key)', function (done) {
             let data = _.cloneDeep(system[0]);
-            data['check'].push({outherKey: 'email', value: "valuee"});
+            data['entry'].push({outherKey: 'email', value: "valuee"});
 
             request(mock)
                 .patch(`/teams/${teams._id}/system/${system[0]._id}`)
@@ -570,9 +567,9 @@ describe('e2e system', function () {
      * @depends create system
      * @description I like ensure some effects
      */
-    describe('confirm update system', function () {
+    describe('ensure update system', function () {
 
-        it('confirm my changes', function (done) {
+        it('ensure my changes', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/system/${system[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -586,7 +583,7 @@ describe('e2e system', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs don`t create new system', function (done) {
+        it('ensure if any of my updates/patchs don`t create new system', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/system`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -684,7 +681,7 @@ describe('e2e system', function () {
      * @description I like to see my roles
      */
     describe('get roles', function () {
-        it('Exist roles - confirm my news roles', function (done) {
+        it('Exist roles - ensure my news roles', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/system/${system[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -788,8 +785,8 @@ describe('e2e system', function () {
         });
     });
 
-    describe('confirm update roles', function () {
-        it('Exist roles - confirm my news system', function (done) {
+    describe('ensure update roles', function () {
+        it('Exist roles - ensure my news system', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/system/${system[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -836,8 +833,8 @@ describe('e2e system', function () {
         });
     });
 
-    describe('confirm delete roles', function () {
-        it('Exist roles - confirm my news role', function (done) {
+    describe('ensure delete roles', function () {
+        it('Exist roles - ensure my news role', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/system/${system[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -878,7 +875,7 @@ describe('e2e system', function () {
         });
     });
 
-    describe('confirm to delete system', function () {
+    describe('ensure to delete system', function () {
         it('Exist roles - delete my system', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/system/`)

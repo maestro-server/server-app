@@ -12,6 +12,9 @@ const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 
+const DependenciesApp = require('inventory/applications/dependenciesApplication');
+const WrappeDepsApp = WrapperPersistenceApp(DependenciesApp)();
+
 module.exports = function (router) {
 
     router
@@ -64,31 +67,60 @@ module.exports = function (router) {
         .post('/teams/:id/applications', authenticate(), WrapperPersistenceAppDefault.create)
 
         /**
+         * @api {post} /teams/:id/applications/deps ah. Update multiple dependencies for Team
+         * @apiName PostSingleListTeam
+         * @apiGroup Teams
+         */
+        .post('/teams/:id/applications/deps', authenticate(), WrappeDepsApp.updateMany)
+
+        /**
          * Roles
          */
          /**
-          * @api {post} /teams/:id/applications/:idu/roles ah. Create access role
+          * @api {post} /teams/:id/applications/:idu/roles ai. Create access role
           * @apiName GetSingleListTeam
           * @apiGroup Teams
           */
         .post('/teams/:id/applications/:idu/roles', authenticate(), WrapperAccessApp.create)
         /**
-         * @api {put} /teams/:id/applications/:idu/roles ai. Update all access role
+         * @api {put} /teams/:id/applications/:idu/roles aj. Update all access role
          * @apiName GetSingleListTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/applications/:idu/roles', authenticate(), WrapperAccessApp.update)
         /**
-         * @api {put} /teams/:id/applications/:idu/roles/:ida aj. Update access role
+         * @api {put} /teams/:id/applications/:idu/roles/:ida al. Update access role
          * @apiName GetSingleListTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/applications/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
         /**
-         * @api {delete} /teams/:id/applications/:idu/roles/:ida al. Delete access role
+         * @api {delete} /teams/:id/applications/:idu/roles/:ida am. Delete access role
          * @apiName GetSingleListTeam
          * @apiGroup Teams
          */
-        .delete('/teams/:id/applications/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove);
+        .delete('/teams/:id/applications/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove)
+
+        /**
+         * Dependencies
+         */
+        /**
+         * @api {post} /teams/:id/applications/:idu/deps an. Create new dependence
+         * @apiName CreateSingleDependence
+         * @apiGroup Teams
+         */
+        .post('/teams/:id/applications/:idu/deps', authenticate(), WrappeDepsApp.create)
+        /**
+         * @api {put} /teams/:id/applications/:idu/deps/:ida ao. Update a single dependence
+         * @apiName UpdateSingleDependence
+         * @apiGroup Teams
+         */
+        .put('/teams/:id/applications/:idu/deps/:ida', authenticate(), WrappeDepsApp.updateSingle)
+        /**
+         * @api {delete} /teams/:id/applications/:idu/deps/:ida ap. Delete single dependence
+         * @apiName DeleteSingledependence
+         * @apiGroup Teams
+         */
+        .delete('/teams/:id/applications/:idu/deps/:ida', authenticate(), WrappeDepsApp.remove);
 
 };

@@ -2,7 +2,7 @@
 
 const Joi = require('joi');
 
-const {id, roles, deploy, entities, tags, owner, pdbs, asm_groups, datacenters, environment, family, active, status, unique_id, created_at} = require('core/validators/validators');
+const {id, roles, deploy, entries, entities, tags, owner, pdbs, asm_groups, datacenters, environment, family, active, status, unique_id, created_at} = require('core/validators/validators');
 
 
 const schema = Joi.object().keys({
@@ -10,11 +10,10 @@ const schema = Joi.object().keys({
     description: Joi.string().max(800),
     system:  Joi.array().items(entities).unique(),
     servers: Joi.array().items().unique(),
-    targets: Joi.array().items(id).unique(),
     own: Joi.number().max(1),
     role: Joi.any(),
-    language: Joi.string().min(1).max(30),
-    provider: Joi.string().min(3).max(20),
+    language: Joi.string().min(1).max(80),
+    provider: Joi.string().min(3).max(80),
     cluster:  Joi.string().max(100),
     dataguard: Joi.string().max(40),
     storage_types: Joi.string().max(40),
@@ -26,6 +25,10 @@ const schema = Joi.object().keys({
     modal: Joi.string().max(30),
     roles: Joi.array().items(roles).unique('_id'),
     tags: Joi.array().items(tags),
+    engine: Joi.string(),
+    size: Joi.string().default('medium'),
+    targets: Joi.array().items(entries).unique(),
+    deps: Joi.array().items(entries).unique(),
     unique_id,
     status,
     datacenters,

@@ -7,16 +7,11 @@ let chai = require('chai'),
     chaid = require('chaid'),
     {expect} = chai,
     sinon = require('sinon'),
-    httpMocks = require('node-mocks-http'),
-    ACCESS = require('core/entities/accessRole'),
     chaiAsPromised = require("chai-as-promised"),
-    sinonStubPromise = require('sinon-stub-promise'),
     _ = require('lodash');
 
 chai.use(chaiAsPromised);
 chai.use(chaid);
-sinonStubPromise(sinon);
-
 
 describe('unit - core', function () {
 
@@ -147,8 +142,8 @@ describe('unit - core', function () {
         const _id = "452ed4a4f4421335e032bf09";
 
         it('find', function (done) {
-            let find = sinon.stub().returnsPromise();
-            let count = sinon.stub().returnsPromise();
+            let find = sinon.stub().resolves();
+            let count = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     find,
@@ -169,7 +164,7 @@ describe('unit - core', function () {
         });
 
         it('findOne', function (done) {
-            let findOne = sinon.stub().returnsPromise();
+            let findOne = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     findOne
@@ -184,7 +179,7 @@ describe('unit - core', function () {
         });
 
         it('findOne', function (done) {
-            let findOne = sinon.stub().returnsPromise();
+            let findOne = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     findOne
@@ -199,7 +194,7 @@ describe('unit - core', function () {
         });
 
         it('patch', function (done) {
-            let patch = sinon.stub().returnsPromise();
+            let patch = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     patch
@@ -225,7 +220,7 @@ describe('unit - core', function () {
         });
 
         it('remove', function (done) {
-            let remove = sinon.stub().returnsPromise();
+            let remove = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     remove
@@ -252,7 +247,7 @@ describe('unit - core', function () {
         const _id = "452ed4a4f4421335e032bf09";
 
         it('addRoles', function (done) {
-            let updateByPushUnique = sinon.stub().returnsPromise();
+            let updateByPushUnique = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     updateByPushUnique
@@ -282,7 +277,7 @@ describe('unit - core', function () {
 
 
         it('deleteRoles', function (done) {
-            let updateByPull = sinon.stub().returnsPromise();
+            let updateByPull = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     updateByPull
@@ -304,7 +299,7 @@ describe('unit - core', function () {
         const MailerService = require('core/services/MailerService');
 
         it('sender', function (done) {
-            let sender = sinon.stub().returnsPromise();
+            let sender = sinon.stub().resolves();
             let SPS = {sender};
 
             const to = "felipe";

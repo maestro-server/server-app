@@ -9,15 +9,15 @@ const schema = Joi.object().keys({
     ipv4_private: Joi.string().ip().required(),
     ipv4_public: Joi.string().ip(),
     os: Joi.object({
-      base: Joi.string().required().max(40),
+      base: Joi.string().max(40),
       dist: Joi.string().max(40),
       version: Joi.string()
-    }).required(),
+    }),
     cpu: Joi.number().positive().max(1024),
     memory: Joi.number().positive().max(1024),
     storage: Joi.array().items(storage).unique('name'),
     services: Joi.array().items(services),
-    role: Joi.string().valid('Application', 'Cache', 'Container', 'Database', 'File', 'Loadbalance', 'Monitoring', 'NAT', 'Proxy', 'SMTP', 'VPN', 'Standard').required(),
+    role: Joi.string().valid('Application', 'Cache', 'Container', 'Database', 'File', 'Loadbalance', 'Monitoring', 'NAT', 'Proxy', 'SMTP', 'VPN', 'Standard'),
     auth: Joi.array().items(auth),
     roles: Joi.array().items(roles).unique('_id'),
     tags: Joi.array().items(tags),

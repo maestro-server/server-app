@@ -8,6 +8,7 @@ node_modules
 .happypack/
 npm-debug*
 coverage/
+.nyc_output/
 public/static/users
 public/static/teams
 public/static/company

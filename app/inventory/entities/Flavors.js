@@ -10,7 +10,7 @@ const flavors = () => {
     const singleFilled = [...resFilled, "memory", "compute_units_ecu", "vcpus", 'unique_id',
         "gpus", "fpgas", "ecu_per_vcpu", "physical_processor", "clock_speed_ghz", "intel_avx", "intel_avx2", "intel_turbo",
         "instance_storage", "instance_storage_already_warmed_up", "instance_storage_ssd_trim_support", "arch",
-        "network_performance", "ebs_optimized_max_bandwidth",
+        "network_performance", "ebs_optimized_max_bandwidth", 'active',
         "ebs_optimized_throughput", "ebs_optimized_max_16_k_iops", "max_ips", "enhanced_networking", "vpc_only",
         "ipv_6_support", "placement_group_support", "linux_virtualization", "linux_on_demand_cost", "linux_reserved_cost",
         "rhel_on_demand_cost", "rhel_reserved_cost", "sles_on_demand_cost", "sles_reserved_cost", "windows_on_demand_cost",

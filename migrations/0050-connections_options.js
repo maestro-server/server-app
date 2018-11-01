@@ -26,8 +26,9 @@ exports.up = function (db, next) {
                             'access': 'describe_load_balancers',
                             'command': 'elbv2',
                             'entity': 'applications',
+                            'family': 'Loadbalance',
                             'result_path': 'LoadBalancers',
-                            'key_comparer': 'name',
+                            'key_comparer': 'unique_id',
                             'vars': [
                                 {'name': 'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ],
@@ -37,11 +38,38 @@ exports.up = function (db, next) {
                             'access': 'describe_load_balancers',
                             'command': 'elb',
                             'entity': 'applications',
+                            'family': 'Loadbalance',
                             'result_path': 'LoadBalancerDescriptions',
                             'single_result_path': '',
-                            'key_comparer': 'name',
+                            'key_comparer': 'unique_id',
                             'vars': [
                                 {'name': 'PageSize', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                            ],
+                            'init_job': true
+                        }
+                    ],
+					'autoscaling-list': [
+                        {
+                            'access': 'describe_auto_scaling_groups',
+                            'command': 'autoscaling',
+                            'entity': 'applications',
+                            'family': 'AutoScaling',
+                            'result_path': 'AutoScalingGroups',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'MaxRecords', 'env': 'MAESTRO_SCAN_QTD', 'default': 100, 'type': 'int'}
+                            ],
+                            'init_job': true
+                        },
+						{
+                            'access': 'describe_scaling_plans',
+                            'command': 'autoscaling-plans',
+                            'entity': 'applications',
+                            'family': 'AutoScalingPlan',
+                            'result_path': 'ScalingPlans',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 50, 'type': 'int'}
                             ],
                             'init_job': true
                         }
@@ -51,7 +79,9 @@ exports.up = function (db, next) {
                             'access': 'describe_db_instances',
                             'command': 'rds',
                             'entity': 'applications',
+                            'family': 'Database',
                             'result_path': 'DBInstances',
+							'key_comparer': 'unique_id',
                             'vars': [
                                 {'name': 'MaxRecords', 'env': 'MAESTRO_DB_SCAN_QTD', 'default': 100, 'type': 'int'}
                             ],
@@ -63,8 +93,9 @@ exports.up = function (db, next) {
                             'access': 'list_buckets',
                             'command': 's3',
                             'entity': 'applications',
+                            'family': 'ObjectStorage',
                             'result_path': 'Buckets',
-                            'key_comparer': 'name',
+                            'key_comparer': 'unique_id',
                             'vars': [],
                             'init_job': true
                         }
@@ -87,9 +118,23 @@ exports.up = function (db, next) {
                             'access': 'list_distributions',
                             'command': 'cloudfront',
                             'entity': 'applications',
-                            'result_path': 'DistributionList',
+                            'family': 'CDN',
+                            'result_path': 'DistributionList.Items',
+                            'key_comparer': 'unique_id',
                             'vars': [
-                                {'name': 'MaxItems', 'env': 'MAESTRO_SCAN_QTD', 'default': 120, 'type': 'int'}
+                                {'name': 'MaxItems', 'env': 'MAESTRO_SCAN_CDN_QTD', 'default': 100, 'type': 'str'}
+                            ],
+                            'init_job': true
+                        },
+                        {
+                            'access': 'list_streaming_distributions',
+                            'command': 'cloudfront',
+                            'entity': 'applications',
+                            'family': 'CDN',
+                            'result_path': 'StreamingDistributionList.Items',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'MaxItems', 'env': 'MAESTRO_SCAN_CDN_QTD', 'default': 100, 'type': 'str'}
                             ],
                             'init_job': true
                         }
@@ -102,9 +147,10 @@ exports.up = function (db, next) {
                             'result_path': 'Snapshots',
                             'key_comparer': 'unique_id',
                             'vars': [
-                                {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'},
+                                {'name': 'OwnerIds', 'env': 'MAESTRO_OWNERIDS', 'default': ['self'], 'type': 'list'}
                             ],
-                            'init_job': false
+                            'init_job': true
                         }
                     ],
                     'images-list': [
@@ -114,8 +160,10 @@ exports.up = function (db, next) {
                             'entity': 'images',
                             'result_path': 'Images',
                             'key_comparer': 'unique_id',
-                            'vars': [],
-                            'init_job': false
+                            'vars': [
+                                {'name': 'Owners', 'env': 'MAESTRO_OWNERIDS', 'default': ['self'], 'type': 'list'}
+                            ],
+                            'init_job': true
                         }
                     ],
                     'security-list': [
@@ -138,6 +186,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'Vpcs',
                             'key_comparer': 'unique_id',
+                            'family': 'Vpc',
                             'vars': [],
                             'init_job': true
                         },
@@ -147,6 +196,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'Subnets',
                             'key_comparer': 'unique_id',
+                            'family': 'Subnet',
                             'vars': [],
                             'init_job': true
                         },
@@ -156,6 +206,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'VpcPeeringConnections',
                             'key_comparer': 'unique_id',
+                            'family': 'Vpc',
                             'vars': [],
                             'init_job': true
                         },
@@ -165,6 +216,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'VpnGateways',
                             'key_comparer': 'unique_id',
+                            'family': 'VpcPeering',
                             'vars': [],
                             'init_job': true
                         },
@@ -174,6 +226,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'VpcEndpoints',
                             'key_comparer': 'unique_id',
+                            'family': 'VpcEndpoint',
                             'vars': [
                                 {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ],
@@ -185,6 +238,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'RouteTables',
                             'key_comparer': 'unique_id',
+                            'family': 'RouteTable',
                             'vars': [],
                             'init_job': true
                         },
@@ -194,6 +248,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'NetworkInterfaces',
                             'key_comparer': 'unique_id',
+                            'family': 'NetworkInterfaces',
                             'vars': [],
                             'init_job': true
                         },
@@ -203,6 +258,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'NatGateways',
                             'key_comparer': 'unique_id',
+                            'family': 'NatGateway',
                             'vars': [
                                 {'name': 'MaxResults', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
                             ],
@@ -214,6 +270,7 @@ exports.up = function (db, next) {
                             'entity': 'networks',
                             'result_path': 'NetworkAcls',
                             'key_comparer': 'unique_id',
+                            'family': 'NetworkAcl',
                             'vars': [],
                             'init_job': true
                         }
@@ -231,7 +288,8 @@ exports.up = function (db, next) {
                             'single_result_path': '',
                             'key_comparer': 'datacenters.instance_id',
                             'vars': [
-                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'}
+                                {'name': 'limit', 'env': 'MAESTRO_SCAN_QTD', 'default': 200, 'type': 'int'},
+                                {'name': 'details', 'env': 'MAESTRO_OPENSTACK_DETAILS', 'default': true, 'type': 'bool'}
                             ],
                             'init_job': true
                         }
@@ -241,6 +299,7 @@ exports.up = function (db, next) {
                             'access': 'load_balancers',
                             'command': 'load_balancer',
                             'entity': 'applications',
+                            'family': 'Loadbalance',
                             'result_path': '',
                             'single_result_path': '',
                             'key_comparer': 'unique_id',

@@ -417,9 +417,9 @@ describe('e2e network', function () {
      * @depends create network
      * @description I like ensure some effects
      */
-    describe('confirm update network', function () {
+    describe('ensure update network', function () {
 
-        it('confirm my changes', function (done) {
+        it('ensure my changes', function (done) {
             request(mock)
                 .get('/network/' + network[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -432,7 +432,7 @@ describe('e2e network', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs don`t create new network', function (done) {
+        it('ensure if any of my updates/patchs don`t create new network', function (done) {
             request(mock)
                 .get('/network')
                 .set('Authorization', `JWT ${user.token}`)
@@ -530,7 +530,7 @@ describe('e2e network', function () {
      * @description I like to see my roles
      */
     describe('get roles', function () {
-        it('Exist roles - confirm my news roles', function (done) {
+        it('Exist roles - ensure my news roles', function (done) {
             request(mock)
                 .get('/network/' + network[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -634,8 +634,8 @@ describe('e2e network', function () {
         });
     });
 
-    describe('confirm update roles', function () {
-        it('Exist roles - confirm my news network', function (done) {
+    describe('ensure update roles', function () {
+        it('Exist roles - ensure my news network', function (done) {
             request(mock)
                 .get('/network/' + network[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -682,8 +682,8 @@ describe('e2e network', function () {
         });
     });
 
-    describe('confirm delete roles', function () {
-        it('Exist roles - confirm my news role', function (done) {
+    describe('ensure delete roles', function () {
+        it('Exist roles - ensure my news role', function (done) {
             request(mock)
                 .get('/network/' + network[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -724,7 +724,7 @@ describe('e2e network', function () {
         });
     });
 
-    describe('confirm to delete network', function () {
+    describe('ensure to delete network', function () {
         it('Exist roles - delete my network', function (done) {
             request(mock)
                 .get('/network/')

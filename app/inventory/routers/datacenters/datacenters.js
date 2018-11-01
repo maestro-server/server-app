@@ -5,6 +5,7 @@ const Datacenter = require('../../entities/Datacenter');
 const Servers = require('../../entities/Servers');
 
 const PersistenceApp = require('core/applications/persistenceApplication')(Datacenter);
+const PersistenceDC = require('../../applications/persistenceDatacenters')(Datacenter);
 const SyncerApp = require('core/applications/relationsApplication')()()(Servers)(Datacenter);
 
 const AccessApp = require('core/applications/accessApplication')(Datacenter);
@@ -104,6 +105,31 @@ module.exports = function (router) {
          *     }
          */
         .get('/:id', authenticate(), PersistenceApp.findOne)
+        /**
+         * @api {get} /datacenters/:id/orphans c. Get orphans servers
+         * @apiName GetOrphansDatacenter
+         * @apiGroup Datacenters
+         *
+         * @apiParam (Param) {String} id Datacenter unique id.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don´t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *        found: 3,
+         *        limit: 20,
+         *        total_pages: 1,
+         *        current_page: 1,
+         *        items: []
+         *     }
+         */
+        .get('/:id/orphans', authenticate(), PersistenceDC.findOrphans)
         /**
          * @api {post} /datacenters/ d. Create single datacenter
          * @apiName PostDatacenters
@@ -366,26 +392,5 @@ module.exports = function (router) {
          *        count: (Number)
          *     }
          */
-        .get('/:id/servers/count', authenticate(), SyncerApp.count)
-        /**
-         * @api {patch} /datacenters/:id/sync_count_servers/ b. Sync servers
-         * @apiName PatchSyncCountServers
-         * @apiGroup Datacenters
-         * @apiDescription Syncronize all servers filters by id dc. (Count)
-         *
-         * @apiParam (Param) {String} id Datacenter unique id.
-         *
-         * @apiPermission JWT (Read | Write | Admin)
-         * @apiHeader (Header) {String} Authorization JWT {Token}
-         *
-         * @apiError (Error) PermissionError Token don`t have permission
-         * @apiError (Error) Unauthorized Invalid Token
-         * @apiError (Error) NotFound Entity not exist
-         *
-         * @apiSuccessExample {json} Success-Response:
-         *     HTTP/1.1 204 OK
-         *     {}
-         *
-         */
-        .patch('/:id/sync_count_servers/', authenticate(), SyncerApp.syncer);
+        .get('/:id/servers/count', authenticate(), SyncerApp.count);
 };

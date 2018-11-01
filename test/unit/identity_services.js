@@ -6,15 +6,10 @@ require('dotenv').config({path: '.env.test'});
 let chai = require('chai'),
     chaid = require('chaid'),
     {expect} = chai,
-    sinon = require('sinon'),
-    jwt = require('jwt-simple'),
-    chaiAsPromised = require("chai-as-promised"),
-    sinonStubPromise = require('sinon-stub-promise'),
-    _ = require('lodash');
+    chaiAsPromised = require("chai-as-promised");
 
 chai.use(chaiAsPromised);
 chai.use(chaid);
-sinonStubPromise(sinon);
 
 
 describe('unit - identity', function () {
@@ -46,7 +41,7 @@ describe('unit - identity', function () {
 
         const password = bcrypt.hashSync('mystring', crypto.getCryptLevel());
 
-        expect(validator('mystring', {password})).to.have.property('password');
+        expect(validator('mystring')({password})).to.have.property('password');
         done();
     });
 
@@ -58,7 +53,7 @@ describe('unit - identity', function () {
         const password = bcrypt.hashSync('mystring', crypto.getCryptLevel());
 
         expect(function(){
-            expect(validator('notString', {password})).to.have.property('password');
+            expect(validator('notString')({password})).to.have.property('password');
         }).to.throw('error');
         done();
     });

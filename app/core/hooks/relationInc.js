@@ -32,7 +32,7 @@ const relationInc = (configs) => (data)  => {
 
       DBRepository
         .increment({_id}, post)
-        .catch(console.log);
+        .catch(console.error);
 
       return post;
     }

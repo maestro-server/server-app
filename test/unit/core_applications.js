@@ -10,12 +10,10 @@ let chai = require('chai'),
     httpMocks = require('node-mocks-http'),
     ACCESS = require('core/entities/accessRole'),
     chaiAsPromised = require("chai-as-promised"),
-    sinonStubPromise = require('sinon-stub-promise'),
     _ = require('lodash');
 
 chai.use(chaiAsPromised);
 chai.use(chaid);
-sinonStubPromise(sinon);
 
 
 describe('unit - core', function () {
@@ -389,10 +387,6 @@ describe('unit - core', function () {
         done();
     });
 
-    it('applications - accessApplication', function (done) {
-        done();
-    });
-
     describe('applications - accessApplication', function () {
         const Entity = {name: "Tester", access: "roler"};
 
@@ -418,7 +412,7 @@ describe('unit - core', function () {
 
 
         it('updateSingle', function (done) {
-            let updateSingleRoles = sinon.stub().returnsPromise();
+            let updateSingleRoles = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     updateSingleRoles
@@ -433,7 +427,7 @@ describe('unit - core', function () {
         });
 
         it('create', function (done) {
-            let addRoles = sinon.stub().returnsPromise();
+            let addRoles = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     addRoles
@@ -449,7 +443,7 @@ describe('unit - core', function () {
         });
 
         it('remove', function (done) {
-            let deleteRoles = sinon.stub().returnsPromise();
+            let deleteRoles = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     deleteRoles
@@ -490,7 +484,7 @@ describe('unit - core', function () {
         });
 
         it('find', function (done) {
-            let find = sinon.stub().returnsPromise();
+            let find = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     find
@@ -506,7 +500,7 @@ describe('unit - core', function () {
         });
 
         it('find - rq2', function (done) {
-            let find = sinon.stub().returnsPromise();
+            let find = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     find
@@ -525,7 +519,7 @@ describe('unit - core', function () {
         });
 
         it('findOne', function (done) {
-            let findOne = sinon.stub().returnsPromise();
+            let findOne = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     findOne
@@ -541,7 +535,7 @@ describe('unit - core', function () {
         });
 
         it('update', function (done) {
-            let update = sinon.stub().returnsPromise();
+            let update = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     update
@@ -557,7 +551,7 @@ describe('unit - core', function () {
         });
 
         it('create', function (done) {
-            let create = sinon.stub().returnsPromise();
+            let create = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     create
@@ -585,7 +579,7 @@ describe('unit - core', function () {
         });
 
         it('create - filter', function (done) {
-            let create = sinon.stub().returnsPromise();
+            let create = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     create
@@ -614,7 +608,7 @@ describe('unit - core', function () {
         });
 
         it('create - witouh access entity', function (done) {
-            const create = sinon.stub().returnsPromise();
+            const create = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     create
@@ -637,7 +631,7 @@ describe('unit - core', function () {
         });
 
         it('remove', function (done) {
-            let remove = sinon.stub().returnsPromise();
+            let remove = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     remove
@@ -674,7 +668,7 @@ describe('unit - core', function () {
 
 
         it('find', function (done) {
-            let find = sinon.stub().returnsPromise();
+            let find = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     find
@@ -688,7 +682,7 @@ describe('unit - core', function () {
         });
 
         it('count', function (done) {
-            let count = sinon.stub().returnsPromise();
+            let count = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     count
@@ -721,7 +715,7 @@ describe('unit - core', function () {
 
 
         it('uploader', function (done) {
-            let signed = sinon.stub().returnsPromise();
+            let signed = sinon.stub().resolves();
             let SPS = sinon.stub()
                 .returns({
                     signed

@@ -7,15 +7,11 @@ let chai = require('chai'),
     chaid = require('chaid'),
     {expect} = chai,
     sinon = require('sinon'),
-    httpMocks = require('node-mocks-http'),
-    ACCESS = require('core/entities/accessRole'),
     chaiAsPromised = require("chai-as-promised"),
-    sinonStubPromise = require('sinon-stub-promise'),
     _ = require('lodash');
 
 chai.use(chaiAsPromised);
 chai.use(chaid);
-sinonStubPromise(sinon);
 
 
 describe('unit - core', function () {

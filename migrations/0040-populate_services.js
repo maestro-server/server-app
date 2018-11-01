@@ -101,7 +101,7 @@ exports.up = function (db, next) {
         {name: 'Netflix (Hystrix/Zuul)', family: ['ApiGateway'], tags: ['jvm', 'oss'], owner: false},
 
 
-        {name: 'CloundFront (AWS)', family: ['CDN'], tags: ['aws'], owner: true},
+        {name: 'CloudFront (AWS)', family: ['CDN'], tags: ['aws'], owner: true},
         {name: 'Azure CDN', family: ['CDN'], tags: ['azure'], owner: true},
         {name: 'MaxCDN', family: ['CDN'], tags: [], owner: true},
         {name: 'Aryaka', family: ['CDN'], tags: [], owner: true},
@@ -332,11 +332,16 @@ exports.up = function (db, next) {
         {name: 'Prolog', family: ['Application'], tags: ['language'], owner: false},
         {name: 'Python', family: ['Application'], tags: ['language'], owner: false},
         {name: 'Python (Jpython)', family: ['Application'], tags: ['language'], owner: false},
-        {name: 'Python (Cpython)', family: ['Application'], tags: ['language'], owner: false},
+        {name: 'C/C++', family: ['Application'], tags: ['language'], owner: false},
         {name: 'C#', family: ['Application'], tags: ['language'], owner: false},
         {name: 'Rusty', family: ['Application'], tags: ['language'], owner: false},
         {name: 'OpenJDK (Java)', family: ['Application'], tags: ['language'], owner: false},
         {name: 'Oracle JDK (Java)', family: ['Application'], tags: ['oracle'], owner: false},
+        {name: 'JavaScript', family: ['Application'], tags: [], owner: false},
+        {name: 'JavaScript (Single Page Application)', family: ['Application'], tags: [], owner: false},
+        {name: '.NET Framework', family: ['Application'], tags: [], owner: false},
+        {name: '.NET Core', family: ['Application'], tags: [], owner: false},
+        {name: 'R', family: ['Application'], tags: [], owner: false},
 
 
         {name: 'Ansible', tags: ['config-manager'], owner: false},

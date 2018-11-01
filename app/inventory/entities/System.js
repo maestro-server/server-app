@@ -5,9 +5,9 @@ const _ = require('lodash');
 const System = require('../repositories/dao/system');
 
 const system = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'description', 'check', 'tags', 'clients._id', 'clients.name'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'description', 'entry', 'tags', 'clients._id', 'clients.name'];
 
-    const singleFilled = [...resFilled, 'clients', 'roles', 'owner'];
+    const singleFilled = [...resFilled, 'clients', 'roles', 'owner', 'active'];
 
     const filled = [..._.slice(singleFilled, 2)];  // delete id
 
@@ -22,7 +22,7 @@ const system = () => {
 
         defaults: {},
 
-        mapRelations: ['clients'],
+        mapRelations: ['clients', 'entry'],
 
         visibility: {single: 'all'},
 

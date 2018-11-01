@@ -41,7 +41,7 @@ module.exports = {
         root: Joi.string().max(10),
         status: Joi.string().max(10),
         volume_id: Joi.string().max(35),
-        unique_id: Joi.string().max(35),
+        unique_id: Joi.string().max(55),
         attach_time: Joi.string().max(30),
         mount: Joi.string().max(100),
         ftype: Joi.string().max(100),
@@ -63,6 +63,13 @@ module.exports = {
         username: Joi.string().max(100),
         key: Joi.string().max(100)
     }),
+    entries:  Joi.object({
+        name: Joi.string().max(250),
+        family: Joi.string(),
+        _id: Joi.object().required(),
+        endpoint: Joi.any(),
+        environment: Joi.string()
+    }),
     owner: Joi.object({
         name: Joi.string().max(100),
         email: Joi.string().email(),
@@ -73,24 +80,27 @@ module.exports = {
         every: Joi.number().max(1024).default(5),
         period: Joi.string().default('minutes')
     }),
-    crontab: Joi.object({
-        minute: Joi.any(),
+    cron: Joi.object({
+        second: Joi.any().default(0),
+        minute: Joi.any().default(30),
+        day: Joi.any().default('*'),
         hour: Joi.any().default('*'),
-        day_of_week: Joi.any().default('*'),
-        day_of_month: Joi.any().default('*'),
-        month_of_year: Joi.any().default('*')
+        week: Joi.any().default('*'),
+        month: Joi.any().default('*'),
+        year: Joi.any().default('*'),
+        day_of_week: Joi.any().default('*')
     }),
     chain: Joi.object({
         _id: Joi.string(),
         name: Joi.string(),
         countdown: Joi.number()
     }),
-    unique_id: Joi.string().max(100),
+    unique_id: Joi.string().max(300),
     datacenters: Joi.object(),
     active: Joi.boolean(),
     status: Joi.string().valid('Active', 'Avaliable', 'Stopped').default('Active'),
     environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'),
-    family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'Serveless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS').default("Application"),
+    family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS', 'AutoScaling', 'AutoScalingPlan').default("Application"),
     created_at: Joi.any(),
     metas: Joi.any()
 };

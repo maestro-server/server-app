@@ -6,6 +6,7 @@ const Datacenter = require('../../entities/Datacenter');
 const Servers = require('../../entities/Servers');
 const Team = require('identity/entities/Teams');
 
+const PersistenceDC = require('../../applications/persistenceDatacenters');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Datacenter)(Team);
 const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
@@ -40,6 +41,12 @@ module.exports = function (router) {
          * @apiGroup Teams
          */
         .get('/teams/:id/datacenters/:idu', authenticate(), WrapperPersistenceAppDefault.findOne)
+        /**
+         * @api {get} /teams/:id/datacenters/:idu/orphans dc. List of orphans servers
+         * @apiName GetSingleOrphansListDcsTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/datacenters/:idu', authenticate(), WrapperPersistenceApp(PersistenceDC)('findOrphans').find)
         /**
          * @api {put} /teams/:id/datacenters/:idu dd. Update all Dcs for Team
          * @apiName UpdateSingleListTeam
@@ -104,11 +111,5 @@ module.exports = function (router) {
          * @apiName GetCountServersDcTeam
          * @apiGroup Teams
          */
-        .get('/teams/:id/datacenters/:idu/servers/count', authenticate(),  WrapperSyncerApp('count').find)
-        /**
-         * @api {patch} /teams/:id/datacenters/:idu/sync_count_servers/ do. Sync servers
-         * @apiName PatchSyncDcTeam
-         * @apiGroup Teams
-         */
-        .patch('/teams/:id/datacenters/:idu/sync_count_servers/', authenticate(),  WrapperSyncerApp('syncer').patch);
+        .get('/teams/:id/datacenters/:idu/servers/count', authenticate(),  WrapperSyncerApp('count').find);
 };

@@ -32,10 +32,11 @@ const AuthService = (Entity) => {
 
                 return DBRepository
                     .findOne({email})
-                    .then((e) => {
-                        return validPassMatch(password, e);
+                    .then(validPassMatch(password))
+                    .then(e=> {
+                        let data = _.pick(e, '_id', 'name', 'email', 'avatar');
+                        return Object.assign(data, {'sub': data['_id']}); // create sub item, used on websocket auth
                     })
-                    .then(e=>_.pick(e, '_id', 'name', 'email', 'avatar'))
                     .then(tokenTransform)
                     .then(resolve)
                     .catch(reject);

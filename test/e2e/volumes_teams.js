@@ -452,9 +452,9 @@ describe('e2e volumes', function () {
      * @depends create volume
      * @description I like ensure some effects
      */
-    describe('confirm update volume', function () {
+    describe('ensure update volume', function () {
 
-        it('confirm my changes', function (done) {
+        it('ensure my changes', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/volumes/${volumes[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -467,7 +467,7 @@ describe('e2e volumes', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs don`t create new volume', function (done) {
+        it('ensure if any of my updates/patchs don`t create new volume', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/volumes`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -565,7 +565,7 @@ describe('e2e volumes', function () {
      * @description I like to see my roles
      */
     describe('get roles', function () {
-        it('Exist roles - confirm my news roles', function (done) {
+        it('Exist roles - ensure my news roles', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/volumes/${volumes[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -669,8 +669,8 @@ describe('e2e volumes', function () {
         });
     });
 
-    describe('confirm update roles', function () {
-        it('Exist roles - confirm my news volumes', function (done) {
+    describe('ensure update roles', function () {
+        it('Exist roles - ensure my news volumes', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/volumes/${volumes[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -717,8 +717,8 @@ describe('e2e volumes', function () {
         });
     });
 
-    describe('confirm delete roles', function () {
-        it('Exist roles - confirm my news role', function (done) {
+    describe('ensure delete roles', function () {
+        it('Exist roles - ensure my news role', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/volumes/${volumes[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -759,7 +759,7 @@ describe('e2e volumes', function () {
         });
     });
 
-    describe('confirm to delete volume', function () {
+    describe('ensure to delete volume', function () {
         it('Exist roles - delete my volume', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/volumes/`)

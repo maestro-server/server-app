@@ -5,13 +5,16 @@ const _ = require('lodash');
 const Networks = require('../repositories/dao/networks');
 
 const network = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'unique_id',  'environment', 'family', 'datacenters.name',
-         'status', 'tags'];
+    const resFilled = [
+        '_id', 'updated_at', 'created_at',
+        'name', 'unique_id',  'environment',
+        'family', 'datacenters.name', 'datacenters.region', 'datacenters.zone',
+        'status', 'tags'];
 
     const singleFilled = [...resFilled,
         'vpc_peering_connection_id', 'vpc_id', 'image_id', 'port_id', 'security_id', 'group_id', 'datacenters',
         'subnet_id', 'route_id', 'vpn_gateway_id', 'vpc_endpoint_id', 'route_table_id', 'network_interface_id',
-        'availability_zone', 'available_ip_address_count', 'is_vlan_transparent', 'unique_id',
+        'availability_zone', 'available_ip_address_count', 'is_vlan_transparent', 'unique_id', 'active',
         'cidr_block', 'default_for_az', 'map_public_ip_on_launch', 'assign_ipv6_address_on_creation', 'dhcp_options_id',
         'instance_tenancy', 'ipv6_cidr_block_association_set', 'cidr_block_association_set', 'is_default', 'accepter_vpc_info',
         'expiration_time', 'requester_vpc_info', 'description', 'group_name', 'ip_permissions', 'associations', 'propagating_vgws',

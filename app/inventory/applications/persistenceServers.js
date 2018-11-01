@@ -20,6 +20,7 @@ const ApplicationServers = (Entity, PersistenceServices = DPersistenceServices) 
           query = filterHooks(query, field, [
             {dest: 'id', source: '_id', module: 'swap'},
             {dest: 'datacenters.name', source: 'datacenters', module: 'swap'},
+            {dest: 'datacenters.name', source: 'ldatacenters', module: 'swap'},
             {dest: 'os.base', source: 'os', module: 'swap'},
             {dest: 'environment', source: 'environment', module: 'swap'},
             {dest: 'role', source: 'role', module: 'swap'},

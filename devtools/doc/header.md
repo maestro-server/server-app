@@ -1,9 +1,9 @@
 Maestro server - Cloud inventory is smart inventory platform, its a database of all information of multi datacenters.
 API Server it`s a component with responsibility for business rules, like authentication, management teams, servers, applications, datacenters and etc.
 ### Sumary:
-|                      Inventory Auth                      |               Users and Teams               |              Configs and services              |                   Reports                    |                   Playbooks                       |
+|                      Inventory Auth                      |               Users and Teams               |              Configs and services              |                   Reports                    |                   Analytics                       |
 |----------------------------------------------------------|---------------------------------------------|------------------------------------------------|----------------------------------------------|---------------------------------------------------|
-| [Servers](../inventory/index.html#api-Servers)           | [Me](../identity/index.html#api-Me)         | [Adminer](../adminer/index.html#api-Adminer)   | [Reports](../reports/index.html#api-Reports) | [Scheduler](../playbooks/index.html#api-Schedules) |
+| [Servers](../inventory/index.html#api-Servers)           | [Me](../identity/index.html#api-Me)         | [Adminer](../adminer/index.html#api-Adminer)   | [Reports](../reports/index.html#api-Reports) | [Scheduler](../reports/index.html#api-Schedules)|
 | [Applications](../inventory/index.html#api-Applications) | [Users](../identity/index.html#api-Users)   | [Services](../adminer/index.html#api-Services) | [Events](../events/index.html#api-Events)    |                                                   |
 | [Datacenters](../inventory/index.html#api-Datacenters)   | [Auth](../identity/index.html#api-Auth) |   |                                                |                                              |                                                   |
 | [Systems](../inventory/index.html#api-Systems)           | [Teams](../identity/index.html#api-Teams) | |                                                |                                              |                                                   |
