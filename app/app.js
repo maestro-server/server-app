@@ -6,8 +6,8 @@ const express = require('express');
 const kraken = require('kraken-js');
 
 const db_connect = require('core/libs/db_run');
+const dbpath = require('core/libs/dbpath')();
 const Mongorito = require('mongorito');
-const migrate = require('core/libs/run_migrate');
 
 /*
  * Create and configure application. Also exports application instance for use by tests.
@@ -21,17 +21,10 @@ const options = {
          */
 
         db_connect(function *() {
-            yield Mongorito.connect(process.env.MAESTRO_MONGO_URI || 'localhost/maestro-client');
+            yield Mongorito.connect(dbpath);
             next(null, config);
-            console.log("Mongo online");
+            console.log("Maestro: Mongo online");
         });
-
-        /*
-        If is production, run migrate command and syncronize data
-         */
-        if (process.env.NODE_ENV === 'Production') {
-            migrate();
-        }
     }
 };
 
@@ -41,6 +34,5 @@ app.use(kraken(options));
 
 
 app.on('start', function () {
-    console.log('Application ready to serve requests.');
-    console.log('Environment: %s', app.kraken.get('env:env'));
+    console.log('Maestro: Application ready to serve requests. -- Environment: %s', app.kraken.get('env:env'));
 });

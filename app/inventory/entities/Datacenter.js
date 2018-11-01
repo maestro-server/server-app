@@ -5,10 +5,10 @@ const _ = require('lodash');
 const Datacenters = require('../repositories/dao/datacenter');
 
 const app = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'name',
-    'zones', 'regions', 'provider', 'role', 'metas', 'roles', 'servers_count', 'sucessed'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'active',
+    'zones', 'regions', 'provider', 'role', 'metas', 'roles', 'sucessed'];
 
-    const singleFilled = [...resFilled, 'owner', 'auth'];
+    const singleFilled = [...resFilled, 'owner', 'auth', 'tracker'];
 
     const filled = [..._.slice(singleFilled, 2)]; // delete id
 
@@ -21,7 +21,7 @@ const app = () => {
 
         dao: Datacenters,
 
-        defaults: {servers_count: 0},
+        defaults: {},
 
         mapRelations: [],
 

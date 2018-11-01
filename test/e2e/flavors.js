@@ -435,9 +435,9 @@ describe('e2e flavors', function () {
      * @depends create flavor
      * @description I like ensure some effects
      */
-    describe('confirm update flavor', function () {
+    describe('ensure update flavor', function () {
 
-        it('confirm my changes', function (done) {
+        it('ensure my changes', function (done) {
             request(mock)
                 .get('/flavors/' + flavors[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -451,7 +451,7 @@ describe('e2e flavors', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs don`t create new flavor', function (done) {
+        it('ensure if any of my updates/patchs don`t create new flavor', function (done) {
             request(mock)
                 .get('/flavors')
                 .set('Authorization', `JWT ${user.token}`)
@@ -495,7 +495,7 @@ describe('e2e flavors', function () {
         });
     });
 
-    describe('confirm to delete flavor', function () {
+    describe('ensure to delete flavor', function () {
         it('Exist roles - delete my flavor', function (done) {
             request(mock)
                 .get('/flavors/')

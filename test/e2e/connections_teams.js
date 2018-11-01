@@ -4,6 +4,7 @@ require('dotenv').config({path: '.env.test'});
 let chai = require('chai'),
     request = require('supertest'),
     cleaner_db = require('./libs/cleaner_db'),
+    insert_adminer = require('./libs/adminer_connections'),
     {expect} = chai,
     jwt = require('jwt-simple'),
     _ = require('lodash');
@@ -22,6 +23,13 @@ describe('e2e connections', function () {
         _id: null
     };
 
+    let datacenters = [{
+        name: "Mydatacenter",
+        regions: ["us-east"],
+        zones: ["us-virginia-1a", "sp-virginia-1b"],
+        provider: "AWS"
+    }];
+
     let connections = [{
         name: "Myconnection",
         dc: "AWS - OTB",
@@ -37,7 +45,7 @@ describe('e2e connections', function () {
         dc: "OpenStack - OTB",
         dc_id: "5a3a8b82fe024f38804b3675",
         regions: ["br-east"],
-        provider: "Openstack",
+        provider: "AWS",
         project: "br-sp1",
         url: "keystone-url",
         conn: {
@@ -66,11 +74,12 @@ describe('e2e connections', function () {
     }];
 
     before(function (done) {
-        cleaner_db([{tb: 'users'}, {tb: 'connections'}, {tb: 'teams'}], () => {
-            app = require('./libs/bootApp')();
-
-            app.once('start', done);
-            mock = app.listen(1341);
+        cleaner_db([{tb: 'users'}, {tb: 'connections'}, {tb: 'schedulers'}, {tb: 'adminer'}, {tb: 'datacenters'}], () => {
+            insert_adminer(() => {
+                app = require('./libs/bootApp')();
+                app.once('start', done);
+                mock = app.listen(1341);
+            });
         }, null);
     });
 
@@ -147,6 +156,38 @@ describe('e2e connections', function () {
                 });
         });
     });
+
+    /**
+     *
+     * Create datacenter
+     * @depends create user
+     * @description I like to create a new datacenter to link with my connection
+     */
+
+    describe('create datacenter', function () {
+        it('create datacenter - create datacenter', function (done) {
+            request(mock)
+                .post(`/teams/${teams._id}/datacenters`)
+                .send(datacenters[0])
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .expect(/Mydatacenter/)
+                .expect(/zones/)
+                .expect(/regions/)
+                .expect(/us-east/)
+                .expect(/AWS/)
+                .expect(/_id/)
+                .expect(res=> datacenters[0] = res.body)
+                .expect(res=> connections[0]['dc_id'] = res.body._id)
+                .expect(res=> connections[1]['dc_id'] = res.body._id)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
 
     /**
      *
@@ -404,6 +445,23 @@ describe('e2e connections', function () {
                     done(err);
                 });
         });
+
+        it('list my schedulers', function (done) {
+            request(mock)
+                .get(`/teams/${teams._id}/scheduler`)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .expect(/server-list/)
+                .expect(/found/)
+                .expect(function (res) {
+                    expect(res.body.items).to.have.length(2);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
     });
 
     /**
@@ -486,9 +544,9 @@ describe('e2e connections', function () {
      * @depends create connection
      * @description I like ensure some effects
      */
-    describe('confirm update connection', function () {
+    describe('ensure update connection', function () {
 
-        it('confirm my changes', function (done) {
+        it('ensure my changes', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -501,7 +559,7 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs don`t create new connection', function (done) {
+        it('ensure if any of my updates/patchs don`t create new connection', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/connections`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -599,7 +657,7 @@ describe('e2e connections', function () {
      * @description I like to see my roles
      */
     describe('get roles', function () {
-        it('Exist roles - confirm my news roles', function (done) {
+        it('Exist roles - ensure my news roles', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -703,8 +761,8 @@ describe('e2e connections', function () {
         });
     });
 
-    describe('confirm update roles', function () {
-        it('Exist roles - confirm my news connections', function (done) {
+    describe('ensure update roles', function () {
+        it('Exist roles - ensure my news connections', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -751,8 +809,8 @@ describe('e2e connections', function () {
         });
     });
 
-    describe('confirm delete roles', function () {
-        it('Exist roles - confirm my news role', function (done) {
+    describe('ensure delete roles', function () {
+        it('Exist roles - ensure my news role', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -785,6 +843,7 @@ describe('e2e connections', function () {
             request(mock)
                 .delete(`/teams/${teams._id}/connections/${connections[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
+
                 .expect(204)
                 .end(function (err) {
                     if (err) return done(err);
@@ -793,7 +852,7 @@ describe('e2e connections', function () {
         });
     });
 
-    describe('confirm to delete connection', function () {
+    describe('ensure to delete connection', function () {
         it('Exist roles - delete my connection', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/connections/`)
@@ -803,6 +862,68 @@ describe('e2e connections', function () {
                 .expect(function (res) {
                     expect(res.body.items).to.have.length(1);
                 })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('ensure to delete my schedulers', function (done) {
+            request(mock)
+                .get(`/teams/${teams._id}/scheduler/`)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .expect(/found/)
+                .expect(function (res) {
+                    expect(res.body.items).to.have.length(1);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
+    describe('delete my second connection', function () {
+        it('Exist roles - delete my connection', function (done) {
+            request(mock)
+                .delete(`/teams/${teams._id}/connections/${connections[1]._id}`)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(204)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+    });
+
+    describe('ensure if my connection is deleted', function () {
+        it('Exist roles - delete my connection', function (done) {
+            request(mock)
+                .get(`/teams/${teams._id}/connections/`)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .expect(function (res) {
+                    expect(res.body.items).to.have.length(0);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+
+        it('ensure if my datacenters is disconnected', function (done) {
+            request(mock)
+                .get(`/teams/${teams._id}/datacenters/${datacenters[0]._id}`)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .expect(/name/)
+                .expect(/sucessed/)
+                .expect(res => expect(res.body.sucessed).to.equal(false))
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);

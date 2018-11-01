@@ -6,17 +6,16 @@ exports.up = function (db, next) {
 
     pets.insert({
         "value": {
-            period: ['seconds', 'minutes', 'hours', 'days'],
-            period_type: ['interval', 'crontab'],
+            period: ['seconds', 'minutes', 'hours', 'days', 'weeks'],
+            period_type: ['interval', 'cron'],
             method: ['GET', 'POST', 'PUT', 'DELETE'],
-            kwargs: ['expires', 'max_targets'],
             modules: ['webhook', 'connections'],
             configs: [
                 {
                     name: 'connections',
                     description: 'Polling provider',
-                    source: 'discovery-app',
-                    url: `<url_discovery>/crawler/<provider>/<_id>/<task>`,
+                    source: 'discovery',
+                    url: "/crawler/<provider>/<_id>/<task>",
                     method: 'PUT',
                     options: {
                         'server-list': {
@@ -25,6 +24,10 @@ exports.up = function (db, next) {
                         },
                         'loadbalance-list': {
                             every: 6,
+                            period: 'hours'
+                        },
+                        'autoscaling-list': {
+                            every: 24,
                             period: 'hours'
                         },
                         'dbs-list': {
@@ -58,7 +61,11 @@ exports.up = function (db, next) {
                         'network-list': {
                             every: 7,
                             period: 'days'
-                        }
+                        },
+                        'flavor-list': {
+                            every: 14,
+                            period: 'days'
+                        },
                     }
                 },
                 {

@@ -3,7 +3,6 @@
 const _ = require('lodash');
 
 const Adminer = require('adminer/entities/Adminer');
-const hateaosTransform = require('core/applications/transforms/hateoasTransform');
 const DPersistenceServices = require('core/services/PersistenceServices');
 const aclRoles = require('core/applications/transforms/aclRoles');
 const tokenGenerator = require('../transforms/tokenTransform');
@@ -12,6 +11,7 @@ const notExist = require('core/applications/validator/validNotExist');
 const validAccessEmpty = require('core/applications/validator/validAccessEmpty');
 const DatacentersConnection = require('../services/DatacentersConnection');
 const SchedulerBatch = require('../services/SchedulerBatchCreator');
+const SchedulerBatchRemove = require('../services/SchedulerBatchRemove');
 
 const {DiscoveryHTTPService} = require('core/services/HTTPService');
 
@@ -48,11 +48,11 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                 .findOne(req.params.id, req.user)
                 .then(validAccessEmpty)
                 .then(e => DatacentersConnection(e, req, PersistenceServices, Entity).disconnected())
+                .then(() => SchedulerBatchRemove(req)(PersistenceServices).batch())
                 .then(() => PersistenceServices(Entity).remove(req.params.id, req.user))
                 .then(e => res.status(204).json(e))
                 .catch(next);
         },
-
 
         task(req, res, next) {
             PersistenceServices(Entity)

@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const FlavorsPublic = require('../repositories/dao/flavorsPublic');
 const {filled, singleFilled, resFilled, visibility, mapRelations, defaults, validators} = require('./Flavors');
 

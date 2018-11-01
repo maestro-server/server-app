@@ -414,9 +414,9 @@ describe('e2e services', function () {
      * @depends create service
      * @description I like ensure some effects
      */
-    describe('confirm update service', function () {
+    describe('ensure update service', function () {
 
-        it('confirm my changes', function (done) {
+        it('ensure my changes', function (done) {
             request(mock)
                 .get('/services/' + services[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -429,7 +429,7 @@ describe('e2e services', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs don`t create new service', function (done) {
+        it('ensure if any of my updates/patchs don`t create new service', function (done) {
             request(mock)
                 .get('/services')
                 .set('Authorization', `JWT ${user.token}`)
@@ -473,7 +473,7 @@ describe('e2e services', function () {
         });
     });
 
-    describe('confirm to delete service', function () {
+    describe('ensure to delete service', function () {
         it('Exist roles - delete my service', function (done) {
             request(mock)
                 .get('/services/')

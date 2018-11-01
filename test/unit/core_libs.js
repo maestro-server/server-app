@@ -6,14 +6,11 @@ require('dotenv').config({path: '.env.test'});
 let chai = require('chai'),
     chaid = require('chaid'),
     {expect} = chai,
-    sinon = require('sinon'),
     chaiAsPromised = require("chai-as-promised"),
-    sinonStubPromise = require('sinon-stub-promise'),
     _ = require('lodash');
 
 chai.use(chaiAsPromised);
 chai.use(chaid);
-sinonStubPromise(sinon);
 
 
 describe('unit - core', function () {
@@ -105,16 +102,6 @@ describe('unit - core', function () {
         done();
     });
 
-    it('libs - db run - error', function (done) {
-        const cor = require('core/libs/db_run');
-
-        expect(function () {
-            cor(function *() {
-                yield Promise.reject();
-            });
-        }).to.not.throw();
-        done();
-    });
 
     it('libs - in_maker - single str', function (done) {
         const {ObjectId} = require('mongorito');
@@ -159,16 +146,5 @@ describe('unit - core', function () {
         expect(result).to.have.property('patch');
         done();
     });
-
-    it('libs - run migrate', function (done) {
-        const fc = require('core/libs/run_migrate');
-
-        expect(function(){
-            fc({})
-        }).to.not.throw('error');
-        done();
-    });
-
-
 
 });

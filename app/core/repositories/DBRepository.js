@@ -20,9 +20,7 @@ const DBRepository = (Entity, options = {}) => {
                 const ascending = _.parseInt(_.get(query, 'ascending'));
                 const direction = ascending ? 1 : -1;
                 const orderBy = _.get(query, 'orderBy', 'updated_at');
-
                 const filter = findFilledFormat(query, Entity.singleFilled);
-
 
                 return DB
                     .limit(limit)
@@ -156,12 +154,13 @@ const DBRepository = (Entity, options = {}) => {
 
         },
 
-        remove(filter) {
+        remove(filter, data = {}) {
             return new Promise((resolve, reject) => {
-                const data = activeTransform.desactive();
+                const desactive = activeTransform.desactive();
+                const ndata = _.assign(data, desactive);
 
-                return new DB(data)
-                    .updateAndModify(filter)
+                return new DB(ndata)
+                    .updateAndModify(filter, options)
                     .then(validAccessUpdater)
                     .then(resolve)
                     .catch(reject);

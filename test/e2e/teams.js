@@ -353,9 +353,9 @@ describe('e2e teams', function () {
         });
     });
 
-    describe('confirm update team', function () {
+    describe('ensure update team', function () {
 
-        it('Exist team - confirm my changes', function (done) {
+        it('Exist team - ensure my changes', function (done) {
             request(mock)
                 .get('/teams/'+teams[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -370,7 +370,7 @@ describe('e2e teams', function () {
                 });
         });
 
-        it('Exist team - confirm if my update don`t create new team', function (done) {
+        it('Exist team - ensure if my update don`t create new team', function (done) {
             request(mock)
                 .get('/teams')
                 .set('Authorization', `JWT ${user.token}`)
@@ -442,7 +442,7 @@ describe('e2e teams', function () {
     * @description I like to see my members
     */
     describe('get members', function () {
-        it('confirm my news members', function (done) {
+        it('ensure my news members', function (done) {
             request(mock)
                 .get('/teams/'+teams[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -493,8 +493,8 @@ describe('e2e teams', function () {
         });
     });
 
-    describe('confirm update members', function () {
-        it('confirm my news members', function (done) {
+    describe('ensure update members', function () {
+        it('ensure my news members', function (done) {
             request(mock)
                 .get('/teams/'+teams[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -542,8 +542,8 @@ describe('e2e teams', function () {
         });
     });
 
-    describe('confirm delete members', function () {
-        it('confirm my news members', function (done) {
+    describe('ensure delete members', function () {
+        it('ensure my news members', function (done) {
             request(mock)
                 .get('/teams/'+teams[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -579,7 +579,7 @@ describe('e2e teams', function () {
         });
     });
 
-    describe('confirm to delete team', function () {
+    describe('ensure to delete team', function () {
         it('delete my team', function (done) {
             request(mock)
                 .get('/teams/')

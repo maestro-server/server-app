@@ -5,7 +5,7 @@ const _ = require('lodash');
 const Event = require('../repositories/dao/events');
 
 const report = () => {
-    const resFilled = ['_id', 'updated_at', 'created_at', 'msg', 'context', 'status'];
+    const resFilled = ['_id', 'updated_at', 'created_at', 'msg', 'context', 'description', 'status'];
 
     const singleFilled = [...resFilled, 'roles', 'owner'];
 

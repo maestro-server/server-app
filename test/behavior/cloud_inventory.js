@@ -320,12 +320,48 @@ describe('behaviors basic actions in cloud inventory', function () {
                 });
         });
 
+
+        it('create my first datacenters', function (done) {
+            request(mock)
+                .post('/datacenters')
+                .send(datacenters[0])
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .expect(/_id/)
+                .expect(function (res) {
+                    Object.assign(datacenters[0], res.body);
+                })
+                .expect(res=> connections[0]['dc_id'] = res.body._id)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('create my second datacenters', function (done) {
+            request(mock)
+                .post('/datacenters')
+                .send(datacenters[1])
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(201)
+                .expect('Content-Type', /json/)
+                .expect(/_id/)
+                .expect(function (res) {
+                    Object.assign(datacenters[1], res.body);
+                })
+                .expect(res=> connections[1]['dc_id'] = res.body._id)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
         it('create my first connections', function (done) {
             request(mock)
                 .post('/connections')
                 .send(connections[0])
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(console.log)
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .expect(function (res) {
@@ -352,40 +388,6 @@ describe('behaviors basic actions in cloud inventory', function () {
                     done(err);
                 });
         });
-
-        it('create my first datacenters', function (done) {
-            request(mock)
-                .post('/datacenters')
-                .send(datacenters[0])
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(201)
-                .expect('Content-Type', /json/)
-                .expect(/_id/)
-                .expect(function (res) {
-                    Object.assign(datacenters[0], res.body);
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('create my second datacenters', function (done) {
-            request(mock)
-                .post('/datacenters')
-                .send(datacenters[1])
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(201)
-                .expect('Content-Type', /json/)
-                .expect(/_id/)
-                .expect(function (res) {
-                    Object.assign(datacenters[1], res.body);
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
     });
 
     /**
@@ -399,7 +401,7 @@ describe('behaviors basic actions in cloud inventory', function () {
             let data = Object.assign(
                 applications[0],
                 {'servers': [_.get(servers[0], '_id'), _.get(servers[1], '_id')]},
-                {'targets': [_.get(servers[0], '_id')]}
+                {'targets': [_.pick(servers[0], ['_id', 'name'])]}
             );
 
             request(mock)
@@ -507,20 +509,6 @@ describe('behaviors basic actions in cloud inventory', function () {
         });
     });
 
-    describe('sync servers count by dc', function () {
-        it('sync', function (done) {
-            request(mock)
-                .patch('/datacenters/' + datacenters[0]._id + '/sync_count_servers')
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-    });
-
     describe('ensure if my setup is ok', function () {
         it('select my first app', function (done) {
 
@@ -547,7 +535,7 @@ describe('behaviors basic actions in cloud inventory', function () {
                 .expect(function (res) {
                     expect(res.body.targets).to.deep.equal(
                         [
-                            _.get(servers[0], '_id')
+                            _.pick(servers[0], '_id')
                         ]);
                     expect(res.body.targets).to.have.length(1);
                 })
@@ -571,7 +559,6 @@ describe('behaviors basic actions in cloud inventory', function () {
                         ]);
                     expect(res.body.clients).to.have.length(2);
                 })
-                .expect(/check/)
                 .expect(/name/)
                 .expect(/tags/)
                 .expect(/description/)

@@ -13,6 +13,7 @@ const Access = require('core/entities/accessRole');
 const aclRoles = require('./transforms/aclRoles');
 const jsonParser = require('./transforms/jsonParser');
 const mapRelationToObjectID = require('./transforms/mapRelationToObjectID');
+const {transfID} = require('core/applications/transforms/mapRelationToObjectID');
 
 const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
@@ -27,7 +28,6 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
             const {limit, page} = query;
 
-
             PersistenceServices(Entity)
                 .find(query, user)
                 .then((e) => validNotFound(e, e[1], limit, page))
@@ -39,7 +39,7 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
         count (req, res, next) {
 
             let {query, user} = req;
-            query =  mapRelationToObjectID(query, Entity.mapRelations);
+            query =  transfID(query, Entity.mapRelations);
             query = jsonParser(query, 'query');
 
             PersistenceServices(Entity)

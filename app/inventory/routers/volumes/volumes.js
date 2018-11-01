@@ -4,7 +4,6 @@ const authenticate = require('identity/middlewares/authenticate');
 const Volumes = require('../../entities/Volumes');
 const PersistenceApp = require('core/applications/persistenceApplication')(Volumes);
 const PersistenceAppServers = require('../../applications/persistenceServers')(Volumes);
-
 const AccessApp = require('core/applications/accessApplication')(Volumes);
 
 module.exports = function (router) {

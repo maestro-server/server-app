@@ -10,6 +10,7 @@ const validAccessEmpty = require('core/applications/validator/validAccessEmpty')
 const mapRelationToObjectID = require('core/applications/transforms/mapRelationToObjectID');
 const jsonParser = require('core/applications/transforms/jsonParser');
 const regexFilterQuery = require('core/services/transforms/regexFilterQuery');
+const notExist = require('core/applications/validator/validNotExist');
 
 const {ReportHTTPService} = require('core/services/HTTPService');
 

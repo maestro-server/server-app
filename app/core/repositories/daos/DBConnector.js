@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const {Model} = require('mongorito');
 
 const bcrypt = require('bcrypt');
@@ -26,26 +27,31 @@ class Dao extends Model {
     }
 
     updateFull(filter, options) {
+        const opts = _.get(options, 'oUpdater', '');
+        const opp = `update${opts}Factory`;
         this.set('updated_at', new Date());
-        return this.updateFactory(filter, null, options);
+
+        return this[opp](filter, null, options);
     }
 
     updateAndModify(filter, options) {
+        const opts = _.get(options, 'oUpdater', '');
+        const opp = `update${opts}Factory`;
         this.set('updated_at', new Date());
 
-        return this.updateFactory(filter, '$set', options);
+        return this[opp](filter, '$set', options);
     }
 
     updateByPushUnique(filter, options) {
-        const {oUpdater} = options;
-        const opp = `update${oUpdater||''}Factory`;
+        const opts = _.get(options, 'oUpdater', '');
+        const opp = `update${opts}Factory`;
 
         return this[opp](filter, '$addToSet', options);
     }
 
     updateByPull(filter, options) {
-        const {oUpdater} = options;
-        const opp = `update${oUpdater||''}Factory`;
+        const opts = _.get(options, 'oUpdater', '');
+        const opp = `update${opts}Factory`;
 
         return this[opp](filter, '$pull', options);
     }
@@ -80,7 +86,8 @@ class Dao extends Model {
                 return this._runHooks('before', 'update');
             })
             .then((collection) => {
-                return collection.updateMany(entity, {[entry]: this.get()}, options);
+                const subs = entry ? {[entry]: this.get()} : this.get();
+                return collection.updateMany(entity, subs, options);
             })
             .then((e) => {
                 return this.isUpdater = e.result;
@@ -88,6 +95,17 @@ class Dao extends Model {
             .return(this);
     }
 
+    updateBatch(data, options) {
+
+        return this._collection()
+            .then((collection) => {
+                return collection.bulkWrite(data, options);
+            })
+            .then((e) => {
+                return this.isBatch = e;
+            })
+            .return(this);
+    }
 }
 
 module.exports = Dao;

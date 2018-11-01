@@ -7,12 +7,10 @@ let chai = require('chai'),
     {expect} = chai,
     sinon = require('sinon'),
     chaiAsPromised = require("chai-as-promised"),
-    sinonStubPromise = require('sinon-stub-promise'),
     cleaner_db = require('../e2e/libs/cleaner_db'),
     _ = require('lodash');
 
 chai.use(chaiAsPromised);
-sinonStubPromise(sinon);
 
 
 describe('integration - core', function () {
@@ -101,8 +99,6 @@ describe('integration - core', function () {
             describe('find', function () {
                 it('find', function (done) {
                     const tt = DBRepository(Entity).find({}, 1, 1);
-
-                    expect(tt).to.eventually.have.nested.lengthOf(1);
 
                     expect(tt)
                         .to.be.fulfilled

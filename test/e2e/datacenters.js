@@ -426,9 +426,9 @@ describe('e2e datacenters', function () {
      * @depends create datacenter
      * @description I like ensure some effects
      */
-    describe('confirm update datacenter', function () {
+    describe('ensure update datacenter', function () {
 
-        it('confirm my changes', function (done) {
+        it('ensure my changes', function (done) {
             request(mock)
                 .get('/datacenters/' + datacenters[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -441,7 +441,7 @@ describe('e2e datacenters', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs don`t create new datacenter', function (done) {
+        it('ensure if any of my updates/patchs don`t create new datacenter', function (done) {
             request(mock)
                 .get('/datacenters')
                 .set('Authorization', `JWT ${user.token}`)
@@ -539,7 +539,7 @@ describe('e2e datacenters', function () {
      * @description I like to see my roles
      */
     describe('get roles', function () {
-        it('Exist roles - confirm my news roles', function (done) {
+        it('Exist roles - ensure my news roles', function (done) {
             request(mock)
                 .get('/datacenters/' + datacenters[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -643,8 +643,8 @@ describe('e2e datacenters', function () {
         });
     });
 
-    describe('confirm update roles', function () {
-        it('Exist roles - confirm my news datacenters', function (done) {
+    describe('ensure update roles', function () {
+        it('Exist roles - ensure my news datacenters', function (done) {
             request(mock)
                 .get('/datacenters/' + datacenters[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -691,8 +691,8 @@ describe('e2e datacenters', function () {
         });
     });
 
-    describe('confirm delete roles', function () {
-        it('Exist roles - confirm my news role', function (done) {
+    describe('ensure delete roles', function () {
+        it('Exist roles - ensure my news role', function (done) {
             request(mock)
                 .get('/datacenters/' + datacenters[0]._id)
                 .set('Authorization', `JWT ${user.token}`)
@@ -733,7 +733,7 @@ describe('e2e datacenters', function () {
         });
     });
 
-    describe('confirm to delete datacenter', function () {
+    describe('ensure to delete datacenter', function () {
         it('Exist roles - delete my datacenter', function (done) {
             request(mock)
                 .get('/datacenters/')

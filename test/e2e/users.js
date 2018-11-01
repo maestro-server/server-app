@@ -460,8 +460,8 @@ describe('e2e users', function () {
         });
     });
 
-    describe('confirm if i am deleted', function () {
-        it('Deleted user - confirm', function (done) {
+    describe('ensure if i am deleted', function () {
+        it('Deleted user - ensure', function (done) {
             request(mock)
                 .get('/me')
                 .set('Authorization', `JWT ${user.token}`)

@@ -4,8 +4,9 @@ require('app-module-path').addPath(`${__dirname}/../../../app`); //make more rea
 
 const db_connect = require('core/libs/db_run');
 const Mongorito = require('mongorito');
+const dbpath = require('core/libs/dbpath')();
 
-module.exports = function (done, conn = process.env.MAESTRO_MONGO_URI) {
+module.exports = function (done, conn = dbpath) {
   db_connect(function *() {
       yield Mongorito.connect(conn);
       done();

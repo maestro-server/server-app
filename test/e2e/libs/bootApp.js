@@ -7,28 +7,31 @@ const kraken = require('kraken-js');
 
 const db_connect = require('core/libs/db_run');
 const Mongorito = require('mongorito');
-
+const dbpath = require('core/libs/dbpath')();
 const path = require('path');
 
-module.exports = function (conn = process.env.MAESTRO_MONGO_URI) {
-  let options = {
-    basedir: path.resolve(__dirname, '../../../app/'),
-      onconfig: function (config, next) {
-          db_connect(function *() {
-              yield Mongorito.connect(conn);
-              next(null, config);
-          });
-      }
-  };
 
-  let app = express();
+module.exports = function (conn = dbpath) {
 
-  app.use(kraken(options));
+    let options = {
+        basedir: path.resolve(__dirname, '../../../app/'),
+        onconfig: function (config, next) {
+            db_connect(function* () {
+                yield Mongorito.connect(conn);
+                next(null, config);
+            });
+        }
+    };
 
-  app.on('start', function () {
-      console.log('Application ready to serve requests.');
-      console.log('Environment: %s', app.kraken.get('env:env'));
-  });
+    let app = express();
 
-  return app;
+    app.use(kraken(options));
+
+    app.on('start', function () {
+        console.log('Application ready to serve requests.');
+        console.log('Environment: %s', app.kraken.get('env:env'));
+    });
+
+
+    return app;
 };

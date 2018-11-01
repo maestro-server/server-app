@@ -156,7 +156,6 @@ describe('e2e images', function () {
                 .expect(/xUnix/)
                 .expect(/image_location/)
                 .expect(/imagem\ plataform/)
-                .expect(/5a3abbce66cc383cbc8e1282/)
                 .expect(/_id/)
                 .end(function (err) {
                     if (err) return done(err);
@@ -222,7 +221,6 @@ describe('e2e images', function () {
                 .expect(/plataform/)
                 .expect(/image_location/)
                 .expect(/imagem\ plataform/)
-                .expect(/5a3abbce66cc383cbc8e1282/)
                 .expect(/_id/)
                 .expect(/_link/)
                 .expect(/found/)
@@ -456,9 +454,9 @@ describe('e2e images', function () {
      * @depends create image
      * @description I like ensure some effects
      */
-    describe('confirm update image', function () {
+    describe('ensure update image', function () {
 
-        it('confirm my changes', function (done) {
+        it('ensure my changes', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/images/${images[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -471,7 +469,7 @@ describe('e2e images', function () {
                 });
         });
 
-        it('confirm if any of my updates/patchs don`t create new image', function (done) {
+        it('ensure if any of my updates/patchs don`t create new image', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/images`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -569,7 +567,7 @@ describe('e2e images', function () {
      * @description I like to see my roles
      */
     describe('get roles', function () {
-        it('Exist roles - confirm my news roles', function (done) {
+        it('Exist roles - ensure my news roles', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/images/${images[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -673,8 +671,8 @@ describe('e2e images', function () {
         });
     });
 
-    describe('confirm update roles', function () {
-        it('Exist roles - confirm my news images', function (done) {
+    describe('ensure update roles', function () {
+        it('Exist roles - ensure my news images', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/images/${images[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -721,8 +719,8 @@ describe('e2e images', function () {
         });
     });
 
-    describe('confirm delete roles', function () {
-        it('Exist roles - confirm my news role', function (done) {
+    describe('ensure delete roles', function () {
+        it('Exist roles - ensure my news role', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/images/${images[0]._id}`)
                 .set('Authorization', `JWT ${user.token}`)
@@ -763,7 +761,7 @@ describe('e2e images', function () {
         });
     });
 
-    describe('confirm to delete image', function () {
+    describe('ensure to delete image', function () {
         it('Exist roles - delete my image', function (done) {
             request(mock)
                 .get(`/teams/${teams._id}/images/`)

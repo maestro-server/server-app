@@ -27,6 +27,10 @@ const HTTPService = (url) => (header = {}) => {
     };
 
     return {
+        info() {
+            return {url, ...header};
+        },
+
         find(path, args = {}) {
             return factoryRequest('get', path, args);
         },
@@ -46,18 +50,23 @@ const HTTPService = (url) => (header = {}) => {
 };
 
 const DiscoveryHTTPService = (header = {}) => {
-    const url = process.env.MAESTRO_DISCOVERY_URL || 'http://localhost:5000';
+    const url = process.env.MAESTRO_DISCOVERY_URI || 'http://localhost:5000';
     return HTTPService(url)(header);
 };
 
 const ReportHTTPService = (header = {}) => {
-    const url = process.env.MAESTRO_REPORT_URL || 'http://localhost:5005';
+    const url = process.env.MAESTRO_REPORT_URI || 'http://localhost:5005';
     return HTTPService(url)(header);
 };
 
+const AnalyticsHTTPService = (header = {}) => {
+    const url = process.env.MAESTRO_ANALYTICS_URI || 'http://localhost:5020';
+    return HTTPService(url)(header);
+};
 
 module.exports = {
     HTTPService,
     DiscoveryHTTPService,
-    ReportHTTPService
+    ReportHTTPService,
+    AnalyticsHTTPService
 };
