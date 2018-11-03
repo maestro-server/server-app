@@ -2,33 +2,38 @@
 
 const _ = require('lodash');
 
-const swapModule = (obj, omits, data) => {
-    omits.push(data.source);
-
-    if(!_.isEmpty(obj[data.source])) {
-        return {[data.dest]: obj[data.source]};
-    }
-};
 
 module.exports = function (query, field = 'query', rules = []) {
-  if(query.hasOwnProperty(field)) {
-    let omits = [];
+    if (query.hasOwnProperty(field)) {
+        let omits = [];
 
-    const filters = rules.map((data) => {
-        if(data.module == 'swap') {
-            return swapModule(query[field], omits, data);
+        for (let rule in rules) {
+            const data = rules[rule];
+            const tmp = _.get(query[field], data.source);
+
+            if (tmp) {
+                if (data.module == 'swap') {
+                    query[field][data.dest] = tmp;
+                    omits.push(data.source);
+                    continue;
+                }
+
+                if (data.module == 'clone') {
+                    _.set(query[field], data.dest, tmp)
+                    continue;
+                }
+
+                if (_.hasOwnProperty(data.module)) {
+                    query[field][data.source] = _[data.module](tmp);
+                }
+            }
         }
 
-        if(_.hasOwnProperty(data.module)) {
-            query[field][data.source] = _[data.module](query[field][data.source]);
-        }
-    });
+        query[field] = _.omit(query[field], omits);
+    }
 
-    query[field] = _.omit(query[field], omits);
-    _.merge(query, ...filters);
-  }
 
-  return query;
+    return query;
 };
 
 

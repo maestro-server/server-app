@@ -139,6 +139,18 @@ module.exports = function (router) {
          * <br/>}]
          *  </code>
          * </pre>
+         * @apiParam (Body x-www) {Array} [entry List of entry points, [Array of Objects]
+         * <br/>
+         * <pre class="prettyprint language-json" data-type="json">
+         * <code>[{
+         * <br/>   "_id": (String), //application entities
+         * <br/>   "name": (String),
+         * <br/>   "family": (String),
+         * <br/>   "endpoint": (String) //protocol [rest, amqp, thriller and etc..]
+         * <br/>}]
+         *  </code>
+         * </pre>
+         * Entry points are public applicartions, the first contact by client, normally its cdns, loadbalances or routers.
          *
          * @apiPermission JWT (Write | Admin)
          * @apiHeader (Header) {String} Authorization JWT {Token}
