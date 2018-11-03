@@ -47,7 +47,7 @@ exports.up = function (db, next) {
                     order: 2,
                     filters: [
                         {key: 'name', type: 'string'},
-                        {key: 'family', type: 'select', opts: ['Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'Object Storage', 'Monitoring', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'Repository', 'DNS', 'CI/CD', 'Auth', 'NAS', 'AutoScaling', 'AutoScalingPlan', 'ETL'],},
+                        {key: 'family', type: 'select', opts: ['Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'Object Storage', 'Monitoring', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'Repository', 'DNS', 'CI/CD', 'Auth', 'NAS', 'AutoScaling', 'AutoScalingPlan', 'ETL', 'BigData'],},
                         {key: 'environment', type: 'select', opts: ['production', 'staging', 'development', 'uta', 'training', 'sandbox']},
                         {key: 'language', type: 'string'},
                         {key: 'provider', type: 'string'},
