@@ -221,7 +221,7 @@ module.exports = function (router) {
          * <br/>        "name": "<String>",
          * <br/>        "family": "<Application>"
          * <br/>    }],
-         * <br/>    "<uuid>": [{
+         * <br/>    "{UUID}": [{
          * <br/>        "_id": "<uuid>",
          * <br/>        "name": "<string>",
          * <br/>        "family": "<Application>"
