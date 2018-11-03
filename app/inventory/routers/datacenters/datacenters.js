@@ -109,6 +109,7 @@ module.exports = function (router) {
          * @api {get} /datacenters/:id/orphans c. Get orphans servers
          * @apiName GetOrphansDatacenter
          * @apiGroup Datacenters
+         * @apiDescription List actived servers without on tracker list. (each crawler the datacenter record all id tracked, this list its use to syncronize all servers).
          *
          * @apiParam (Param) {String} id Datacenter unique id.
          *

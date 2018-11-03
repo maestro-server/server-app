@@ -115,6 +115,7 @@ module.exports = function (router) {
          *
          * @apiParam (Body x-www) {String} name Name [min 3, max 150]
          * @apiParam (Body x-www) {String} [description] Short description [max 800]
+         * @apiParam (Body x-www) {String} [unique_id] Provider id, used to indentify resourcers. (AWS is instance_id)
          * @apiParam (Body x-www) {Array} [servers] List of ids servers [Array of Ids]
          * @apiParam (Body x-www) {Array} [targets] List of ids servers [Array of Ids]
          * @apiParam (Body x-www) {Boolean} [own=0] Resposability, 0 = Service installed in own servers, 1 - Third service
@@ -172,7 +173,18 @@ module.exports = function (router) {
          *  </code>
          * </pre>
          * @apiParam (Body x-www) {String} [environment] Envronment, ['Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox']
-         * @apiParam (Body x-www) {String} [family=Application] Family, ['Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'Serveless', 'ApiGateway', 'ContainerOrchestration', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS']
+         * @apiParam (Body x-www) {String} [family=Application] Family, ['Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'Serveless', 'ApiGateway', 'ContainerOrchestration', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS', 'AutoScaling']
+         * @apiParam (Body x-www) {Array} [deps List of dependencies, [Array of Objects]
+         * <br/>
+         * <pre class="prettyprint language-json" data-type="json">
+         * <code>[{
+         * <br/>   "_id": (String), //application entities
+         * <br/>   "name": (String),
+         * <br/>   "family": (String),
+         * <br/>   "endpoint": (String) //protocol [rest, amqp, thriller and etc..]
+         * <br/>}]
+         *  </code>
+         * </pre>
          *
          * @apiPermission JWT (Write | Admin)
          * @apiHeader (Header) {String} Authorization JWT {Token}
@@ -460,7 +472,7 @@ module.exports = function (router) {
          *     {}
          */
         .put('/:id/deps/:idu', authenticate(), DependenciesApp.updateSingle)
-        /** 
+        /**
          * @api {delete} /applications/:id/deps/:idu p. Delete one dependency
          * @apiName DeleteDepApp
          * @apiGroup Applications

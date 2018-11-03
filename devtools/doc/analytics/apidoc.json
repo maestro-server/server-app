@@ -10,6 +10,7 @@
         "filename": "devtools/doc/header.md"
     },
     "order": [
-        "Schedules"
+        "BussinessGraph",
+        "Project"
     ]
 }

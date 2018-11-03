@@ -21,7 +21,6 @@ const persistenceApplications = (Entity, PersistenceServices = DPersistenceServi
                 {dest: 'datacenters.name', source: 'datacenters', module: 'swap'},
                 {dest: 'datacenters.name', source: 'ldatacenters', module: 'swap'},
                 {dest: 'system.name', source: 'lsystem', module: 'swap'},
-                {dest: 'family', source: 'family', module: 'swap'},
                 {dest: 'role.role', source: 'role', module: 'swap'},
                 {source: 'language', module: 'upperFirst'},
                 {source: 'provider', module: 'upperFirst'},
