@@ -71,6 +71,11 @@ exports.up = function (db, next) {
         {name: 'IBM Websphere MQ', family: ['Broker'], tags: ['ibm'], owner: false},
         {name: 'Tarantool', family: ['Broker'], tags: [], owner: false},
 
+        {name: 'Apache Spark', family: ['Broker', 'BigData'], tags: ['oss', 'apache'], owner: false},
+
+        {name: 'Apache Haddop', family: ['ObjectStorage', 'BigData'], tags: ['oss', 'apache'], owner: false},
+        {name: 'Hive', family: ['BigData'], tags: ['oss'], owner: false},
+
 
         {name: 'AWS Lambda', family: ['Serverless'], tags: ['aws'], owner: true},
         {name: 'Google Cloud Functions', family: ['Serverless'], tags: ['gcloud'], owner: true},
