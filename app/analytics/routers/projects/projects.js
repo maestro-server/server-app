@@ -67,7 +67,27 @@ module.exports = function (router) {
          *     }
          */
         .get('/count', authenticate(), PersistenceApp.count)
-
+        /**
+         * @api {get} /projects/autocomplete c. Get project list with autocomplete
+         * @apiName GetAutocompleteUsers
+         * @apiGroup Users
+         *
+         * @apiParam {String} complete Filter by name with regex like "%term%"".
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *        found: 3,
+         *        limit: 20,
+         *        total_pages: 1,
+         *        current_page: 1,
+         *        items: []
+         *     }
+         */
+        .get('/autocomplete', authenticate(), PersistenceApp.autocomplete)
         /**
          * @api {get} /projects/:id c. Get single project
          * @apiName GetSingleProject
