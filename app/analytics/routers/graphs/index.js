@@ -19,7 +19,7 @@ module.exports = function (router) {
      * @api {get} /teams/:id/graphs sa. List Graphs for Team
      * @apiName GetListGraphs
      * @apiGroup Teams
-     * @apiDescription Use for teams scope, have be all actions, params and option in /clients,
+     * @apiDescription Use for teams scope, have be all actions, params and option in /graphs,
      *
      * @apiParam (Param) {String} id Team unique ID.
      * @apiParam (Param) {String} idu Graph unique ID.

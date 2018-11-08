@@ -19,7 +19,7 @@ module.exports = function (router) {
          * @api {get} /teams/:id/scheduler sa. List scheduler for Team
          * @apiName GetListSchedules
          * @apiGroup Teams
-         * @apiDescription Use for teams scope, have be all actions, params and option in /clients,
+         * @apiDescription Use for teams scope, have be all actions, params and option in /scheduler,
          *
          * @apiParam (Param) {String} id Team unique ID.
          * @apiParam (Param) {String} idu Server unique ID.

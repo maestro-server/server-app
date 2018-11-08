@@ -17,7 +17,7 @@ module.exports = function (router) {
      * @api {get} /teams/:id/projects sa. List Projects for Team
      * @apiName GetListProjects
      * @apiGroup Teams
-     * @apiDescription Use for teams scope, have be all actions, params and option in /clients,
+     * @apiDescription Use for teams scope, have be all actions, params and option in /projects,
      *
      * @apiParam (Param) {String} id Team unique ID.
      * @apiParam (Param) {String} idu Project unique ID.
