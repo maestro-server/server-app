@@ -23,7 +23,7 @@ module.exports = function (router) {
      * @api {get} /teams/:id/datacenters da. List DCs for Team
      * @apiName GetListDatacenter
      * @apiGroup Teams
-     * @apiDescription Use for teams scope, have be all actions, params and option in /clients,
+     * @apiDescription Use for teams scope, have be all actions, params and option in /datacenters,
      *
      * @apiParam (Param) {String} id Team unique ID.
      * @apiParam (Param) {String} idu Datacenter unique ID.
