@@ -8,7 +8,7 @@ const app = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'unique_id',
     'name', 'status', 'family', 'environment', 'provider', 'own',
     'system.name', 'system._id', 'servers', 'engine', 'size',
-    'targets', 'deps', 'role.role', 'role', 'spec', 'asm_groups',
+    'targets', 'deps', 'role', 'spec', 'asm_groups',
     'language', 'cluster', 'dataguard', 'type', 'storage_types',
     'crs_version', 'modal', 'pdbs', 'datacenters.name', 'datacenters',
     'deploy', 'tags', 'description', 'read_status', 'state', 'active'];
