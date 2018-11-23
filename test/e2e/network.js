@@ -461,7 +461,7 @@ describe('e2e network', function () {
      *
      * Create roles
      * @depends create team roles
-     * @description I like to add new role into my Mynetwork
+     * @description I like to add new role on my Mynetwork
      */
     describe('e2e teams: add roles', function () {
         it('valid data to add roles', function (done) {

@@ -28,7 +28,7 @@ module.exports = function (router) {
          *  </code>
          * </pre>
          * <br/><b>The list modification is:</b>
-         * <br/><i>{alias} = {query into mongodb}</i>
+         * <br/><i>{alias} = {query on mongodb}</i>
          * <ul>
          *     <li>lsystem = system.name</li>
          *     <li>role = role.role</li>
@@ -119,8 +119,6 @@ module.exports = function (router) {
          * @apiParam (Body x-www) {String} name Name [min 3, max 150]
          * @apiParam (Body x-www) {String} [description] Short description [max 800]
          * @apiParam (Body x-www) {String} [unique_id] Provider id, used to indentify resourcers. (AWS is instance_id)
-         * @apiParam (Body x-www) {Array} [servers] List of ids servers [Array of Ids]
-         * @apiParam (Body x-www) {Array} [targets] List of ids servers [Array of Ids]
          * @apiParam (Body x-www) {Boolean} [own=0] Resposability, 0 = Service installed in own servers, 1 - Third service
          * @apiParam (Body x-www) {Object} role Specification
          * <br/>
@@ -188,7 +186,15 @@ module.exports = function (router) {
          * <br/>}]
          *  </code>
          * </pre>
-         *
+         * @apiParam (Body x-www) {Array} [system List of system, [Array of Objects]
+         * <br/>
+         * <pre class="prettyprint language-json" data-type="json">
+         * <code>[{
+         * <br/>   "_id": (String), //system entities
+         * <br/>   "name": (String)
+         * <br/>}]
+         *  </code>
+         * </pre>
          * @apiPermission JWT (Write | Admin)
          * @apiHeader (Header) {String} Authorization JWT {Token}
          *
@@ -502,7 +508,7 @@ module.exports = function (router) {
          * servers
          */
         /**
-         * @api {patch} /applications/:id/servers q. Add servers into application
+         * @api {patch} /applications/:id/servers q. Add servers on application
          * @apiName PatchApplicationsServers
          * @apiGroup Applications
          *
@@ -523,7 +529,7 @@ module.exports = function (router) {
          */
         .patch('/:id/servers', authenticate(), PersistenceRelation.create)
         /**
-         * @api {get} /applications/:id/servers r. Delete application into system
+         * @api {get} /applications/:id/servers r. Delete servers on application
          * @apiName DeleteApplicationsServers
          * @apiGroup Applications
          *

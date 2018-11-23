@@ -499,7 +499,7 @@ describe('e2e datacenters', function () {
      *
      * Create roles
      * @depends create team roles
-     * @description I like to add new role into my Mydatacenters
+     * @description I like to add new role on my Mydatacenters
      */
     describe('e2e teams: add roles', function () {
         it('valid data to add roles', function (done) {

@@ -25,7 +25,7 @@ module.exports = function (router) {
          *  </code>
          * </pre>
          * <br/><b>Reports don´t have modifications, only default regex filter:</b>
-         * <br/><i>{alias} = {query into mongodb}</i>
+         * <br/><i>{alias} = {query on mongodb}</i>
          * <ul>
          *     <li>field is string the querie execute a regex research like "%filter%", EX: {'name': 'serv'}, It will return result with name 'services58' or '754services'.</li>
          * </ul>
@@ -86,7 +86,7 @@ module.exports = function (router) {
          *
          * @apiPermission JWT
          * @apiHeader (Auth) {String} Authorization JWT {Token}
-         * 
+         *
          *
          * @apiError (Error) PermissionError Token don`t have permission
          * @apiError (Error) Unauthorized Invalid Token

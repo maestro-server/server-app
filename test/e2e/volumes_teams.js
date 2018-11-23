@@ -496,7 +496,7 @@ describe('e2e volumes', function () {
      *
      * Create roles
      * @depends create team roles
-     * @description I like to add new role into my Myvolumes
+     * @description I like to add new role on my Myvolumes
      */
     describe('e2e teams: add roles', function () {
         it('valid data to add roles', function (done) {

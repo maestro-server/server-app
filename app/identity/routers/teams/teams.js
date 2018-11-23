@@ -248,7 +248,7 @@ module.exports = function (router) {
         .delete('/:id', authenticate(), PersistenceApp.remove)
 
         /**
-         * @api {post} /teams/:id/members j. Add member into team
+         * @api {post} /teams/:id/members j. Add member on team
          * @apiName PostSingleTeamMembers
          * @apiGroup Teams
          *

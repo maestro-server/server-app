@@ -351,7 +351,7 @@ describe('e2e projects', function () {
      *
      * Create roles
      * @depends create team roles
-     * @description I like to add new role into my Myprojects
+     * @description I like to add new role on my Myprojects
      */
     describe('e2e add teams in team: add roles', function () {
         it('valid data to add roles', function (done) {

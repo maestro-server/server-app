@@ -612,7 +612,7 @@ describe('e2e system', function () {
      *
      * Create roles
      * @depends create team roles
-     * @description I like to add new role into my Mysystem
+     * @description I like to add new role on my Mysystem
      */
     describe('e2e teams: add roles', function () {
         it('valid data to add roles', function (done) {

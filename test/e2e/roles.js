@@ -153,7 +153,7 @@ describe('e2e check access roles', function () {
     * @depends create user
     * @description I like to add my friend in my team with read role
     */
-    describe('add member into application - role 1', function () {
+    describe('add member on application - role 1', function () {
 
       it('add roles', function (done) {
           const data = {role: "1", id: friend._id, refs: "users", name: friend.name, email: friend.email};
@@ -221,7 +221,7 @@ describe('e2e check access roles', function () {
     * @depends create user
     * @description I like to escalate role for write
     */
-    describe('update role friend into 3', function () {
+    describe('update role friend on 3', function () {
 
       it('Exist roles - update role 3 application', function (done) {
           const data = {role: "3", refs: "users", name: friend.name, email: friend.email};
@@ -290,7 +290,7 @@ describe('e2e check access roles', function () {
     * @depends create user
     * @description I like to escalate role for admin
     */
-    describe('update role friend into 7', function () {
+    describe('update role friend on 7', function () {
 
       it('Exist roles - update role 7 application', function (done) {
           request(mock)

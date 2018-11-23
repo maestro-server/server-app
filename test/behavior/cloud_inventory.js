@@ -397,7 +397,7 @@ describe('behaviors basic actions in cloud inventory', function () {
      * @description Create relations
      */
     describe('relations', function () {
-        it('put servers into app', function (done) {
+        it('put servers on app', function (done) {
             let data = Object.assign(
                 applications[0],
                 {'servers': [_.get(servers[0], '_id'), _.get(servers[1], '_id')]},
@@ -418,7 +418,7 @@ describe('behaviors basic actions in cloud inventory', function () {
                 });
         });
 
-        it('put one app into system - app way', function (done) {
+        it('put one app on system - app way', function (done) {
             let data = Object.assign(applications[0], {'system': [_.pick(system[0], ['_id', 'name'])]});
 
             request(mock)
@@ -435,7 +435,7 @@ describe('behaviors basic actions in cloud inventory', function () {
                 });
         });
 
-        it('put another app into system - system way', function (done) {
+        it('put another app on system - system way', function (done) {
             let data = {'id': [_.get(applications[0], '_id')]};
 
             request(mock)
@@ -452,7 +452,7 @@ describe('behaviors basic actions in cloud inventory', function () {
                 });
         });
 
-        it('put one system into client - system way', function (done) {
+        it('put one system on client - system way', function (done) {
             let data = Object.assign(system[0], {'clients': [_.pick(clients[0], ['_id', 'name'])]});
 
             request(mock)
@@ -469,7 +469,7 @@ describe('behaviors basic actions in cloud inventory', function () {
                 });
         });
 
-        it('put another system into client - client way', function (done) {
+        it('put another system on client - client way', function (done) {
             let data = {'id': [_.get(system[0], '_id')]};
 
             request(mock)
@@ -487,8 +487,8 @@ describe('behaviors basic actions in cloud inventory', function () {
         });
     });
 
-    describe('add my servers into dcs', function () {
-        it('add dc into servers', function (done) {
+    describe('add my servers on dcs', function () {
+        it('add dc on servers', function (done) {
             let data = Object.assign(
                 servers[0],
                 {'datacenters': _.pick(datacenters[0], ['name', '_id'])}

@@ -390,7 +390,7 @@ describe('e2e teams', function () {
     *
     * Create members
     * @depends create team members
-    * @description I like to add new members into my SecondTeam
+    * @description I like to add new members on my SecondTeam
     */
     describe('add members', function () {
         it('valid data to add members', function (done) {
