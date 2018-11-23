@@ -3,6 +3,7 @@
 const authenticate = require('identity/middlewares/authenticate');
 
 const Application = require('../../entities/Application');
+const Server = require('../../entities/Servers');
 const Team = require('identity/entities/Teams');
 
 const PersistenceAppApplications = require('../../applications/persistenceApplications');
@@ -14,6 +15,9 @@ const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 
 const DependenciesApp = require('inventory/applications/dependenciesApplication');
 const WrappeDepsApp = WrapperPersistenceApp(DependenciesApp)();
+
+const PersistenceRelation = require('../../applications/persistenceSystem')(Server);
+const WrapperRelationsApp = WrapperPersistenceApp(PersistenceRelation)();
 
 module.exports = function (router) {
 
@@ -121,6 +125,22 @@ module.exports = function (router) {
          * @apiName DeleteSingledependence
          * @apiGroup Teams
          */
-        .delete('/teams/:id/applications/:idu/deps/:ida', authenticate(), WrappeDepsApp.remove);
+        .delete('/teams/:id/applications/:idu/deps/:ida', authenticate(), WrappeDepsApp.remove)
+
+        /**
+         * Servers
+         */
+        /**
+         * @api {patch} /teams/:id/applications/:idu/servers a1. Add app system for teams
+         * @apiName PatchServersInApplicationTeam
+         * @apiGroup Teams
+         */
+        .patch('/teams/:id/applications/:idu/servers', authenticate(), WrapperRelationsApp.create)
+        /**
+         * @api {delete} /teams/:id/system/:idu/applications ar. Delete single app for teams
+         * @apiName DeleteServersInApplicationTeam
+         * @apiGroup Teams
+         */
+        .delete('/teams/:id/applications/:idu/servers', authenticate(), WrapperRelationsApp.remove);
 
 };

@@ -2,10 +2,13 @@
 
 const authenticate = require('identity/middlewares/authenticate');
 const Application = require('../../entities/Application');
+const Server = require('../../entities/Servers');
 const PersistenceApp = require('core/applications/persistenceApplication')(Application);
 const PersistenceAppApplications = require('../../applications/persistenceApplications')(Application);
 const AccessApp = require('core/applications/accessApplication')(Application);
 const DependenciesApp = require('inventory/applications/dependenciesApplication')(Application);
+
+const PersistenceRelation = require('../../applications/persistenceSystem')(Server)(Application);
 
 module.exports = function (router) {
 
@@ -423,6 +426,7 @@ module.exports = function (router) {
          */
         .delete('/:id/roles/:idu', authenticate(), AccessApp.remove)
 
+
         /**
          * Dependencies
          */
@@ -492,5 +496,51 @@ module.exports = function (router) {
          *     HTTP/1.1 204 OK
          *     {}
          */
-        .delete('/:id/deps/:idu', authenticate(), DependenciesApp.remove);
+        .delete('/:id/deps/:idu', authenticate(), DependenciesApp.remove)
+
+        /**
+         * servers
+         */
+        /**
+         * @api {patch} /applications/:id/servers q. Add servers into application
+         * @apiName PatchApplicationsServers
+         * @apiGroup Applications
+         *
+         * @apiParam (Param) {String} id Application unique id.
+         *
+         * @apiParam (www-body) {Array} id List of servers ids [Array of strings].
+         *
+         * @apiPermission JWT (Write | Admin)
+         * @apiHeader (Header) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 202 OK
+         *     {}
+         */
+        .patch('/:id/servers', authenticate(), PersistenceRelation.create)
+        /**
+         * @api {get} /applications/:id/servers r. Delete application into system
+         * @apiName DeleteApplicationsServers
+         * @apiGroup Applications
+         *
+         * @apiParam (Param) {String} id Application unique id.
+         *
+         * @apiParam (www-body) {Array} id List of servers ids [Array of strings].
+         *
+         * @apiPermission JWT (Admin)
+         * @apiHeader (Header) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 204 OK
+         *     {}
+         */
+        .delete('/:id/servers', authenticate(), PersistenceRelation.remove);
 };
