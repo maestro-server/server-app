@@ -495,7 +495,7 @@ describe('e2e scheduler', function () {
      *
      * Create roles
      * @depends create team roles
-     * @description I like to add new role into my Myscheduler
+     * @description I like to add new role on my Myscheduler
      */
     describe('e2e teams: add roles', function () {
         it('valid data to add roles', function (done) {

@@ -469,7 +469,7 @@ describe('e2e images', function () {
      *
      * Create roles
      * @depends create team roles
-     * @description I like to add new role into my Myimages
+     * @description I like to add new role on my Myimages
      */
     describe('e2e teams: add roles', function () {
         it('valid data to add roles', function (done) {
