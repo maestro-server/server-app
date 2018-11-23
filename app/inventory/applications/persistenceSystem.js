@@ -11,13 +11,12 @@ const persistenceSystem = (IEntity) => (Entity) => {
 
     return {
         create(req, res, next) {
-
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)
                 .then(notExist)
                 .then((e) => {
                     const ids = _.isArray(_.get(req, 'body.id')) ? req.body.id : [];
-                    const entitier = _.pick(e, 'name', '_id');
+                    const entitier = _.pick(e, 'name', '_id', 'family');
                     const data = {[Entity.name]: entitier};
 
                     return PersistenceSystem(IEntity)

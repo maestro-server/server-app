@@ -20,7 +20,7 @@ const schema = Joi.object().keys({
     role: Joi.string().valid('Application', 'Cache', 'Container', 'Database', 'File', 'Loadbalance', 'Monitoring', 'NAT', 'Proxy', 'SMTP', 'VPN', 'Standard'),
     auth: Joi.array().items(auth),
     roles: Joi.array().items(roles).unique('_id'),
-    application: Joi.array().items(entries).unique(),
+    applications: Joi.array().items(entries).unique(),
     tags: Joi.array().items(tags),
     unique_id,
     datacenters,

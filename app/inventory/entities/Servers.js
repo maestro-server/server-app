@@ -8,9 +8,10 @@ const servers = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'hostname',
         'ipv4_private', 'ipv4_public', 'os.base', 'os.dist',
         'datacenters.name', 'datacenters.region', 'datacenters.zone', 'datacenters._id', 'datacenters.instance_id',
-        'application', 'role', 'environment', 'auth.name', 'auth.username', 'auth.type', 'services', 'tags'];
+        'applications._id', 'applications.name', 'applications.family',
+        'role', 'environment', 'auth.name', 'auth.username', 'auth.type', 'services', 'tags'];
 
-    const singleFilled = [...resFilled, 'unique_id', 'cpu', 'memory', 'storage', 'datacenters', 'os', 'auth', 'role', 'environment',
+    const singleFilled = [...resFilled, 'unique_id', 'cpu', 'memory', 'storage', 'datacenters', 'applications', 'os', 'auth', 'role', 'environment',
         'roles', 'owner', 'active', 'status', 'meta'];
 
     const filled = [..._.slice(singleFilled, 2)]; // delete id
@@ -26,7 +27,7 @@ const servers = () => {
 
         defaults: {},
 
-        mapRelations: ['application', 'datacenters'],
+        mapRelations: ['applications', 'datacenters'],
 
         hooks: {},
 
