@@ -543,7 +543,7 @@ describe('e2e clients', function () {
      *
      * Create roles
      * @depends create team roles
-     * @description I like to add new role into my Myclients
+     * @description I like to add new role on my Myclients
      */
     describe('e2e teams: add roles', function () {
         it('valid data to add roles', function (done) {

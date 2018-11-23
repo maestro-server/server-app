@@ -23,7 +23,7 @@ module.exports = function (router) {
      *  </code>
      * </pre>
      * <br/><b>Volumes don´t have modifications, only default regex filter:</b>
-     * <br/><i>{alias} = {query into mongodb}</i>
+     * <br/><i>{alias} = {query on mongodb}</i>
      * <ul>
      *     <li>field is string the querie execute a regex research like "%filter%", EX: {'name': 'serv'}, It will return result with name 'services58' or '754services'.</li>
      * </ul>

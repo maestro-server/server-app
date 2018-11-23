@@ -26,7 +26,7 @@ module.exports = function (router) {
      *  </code>
      * </pre>
      * <br/><b>The list modification is:</b>
-     * <br/><i>{alias} = {query into mongodb}</i>
+     * <br/><i>{alias} = {query on mongodb}</i>
      * <ul>
      *     <li>lsystem = systems.name</li>
      * </ul>

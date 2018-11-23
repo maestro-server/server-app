@@ -27,7 +27,7 @@ module.exports = function (router) {
      *  </code>
      * </pre>
      * <br/><b>System don´t have modifications, only default regex filter:</b>
-     * <br/><i>{alias} = {query into mongodb}</i>
+     * <br/><i>{alias} = {query on mongodb}</i>
      * <ul>
      *     <li>field is string the querie execute a regex research like "%filter%", EX: {'name': 'serv'}, It will return result with name 'services58' or '754services'.</li>
      * </ul>
@@ -356,7 +356,7 @@ module.exports = function (router) {
          * applications
          */
         /**
-         * @api {patch} /system/:id/applications m. Add application into system
+         * @api {patch} /system/:id/applications m. Add application on system
          * @apiName PatchSystemApplications
          * @apiGroup Systems
          * @apiDescription Add a system in especific application
@@ -378,7 +378,7 @@ module.exports = function (router) {
          */
         .patch('/:id/applications', authenticate(), PersistenceRelation.create)
         /**
-         * @api {get} /system/:id/applications n. Delete application into system
+         * @api {get} /system/:id/applications n. Delete application on system
          * @apiName DeleteSystemApplications
          * @apiGroup Systems
          *

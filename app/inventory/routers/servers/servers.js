@@ -43,7 +43,7 @@ module.exports = function (router) {
      *  </code>
      * </pre>
      * <br/><b>The list modification is:</b>
-     * <br/><i>{alias} = {query into mongodb}</i>
+     * <br/><i>{alias} = {query on mongodb}</i>
      * <ul>
      *     <li>id = _id</li>
      *     <li>datacenters = datacenters.name</li>
@@ -190,6 +190,16 @@ module.exports = function (router) {
          * <br/>   "type": (String), ['PKI', 'AD', 'LDAP', 'Password']
          * <br/>   "username": (String) [max 100]
          * <br/>   "key": (String) [max 100]
+         * <br/>}]
+         *  </code>
+         * </pre>
+         * @apiParam (Body x-www) {Array} [applications List of applications, [Array of Objects]
+         * <br/>
+         * <pre class="prettyprint language-json" data-type="json">
+         * <code>[{
+         * <br/>   "_id": (String), //application entities
+         * <br/>   "name": (String),
+         * <br/>   "family": (String)
          * <br/>}]
          *  </code>
          * </pre>

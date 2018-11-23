@@ -131,13 +131,13 @@ module.exports = function (router) {
          * Servers
          */
         /**
-         * @api {patch} /teams/:id/applications/:idu/servers a1. Add app system for teams
+         * @api {patch} /teams/:id/applications/:idu/servers a1. Add servers on app for teams
          * @apiName PatchServersInApplicationTeam
          * @apiGroup Teams
          */
         .patch('/teams/:id/applications/:idu/servers', authenticate(), WrapperRelationsApp.create)
         /**
-         * @api {delete} /teams/:id/system/:idu/applications ar. Delete single app for teams
+         * @api {delete} /teams/:id/system/:idu/applications ar. Delete single servers for teams
          * @apiName DeleteServersInApplicationTeam
          * @apiGroup Teams
          */

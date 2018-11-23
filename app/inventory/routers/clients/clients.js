@@ -28,7 +28,7 @@ module.exports = function (router) {
      *  </code>
      * </pre>
      * <br/><b>The list modification is:</b>
-     * <br/><i>{alias} = {query into mongodb}</i>
+     * <br/><i>{alias} = {query on mongodb}</i>
      * <ul>
      *     <li>lclient = clients.name</li>
      *     <li>contacts = upperCase(contacts)</li>
@@ -334,7 +334,7 @@ module.exports = function (router) {
      * System
      */
     /**
-     * @api {patch} /clients/:id/system m. Add system into client
+     * @api {patch} /clients/:id/system m. Add system on client
      * @apiName PatchClientSystem
      * @apiGroup Clients
      *
@@ -355,7 +355,7 @@ module.exports = function (router) {
      */
     .patch('/:id/system', authenticate(), PersistenceRelation.create)
     /**
-     * @api {get} /clients/:id/system n. Delete system into client
+     * @api {get} /clients/:id/system n. Delete system on client
      * @apiName DeleteClientSystem
      * @apiGroup Clients
      *
