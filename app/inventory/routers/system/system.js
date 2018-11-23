@@ -353,7 +353,7 @@ module.exports = function (router) {
         .delete('/:id/roles/:idu', authenticate(), AccessApp.remove)
 
         /**
-         * system
+         * applications
          */
         /**
          * @api {patch} /system/:id/applications m. Add application into system

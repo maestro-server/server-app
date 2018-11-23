@@ -21,6 +21,8 @@ const ApplicationServers = (Entity, PersistenceServices = DPersistenceServices) 
                 {dest: 'id', source: '_id', module: 'swap'},
                 {dest: 'datacenters.name', source: 'datacenters', module: 'swap'},
                 {dest: 'datacenters.name', source: 'ldatacenters', module: 'swap'},
+                {dest: 'application.name', source: 'application', module: 'swap'},
+                {dest: 'application.name', source: 'lapplication', module: 'swap'},
                 {dest: 'os.base', source: 'os', module: 'swap'},
                 {dest: 'auth.type', source: 'auth', module: 'swap'},
                 {dest: 'auth.username', source: 'user', module: 'swap'}
@@ -54,8 +56,6 @@ const ApplicationServers = (Entity, PersistenceServices = DPersistenceServices) 
             req = filterHooks(req, 'body', [
                 {dest: 'unique_id', source: 'datacenters.instance_id', module: 'clone'}
             ]);
-
-            console.log(req.body)
 
             PersistenceApplication(Entity, PersistenceServices)
                 .update(req, res, next);
