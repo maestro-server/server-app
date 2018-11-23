@@ -2,7 +2,7 @@
 
 const Joi = require('joi');
 
-const {roles, storage, services, tags, auth, environment, status, owner, metas, active, datacenters, unique_id, created_at} = require('core/validators/validators');
+const {roles, storage, services, tags, auth, environment, status, owner, metas, active, entries, datacenters, unique_id, created_at} = require('core/validators/validators');
 
 const schema = Joi.object().keys({
     hostname: Joi.string().required().max(100),
@@ -20,6 +20,7 @@ const schema = Joi.object().keys({
     role: Joi.string().valid('Application', 'Cache', 'Container', 'Database', 'File', 'Loadbalance', 'Monitoring', 'NAT', 'Proxy', 'SMTP', 'VPN', 'Standard'),
     auth: Joi.array().items(auth),
     roles: Joi.array().items(roles).unique('_id'),
+    application: Joi.array().items(entries).unique(),
     tags: Joi.array().items(tags),
     unique_id,
     datacenters,
