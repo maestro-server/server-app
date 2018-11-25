@@ -425,7 +425,12 @@ exports.up = function (db, next) {
         {name: 'Envoy', family: ['ServiceMesh'], tags: ['docker', 'registry'], owner: false},
         {name: 'Linkerd', family: ['ServiceMesh'], tags: ['registry'], owner: false},
         {name: 'Istio', family: ['ServiceMesh'], tags: ['registry'], owner: false},
-        {name: 'VulcanD', family: ['ServiceMesh', 'ApiGateway'], tags: ['registry'], owner: false}
+        {name: 'VulcanD', family: ['ServiceMesh', 'ApiGateway'], tags: ['registry'], owner: false},
+
+        {name: 'Customized', family: ['AutoScaling'], tags: ['auto'], owner: false},
+        {name: 'AutoScaling (Azure)', family: ['AutoScaling'], tags: ['microsoft', 'azure'], owner: true},
+        {name: 'AutoScaling (Google Cloud)', family: ['AutoScaling'], tags: ['gcloud'], owner: true},
+        {name: 'AutoScaling (AWS)', family: ['AutoScaling'], tags: ['aws'], owner: true}
     ];
 
     let result = list.map(e => Object.assign(e, attach));
