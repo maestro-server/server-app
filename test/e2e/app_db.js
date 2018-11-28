@@ -382,7 +382,6 @@ describe('e2e applications', function () {
                 .expect('Content-Type', /json/)
                 .expect(/MyOracleDB/)
                 .expect(/system2/)
-                .expect(/servers/)
                 .expect(/tags/)
                 .expect(/AWS/)
                 .expect(/_link/)
@@ -461,27 +460,6 @@ describe('e2e applications', function () {
                 .expect(202)
                 .expect('Content-Type', /json/)
                 .expect(/\"name\":\"ChangeName\"/)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('patch application add one servers', function (done) {
-            let data = Object.assign({}, applications[0]);
-            data['servers'].push('5a3ab438c3ce6715c4b736f2');
-
-            request(mock)
-                .patch('/applications/' + applications[0]._id)
-                .send(data)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(202)
-                .expect('Content-Type', /json/)
-                .expect(/servers/)
-                .expect(/5a3ab438c3ce6715c4b736f2/)
-                .expect(function (res) {
-                    expect(res.body['servers']).to.have.length(2);
-                })
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
