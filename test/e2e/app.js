@@ -25,7 +25,6 @@ describe('e2e applications', function () {
         name: "Myapplication",
         description: "My app description",
         system:  [{name: "system2", _id: "5a3a9fca7e16b447e4e24e22"}],
-        servers: ['5a3a9ffd9f704b40e45f93cc'],
         targets: [{'_id': '5a3a9fca7e16b447e4e24e22', 'name': "app1"}],
         own: 1,
         role: {role: "Application", endpoint: "http://endpoint.com", path: "bin/bash", command: "java -jar", description: "description"},
@@ -129,7 +128,6 @@ describe('e2e applications', function () {
                 .expect(/Myapplication/)
                 .expect(/system/)
                 .expect(/system2/)
-                .expect(/servers/)
                 .expect(/tags/)
                 .expect(/AWS/)
                 .expect(/language/)
@@ -299,7 +297,6 @@ describe('e2e applications', function () {
                 .expect(/Myapplication/)
                 .expect(/system/)
                 .expect(/system2/)
-                .expect(/servers/)
                 .expect(/tags/)
                 .expect(/AWS/)
                 .expect(/language/)
@@ -437,48 +434,6 @@ describe('e2e applications', function () {
                 .expect(202)
                 .expect('Content-Type', /json/)
                 .expect(/\"name\":\"ChangeName\"/)
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('patch application add one servers', function (done) {
-            let data = Object.assign({}, applications[0]);
-            data['servers'].push('5a3ab438c3ce6715c4b736f2');
-
-            request(mock)
-                .patch('/applications/' + applications[0]._id)
-                .send(data)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(202)
-                .expect('Content-Type', /json/)
-                .expect(/servers/)
-                .expect(/5a3ab438c3ce6715c4b736f2/)
-                .expect(function (res) {
-                    expect(res.body['servers']).to.have.length(2);
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('patch application add one targets', function (done) {
-            let data = Object.assign({}, applications[0]);
-            data['targets'].push({'_id': '5a3ab438c3ce6715c4b736f3'});
-
-            request(mock)
-                .patch('/applications/' + applications[0]._id)
-                .send(data)
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(202)
-                .expect('Content-Type', /json/)
-                .expect(/targets/)
-                .expect(/5a3ab438c3ce6715c4b736f3/)
-                .expect(function (res) {
-                    expect(res.body['targets']).to.have.length(2);
-                })
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);

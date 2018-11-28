@@ -46,8 +46,6 @@ describe('behaviors basic actions in cloud inventory', function () {
         name: "Myapplication",
         description: "My app description",
         system: [],
-        servers: [],
-        targets: [],
         own: 1,
         role: {
             role: "Application",
@@ -332,7 +330,7 @@ describe('behaviors basic actions in cloud inventory', function () {
                 .expect(function (res) {
                     Object.assign(datacenters[0], res.body);
                 })
-                .expect(res=> connections[0]['dc_id'] = res.body._id)
+                .expect(res => connections[0]['dc_id'] = res.body._id)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -350,7 +348,7 @@ describe('behaviors basic actions in cloud inventory', function () {
                 .expect(function (res) {
                     Object.assign(datacenters[1], res.body);
                 })
-                .expect(res=> connections[1]['dc_id'] = res.body._id)
+                .expect(res => connections[1]['dc_id'] = res.body._id)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -397,19 +395,21 @@ describe('behaviors basic actions in cloud inventory', function () {
      * @description Create relations
      */
     describe('relations', function () {
-        it('put servers on app', function (done) {
-            let data = Object.assign(
-                applications[0],
-                {'servers': [_.get(servers[0], '_id'), _.get(servers[1], '_id')]},
-                {'targets': [_.pick(servers[0], ['_id', 'name'])]}
-            );
+
+        it('put one app on server - server way', function (done) {
+            let data = Object.assign(servers[0], {
+                'applications': [
+                    _.pick(applications[0], ['_id', 'name', 'family']),
+                    _.pick(applications[1], ['_id', 'name', 'family'])
+                ]
+            });
 
             request(mock)
-                .put('/applications/' + applications[0]._id)
+                .put('/servers/' + servers[0]._id)
                 .send(data)
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(202)
-                .expect(/servers/)
+                .expect(/applications/)
                 .expect('Content-Type', /json/)
                 .expect(/_id/)
                 .end(function (err) {
@@ -417,6 +417,7 @@ describe('behaviors basic actions in cloud inventory', function () {
                     done(err);
                 });
         });
+
 
         it('put one app on system - app way', function (done) {
             let data = Object.assign(applications[0], {'system': [_.pick(system[0], ['_id', 'name'])]});
@@ -510,6 +511,26 @@ describe('behaviors basic actions in cloud inventory', function () {
     });
 
     describe('ensure if my setup is ok', function () {
+        it('select my first servers', function (done) {
+
+            request(mock)
+                .get('/servers/' + servers[0]._id)
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(200)
+                .expect(function (res) {
+                    expect(res.body.applications).to.deep.equal(
+                        [
+                            _.pick(applications[0], ['_id', 'name', 'family']),
+                            _.pick(applications[1], ['_id', 'name', 'family'])
+                        ]);
+                    expect(res.body.applications).to.have.length(2);
+                })
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
         it('select my first app', function (done) {
 
             request(mock)
@@ -523,21 +544,6 @@ describe('behaviors basic actions in cloud inventory', function () {
                             _.pick(system[1], ['_id', 'name'])
                         ]);
                     expect(res.body.system).to.have.length(2);
-                })
-                .expect(function (res) {
-                    expect(res.body.servers).to.deep.equal(
-                        [
-                            _.get(servers[0], '_id'),
-                            _.get(servers[1], '_id')
-                        ]);
-                    expect(res.body.servers).to.have.length(2);
-                })
-                .expect(function (res) {
-                    expect(res.body.targets).to.deep.equal(
-                        [
-                            _.pick(servers[0], '_id')
-                        ]);
-                    expect(res.body.targets).to.have.length(1);
                 })
                 .end(function (err) {
                     if (err) return done(err);
