@@ -46,6 +46,63 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
 
         },
 
+        update(req, res, next) {
+            _.defaults(req.body, Entity.defaults || {});
+
+            const bodyWithOwner = Object.assign(
+                {},
+                mapRelationToObjectID(req.body, Entity.mapRelations),
+                aclRoles(req.user, Entity, Access.ROLE_ADMIN)
+            );
+
+            const owner_user = _.get(req, 'user._id');
+
+            PersistenceServices(Entity)
+                .update(req.params.id, bodyWithOwner, req.user)
+                .then((e) => {
+                    const data = {
+                        "report_id": e["_id"],
+                        "component": e['component'],
+                        "filters": JSON.stringify(e['filters'], null, 2),
+                        owner_user
+                    };
+
+                    return ReportHTTPService()
+                        .create(`/reports/${e['report']}`, data);
+                })
+                .then(e => res.status(201).json(e))
+                .catch(next);
+        },
+
+        patch(req, res, next) {
+            _.defaults(req.body, Entity.defaults || {});
+
+            const bodyWithOwner = Object.assign(
+                {},
+                mapRelationToObjectID(req.body, Entity.mapRelations),
+                aclRoles(req.user, Entity, Access.ROLE_ADMIN)
+            );
+
+            const owner_user = _.get(req, 'user._id');
+
+            PersistenceServices(Entity)
+                .patch(req.params.id, bodyWithOwner, req.user)
+                .then((e) => {
+                    const data = {
+                        "report_id": e["_id"],
+                        "component": e['component'],
+                        "filters": JSON.stringify(e['filters'], null, 2),
+                        owner_user
+                    };
+
+                    return ReportHTTPService()
+                        .create(`/reports/${e['report']}`, data);
+                })
+                .then(e => res.status(201).json(e))
+                .catch(next);
+
+        },
+
         remove(req, res, next) {
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user, Access.ROLE_ADMIN)
