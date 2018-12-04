@@ -195,7 +195,7 @@ module.exports = function (router) {
          *        fields: (Mixed)
          *     }
          */
-        .patch('/:id', authenticate(), PersistenceApp.patch)
+        .patch('/:id', authenticate(), PersistenceReport.patch)
         /**
          * @api {put} /reports/:id f. Full Update report
          * @apiName PatchSingleReports
@@ -221,7 +221,7 @@ module.exports = function (router) {
          *        fields: {}
          *     }
          */
-        .put('/:id', authenticate(), PersistenceApp.update)
+        .put('/:id', authenticate(), PersistenceReport.update)
         /**
          * @api {delete} /reports/:id g. Delete single report
          * @apiName DeleteSingleReports

@@ -48,13 +48,13 @@ module.exports = function (router) {
          * @apiName UpdateSingleListreportsTeam
          * @apiGroup Teams
          */
-        .put('/teams/:id/reports/:idu', authenticate(), WrapperPersistenceApp()().update)
+        .put('/teams/:id/reports/:idu', authenticate(), WrapperPersistenceAppReports().update)
         /**
          * @api {patch} /teams/:id/reports/:idu sf. Partial reports for Team
          * @apiName GetPartialSingleListReportsTeam
          * @apiGroup Teams
          */
-        .patch('/teams/:id/reports/:idu', authenticate(), WrapperPersistenceApp()().patch)
+        .patch('/teams/:id/reports/:idu', authenticate(), WrapperPersistenceAppReports().patch)
 
         /**
          * @api {delete} /teams/:id/reports/:idu sg. Single reports for Team
