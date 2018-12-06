@@ -61,7 +61,7 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
                 .update(req.params.id, bodyWithOwner, req.user)
                 .then((e) => {
                     const data = {
-                        "report_id": e["_id"],
+                        "report_id": req.params.id,
                         "component": e['component'],
                         "filters": JSON.stringify(e['filters'], null, 2),
                         owner_user
@@ -135,8 +135,8 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
                 .findOne(req.params.id, req.user, Access.ROLE_READ)
                 .then(validAccessEmpty)
                 .then((e) => {
-                    const {_id, report, msg} = e;
-                    const namet = `${_id}__${report}_${msg}`;
+                    const {_id, report} = e;
+                    const namet = `${_id}_${report}`;
 
                     return ReportHTTPService({'Accept': content})
                         .find(`/reports/${namet}`, {params});

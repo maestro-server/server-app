@@ -178,22 +178,6 @@ exports.up = function (db, next) {
                     ]
                 },
                 {
-                    name: 'Events',
-                    order: 8,
-                    filters: [
-                        {key: 'name', type: 'string'},
-                        {key: 'owner', type: 'object', leaf: ['name', 'refs']},
-                        {key: 'tags', type: 'array', leaf:
-                                {type: 'object', leaf: ['key', 'value']}
-                        },
-                        {key: 'roles', type: 'array', leaf:
-                                {type: 'object', leaf: ['name', 'refs']}},
-                        {key: 'created_at', type: 'date'},
-                        {key: 'updated_at', type: 'date'},
-                        {key: 'active', type: 'boolean'}
-                    ]
-                },
-                {
                     name: 'Flavors',
                     order: 9,
                     filters: [
