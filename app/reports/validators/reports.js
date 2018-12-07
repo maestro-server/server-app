@@ -9,7 +9,7 @@ const schema = Joi.object().keys({
     component: Joi.string().min(3).max(30),
     report: Joi.string().valid('general', 'pivot').required(),
     columns: Joi.array().default([]),
-    aggr: Joi.string().min(3).min(30).default({}),
+    aggr: Joi.object().default({}),
     msg: Joi.string(),
     filters: Joi.any(),
     status: Joi.string().valid('process', 'finished', 'error', 'warning').default('process'),
