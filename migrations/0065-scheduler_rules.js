@@ -9,7 +9,7 @@ exports.up = function (db, next) {
             period: ['seconds', 'minutes', 'hours', 'days', 'weeks'],
             period_type: ['interval', 'cron'],
             method: ['GET', 'POST', 'PUT', 'DELETE'],
-            modules: ['webhook', 'connections'],
+            modules: ['webhook', 'connections', 'reports'],
             configs: [
                 {
                     name: 'connections',
@@ -67,6 +67,13 @@ exports.up = function (db, next) {
                             period: 'days'
                         },
                     }
+                },
+                {
+                    name: 'reports',
+                    description: 'Polling reports',
+                    source: 'report',
+                    url: "/reports/<report>/",
+                    method: 'PUT'
                 },
                 {
                     name: 'webhook',
