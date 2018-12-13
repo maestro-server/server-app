@@ -20,7 +20,7 @@ const sharedS = {
     kwargs: Joi.object(),
     chain: Joi.array().items(chain),
     period_type: Joi.string().valid('interval', 'cron'),
-    method: Joi.string().valid('GET', 'POST', 'PUT', 'DELETE').default('GET'),
+    method: Joi.string().valid('GET', 'POST', 'PUT', 'DELETE', 'PATCH').default('GET'),
     total_run_count: Joi.number().default(1),
     run_immediately: Joi.boolean().default(false),
     crawling: Joi.boolean().default(true),

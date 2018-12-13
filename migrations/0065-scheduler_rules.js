@@ -73,7 +73,7 @@ exports.up = function (db, next) {
                     description: 'Polling reports',
                     source: 'report',
                     url: "/reports/<report>/",
-                    method: 'PUT'
+                    method: 'PATCH'
                 },
                 {
                     name: 'webhook',
