@@ -72,7 +72,7 @@ exports.up = function (db, next) {
                     name: 'reports',
                     description: 'Polling reports',
                     source: 'report',
-                    url: "/reports/<report>/",
+                    url: "/reports/<report>",
                     method: 'PATCH'
                 },
                 {
