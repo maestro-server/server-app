@@ -24,11 +24,13 @@ const sharedS = {
     total_run_count: Joi.number().default(1),
     run_immediately: Joi.boolean().default(false),
     crawling: Joi.boolean().default(true),
-    task: Joi.string().valid('webhook', 'connections', 'jobs').default('webhook'),
+    task: Joi.string().valid('webhook', 'connections', 'reports', 'jobs').default('webhook'),
     source: Joi.string().valid('discovery', 'report', 'analytic'),
     link: Joi.object().keys({
         name: Joi.string().max(4050),
+        report: Joi.string().max(50),
         provider: Joi.string().max(50),
+        owner: Joi.object(),
         _id: Joi.any(),
         task: Joi.string()
     }),
