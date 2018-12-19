@@ -3,7 +3,6 @@
 const _ = require('lodash');
 
 const DFactoryDBRepository = require('core/repositories/DBRepository');
-
 const Access = require('core/entities/accessRole');
 const accessMergeTransform = require('core/services/transforms/accessMergeTransform');
 

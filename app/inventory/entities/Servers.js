@@ -16,8 +16,10 @@ const servers = () => {
 
     const filled = [..._.slice(singleFilled, 2)]; // delete id
 
+    const name = 'servers';
+
     return {
-        name: "servers",
+        name,
 
         access: 'roles',
 
@@ -29,7 +31,26 @@ const servers = () => {
 
         mapRelations: ['applications', 'datacenters'],
 
-        hooks: {},
+        hooks: {
+            after_update: {
+                auditHookUpdated: {
+                    entity: name,
+                    fill: filled
+                }
+            },
+            after_patch: {
+                auditHookPatched: {
+                    entity: name,
+                    fill: filled
+                }
+            },
+            after_delete: {
+                auditHookDeleted: {
+                    entity: name,
+                    fill: filled
+                }
+            }
+        },
 
         visibility: {single: 'all'},
 

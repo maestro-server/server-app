@@ -15,6 +15,8 @@ const accessValid = require('core/validators/accessValid');
 const validAccessEmpty = require('core/applications/validator/validAccessEmpty');
 const {transfID} = require('core/applications/transforms/mapRelationToObjectID');
 
+const hookFactory = require('core/hooks/factory');
+
 const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
     const DBRepository = FactoryDBRepository(Entity);
@@ -50,6 +52,8 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
         updateRoles (_id, post, owner) {
 
           return new Promise((resolve, reject) => {
+              const entityHooks = hookFactory(Entity, {_id});
+
               const prepared = _.assign({},
                 accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_ADMIN)
               );
@@ -60,10 +64,12 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                   .findOne(prepared)
                   .then(validAccessEmpty)
                   .then((preparedData) => {
-                    const data = _.merge(preparedData, {[Entity.access]: roles});
+                    const data = _.assign(preparedData, {[Entity.access]: roles});
+
                     return DBRepository
                         .update(prepared, data);
                   })
+                  .then(entityHooks('after_update'))
                   .then(resolve)
                   .catch(reject);
           });

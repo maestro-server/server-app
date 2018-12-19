@@ -14,8 +14,10 @@ const images = () => {
 
     const filled = [..._.slice(singleFilled, 2)];  // delete id
 
+    const name = 'images';
+
     return {
-        name: "images",
+        name,
 
         access: 'roles',
 
@@ -28,6 +30,27 @@ const images = () => {
         mapRelations: [],
 
         visibility: {single: 'all'},
+
+        hooks: {
+            after_update: {
+                auditHookUpdated: {
+                    entity: name,
+                    fill: filled
+                }
+            },
+            after_patch: {
+                auditHookPatched: {
+                    entity: name,
+                    fill: filled
+                }
+            },
+            after_delete: {
+                auditHookDeleted: {
+                    entity: name,
+                    fill: filled
+                }
+            }
+        },
 
         filled,
         singleFilled,

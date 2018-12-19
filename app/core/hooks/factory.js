@@ -17,11 +17,12 @@ const execHooks = (configs, name, data={}) => {
   }
 };
 
-const hookFactory = (Entity) => (when) => (data={}) => {
+const hookFactory = (Entity, dft={}) => (when) => (data={}) => {
   const path = `hooks.${when}`;
 
   if(_.has(Entity, path)) {
     const hooks = _.get(Entity, path);
+    _.assign(data, dft)
 
     _.each(hooks,
       (v,k) => execHooks(v, k, data));

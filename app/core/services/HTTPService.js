@@ -39,6 +39,10 @@ const HTTPService = (url) => (header = {}) => {
             return factoryRequest('post', path, args);
         },
 
+        patch(path, args = {}) {
+            return factoryRequest('patch', path, args);
+        },
+
         update(path, args = {}) {
             return factoryRequest('put', path, args);
         },
@@ -64,9 +68,15 @@ const AnalyticsHTTPService = (header = {}) => {
     return HTTPService(url)(header);
 };
 
+const AuditHTTPService = (header = {}) => {
+    const url = process.env.MAESTRO_AUDIT_URI || 'http://localhost:10900';
+    return HTTPService(url)(header);
+};
+
 module.exports = {
     HTTPService,
     DiscoveryHTTPService,
     ReportHTTPService,
-    AnalyticsHTTPService
+    AnalyticsHTTPService,
+    AuditHTTPService
 };

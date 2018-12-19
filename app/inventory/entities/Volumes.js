@@ -13,8 +13,10 @@ const volume = () => {
 
     const filled = [..._.slice(singleFilled, 2)];  // delete id
 
+    const name = 'volume';
+
     return {
-        name: "volume",
+        name,
 
         access: 'roles',
 
@@ -27,6 +29,27 @@ const volume = () => {
         mapRelations: ['datacenters'],
 
         visibility: {single: 'all'},
+
+        hooks: {
+            after_update: {
+                auditHookUpdated: {
+                    entity: name,
+                    fill: filled
+                }
+            },
+            after_patch: {
+                auditHookPatched: {
+                    entity: name,
+                    fill: filled
+                }
+            },
+            after_delete: {
+                auditHookDeleted: {
+                    entity: name,
+                    fill: filled
+                }
+            }
+        },
 
         filled,
         singleFilled,

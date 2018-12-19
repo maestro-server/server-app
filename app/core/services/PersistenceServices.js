@@ -73,7 +73,7 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
         update (_id, post, owner, access = Access.ROLE_WRITER) {
 
             return new Promise((resolve, reject) => {
-                const entityHooks = hookFactory(Entity);
+                const entityHooks = hookFactory(Entity, {_id});
                 const fill = _.slice(Entity.singleFilled, 2);
                 const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
@@ -95,14 +95,14 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
             return new Promise((resolve, reject) => {
 
-                const entityHooks = hookFactory(Entity);
+                const entityHooks = hookFactory(Entity, {_id});
                 const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password', '_id']);
 
                 const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
                     .patch(prepared, post, fill)
-                    .then(entityHooks('after_update'))
+                    .then(entityHooks('after_patch'))
                     .then(resolve)
                     .catch(reject);
             });
@@ -123,7 +123,7 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
         remove(_id, owner, body = {}, access = Access.ROLE_ADMIN) {
 
             return new Promise((resolve, reject) => {
-                const entityHooks = hookFactory(Entity);
+                const entityHooks = hookFactory(Entity, {_id});
                 const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository

@@ -141,6 +141,7 @@ gulp eslint
 | MAESTRO_DISCOVERY_URI                | http://localhost:5000    |  Url discovery-app (flask)     |
 | MAESTRO_REPORT_URI                   | http://localhost:5005    |  Url reports-app (flask)       |
 | MAESTRO_ANALYTICS_URI                | http://localhost:5020    |  Url Analytics-app (flask)     |
+| MAESTRO_AUDIT_URI                    | http://localhost:10900   |  Url Audit-app (krakenjs)      |
 | MAESTRO_TIMEOUT                      | 1000                     |  Timeout micro service request |
 | SMTP_PORT                            | 1025                     |                                |
 | SMTP_HOST                            | localhost                |                                |

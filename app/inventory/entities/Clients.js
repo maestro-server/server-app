@@ -11,8 +11,10 @@ const clients = () => {
 
     const filled = [..._.slice(singleFilled, 2)]; // delete id
 
+    const name = 'clients';
+
     return {
-        name: "clients",
+        name,
 
         access: 'roles',
 
@@ -25,6 +27,27 @@ const clients = () => {
         mapRelations: [],
 
         visibility: {single: 'all'},
+
+        hooks: {
+            after_update: {
+                auditHookUpdated: {
+                    entity: name,
+                    fill: filled
+                }
+            },
+            after_patch: {
+                auditHookPatched: {
+                    entity: name,
+                    fill: filled
+                }
+            },
+            after_delete: {
+                auditHookDeleted: {
+                    entity: name,
+                    fill: filled
+                }
+            }
+        },
 
         filled,
         singleFilled,
