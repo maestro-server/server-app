@@ -7,7 +7,7 @@ module.exports = function (id, name) {
 
     const timestamp = new Date().getTime();
     const body = {name, id, timestamp};
-    const  token = jwt.encode(body, config.jwtSecret.secretOrKey);
+    const token = jwt.encode(body, config.jwtSecret.secretOrKey);
 
     return {
         id,

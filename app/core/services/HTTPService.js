@@ -2,10 +2,12 @@
 
 const _ = require('lodash/fp');
 const Connector = require('../libs/request');
-
+const privateToken = require('core/configs/private_token.js');
 const HTTPError = require('core/errors/factoryError')('HTTPError');
 
 const HTTPService = (url) => (header = {}) => {
+
+    Object.assign(header, {Authorization: privateToken}); // inject private token, used to autheticate on private services
 
     const factoryRequest = (caller, path, args) => {
         return new Promise((resolve, reject) => {

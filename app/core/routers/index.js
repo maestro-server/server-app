@@ -1,6 +1,5 @@
 'use strict';
 
-const HTTPService = require('core/services/HTTPService');
 const {name:app, version, description} = require('../../../package.json');
 
 module.exports = function (router) {
