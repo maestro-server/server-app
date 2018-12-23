@@ -11,18 +11,41 @@ const users = () => {
 
     const filled = [..._.tail(singleFilled), 'password']; // delete id
 
+    const name = "users";
+
     return {
-      name: "users",
+        name,
 
-      access: null,
+        access: null,
 
-      validators: require('../validators/users'),
+        validators: require('../validators/users'),
 
-      dao: Users,
+        dao: Users,
 
-      filled,
-      singleFilled,
-      resFilled
+        hooks: {
+            after_update: {
+                auditHookUpdated: {
+                    entity: name,
+                    fill: ['name', 'email']
+                }
+            },
+            after_patch: {
+                auditHookPatched: {
+                    entity: name,
+                    fill: ['name', 'email']
+                }
+            },
+            after_delete: {
+                auditHookDeleted: {
+                    entity: name,
+                    fill: ['name', 'email']
+                }
+            }
+        },
+
+        filled,
+        singleFilled,
+        resFilled
     };
 };
 

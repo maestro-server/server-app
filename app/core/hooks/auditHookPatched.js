@@ -21,6 +21,7 @@ const auditHookPatched = ({entity, fill}) => (data) => {
         .patch(`/audit/${entity}/${data['_id']}`, cleandata)
         .catch(console.error);
 
+
     return data;
 };
 

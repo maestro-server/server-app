@@ -2,10 +2,9 @@
 
 const _ = require('lodash');
 
+const hookFactory = require('core/hooks/factory');
 const FactoryDBRepository = require('core/repositories/DBRepository');
-
 const validDuplicateUser = require('./validator/validDuplicateUser');
-
 const Persistence = require('core/services/PersistenceServices');
 
 
@@ -43,12 +42,15 @@ const UsersPersistence = (Entity) => {
         patch (_id, post) {
             return new Promise((resolve, reject) => {
 
+                const entityHooks = hookFactory(Entity, {_id});
+
                 return validDuplicateUser(DBRepository, post)
                     .then(() => {
                         const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password']);
                         return DBRepository
                             .patch({_id}, post, fill);
                     })
+                    .then(entityHooks('after_patch'))
                     .then(resolve)
                     .catch(reject);
             });
@@ -59,8 +61,11 @@ const UsersPersistence = (Entity) => {
 
             return new Promise((resolve, reject) => {
 
+                const entityHooks = hookFactory(Entity, {_id});
+
                 return DBRepository
                     .remove({_id})
+                    .then(entityHooks('after_delete'))
                     .then(resolve)
                     .catch(reject);
             });

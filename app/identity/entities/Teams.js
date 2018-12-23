@@ -1,4 +1,4 @@
- 'use strict';
+'use strict';
 
 const _ = require('lodash');
 
@@ -11,18 +11,41 @@ const teams = () => {
 
     const filled = [..._.slice(singleFilled, 2)]; // delete id
 
+    const name = "teams";
+
     return {
-      name: "teams",
+        name,
 
-      access: 'members',
+        access: 'members',
 
-      validators: require('../validators/teams'),
+        validators: require('../validators/teams'),
 
-      dao: Teams,
+        dao: Teams,
 
-      filled,
-      singleFilled,
-      resFilled
+        hooks: {
+            after_update: {
+                auditHookUpdated: {
+                    entity: name,
+                    fill: ['name', 'email']
+                }
+            },
+            after_patch: {
+                auditHookPatched: {
+                    entity: name,
+                    fill: ['name', 'email']
+                }
+            },
+            after_delete: {
+                auditHookDeleted: {
+                    entity: name,
+                    fill: ['name', 'email']
+                }
+            }
+        },
+
+        filled,
+        singleFilled,
+        resFilled
     };
 };
 
