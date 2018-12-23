@@ -7,7 +7,7 @@ const HTTPError = require('core/errors/factoryError')('HTTPError');
 
 const HTTPService = (url) => (header = {}) => {
 
-    Object.assign(header, {Authorization: privateToken}); // inject private token, used to autheticate on private services
+    Object.assign(header, {Authorization: privateToken.token}); // inject private token, used to autheticate on private services
 
     const factoryRequest = (caller, path, args) => {
         return new Promise((resolve, reject) => {
@@ -20,7 +20,13 @@ const HTTPService = (url) => (header = {}) => {
                             const str = _.reduce((result, value) => result = `${result} ${value}`, '')(e.response.data.message);
                             reject(HTTPError(str));
                         }
-                        reject(HTTPError(e.response.data.error));
+
+                        if(_.has(e.response.data, 'errors'))
+                            reject(HTTPError(e.response.data.errors));
+
+                        if(_.has(e.response.data, 'error'))
+                            reject(HTTPError(e.response.data.error));
+
                     } else {
                         reject(HTTPError(e.toString()));
                     }
