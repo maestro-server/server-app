@@ -34,14 +34,6 @@ describe('unit - core', function () {
                     .and.notify(done);
             });
 
-            it('test create - force error HTTPError', function (done) {
-                const {HTTPService} = require('core/services/HTTPService');
-                let result = HTTPService('http://google.com.br')().create('/');
-
-                expect(result)
-                    .to.be.rejected
-                    .and.notify(done);
-            });
 
             it('test update', function (done) {
                 const {HTTPService} = require('core/services/HTTPService');

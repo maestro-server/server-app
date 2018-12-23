@@ -647,7 +647,7 @@ describe('e2e clients', function () {
                 .expect(/users/)
                 .expect(function (res) {
                     clients[0]['roles'] = res.body.items
-                    expect(res.body.items).to.have.length(2);
+                    expect(res.body.items).to.have.length(1);
                 })
                 .end(function (err) {
                     if (err) return done(err);
@@ -680,7 +680,7 @@ describe('e2e clients', function () {
                 .expect('Content-Type', /json/)
                 .expect(/organization/)
                 .expect(function (res) {
-                    expect(res.body.items).to.have.length(3);
+                    expect(res.body.items).to.have.length(2);
                 })
                 .end(function (err) {
                     if (err) return done(err);

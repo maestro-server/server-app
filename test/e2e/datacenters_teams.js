@@ -600,10 +600,10 @@ describe('e2e datacenters', function () {
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(201)
                 .expect('Content-Type', /json/)
-                .expect(/users/)
+                .expect(/teams/)
                 .expect(function (res) {
                     datacenters[0]['roles'] = res.body.items
-                    expect(res.body.items).to.have.length(2);
+                    expect(res.body.items).to.have.length(1);
                 })
                 .end(function (err) {
                     if (err) return done(err);
@@ -636,7 +636,7 @@ describe('e2e datacenters', function () {
                 .expect('Content-Type', /json/)
                 .expect(/organization/)
                 .expect(function (res) {
-                    expect(res.body.items).to.have.length(3);
+                    expect(res.body.items).to.have.length(2);
                 })
                 .end(function (err) {
                     if (err) return done(err);
