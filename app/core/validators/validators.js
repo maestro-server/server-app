@@ -45,7 +45,7 @@ module.exports = {
         attach_time: Joi.string().max(30),
         mount: Joi.string().max(100),
         ftype: Joi.string().max(100),
-        lvm: Joi.boolean().default(false),
+        lvm: Joi.boolean(),
         pv: Joi.string().max(100),
         vg: Joi.string().max(100),
         delete_termination: Joi.any()
@@ -102,5 +102,6 @@ module.exports = {
     environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'),
     family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS', 'AutoScaling', 'AutoScalingPlan').default("Application"),
     created_at: Joi.any(),
-    metas: Joi.any()
+    metas: Joi.any(),
+    checksum: Joi.string()
 };

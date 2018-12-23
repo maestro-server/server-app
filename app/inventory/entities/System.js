@@ -29,6 +29,12 @@ const system = () => {
         visibility: {single: 'all'},
 
         hooks: {
+            after_create: {
+                auditHookUpdated: {
+                    entity: name,
+                    fill: filled
+                }
+            },
             after_update: {
                 auditHookUpdated: {
                     entity: name,

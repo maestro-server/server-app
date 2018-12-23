@@ -23,6 +23,12 @@ const teams = () => {
         dao: Teams,
 
         hooks: {
+            after_create: {
+                auditHookUpdated: {
+                    entity: name,
+                    fill: ['name', 'email']
+                }
+            },
             after_update: {
                 auditHookUpdated: {
                     entity: name,

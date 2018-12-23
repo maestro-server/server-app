@@ -17,27 +17,6 @@ const flavors = () => {
 
         dao: FlavorsPublic,
 
-        hooks: {
-            after_update: {
-                auditHookUpdated: {
-                    entity: name,
-                    fill: filled
-                }
-            },
-            after_patch: {
-                auditHookPatched: {
-                    entity: name,
-                    fill: filled
-                }
-            },
-            after_delete: {
-                auditHookDeleted: {
-                    entity: name,
-                    fill: filled
-                }
-            }
-        },
-
         defaults,
         mapRelations,
         visibility,
