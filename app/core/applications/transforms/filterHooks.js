@@ -19,7 +19,7 @@ module.exports = function (query, field = 'query', rules = []) {
                 }
 
                 if (data.module == 'clone') {
-                    _.set(query[field], data.dest, tmp)
+                    _.set(query[field], data.dest, tmp);
                     continue;
                 }
 

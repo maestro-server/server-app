@@ -22,8 +22,6 @@ const PersistenceAudit = (Entity, PersistenceServices = DPersistenceServices) =>
                     return AuditHTTPService()
                         .find(`/audit/${entity}/${id}`);
                 })
-
-
                 .then(e => res.json(e))
                 .catch(next);
         }

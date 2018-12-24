@@ -10,7 +10,7 @@ const accessMergeTransform = require('core/services/transforms/accessMergeTransf
 const depsToUpdate = (data, owner, acc='access') => {
     let tmp = [];
     _.forEach(data, (value, key) => {
-        const deps = value.map(e=>transfID(e, '_id'))
+        const deps = value.map(e=>transfID(e, '_id'));
 
         const item = {'$set':
                 {'deps': deps}

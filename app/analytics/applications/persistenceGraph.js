@@ -51,7 +51,7 @@ const PersistenceGraph = (Entity, PersistenceServices = DPersistenceServices) =>
                     const data = Object.assign(
                         {owner_id},
                         _.pick(bodyWithOwner, ['_id', 'clients', 'systems', 'apps', 'type'])
-                    )
+                    );
 
                     return AnalyticsHTTPService()
                         .create(`/graph`, data);
@@ -77,7 +77,7 @@ const PersistenceGraph = (Entity, PersistenceServices = DPersistenceServices) =>
                     const data = Object.assign(
                         {owner_id},
                         _.pick(e, ['_id', 'clients', 'systems', 'apps', 'type'])
-                    )
+                    );
                     return AnalyticsHTTPService()
                         .create(`/graph`, data);
                 })

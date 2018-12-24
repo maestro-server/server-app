@@ -12,6 +12,6 @@ const genToken = () => {
     };
     const tk = jwt.encode(body, token);
     return `JWT ${tk}`;
-}
+};
 
 module.exports.token = genToken();

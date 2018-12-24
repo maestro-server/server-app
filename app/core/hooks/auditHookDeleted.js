@@ -11,7 +11,6 @@ hooks: {
 },
 */
 
-const _ = require('lodash');
 const {AuditHTTPService} = require('core/services/HTTPService');
 
 const auditHookDeleted = ({entity}) => (data) => {

@@ -14,7 +14,7 @@ const systemUpdate = (systems, owner, FactoryDBRepository = DFactoryDBRepository
     return {
         addEndpoint(entry) {
 
-            const bags = []
+            const bags = [];
             _.forEach(systems, (system) => {
 
                 const {_id} = system;
@@ -28,7 +28,7 @@ const systemUpdate = (systems, owner, FactoryDBRepository = DFactoryDBRepository
 
             return bags;
         }
-    }
+    };
 };
 
 

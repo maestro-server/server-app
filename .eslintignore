@@ -4,3 +4,4 @@ node_module/*
 tasks/*
 test/*
 coverage/*
+docs/*
