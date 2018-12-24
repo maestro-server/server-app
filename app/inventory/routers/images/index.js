@@ -9,6 +9,9 @@ const PersistenceAppServers = require('../../applications/persistenceServers');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Images)(Team);
 const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
+const PersistenceAudit = require('core/applications/persistenceAudit');
+const WrappeAuditApp = WrapperPersistenceApp(PersistenceAudit)();
+
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 
@@ -61,6 +64,13 @@ module.exports = function (router) {
          * @apiGroup Teams
          */
         .post('/teams/:id/images', authenticate(), WrapperPersistenceAppDefault.create)
+
+        /**
+         * @api {get} /teams/:id/images/:idu/audit ih. Get changed history
+         * @apiName GetImagesAuditTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/images/:idu/audit', authenticate(), WrappeAuditApp.find)
 
         /**
          * Roles

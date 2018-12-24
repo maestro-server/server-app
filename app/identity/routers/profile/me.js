@@ -3,6 +3,7 @@
 const authenticate = require('identity/middlewares/authenticate');
 const User = require('../../entities/Users');
 const ProfilePersistenceService = require('identity/services/PersistenceServices');
+const PersistenceAudit = require('core/applications/persistenceAudit')(User);
 const PersistenceApp = require('core/applications/persistenceApplication')(User, ProfilePersistenceService);
 
 module.exports = function (router) {
@@ -90,8 +91,35 @@ module.exports = function (router) {
             req.params.id = req.user._id;
 
             PersistenceApp.remove(req, res, next);
+        })
+
+        /**
+         * @api {get} /me/audit d. Get changed history
+         * @apiName GetAuditMe
+         * @apiGroup Me
+         *
+         * @apiParam (Param) {String} id User unique id.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *        "found": <int>,
+         *        "limit": <int>,
+         *        "total_pages": <int>,
+         *        "current_page": <int>,
+         *        "items": []
+         *     }
+         */
+        .get('/audit', authenticate(), function (req, res, next) {
+            req.params.id = req.user._id;
+
+            PersistenceAudit.find(req, res, next);
         });
-
-
-
 };

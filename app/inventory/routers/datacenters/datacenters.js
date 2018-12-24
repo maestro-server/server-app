@@ -5,6 +5,7 @@ const Datacenter = require('../../entities/Datacenter');
 const Servers = require('../../entities/Servers');
 
 const PersistenceApp = require('core/applications/persistenceApplication')(Datacenter);
+const PersistenceAudit = require('core/applications/persistenceAudit')(Datacenter);
 const PersistenceDC = require('../../applications/persistenceDatacenters')(Datacenter);
 const SyncerApp = require('core/applications/relationsApplication')()()(Servers)(Datacenter);
 
@@ -238,13 +239,37 @@ module.exports = function (router) {
          */
         .delete('/:id', authenticate(), PersistenceApp.remove)
 
-
+        /**
+         * @api {get} /datacenters/:id/audit h. Get changed history
+         * @apiName GetAuditDatacenters
+         * @apiGroup Datacenters
+         *
+         * @apiParam (Param) {String} id Datacenters unique id.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *        "found": <int>,
+         *        "limit": <int>,
+         *        "total_pages": <int>,
+         *        "current_page": <int>,
+         *        "items": []
+         *     }
+         */
+        .get('/:id/audit', authenticate(), PersistenceAudit.find)
 
         /**
          * Roles
          */
         /**
-         * @api {post} /datacenters/:id/roles/ h. Add access Role
+         * @api {post} /datacenters/:id/roles/ i. Add access Role
          * @apiName PostRoleDatacenters
          * @apiGroup Datacenters
          *
@@ -269,7 +294,7 @@ module.exports = function (router) {
          */
         .post('/:id/roles', authenticate(), AccessApp.create)
         /**
-         * @api {put} /datacenters/:id/roles i. Update access role
+         * @api {put} /datacenters/:id/roles j. Update access role
          * @apiName PutRoleDatacenters
          * @apiGroup Datacenters
          * @apiDescription Update all access roles, remember if you don´t send your access, after success you lose the access it´s
@@ -302,7 +327,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/', authenticate(), AccessApp.update)
         /**
-         * @api {put} /datacenters/:id/roles/:idu j. Update specific access role
+         * @api {put} /datacenters/:id/roles/:idu l. Update specific access role
          * @apiName PutSingleRoleDatacenters
          * @apiGroup Datacenters
          * @apiDescription Update access level one role to one application
@@ -323,7 +348,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/:idu', authenticate(), AccessApp.updateSingle)
         /**
-         * @api {delete} /datacenters/:id/roles/:idu l. Delete one role
+         * @api {delete} /datacenters/:id/roles/:idu m. Delete one role
          * @apiName DeleteRoleDatacenters
          * @apiGroup Datacenters
          * @apiDescription Delete unique role.
@@ -348,7 +373,7 @@ module.exports = function (router) {
         Actions
         */
         /**
-         * @api {get} /datacenters/:id/servers/ b. Get server list by Dc
+         * @api {get} /datacenters/:id/servers/ n. Get server list by Dc
          * @apiName GetServersDatacenters
          * @apiGroup Datacenters
          * @apiDescription List all servers filtered by id dc
@@ -374,7 +399,7 @@ module.exports = function (router) {
          */
         .get('/:id/servers/', authenticate(), SyncerApp.find)
         /**
-         * @api {get} /datacenters/:id/servers/count b. Count servers by Dc
+         * @api {get} /datacenters/:id/servers/count o. Count servers by Dc
          * @apiName GetServersCountDatacenters
          * @apiGroup Datacenters
          *

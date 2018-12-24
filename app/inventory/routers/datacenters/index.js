@@ -10,6 +10,9 @@ const PersistenceDC = require('../../applications/persistenceDatacenters');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Datacenter)(Team);
 const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
+const PersistenceAudit = require('core/applications/persistenceAudit');
+const WrappeAuditApp = WrapperPersistenceApp(PersistenceAudit)();
+
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 
@@ -73,41 +76,48 @@ module.exports = function (router) {
         .post('/teams/:id/datacenters', authenticate(), WrapperPersistenceAppDefault.create)
 
         /**
+         * @api {get} /teams/:id/datacenters/:idu/audit dh. Get changed history
+         * @apiName GetDatacentersAuditTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/datacenters/:idu/audit', authenticate(), WrappeAuditApp.find)
+
+        /**
          * Roles
          */
         /**
-         * @api {post} /teams/:id/datacenters/:idu/roles dh. Create access role
+         * @api {post} /teams/:id/datacenters/:idu/roles di. Create access role
          * @apiName GetSingleListDcsTeam
          * @apiGroup Teams
          */
         .post('/teams/:id/datacenters/:idu/roles', authenticate(), WrapperAccessApp.create)
         /**
-         * @api {put} /teams/:id/datacenters/:idu/roles di. Update all access role
+         * @api {put} /teams/:id/datacenters/:idu/roles dj. Update all access role
          * @apiName GetSingleListDcsTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/datacenters/:idu/roles', authenticate(), WrapperAccessApp.update)
         /**
-         * @api {put} /teams/:id/datacenters/:idu/roles/:ida dj. Update access role
+         * @api {put} /teams/:id/datacenters/:idu/roles/:ida dl. Update access role
          * @apiName GetSingleListDcsTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/datacenters/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
         /**
-         * @api {delete} /teams/:id/datacenters/:idu/roles/:ida dl. Delete access role
+         * @api {delete} /teams/:id/datacenters/:idu/roles/:ida dm. Delete access role
          * @apiName GetSingleListDcsTeam
          * @apiGroup Teams
          */
         .delete('/teams/:id/datacenters/:idu/roles/:ida', authenticate(), WrapperAccessApp.remove)
 
         /**
-         * @api {get} /teams/:id/datacenters/:idu/servers/ dm. Count servers by Dc
+         * @api {get} /teams/:id/datacenters/:idu/servers/ dn. Count servers by Dc
          * @apiName GetListServersDcTeam
          * @apiGroup Teams
          */
         .get('/teams/:id/datacenters/:idu/servers/', authenticate(), WrapperSyncerApp().find)
         /**
-         * @api {get} /teams/:id/datacenters/count dn. Count Servers by Dcs
+         * @api {get} /teams/:id/datacenters/count do. Count Servers by Dcs
          * @apiName GetCountServersDcTeam
          * @apiGroup Teams
          */

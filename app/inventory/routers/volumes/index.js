@@ -9,6 +9,9 @@ const PersistenceAppServers = require('../../applications/persistenceServers');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Volumes)(Team);
 const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
+const PersistenceAudit = require('core/applications/persistenceAudit');
+const WrappeAuditApp = WrapperPersistenceApp(PersistenceAudit)();
+
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 
@@ -63,28 +66,35 @@ module.exports = function (router) {
         .post('/teams/:id/volumes', authenticate(), WrapperPersistenceAppDefault.create)
 
         /**
+         * @api {get} /teams/:id/volumes/:idu/audit vh. Get changed history
+         * @apiName GetVolumesAuditTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/volumes/:idu/audit', authenticate(), WrappeAuditApp.find)
+
+        /**
          * Roles
          */
          /**
-          * @api {post} /teams/:id/volumes/:idu/roles vh. Create access role
+          * @api {post} /teams/:id/volumes/:idu/roles vi. Create access role
           * @apiName GetSingleListVolumesTeam
           * @apiGroup Teams
           */
         .post('/teams/:id/volumes/:idu/roles', authenticate(), WrapperAccessApp.create)
         /**
-         * @api {put} /teams/:id/volumes/:idu/roles vi. Update all access role
+         * @api {put} /teams/:id/volumes/:idu/roles vj. Update all access role
          * @apiName GetSingleListVolumesTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/volumes/:idu/roles', authenticate(), WrapperAccessApp.update)
         /**
-         * @api {put} /teams/:id/volumes/:idu/roles/:ida vj. Update access role
+         * @api {put} /teams/:id/volumes/:idu/roles/:ida vl. Update access role
          * @apiName GetSingleListVolumesTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/volumes/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
         /**
-         * @api {delete} /teams/:id/volumes/:idu/roles/:ida vl. Delete access role
+         * @api {delete} /teams/:id/volumes/:idu/roles/:ida vm. Delete access role
          * @apiName GetSingleListVolumesTeam
          * @apiGroup Teams
          */

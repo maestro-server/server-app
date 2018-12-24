@@ -3,6 +3,7 @@
 const authenticate = require('identity/middlewares/authenticate');
 const Volumes = require('../../entities/Volumes');
 const PersistenceApp = require('core/applications/persistenceApplication')(Volumes);
+const PersistenceAudit = require('core/applications/persistenceAudit')(Volumes);
 const PersistenceAppServers = require('../../applications/persistenceServers')(Volumes);
 const AccessApp = require('core/applications/accessApplication')(Volumes);
 
@@ -228,13 +229,37 @@ module.exports = function (router) {
          */
         .delete('/:id', authenticate(), PersistenceApp.remove)
 
-
+        /**
+         * @api {get} /volumes/:id/audit h. Get changed history
+         * @apiName GetAuditVolumes
+         * @apiGroup Volumes
+         *
+         * @apiParam (Param) {String} id Volume unique id.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *        "found": <int>,
+         *        "limit": <int>,
+         *        "total_pages": <int>,
+         *        "current_page": <int>,
+         *        "items": []
+         *     }
+         */
+        .get('/:id/audit', authenticate(), PersistenceAudit.find)
 
         /**
          * Roles
          */
         /**
-         * @api {post} /volumes/:id/roles/ h. Add access Role
+         * @api {post} /volumes/:id/roles/ i. Add access Role
          * @apiName PostRoleVolumes
          * @apiGroup Volumes
          *
@@ -259,7 +284,7 @@ module.exports = function (router) {
          */
         .post('/:id/roles', authenticate(), AccessApp.create)
         /**
-         * @api {put} /volumes/:id/roles i. Update access role
+         * @api {put} /volumes/:id/roles j. Update access role
          * @apiName PutRoleVolumes
          * @apiGroup Volumes
          * @apiDescription Update all access roles, remember if you don´t send your access, after success you lose the access it´s
@@ -292,7 +317,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/', authenticate(), AccessApp.update)
         /**
-         * @api {put} /volumes/:id/roles/:idu j. Update specific access role
+         * @api {put} /volumes/:id/roles/:idu l. Update specific access role
          * @apiName PutSingleRoleVolumes
          * @apiGroup Volumes
          * @apiDescription Update access level one role to one volume
@@ -313,7 +338,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/:idu', authenticate(), AccessApp.updateSingle)
         /**
-         * @api {delete} /volumes/:id/roles/:idu l. Delete one role
+         * @api {delete} /volumes/:id/roles/:idu m. Delete one role
          * @apiName DeleteRoleVolumes
          * @apiGroup Volumes
          * @apiDescription Delete unique role.

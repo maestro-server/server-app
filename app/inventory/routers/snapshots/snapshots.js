@@ -3,6 +3,7 @@
 const authenticate = require('identity/middlewares/authenticate');
 const Snapshots = require('../../entities/Snapshots');
 const PersistenceApp = require('core/applications/persistenceApplication')(Snapshots);
+const PersistenceAudit = require('core/applications/persistenceAudit')(Snapshots);
 const PersistenceAppServers = require('../../applications/persistenceServers')(Snapshots);
 const AccessApp = require('core/applications/accessApplication')(Snapshots);
 
@@ -222,13 +223,37 @@ module.exports = function (router) {
          */
         .delete('/:id', authenticate(), PersistenceApp.remove)
 
-
+        /**
+         * @api {get} /snapshots/:id/audit h. Get changed history
+         * @apiName GetAuditSnapshots
+         * @apiGroup Snapshots
+         *
+         * @apiParam (Param) {String} id Snapshot unique id.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *        "found": <int>,
+         *        "limit": <int>,
+         *        "total_pages": <int>,
+         *        "current_page": <int>,
+         *        "items": []
+         *     }
+         */
+        .get('/:id/audit', authenticate(), PersistenceAudit.find)
 
         /**
          * Roles
          */
         /**
-         * @api {post} /snapshots/:id/roles/ h. Add access Role
+         * @api {post} /snapshots/:id/roles/ i. Add access Role
          * @apiName PostRoleSnapshots
          * @apiGroup Snapshots
          *
@@ -253,7 +278,7 @@ module.exports = function (router) {
          */
         .post('/:id/roles', authenticate(), AccessApp.create)
         /**
-         * @api {put} /snapshots/:id/roles i. Update access role
+         * @api {put} /snapshots/:id/roles j. Update access role
          * @apiName PutRoleSnapshots
          * @apiGroup Snapshots
          * @apiDescription Update all access roles, remember if you don´t send your access, after success you lose the access it´s
@@ -286,7 +311,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/', authenticate(), AccessApp.update)
         /**
-         * @api {put} /snapshots/:id/roles/:idu j. Update specific access role
+         * @api {put} /snapshots/:id/roles/:idu l. Update specific access role
          * @apiName PutSingleRoleSnapshots
          * @apiGroup Snapshots
          * @apiDescription Update access level one role to one snapshot
@@ -307,7 +332,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/:idu', authenticate(), AccessApp.updateSingle)
         /**
-         * @api {delete} /snapshots/:id/roles/:idu l. Delete one role
+         * @api {delete} /snapshots/:id/roles/:idu o. Delete one role
          * @apiName DeleteRoleSnapshots
          * @apiGroup Snapshots
          * @apiDescription Delete unique role.

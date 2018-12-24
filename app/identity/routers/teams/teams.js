@@ -4,6 +4,7 @@ const authenticate = require('identity/middlewares/authenticate');
 
 
 const Team = require('../../entities/Teams');
+const PersistenceAudit = require('core/applications/persistenceAudit')(Team);
 const PersistenceApp = require('core/applications/persistenceApplication')(Team);
 const AccessApp = require('core/applications/accessApplication')(Team);
 
@@ -246,6 +247,32 @@ module.exports = function (router) {
          *     HTTP/1.1 204 OK
          */
         .delete('/:id', authenticate(), PersistenceApp.remove)
+
+        /**
+         * @api {get} /teams/:id/audit h. Get changed history
+         * @apiName GetAuditTeams
+         * @apiGroup Teams
+         *
+         * @apiParam (Param) {String} id Teams unique id.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *        "found": <int>,
+         *        "limit": <int>,
+         *        "total_pages": <int>,
+         *        "current_page": <int>,
+         *        "items": []
+         *     }
+         */
+        .get('/:id/audit', authenticate(), PersistenceAudit.find)
 
         /**
          * @api {post} /teams/:id/members j. Add member on team

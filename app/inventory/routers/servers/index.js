@@ -9,6 +9,9 @@ const PersistenceAppServers = require('../../applications/persistenceServers');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Servers)(Team);
 const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
+const PersistenceAudit = require('core/applications/persistenceAudit');
+const WrappeAuditApp = WrapperPersistenceApp(PersistenceAudit)();
+
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 
@@ -65,28 +68,35 @@ module.exports = function (router) {
         .post('/teams/:id/servers', authenticate(), WrapperPersistenceAppDefault.create)
 
         /**
+         * @api {get} /teams/:id/servers/:idu/audit sh. Get changed history
+         * @apiName GetServersAuditTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/servers/:idu/audit', authenticate(), WrappeAuditApp.find)
+
+        /**
          * Roles
          */
         /**
-         * @api {post} /teams/:id/servers/:idu/roles sh. Create access role
+         * @api {post} /teams/:id/servers/:idu/roles si. Create access role
          * @apiName GetSingleListServersTeam
          * @apiGroup Teams
          */
         .post('/teams/:id/servers/:idu/roles', authenticate(), WrapperAccessApp.create)
         /**
-         * @api {put} /teams/:id/servers/:idu/roles si. Update all access role
+         * @api {put} /teams/:id/servers/:idu/roles sj. Update all access role
          * @apiName GetSingleListServersTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/servers/:idu/roles', authenticate(), WrapperAccessApp.update)
         /**
-         * @api {put} /teams/:id/servers/:idu/roles/:ida sj. Update access role
+         * @api {put} /teams/:id/servers/:idu/roles/:ida sl. Update access role
          * @apiName GetSingleListServersTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/servers/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
         /**
-         * @api {delete} /teams/:id/servers/:idu/roles/:ida sl. Delete access role
+         * @api {delete} /teams/:id/servers/:idu/roles/:ida sm. Delete access role
          * @apiName GetSingleListServersTeam
          * @apiGroup Teams
          */

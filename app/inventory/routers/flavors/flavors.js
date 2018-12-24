@@ -2,6 +2,7 @@
 
 const authenticate = require('identity/middlewares/authenticate');
 const Flavors = require('../../entities/Flavors');
+const PersistenceAudit = require('core/applications/persistenceAudit')(Flavors);
 const PersistenceApp = require('core/applications/persistenceApplication')(Flavors);
 
 module.exports = function (router) {
@@ -219,7 +220,33 @@ module.exports = function (router) {
          *     HTTP/1.1 204 OK
          *     {}
          */
-        .delete('/:id', authenticate(), PersistenceApp.remove);
+        .delete('/:id', authenticate(), PersistenceApp.remove)
+
+        /**
+         * @api {get} /flavors/:id/audit h. Get changed history
+         * @apiName GetAuditFlavors
+         * @apiGroup Flavors
+         *
+         * @apiParam (Param) {String} id Flavors unique id.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *        "found": <int>,
+         *        "limit": <int>,
+         *        "total_pages": <int>,
+         *        "current_page": <int>,
+         *        "items": []
+         *     }
+         */
+        .get('/:id/audit', authenticate(), PersistenceAudit.find);
 
 
 };

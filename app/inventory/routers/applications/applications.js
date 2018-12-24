@@ -7,6 +7,7 @@ const PersistenceApp = require('core/applications/persistenceApplication')(Appli
 const PersistenceAppApplications = require('../../applications/persistenceApplications')(Application);
 const AccessApp = require('core/applications/accessApplication')(Application);
 const DependenciesApp = require('inventory/applications/dependenciesApplication')(Application);
+const PersistenceAudit = require('core/applications/persistenceAudit')(Application);
 
 const PersistenceRelation = require('../../applications/persistenceSystem')(Server)(Application);
 
@@ -325,6 +326,33 @@ module.exports = function (router) {
          *     {}
          */
         .delete('/:id', authenticate(), PersistenceApp.remove)
+
+
+        /**
+         * @api {get} /applications/:id/audit h. Get changed history
+         * @apiName GetAuditApplications
+         * @apiGroup Applications
+         *
+         * @apiParam (Param) {String} id Application unique id.
+         *
+         * @apiPermission JWT
+         * @apiHeader (Auth) {String} Authorization JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound Entity not exist
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {
+         *        "found": <int>,
+         *        "limit": <int>,
+         *        "total_pages": <int>,
+         *        "current_page": <int>,
+         *        "items": []
+         *     }
+         */
+        .get('/:id/audit', authenticate(), PersistenceAudit.find)
 
         /**
          * Roles

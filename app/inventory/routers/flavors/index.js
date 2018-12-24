@@ -8,6 +8,9 @@ const Team = require('identity/entities/Teams');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Flavors)(Team);
 const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
+const PersistenceAudit = require('core/applications/persistenceAudit');
+const WrappeAuditApp = WrapperPersistenceApp(PersistenceAudit)();
+
 module.exports = function (router) {
 
     router
@@ -56,5 +59,12 @@ module.exports = function (router) {
          * @apiName PostSingleListFlavorsTeam
          * @apiGroup Teams
          */
-        .post('/teams/:id/flavors', authenticate(), WrapperPersistenceAppDefault.create);
+        .post('/teams/:id/flavors', authenticate(), WrapperPersistenceAppDefault.create)
+
+        /**
+         * @api {get} /teams/:id/flavors/:idu/audit flh. Get changed history
+         * @apiName GetFlavorsAuditTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/flavors/:idu/audit', authenticate(), WrappeAuditApp.find);
 };

@@ -9,6 +9,9 @@ const PersistenceAppServers = require('../../applications/persistenceServers');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Snapshots)(Team);
 const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 
+const PersistenceAudit = require('core/applications/persistenceAudit');
+const WrappeAuditApp = WrapperPersistenceApp(PersistenceAudit)();
+
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 
@@ -63,28 +66,35 @@ module.exports = function (router) {
         .post('/teams/:id/snapshots', authenticate(), WrapperPersistenceAppDefault.create)
 
         /**
+         * @api {get} /teams/:id/snapshots/:idu/audit snh. Get changed history
+         * @apiName GetSnapshotsAuditTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/snapshots/:idu/audit', authenticate(), WrappeAuditApp.find)
+
+        /**
          * Roles
          */
         /**
-         * @api {post} /teams/:id/snapshots/:idu/roles snh. Create access role
+         * @api {post} /teams/:id/snapshots/:idu/roles sni. Create access role
          * @apiName GetSingleListSnapshotsTeam
          * @apiGroup Teams
          */
         .post('/teams/:id/snapshots/:idu/roles', authenticate(), WrapperAccessApp.create)
         /**
-         * @api {put} /teams/:id/snapshots/:idu/roles sni. Update all access role
+         * @api {put} /teams/:id/snapshots/:idu/roles snj. Update all access role
          * @apiName GetSingleListSnapshotsTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/snapshots/:idu/roles', authenticate(), WrapperAccessApp.update)
         /**
-         * @api {put} /teams/:id/snapshots/:idu/roles/:ida snj. Update access role
+         * @api {put} /teams/:id/snapshots/:idu/roles/:ida snm. Update access role
          * @apiName GetSingleListSnapshotsTeam
          * @apiGroup Teams
          */
         .put('/teams/:id/snapshots/:idu/roles/:ida', authenticate(), WrapperAccessApp.updateSingle)
         /**
-         * @api {delete} /teams/:id/snapshots/:idu/roles/:ida snl. Delete access role
+         * @api {delete} /teams/:id/snapshots/:idu/roles/:ida snn. Delete access role
          * @apiName GetSingleListSnapshotsTeam
          * @apiGroup Teams
          */

@@ -13,6 +13,9 @@ const WrapperPersistenceAppDefault = WrapperPersistenceApp()();
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp(AccessApp)();
 
+const PersistenceAudit = require('core/applications/persistenceAudit');
+const WrappeAuditApp = WrapperPersistenceApp(PersistenceAudit)();
+
 const DependenciesApp = require('inventory/applications/dependenciesApplication');
 const WrappeDepsApp = WrapperPersistenceApp(DependenciesApp)();
 
@@ -78,6 +81,13 @@ module.exports = function (router) {
         .post('/teams/:id/applications/deps', authenticate(), WrappeDepsApp.updateMany)
 
         /**
+         * @api {get} /teams/:id/applications/:idu/audit ah. Get changed history
+         * @apiName GetApplicationsAuditTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/applications/:idu/audit', authenticate(), WrappeAuditApp.find)
+
+        /**
          * Roles
          */
          /**
@@ -131,7 +141,7 @@ module.exports = function (router) {
          * Servers
          */
         /**
-         * @api {patch} /teams/:id/applications/:idu/servers a1. Add servers on app for teams
+         * @api {patch} /teams/:id/applications/:idu/servers aq. Add servers on app for teams
          * @apiName PatchServersInApplicationTeam
          * @apiGroup Teams
          */
