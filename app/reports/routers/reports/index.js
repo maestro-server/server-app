@@ -9,6 +9,9 @@ const PersistenceReport = require('../../applications/persistenceReports');
 const WrapperPersistenceApp = require('core/applications/wrapperPersistenceApplication')(Reports)(Team);
 const WrapperPersistenceAppReports = WrapperPersistenceApp(PersistenceReport);
 
+const PersistenceAudit = require('core/applications/persistenceAudit');
+const WrappeAuditApp = WrapperPersistenceApp(PersistenceAudit)();
+
 const AccessApp = require('core/applications/accessApplication');
 const WrapperAccessApp = WrapperPersistenceApp()(AccessApp);
 
@@ -68,6 +71,13 @@ module.exports = function (router) {
          * @apiGroup Teams
          */
         .post('/teams/:id/reports', authenticate(), WrapperPersistenceAppReports().create)
+
+        /**
+         * @api {get} /teams/:id/audit/:idu/audit sh. Get changed history
+         * @apiName GetReportsAuditTeam
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/reports/:idu/audit', authenticate(), WrappeAuditApp.find)
 
         /**
          * Roles
