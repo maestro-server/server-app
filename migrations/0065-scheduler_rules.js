@@ -15,7 +15,7 @@ exports.up = function (db, next) {
                     name: 'connections',
                     description: 'Polling provider',
                     source: 'discovery',
-                    url: "/crawler/<provider>/<_id>/<task>",
+                    url: "crawler/<provider>/<_id>/<task>",
                     method: 'PUT',
                     options: {
                         'server-list': {
@@ -72,7 +72,7 @@ exports.up = function (db, next) {
                     name: 'reports',
                     description: 'Polling reports',
                     source: 'report',
-                    url: "/reports/<report>",
+                    url: "reports/<report>",
                     method: 'PATCH'
                 },
                 {

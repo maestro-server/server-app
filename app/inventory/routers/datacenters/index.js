@@ -49,7 +49,7 @@ module.exports = function (router) {
          * @apiName GetSingleOrphansListDcsTeam
          * @apiGroup Teams
          */
-        .get('/teams/:id/datacenters/:idu', authenticate(), WrapperPersistenceApp(PersistenceDC)('findOrphans').find)
+        .get('/teams/:id/datacenters/:idu/orphans', authenticate(), WrapperPersistenceApp(PersistenceDC)('findOrphans').find)
         /**
          * @api {put} /teams/:id/datacenters/:idu dd. Update all Dcs for Team
          * @apiName UpdateSingleListTeam
