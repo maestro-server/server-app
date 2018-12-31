@@ -58,6 +58,10 @@ exports.up = function (db, next) {
                             every: 6,
                             period: 'hours'
                         },
+                        'serverless-list': {
+                            every: 12,
+                            period: 'hours'
+                        },
                         'network-list': {
                             every: 7,
                             period: 'days'
