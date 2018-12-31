@@ -78,6 +78,7 @@ exports.up = function (db, next) {
 
 
         {name: 'AWS Lambda', family: ['Serverless'], tags: ['aws'], owner: true},
+        {name: 'AWS Lambda Layer', family: ['Serverless'], tags: ['aws'], owner: true},
         {name: 'Google Cloud Functions', family: ['Serverless'], tags: ['gcloud'], owner: true},
         {name: 'Azure Functions', family: ['Serverless'], tags: ['azure'], owner: true},
         {name: 'IBM OpenWhisk', family: ['Serverless'], tags: ['ibm'], owner: true},

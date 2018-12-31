@@ -179,6 +179,30 @@ exports.up = function (db, next) {
                             'init_job': true
                         }
                     ],
+                    'serverless-list': [
+                        {
+                            'access': 'list_functions',
+                            'command': 'lambda',
+                            'entity': 'applications',
+                            'result_path': 'Functions',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'MaxItems', 'env': 'MAESTRO_SCAN_QTD', 'default': 50, 'type': 'int'}
+                            ],
+                            'init_job': true
+                        },
+                        {
+                            'access': 'list_layers',
+                            'command': 'lambda',
+                            'entity': 'applications',
+                            'result_path': 'LayerVersions',
+                            'key_comparer': 'unique_id',
+                            'vars': [
+                                {'name': 'MaxItems', 'env': 'MAESTRO_SCAN_QTD', 'default': 50, 'type': 'int'}
+                            ],
+                            'init_job': true
+                        }
+                    ],
                     'network-list': [
                         {
                             'access': 'describe_vpcs',
@@ -274,7 +298,7 @@ exports.up = function (db, next) {
                             'vars': [],
                             'init_job': true
                         }
-                    ],
+                    ]
                 },
 
 
