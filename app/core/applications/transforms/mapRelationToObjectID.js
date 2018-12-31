@@ -43,11 +43,9 @@ const isID = (obj, relation, key = '_id') => {
 };
 
 module.exports = function (query, keys) {
-
     _.each(keys, (ett) => {
         isID(query, ett);
     });
-
     return query;
 };
 

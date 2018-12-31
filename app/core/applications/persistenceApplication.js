@@ -108,7 +108,6 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
         },
 
         create (req, res, next) {
-
             _.defaults(req.body, Entity.defaults || {});
 
             const bodyWithOwner = Object.assign(

@@ -42,8 +42,8 @@ const ApplicationSchedulers = (Entity, PersistenceServices = DPersistenceService
                 .catch(next);
         },
 
-        createTemplate(req, res, next) {
-            const template = TemplateScheduler().template(req.body);
+        async createTemplate(req, res, next) {
+            const template = await TemplateScheduler().template(req.body);
             _.set(req, 'body', template);
 
             PersistenceApplication(Entity, PersistenceServices)
