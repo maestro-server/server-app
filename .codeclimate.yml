@@ -18,6 +18,9 @@ ratings:
   - app/**.js
 exclude_paths:
 - "test/"
+- "docs/"
+- "devtools/"
+- "coverage/"
 - "node_modules/"
 - "build/"
 - "migrations"
