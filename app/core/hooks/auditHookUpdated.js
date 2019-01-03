@@ -18,7 +18,7 @@ const auditHookUpdated = ({entity, fill}) => (data) => {
     const cleandata = _.pick(data, fill);
 
     AuditHTTPService()
-        .update(`/audit/${entity}/${data['_id']}`, cleandata)
+        .update(`/audit/${entity}/${data['_id']}/${_.get(data, 'user.email')}`, cleandata)
         .catch(console.error);
 
     return data;

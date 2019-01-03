@@ -18,7 +18,7 @@ const auditHookPatched = ({entity, fill}) => (data) => {
     const cleandata = _.pick(data, fill);
 
     AuditHTTPService()
-        .patch(`/audit/${entity}/${data['_id']}`, cleandata)
+        .patch(`/audit/${entity}/${data['_id']}/${_.get(data, 'user.email')}`, cleandata)
         .catch(console.error);
 
 
