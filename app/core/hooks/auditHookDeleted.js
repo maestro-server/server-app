@@ -16,7 +16,7 @@ const {AuditHTTPService} = require('core/services/HTTPService');
 const auditHookDeleted = ({entity}) => (data) => {
 
     AuditHTTPService()
-        .remove(`/audit/${entity}/${data['_id']}/${_.get(data, 'user.email')}`)
+        .remove(`/audit/${entity}/${data['_id']}/${_.get(data, 'user.email', '?')}`)
         .catch(console.error);
 
     return data;

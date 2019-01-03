@@ -39,10 +39,9 @@ const UsersPersistence = (Entity) => {
             });
         },
 
-        patch (_id, post) {
+        patch (_id, post, user) {
             return new Promise((resolve, reject) => {
-
-                const entityHooks = hookFactory(Entity, {_id});
+                const entityHooks = hookFactory(Entity, {_id, user});
 
                 return validDuplicateUser(DBRepository, post)
                     .then(() => {
@@ -57,11 +56,10 @@ const UsersPersistence = (Entity) => {
 
         },
 
-        remove(_id) {
+        remove(_id, user) {
 
             return new Promise((resolve, reject) => {
-
-                const entityHooks = hookFactory(Entity, {_id});
+                const entityHooks = hookFactory(Entity, {_id, user});
 
                 return DBRepository
                     .remove({_id})

@@ -110,7 +110,7 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
         create (post) {
             return new Promise((resolve, reject) => {
-                const user = _.get(post, 'owner')
+                const user = _.get(post, 'owner');
                 const entityHooks = hookFactory(Entity, {user});
 
                 return DBRepository

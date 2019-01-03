@@ -22,7 +22,7 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
     const DBRepository = FactoryDBRepository(Entity);
 
     return {
-        addRoles (_id, post, owner) {
+        addRoles (_id, post, user) {
 
             return new Promise((resolve, reject) => {
 
@@ -37,7 +37,7 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
                 );
 
                 const prepared = _.assign({},
-                  accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_ADMIN),
+                  accessMergeTransform(user, Entity.access, {_id}, Access.ROLE_ADMIN),
                   validNotEqual(`${Entity.access}._id`, access._id)
                 );
 
@@ -49,13 +49,13 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
         },
 
-        updateRoles (_id, post, owner) {
+        updateRoles (_id, post, user) {
 
           return new Promise((resolve, reject) => {
-              const entityHooks = hookFactory(Entity, {_id});
+              const entityHooks = hookFactory(Entity, {_id, user});
 
               const prepared = _.assign({},
-                accessMergeTransform(owner, Entity.access, {_id}, Access.ROLE_ADMIN)
+                accessMergeTransform(user, Entity.access, {_id}, Access.ROLE_ADMIN)
               );
 
               const roles = post.map(e=>transfID(e, '_id'));
@@ -75,26 +75,26 @@ const AccessServices = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
           });
         },
 
-        updateSingleRoles (_id, _idu, roles, owner) {
+        updateSingleRoles (_id, _idu, roles, user) {
 
             return new Promise((resolve, reject) => {
 
                 factoryValid(roles, accessValid.update);
 
-                return AccessServices(Entity, FactoryDBRepository).deleteRoles(_id, _idu, owner)
+                return AccessServices(Entity, FactoryDBRepository).deleteRoles(_id, _idu, user)
                     .then(() => {
                         const roler = Object.assign({}, roles, {id: _idu});
-                        return AccessServices(Entity).addRoles(_id, roler, owner);
+                        return AccessServices(Entity).addRoles(_id, roler, user);
                     })
                     .then(resolve)
                     .catch(reject);
             });
         },
 
-        deleteRoles (_id, _idu, owner, access = Access.ROLE_ADMIN) {
+        deleteRoles (_id, _idu, user, access = Access.ROLE_ADMIN) {
 
             return new Promise((resolve, reject) => {
-                const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
+                const prepared = accessMergeTransform(user, Entity.access, {_id}, access);
 
                 const arr = {
                     [Entity.access]: {
