@@ -14,20 +14,20 @@ const updateMerge = require('./transforms/updateMerge');
 const mapArrIn = require('./transforms/mapArrIn');
 
 
-const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
+const Persistence = (Entity, user = {}, FactoryDBRepository = DFactoryDBRepository) => {
 
     const DBRepository = FactoryDBRepository(Entity);
 
     return {
 
-        find (query, user, access = Access.ROLE_READ) {
+        find (query, owner, access = Access.ROLE_READ) {
             return new Promise((resolve, reject) => {
 
                 query =  mapArrIn(query);
 
                 const prepared = _.assign({},
                   query,
-                  accessMergeTransform(user, Entity.access, query, access),
+                  accessMergeTransform(owner, Entity.access, query, access),
                   ...regexFilterQuery(_.get(query, 'query'))
                 );
 
@@ -40,14 +40,14 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
             });
         },
 
-        count (query, user, access = Access.ROLE_READ) {
+        count (query, owner, access = Access.ROLE_READ) {
             return new Promise((resolve, reject) => {
 
                 query =  mapArrIn(query);
 
                 const prepared = _.assign({},
                   query,
-                  accessMergeTransform(user, Entity.access, query, access),
+                  accessMergeTransform(owner, Entity.access, query, access),
                   ...regexFilterQuery(_.get(query, 'query'))
                 );
 
@@ -57,11 +57,11 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
             });
         },
 
-        findOne (_id, user, access = Access.ROLE_READ) {
+        findOne (_id, owner, access = Access.ROLE_READ) {
 
             return new Promise((resolve, reject) => {
 
-                const prepared = accessMergeTransform(user, Entity.access, {_id}, access);
+                const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
                     .findOne(prepared)
@@ -70,12 +70,12 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
             });
         },
 
-        update (_id, post, user, access = Access.ROLE_WRITER) {
+        update (_id, post, owner, access = Access.ROLE_WRITER) {
 
             return new Promise((resolve, reject) => {
                 const entityHooks = hookFactory(Entity, {_id, user});
                 const fill = _.slice(Entity.singleFilled, 2);
-                const prepared = accessMergeTransform(user, Entity.access, {_id}, access);
+                const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
                     .findOne(prepared)
@@ -91,14 +91,14 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
             });
         },
 
-        patch (_id, post, user, access = Access.ROLE_WRITER) {
+        patch (_id, post, owner, access = Access.ROLE_WRITER) {
 
             return new Promise((resolve, reject) => {
 
                 const entityHooks = hookFactory(Entity, {_id, user});
                 const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password', '_id']);
 
-                const prepared = accessMergeTransform(user, Entity.access, {_id}, access);
+                const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
                     .patch(prepared, post, fill)
@@ -110,7 +110,6 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
 
         create (post) {
             return new Promise((resolve, reject) => {
-                const user = _.get(post, 'owner');
                 const entityHooks = hookFactory(Entity, {user});
 
                 return DBRepository
@@ -121,11 +120,11 @@ const Persistence = (Entity, FactoryDBRepository = DFactoryDBRepository) => {
             });
         },
 
-        remove(_id, user, body = {}, access = Access.ROLE_ADMIN) {
+        remove(_id, owner, body = {}, access = Access.ROLE_ADMIN) {
 
             return new Promise((resolve, reject) => {
                 const entityHooks = hookFactory(Entity, {_id, user});
-                const prepared = accessMergeTransform(user, Entity.access, {_id}, access);
+                const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
 
                 return DBRepository
                     .remove(prepared, body)

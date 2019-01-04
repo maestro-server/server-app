@@ -12,7 +12,9 @@ const AccessApp = (Entity, AccessServices = DAccessServices) => {
 
         update: (req, res, next) => {
 
-            AccessServices(Entity)
+            const user = _.get(req, 'auth', req.user);
+
+            AccessServices(Entity, user)
                 .updateRoles(req.params.id, req.body, req.user)
                 .then((e) => hateaosTransform(Entity).accessSingleRoleRefs(e, req.params.id))
                 .then(e => res.status(201).json(e))
@@ -21,7 +23,9 @@ const AccessApp = (Entity, AccessServices = DAccessServices) => {
 
         create: (req, res, next) => {
 
-            AccessServices(Entity)
+            const user = _.get(req, 'auth', req.user);
+
+            AccessServices(Entity, user)
                 .addRoles(req.params.id, req.body, req.user)
                 .then((e) => hateaosTransform(Entity).accessSingleRoleRefs(e, req.params.id))
                 .then(e => res.status(201).json(e))
@@ -30,7 +34,9 @@ const AccessApp = (Entity, AccessServices = DAccessServices) => {
 
         updateSingle: (req, res, next) => {
 
-            AccessServices(Entity)
+            const user = _.get(req, 'auth', req.user);
+
+            AccessServices(Entity, user)
                 .updateSingleRoles(req.params.id, req.params.idu, req.body, req.user)
                 .then((e) => hateaosTransform(Entity).accessSingleRoleRefs(e, req.params.id))
                 .then(e => res.status(201).json(e))
@@ -39,7 +45,9 @@ const AccessApp = (Entity, AccessServices = DAccessServices) => {
 
         remove: (req, res, next) => {
 
-            AccessServices(Entity)
+            const user = _.get(req, 'auth', req.user);
+
+            AccessServices(Entity, user)
                 .deleteRoles(req.params.id, req.params.idu, req.user)
                 .then(e => res.status(204).json(e))
                 .catch(next);

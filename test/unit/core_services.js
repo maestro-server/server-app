@@ -150,7 +150,7 @@ describe('unit - core', function () {
                     count
                 });
 
-            PersistenceServices(Entity, SPS).find({}, owner);
+            PersistenceServices(Entity, {}, SPS).find({}, owner);
             expect(find.args[0][0]).to.be.property("roler")
                 .to.have.property("$elemMatch");
 
@@ -170,7 +170,7 @@ describe('unit - core', function () {
                     findOne
                 });
 
-            PersistenceServices(Entity, SPS).findOne(_id, owner);
+            PersistenceServices(Entity, {}, SPS).findOne(_id, owner);
 
             expect(findOne.args[0][0]).to.have.property("_id");
             sinon.assert.calledOnce(findOne);
@@ -185,7 +185,7 @@ describe('unit - core', function () {
                     findOne
                 });
 
-            PersistenceServices(Entity, SPS).findOne(_id, owner);
+            PersistenceServices(Entity, {}, SPS).findOne(_id, owner);
 
             expect(findOne.args[0][0]).to.have.property("_id");
             sinon.assert.calledOnce(findOne);
@@ -201,7 +201,7 @@ describe('unit - core', function () {
                 });
 
             const post = {name: "teste", owner: {name: "notAlloow"}, password: "notAllow"};
-            PersistenceServices(Entity, SPS).patch(_id, post, owner);
+            PersistenceServices(Entity, {}, SPS).patch(_id, post, owner);
 
             expect(patch.args[0][2][0]).to.not.have.property("password");
             expect(patch.args[0][2]).to.not.have.property("_id");
@@ -226,7 +226,7 @@ describe('unit - core', function () {
                     remove
                 });
 
-            PersistenceServices(Entity, SPS).remove(_id, owner);
+            PersistenceServices(Entity, {}, SPS).remove(_id, owner);
 
             expect(remove.args[0][0]).to.have.property("_id");
             expect(remove.args[0][0]).to.have.property("roler");
@@ -255,7 +255,7 @@ describe('unit - core', function () {
 
             const post = {role: "1", id: "452ed4a4f4421335e032bf09", name: "Tname", refs: "teams"};
 
-            AccessServices(Entity, SPS).addRoles(_id, post, owner);
+            AccessServices(Entity, {}, SPS).addRoles(_id, post, owner);
 
             expect(updateByPushUnique.args[0][0]).to.have.property('_id');
             expect(updateByPushUnique.args[0][0]).to.have.property(Entity.access)
@@ -283,8 +283,7 @@ describe('unit - core', function () {
                     updateByPull
                 });
 
-
-            AccessServices(Entity, SPS).deleteRoles(_id, _id, owner);
+            AccessServices(Entity, {}, SPS).deleteRoles(_id, _id, owner);
 
             expect(updateByPull.args[0][0]).to.have.property('_id');
             sinon.assert.calledOnce(SPS);

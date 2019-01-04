@@ -86,7 +86,9 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
                 mapRelationToObjectID(req.body, Entity.mapRelations)
             );
 
-            PersistenceServices(Entity)
+            const user = _.get(req, 'auth', req.user);
+
+            PersistenceServices(Entity, user)
                 .update(req.params.id, bodyWithOwner, req.user)
                 .then(e => res.status(202).json(e))
                 .catch(next);
@@ -101,7 +103,9 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
                 mapRelationToObjectID(req.body, Entity.mapRelations)
             );
 
-            PersistenceServices(Entity)
+            const user = _.get(req, 'auth', req.user);
+
+            PersistenceServices(Entity, user)
                 .patch(req.params.id, bodyWithOwner, req.user)
                 .then(e => res.status(202).json(e))
                 .catch(next);
@@ -116,7 +120,9 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
                 aclRoles(req.user, Entity, Access.ROLE_ADMIN)
             );
 
-            PersistenceServices(Entity)
+            const user = _.get(req, 'auth', req.user);
+
+            PersistenceServices(Entity, user)
                 .create(bodyWithOwner)
                 .then(hateaosTransform(Entity).singleTransform)
                 .then(e => res.status(201).json(e))
@@ -126,7 +132,9 @@ const PersistenceApp = (Entity, PersistenceServices = DPersistenceServices) => {
 
         remove (req, res, next) {
 
-            PersistenceServices(Entity)
+            const user = _.get(req, 'auth', req.user);
+
+            PersistenceServices(Entity, user)
                 .remove(req.params.id, req.user)
                 .then(e => res.status(204).json(e))
                 .catch(next);

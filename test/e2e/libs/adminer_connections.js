@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 let MongoClient = require("mongodb").MongoClient;
-const dbpath = require('core/libs/dbpath')();
+const dbpath = require('../../../app/core/libs/dbpath')();
 
 module.exports = function (done, conn = dbpath) {
     MongoClient.connect('mongodb://'+conn)

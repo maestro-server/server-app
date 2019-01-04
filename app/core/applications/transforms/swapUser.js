@@ -13,6 +13,7 @@ module.exports = function (req, user, params, ACEntity) {
 
   return Object.assign({}, req, {
     user: changerUser(user, ACEntity),
+    auth: req.user,
     params
   });
 
