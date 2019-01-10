@@ -25,6 +25,7 @@ const network = () => {
         'policy_document', 'route_table_ids', 'subnet_ids', 'groups', 'private_dns_enabled', 'network_interface_ids, dns_entries',
         'roles', 'owner', 'service', 'is_port_security_enabled', 'ipv4_address_scope_id', 'mtu', 'project_id', 'network_id',
         'mac_address', 'fixed_ips', 'resources_key', 'security_group_ids', 'external_gateway_info', 'flavor_id',
+        'inbound_rules', 'outbound_rules', 'droplets_ids', 'pending_changes',
         'allow_list', 'routes', 'availability_zone_hints', 'allocation_pools', 'use_default_subnet_pool', 'ipv6_address_mode',
         'is_dhcp_enabled'];
 
@@ -43,7 +44,7 @@ const network = () => {
 
         defaults: {},
 
-        mapRelations: [],
+        mapRelations: ['datacenters'],
 
         visibility: {single: 'all'},
 

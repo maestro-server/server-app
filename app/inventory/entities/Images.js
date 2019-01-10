@@ -10,7 +10,7 @@ const images = () => {
         'image_id', 'image_type', 'image_location', 'status', 'active'
     ];
 
-    const singleFilled = [...resFilled, 'unique_id', 'root_device_type', 'hypervisor', 'plataform', 'storage', 'roles', 'owner'];
+    const singleFilled = [...resFilled, 'unique_id', 'root_device_type', 'hypervisor', 'plataform', 'storage', 'roles', 'owner', 'distribution', 'slug', 'region', 'size', 'public', 'min_disk_size', 'type'];
 
     const filled = [..._.slice(singleFilled, 2)];  // delete id
 
@@ -27,7 +27,7 @@ const images = () => {
 
         defaults: {},
 
-        mapRelations: [],
+        mapRelations: ['datacenters'],
 
         visibility: {single: 'all'},
 

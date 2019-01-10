@@ -8,13 +8,10 @@ const SchedulerBatch = (req) => (PersistenceServices) => {
 
     return {
         batch(result) {
-            const {provider, _id, name} = result[0];
-
+            const {provider, service, _id, name} = result[0];
             const conducter = _.chain(result[2])
-                .head()
-                .head()
-                .get('value.permissions')
-                .get(provider)
+                .get('items[0].value.permissions')
+                .get(service)
                 .mapValues(e => _.get(e, '[0].init_job'))
                 .reduce((arr, value, key) => {
                     if(value)

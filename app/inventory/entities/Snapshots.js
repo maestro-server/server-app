@@ -9,7 +9,7 @@ const snapshots = () => {
         'status', 'snapshot_id', 'progress', 'active'];
 
     const singleFilled = [...resFilled, 'datacenters',  'unique_id', 'kms_key_id', 'encrypted', 'description', 'project_id', 'service',
-        'data_encryption_key_id', 'owner_id', 'start_time', 'owner_alias', 'state_message', 'roles'];
+        'data_encryption_key_id', 'owner_id', 'start_time', 'owner_alias', 'state_message', 'roles', 'min_disk_size', 'size', 'public', 'type'];
 
     const filled = [..._.slice(singleFilled, 2)];  // delete id
 
@@ -26,7 +26,7 @@ const snapshots = () => {
 
         defaults: {},
 
-        mapRelations: [],
+        mapRelations: ['datacenters'],
 
         visibility: {single: 'all'},
 

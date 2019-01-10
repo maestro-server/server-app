@@ -11,6 +11,8 @@ const schema = Joi.object().keys({
     storage: Joi.object(),
     state: Joi.string().max(20),
     datacenters: Joi.object(),
+    distribution:Joi.string(),
+    slug: Joi.string(),
     owner,
     roles: Joi.array().items(roles).unique('_id'),
     tags: Joi.array().items(tags),

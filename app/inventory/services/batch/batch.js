@@ -23,7 +23,6 @@ const mapperBatchInsert = async (body, req, PersistenceServices) => {
         mapRelationToObjectID(template, Scheduler.mapRelations),
         aclRoles(req.user, Scheduler, Access.ROLE_ADMIN)
     );
-
     return PersistenceServices(Scheduler).create(bodyWithOwner);
 };
 

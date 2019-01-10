@@ -6,10 +6,10 @@ const Volume = require('../repositories/dao/volumes');
 
 const volume = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'name', 'size', 'unique_id',
-        'iops', 'datacenters.name', 'datacenters', 'encrypted', 'attach_time', 'status', 'tags'];
+        'iops', 'datacenters.name', 'datacenters', 'encrypted', 'attach_time', 'status', 'fftype', 'tags'];
 
     const singleFilled = [...resFilled, 'kms_key_id', 'roles', 'owner', 'source_volume_id', 'active',
-        'migration_id', 'image_id', 'volume_type', 'snapshot_id', 'project_id', 'service'];
+        'migration_id', 'image_id', 'volume_type', 'snapshot_id', 'project_id', 'service', 'droplets_ids'];
 
     const filled = [..._.slice(singleFilled, 2)];  // delete id
 

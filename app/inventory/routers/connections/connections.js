@@ -53,6 +53,7 @@ module.exports = function (router) {
          *        items: []
          *     }
      */
+
         .get('/', authenticate(), PersistenceApp.find)
         /**
          * @api {get} /connections/count b. Count total connections

@@ -41,7 +41,7 @@ module.exports = {
         root: Joi.string().max(10),
         status: Joi.string().max(10),
         volume_id: Joi.string().max(35),
-        unique_id: Joi.string().max(55),
+        unique_id: Joi.alternatives([Joi.string(), Joi.number()]),
         attach_time: Joi.string().max(30),
         mount: Joi.string().max(100),
         ftype: Joi.string().max(100),
@@ -95,7 +95,7 @@ module.exports = {
         name: Joi.string(),
         countdown: Joi.number()
     }),
-    unique_id: Joi.string().max(300),
+    unique_id: Joi.alternatives([Joi.string(), Joi.number()]),
     datacenters: Joi.object(),
     active: Joi.boolean(),
     status: Joi.string().valid('Active', 'Avaliable', 'Stopped').default('Active'),

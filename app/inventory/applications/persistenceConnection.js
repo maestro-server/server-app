@@ -2,7 +2,6 @@
 
 const _ = require('lodash');
 
-const Adminer = require('adminer/entities/Adminer');
 const DPersistenceServices = require('core/services/PersistenceServices');
 const aclRoles = require('core/applications/transforms/aclRoles');
 const tokenGenerator = require('../transforms/tokenTransform');
@@ -18,6 +17,22 @@ const {DiscoveryHTTPService} = require('core/services/HTTPService');
 const ApplicationConnection = (Entity, PersistenceServices = DPersistenceServices) => {
 
     return {
+        info(req, res, next) {
+
+            DiscoveryHTTPService()
+                .find('/available/info')
+                .then(e => res.json(e))
+                .catch(next);
+        },
+
+        rules(req, res, next) {
+
+            DiscoveryHTTPService()
+                .find('/available/rules')
+                .then(e => res.json(e))
+                .catch(next);
+        },
+
         create(req, res, next) {
             _.defaults(req.body, Entity.defaults || {});
 
@@ -35,7 +50,7 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
             Promise.all([
                     PersistenceServices(Entity).create(bodyWithOwner),
                     DatacentersConnection(req.body, req, PersistenceServices, Entity).connected(),
-                    PersistenceServices(Adminer).find({key: 'connections'}, {})
+                    DiscoveryHTTPService().find('/available/rules')
                 ])
                 .then(SchedulerBatch(req)(PersistenceServices).batch)
                 .then(e => res.status(201).json(e))
@@ -60,7 +75,7 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                 .then(notExist)
                 .then((e) => {
                     return DiscoveryHTTPService()
-                        .update(`/crawler/${e.provider}/${req.params.id}/${req.params.command}`);
+                        .update(`/crawler/${e.service}/${req.params.id}/${req.params.command}`);
                 })
                 .then(e => res.json(e))
                 .catch(next);

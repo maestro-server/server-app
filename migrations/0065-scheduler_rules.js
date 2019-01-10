@@ -46,6 +46,22 @@ exports.up = function (db, next) {
                             every: 5,
                             period: 'days'
                         },
+                        'brokers-list': {
+                            every: 5,
+                            period: 'days'
+                        },
+                        'smtp-list': {
+                            every: 1,
+                            period: 'days'
+                        },
+                        'cache-list': {
+                            every: 1,
+                            period: 'days'
+                        },
+                        'container-orchestration-list': {
+                            every: 1,
+                            period: 'days'
+                        },
                         'snapshot-list': {
                             every: 14,
                             period: 'days'

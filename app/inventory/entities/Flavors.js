@@ -34,7 +34,7 @@ const flavors = () => {
 
         defaults: {},
 
-        mapRelations: [],
+        mapRelations: ['datacenters'],
 
         visibility: {single: 'all'},
 
