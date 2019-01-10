@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const Scheduler = require('reports/entities/Scheduler');
 const Access = require('core/entities/accessRole');
 
@@ -17,13 +18,14 @@ const mapperBatchInsert = async (body, req, PersistenceServices) => {
         console.log(e);
     }
 
-
-    const bodyWithOwner = Object.assign(
-        {},
-        mapRelationToObjectID(template, Scheduler.mapRelations),
-        aclRoles(req.user, Scheduler, Access.ROLE_ADMIN)
-    );
-    return PersistenceServices(Scheduler).create(bodyWithOwner);
+    if(_.get(template, 'interval')) {
+        const bodyWithOwner = Object.assign(
+            {},
+            mapRelationToObjectID(template, Scheduler.mapRelations),
+            aclRoles(req.user, Scheduler, Access.ROLE_ADMIN)
+        );
+        return PersistenceServices(Scheduler).create(bodyWithOwner);
+    }
 };
 
 

@@ -108,6 +108,7 @@ describe('behaviors basic actions in cloud inventory', function () {
         dc_id: "5a3a8b82fe024f38804b3675",
         regions: ["us-east"],
         provider: "AWS",
+        service: "AWS",
         conn: {
             access: "aaccess",
             secret: "asecret"
@@ -118,6 +119,7 @@ describe('behaviors basic actions in cloud inventory', function () {
         dc_id: "5a3a8b82fe024f38804b3675",
         regions: ["br-east"],
         provider: "Openstack",
+        service: "Openstack",
         project: "br-sp1",
         url: "keystone-url",
         conn: {

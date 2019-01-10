@@ -36,6 +36,7 @@ describe('e2e connections', function () {
         dc_id: "5a3a8b82fe024f38804b3675",
         regions: ["us-east"],
         provider: "AWS",
+        service: "AWS",
         conn: {
             access: "aaccess",
             secret: "asecret"
@@ -46,6 +47,7 @@ describe('e2e connections', function () {
         dc_id: "5a3a8b82fe024f38804b3675",
         regions: ["br-east"],
         provider: "AWS",
+        service: "AWS",
         project: "br-sp1",
         url: "keystone-url",
         conn: {
