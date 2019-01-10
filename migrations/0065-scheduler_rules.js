@@ -30,6 +30,10 @@ exports.up = function (db, next) {
                             every: 24,
                             period: 'hours'
                         },
+                        'autoscaling-support-list': {
+                            every: 24,
+                            period: 'hours'
+                        },
                         'dbs-list': {
                             every: 24,
                             period: 'hours'
@@ -77,6 +81,22 @@ exports.up = function (db, next) {
                         'serverless-list': {
                             every: 12,
                             period: 'hours'
+                        },
+                        'serverless-support-list': {
+                            every: 24,
+                            period: 'hours'
+                        },
+                        'search-list': {
+                            every: 5,
+                            period: 'days'
+                        },
+                        'dynamodb-list': {
+                            every: 3,
+                            period: 'days'
+                        },
+                        'gateway-list': {
+                            every: 3,
+                            period: 'days'
                         },
                         'network-list': {
                             every: 7,

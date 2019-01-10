@@ -13,7 +13,7 @@ exports.up = function (db, next) {
     const list = [
         {name: 'ELB (AWS)', family: ['Loadbalance'], tags: ['aws'], owner: true},
         {name: 'OpenStack (HaProxy)', family: ['Loadbalance'], tags: ['openstack'], owner: true},
-        {name: 'LB (Digital Ocean)', family: ['Loadbalance'], tags: ['do'], owner: true},
+        {name: 'LB (DigitalOcean)', family: ['Loadbalance'], tags: ['do'], owner: true},
         {name: 'LB (Google Cloud)', family: ['Loadbalance'], tags: ['gcloud'], owner: true},
         {name: 'LB (Azure)', family: ['Loadbalance'], tags: ['azure'], owner: true},
         {name: 'NetScaler', family: ['Loadbalance'], tags: [], owner: true},
@@ -36,8 +36,16 @@ exports.up = function (db, next) {
             owner: false
         },
 
+        {
+            name: 'Kubernetes (DigitalOcean)',
+            family: ['ContainerOrchestration'],
+            tags: ['oss', 'container', 'do'],
+            owner: true
+        },
 
-        {name: 'AWS Elastic Cache', family: ['Cache'], tags: ['aws'], owner: true},
+        {name: 'Elastic Cache (AWS)', family: ['Cache'], tags: ['aws'], owner: true},
+        {name: 'CDN (DigitalOcean)', family: ['Cache'], tags: ['do'], owner: true},
+
         {name: 'Azure', family: ['Cache'], tags: ['azure'], owner: true},
         {name: 'Google Cloud', family: ['Cache'], tags: ['gcloud'], owner: true},
         {name: 'Akamai', family: ['Cache', 'ApiGateway', 'CDN'], tags: [], owner: true},
@@ -77,8 +85,8 @@ exports.up = function (db, next) {
         {name: 'Hive', family: ['BigData'], tags: ['oss'], owner: false},
 
 
-        {name: 'AWS Lambda', family: ['Serverless'], tags: ['aws'], owner: true},
-        {name: 'AWS Lambda Layer', family: ['Serverless'], tags: ['aws'], owner: true},
+        {name: 'Lambda (AWS)', family: ['Serverless'], tags: ['aws'], owner: true},
+        {name: 'Lambda Layer (AWS)', family: ['Serverless'], tags: ['aws'], owner: true},
         {name: 'Google Cloud Functions', family: ['Serverless'], tags: ['gcloud'], owner: true},
         {name: 'Azure Functions', family: ['Serverless'], tags: ['azure'], owner: true},
         {name: 'IBM OpenWhisk', family: ['Serverless'], tags: ['ibm'], owner: true},
@@ -148,7 +156,7 @@ exports.up = function (db, next) {
         {name: 'CloudWatch (AWS)', family: ['Monitor'], tags: ['aws'], owner: true},
         {name: 'Azure Monitoring', family: ['Monitor'], tags: ['azure'], owner: true},
         {name: 'Google Cloud Monitoring', family: ['Monitor'], tags: ['gcloud'], owner: true},
-        {name: 'Digital Ocean Monitoring', family: ['Monitor'], tags: ['do'], owner: true},
+        {name: 'Monitoring (DigitalOcean)', family: ['Monitor'], tags: ['do'], owner: true},
         {name: 'NewRelic', family: ['Monitor', 'Logs'], tags: ['apm'], owner: true},
         {name: 'DataDog', family: ['Monitor', 'Logs'], tags: [], owner: true},
         {name: 'site24x7', family: ['Monitor', 'Logs'], tags: ['apm'], owner: true},
@@ -177,7 +185,7 @@ exports.up = function (db, next) {
         {name: 'OpenTSDB', family: ['Monitor', 'Logs'], tags: ['oss', 'timeseries'], owner: false},
 
 
-        {name: 'AWS Cloud Trails', family: ['Logs'], tags: ['aws'], owner: true},
+        {name: 'Cloud Trails (AWS)', family: ['Logs'], tags: ['aws'], owner: true},
         {name: 'Splunk', family: ['Logs'], tags: [], owner: true},
         {name: 'Papertrail', family: ['Logs'], tags: [], owner: true},
         {name: 'Loggly', family: ['Logs'], tags: [], owner: true},
@@ -196,7 +204,7 @@ exports.up = function (db, next) {
 
         {name: 'S3 (AWS)', family: ['ObjectStorage'], tags: ['aws'], owner: true},
         {name: 'Azure Storage', family: ['ObjectStorage'], tags: ['azure'], owner: true},
-        {name: 'Digital Ocean Storage', family: ['ObjectStorage'], tags: ['do'], owner: true},
+        {name: 'Spaces (DigitalOcean)', family: ['ObjectStorage'], tags: ['do'], owner: true},
         {name: 'Google Cloud Storage', family: ['Database'], tags: ['gcloud'], owner: true},
 
         {name: 'OpenStack Swift', family: ['ObjectStorage'], tags: ['oss'], owner: false},
@@ -268,6 +276,7 @@ exports.up = function (db, next) {
 
 
         {name: 'RDS (AWS)', family: ['Database', 'MySql', 'Oracle'], tags: ['aws'], owner: true},
+        {name: 'CloudSearch (AWS)', family: ['Database', 'NoSQL', 'Search'], tags: ['aws'], owner: true},
         {name: 'Aurora (AWS)', family: ['MySql'], tags: ['relational', 'aws'], owner: true},
         {name: 'DynamoDB (AWS)', family: ['Database'], tags: ['aws', 'key-value', 'nosql'], owner: true},
         {name: 'Relational (Azure)', family: ['Database'], tags: ['azure'], owner: true},
@@ -276,6 +285,7 @@ exports.up = function (db, next) {
         {name: 'IBM Cloudant', family: ['Database'], tags: [], owner: true},
         {name: 'Zoho Creator', family: ['Database'], tags: [], owner: true},
         {name: 'MongoCloud', family: ['Database'], tags: ['document', 'nosql'], owner: true},
+
 
         {name: 'Oracle MySQL', family: ['MySql'], tags: ['oracle', 'relational'], owner: false},
         {name: 'Enterprise MySQL', family: ['MySql'], tags: ['oracle', 'relational'], owner: false},
