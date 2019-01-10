@@ -10,9 +10,6 @@ const SchedulerBatch = (req) => (PersistenceServices) => {
         batch(result) {
             const {provider, service, _id, name} = result[0];
 
-            if(result[2]) {
-
-            }
             const conducter = _.chain(result[2])
                 .get('items[0].value.permissions')
                 .get(service)

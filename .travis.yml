@@ -22,6 +22,8 @@ before_install:
   - npm install -g node-gyp istanbul
   - sudo apt-get update -qq
   - sudo apt-get install -y -qq postfix
+  - docker pull maestroserver/discovery-maestro
+  - docker run -d -p 127.0.0.1:5000:5000 maestroserver/discovery-maestro
 before_script:
   - sudo service postfix stop
   - smtp-sink -d "%d.%H.%M.%S" localhost:1025 1000 &

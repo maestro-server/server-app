@@ -173,7 +173,6 @@ describe('e2e connections', function () {
                 .post('/connections')
                 .send(connections[0])
                 .set('Authorization', `JWT ${user.token}`)
-                .expect(console.log)
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .end(function (err) {
@@ -427,9 +426,6 @@ describe('e2e connections', function () {
                 .expect('Content-Type', /json/)
                 .expect(/server-list/)
                 .expect(/found/)
-                .expect(function (res) {
-                    expect(res.body.items).to.have.length(2);
-                })
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
