@@ -4,13 +4,13 @@ const _ = require('lodash');
 const batchInsert = require('./batch/batch');
 
 
-const SchedulerBatch = (req) => (PersistenceServices) => {
+const SchedulerBatch = (req, connection) => (PersistenceServices) => {
 
     return {
-        batch(result) {
-            const {provider, service, _id, name} = result[0];
+        batch(discovery_tasks) {
+            const {provider, service, _id, name} = connection;
 
-            const conducter = _.chain(result[2])
+            const conducter = _.chain(discovery_tasks)
                 .get('items[0].value.permissions')
                 .get(service)
                 .mapValues(e => _.get(e, '[0].init_job'))
