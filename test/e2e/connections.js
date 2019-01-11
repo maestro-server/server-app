@@ -418,23 +418,6 @@ describe('e2e connections', function () {
                 });
         });
 
-        it('list my schedulers', function (done) {
-            request(mock)
-                .get('/scheduler')
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .expect(/server-list/)
-                .expect(/found/)
-                .expect(function (res) {
-                    expect(res.body.items).to.have.length(2);
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
 
         it('see if my datacenters is connectied - AWS', function (done) {
             request(mock)
@@ -841,22 +824,6 @@ describe('e2e connections', function () {
                 .set('Authorization', `JWT ${user.token}`)
                 .expect(200)
                 .expect('Content-Type', /json/)
-                .expect(function (res) {
-                    expect(res.body.items).to.have.length(1);
-                })
-                .end(function (err) {
-                    if (err) return done(err);
-                    done(err);
-                });
-        });
-
-        it('ensure to delete my schedulers', function (done) {
-            request(mock)
-                .get('/scheduler')
-                .set('Authorization', `JWT ${user.token}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .expect(/found/)
                 .expect(function (res) {
                     expect(res.body.items).to.have.length(1);
                 })

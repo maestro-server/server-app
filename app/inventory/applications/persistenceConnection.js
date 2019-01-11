@@ -49,10 +49,14 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
 
             Promise.all([
                     PersistenceServices(Entity).create(bodyWithOwner),
-                    DatacentersConnection(req.body, req, PersistenceServices, Entity).connected(),
-                    DiscoveryHTTPService().find('/available/rules')
+                    DatacentersConnection(req.body, req, PersistenceServices, Entity).connected()
                 ])
-                .then(SchedulerBatch(req)(PersistenceServices).batch)
+                .then(e => {
+                    DiscoveryHTTPService()
+                        .find('/available/rules')
+                        .then(SchedulerBatch(req, e[0])(PersistenceServices).batch)
+                        .catch(console.error);
+                })
                 .then(e => res.status(201).json(e))
                 .catch(next);
         },
@@ -63,7 +67,11 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                 .findOne(req.params.id, req.user)
                 .then(validAccessEmpty)
                 .then(e => DatacentersConnection(e, req, PersistenceServices, Entity).disconnected())
-                .then(() => SchedulerBatchRemove(req)(PersistenceServices).batch())
+                .then(() => {
+                    SchedulerBatchRemove(req)(PersistenceServices)
+                        .batch()
+                        .catch(console.error);
+                })
                 .then(() => PersistenceServices(Entity).remove(req.params.id, req.user))
                 .then(e => res.status(204).json(e))
                 .catch(next);
