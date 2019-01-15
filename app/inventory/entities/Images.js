@@ -7,10 +7,10 @@ const Images = require('../repositories/dao/images');
 const images = () => {
     const resFilled = [
         '_id', 'updated_at', 'created_at', 'name', 'datacenters.name', 'datacenters.region', 'datacenters.zone',
-        'image_id', 'image_type', 'image_location', 'status', 'active'
+        'size', 'unique_id', 'image_type', 'image_location', 'status', 'active'
     ];
 
-    const singleFilled = [...resFilled, 'unique_id', 'root_device_type', 'hypervisor', 'plataform', 'storage', 'roles', 'owner', 'distribution', 'slug', 'region', 'size', 'public', 'min_disk_size', 'type'];
+    const singleFilled = [...resFilled, 'root_device_type', 'hypervisor', 'plataform', 'storage', 'roles', 'owner', 'distribution', 'slug', 'region', 'public', 'min_disk_size', 'type'];
 
     const filled = [..._.slice(singleFilled, 2)];  // delete id
 

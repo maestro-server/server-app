@@ -25,9 +25,13 @@ const network = () => {
         'policy_document', 'route_table_ids', 'subnet_ids', 'groups', 'private_dns_enabled', 'network_interface_ids, dns_entries',
         'roles', 'owner', 'service', 'is_port_security_enabled', 'ipv4_address_scope_id', 'mtu', 'project_id', 'network_id',
         'mac_address', 'fixed_ips', 'resources_key', 'security_group_ids', 'external_gateway_info', 'flavor_id',
-        'inbound_rules', 'outbound_rules', 'droplets_ids', 'pending_changes',
+        'inbound_rules', 'outbound_rules', 'droplets_ids', 'pending_changes', 'ip_configurations',
         'allow_list', 'routes', 'availability_zone_hints', 'allocation_pools', 'use_default_subnet_pool', 'ipv6_address_mode',
+        'ddos_protection_plan', 'subnets', 'address_space', 'virtual_network_peerings', 'enable_vm_protection',
+        'enable_ddos_protection', 'type', 'dhcp_options',
         'is_dhcp_enabled'];
+
+
 
     const filled = [..._.slice(singleFilled, 2)];  // delete id
 
