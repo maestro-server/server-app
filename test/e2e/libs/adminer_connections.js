@@ -5,7 +5,7 @@ let MongoClient = require("mongodb").MongoClient;
 const dbpath = require('../../../app/core/libs/dbpath')();
 
 module.exports = function (done, conn = dbpath) {
-    MongoClient.connect('mongodb://'+conn)
+    MongoClient.connect(conn)
         .then((db) => {
             let pets = db.collection('adminer');
 

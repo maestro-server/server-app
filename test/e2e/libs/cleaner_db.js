@@ -28,7 +28,7 @@ const interactC = function (db, collections) {
 
 module.exports = function (collections, done, mock, conn = dbpath) {
 
-    MongoClient.connect('mongodb://'+conn)
+    MongoClient.connect(conn)
         .then((db) => {
 
           const pros = interactC(db, collections);
