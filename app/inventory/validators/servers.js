@@ -6,7 +6,7 @@ const {roles, storage, services, tags, auth, environment, status, owner, metas, 
 
 const schema = Joi.object().keys({
     hostname: Joi.string().required().max(100),
-    ipv4_private: Joi.string().ip().required(),
+    ipv4_private: Joi.string().ip(),
     ipv4_public: Joi.string().ip(),
     os: Joi.object({
       base: Joi.string().max(40),
