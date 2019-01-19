@@ -137,7 +137,7 @@ describe('unit - core', function () {
 
     it('libs - request', function (done) {
         const fc = require('core/libs/request');
-        const url = "http://google.com.br"
+        const url = "http://localhost"
 
         const result = fc(url);
 
