@@ -48,6 +48,11 @@ module.exports = {
         lvm: Joi.boolean(),
         pv: Joi.string().max(100),
         vg: Joi.string().max(100),
+        storage_account_type: Joi.string(),
+        write_accelerator_enabled: Joi.any(),
+        create_option: Joi.string().max(100),
+        vhd: Joi.string(),
+        diff_disk_settings: Joi.string(),
         delete_termination: Joi.any()
     }),
     services: Joi.object().keys({
