@@ -8,13 +8,16 @@ const servers = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'hostname',
         'ipv4_private', 'ipv4_public', 'os.base', 'os.dist',
         'datacenters.name', 'datacenters.region', 'datacenters.zone', 'datacenters._id', 'datacenters.instance_id',
-        'applications._id', 'applications.name', 'applications.family', 'role', 'environment', 'image', 'backup_ids', 'next_backup_window',
-        'snapshot_ids', 'auth.name', 'auth.username', 'auth.type', 'services', 'tags'
+        'applications._id', 'applications.name', 'applications.family', 'role', 'environment',
+         'auth.name', 'auth.username', 'auth.type', 'services', 'tags'
     ];
-    const singleFilled = [...resFilled, 'unique_id', 'cpu', 'memory', 'storage', 'datacenters', 'applications', 'os', 'auth', 'role', 'environment',
+    const singleFilled = [...resFilled, 'unique_id', 'cpu', 'memory',
+        'storage', 'datacenters', 'applications', 'os', 'auth', 'role', 'environment',
+        'image', 'backup_ids', 'next_backup_window', 'network_interface',
+        'snapshot_ids',
         'roles', 'owner', 'active', 'status', 'meta', 'checksum', 'metas', 'dns_public', 'dns_private'];
 
-    const filled = [..._.slice(singleFilled, 2)]; // delete id
+    const filled = [..._.slice(singleFilled, 3)]; // delete id
 
     const name = 'servers';
 
