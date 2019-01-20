@@ -47,13 +47,13 @@ module.exports = function (router) {
          * @apiName UpdateSingleListServersTeam
          * @apiGroup Teams
          */
-        .put('/teams/:id/servers/:idu', authenticate(), WrapperPersistenceApp(PersistenceAppServers)().update)
+        .put('/teams/:id/servers/:idu', authenticate(), WrapperPersistenceAppDefault.update)
         /**
          * @api {patch} /teams/:id/servers/:idu se. Partial Servers for Team
          * @apiName GetPartialSingleListServersTeam
          * @apiGroup Teams
          */
-        .patch('/teams/:id/servers/:idu', authenticate(), WrapperPersistenceApp(PersistenceAppServers)().patch)
+        .patch('/teams/:id/servers/:idu', authenticate(), WrapperPersistenceAppDefault.patch)
         /**
          * @api {delete} /teams/:id/servers/:idu sf. Single Servers for Team
          * @apiName DeleteSingleListServersTeam
