@@ -28,6 +28,7 @@ const schema = Joi.object().keys({
     backup_ids: Joi.array(),
     next_backup_window: Joi.object(),
     snapshot_ids: Joi.array(),
+    network_interface: Joi.object(),
     checksum,
     unique_id,
     datacenters,
