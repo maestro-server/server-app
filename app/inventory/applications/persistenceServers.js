@@ -31,34 +31,6 @@ const ApplicationServers = (Entity, PersistenceServices = DPersistenceServices) 
             Object.assign(req, {query});
             PersistenceApplication(Entity, PersistenceServices)
                 .find(req, res, next);
-        },
-
-        create(req, res, next) {
-
-            req = filterHooks(req, 'body', [
-                {dest: 'unique_id', source: 'datacenters.instance_id', module: 'clone'}
-            ]);
-
-            PersistenceApplication(Entity, PersistenceServices)
-                .create(req, res, next);
-        },
-
-        patch(req, res, next) {
-            req = filterHooks(req, 'body', [
-                {dest: 'unique_id', source: 'datacenters.instance_id', module: 'clone'}
-            ]);
-
-            PersistenceApplication(Entity, PersistenceServices)
-                .patch(req, res, next);
-        },
-
-        update(req, res, next) {
-            req = filterHooks(req, 'body', [
-                {dest: 'unique_id', source: 'datacenters.instance_id', module: 'clone'}
-            ]);
-
-            PersistenceApplication(Entity, PersistenceServices)
-                .update(req, res, next);
         }
     };
 };
