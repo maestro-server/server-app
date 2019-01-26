@@ -17,7 +17,8 @@ const servers = () => {
         'snapshot_ids',
         'roles', 'owner', 'active', 'status', 'meta', 'checksum', 'metas', 'dns_public', 'dns_private'];
 
-    const filled = [..._.slice(singleFilled, 3)]; // delete id
+    const filled = [..._.slice(singleFilled, 3)]; // delete id, update and create at
+    const hooks = [..._.slice(singleFilled, 1)]; // delete only id
 
     const name = 'servers';
 
@@ -38,13 +39,13 @@ const servers = () => {
             after_create: {
                 auditHookUpdated: {
                     entity: name,
-                    fill: filled
+                    fill: hooks
                 }
             },
             after_update: {
                 auditHookUpdated: {
                     entity: name,
-                    fill: filled
+                    fill: hooks
                 }
             },
             after_patch: {
