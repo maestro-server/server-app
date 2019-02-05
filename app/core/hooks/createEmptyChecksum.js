@@ -14,6 +14,7 @@ const _ = require('lodash');
 
 const createEmptyChecksum = () => (data) => {
     _.set(data, 'checksum', 'tombstone');
+
     return data;
 };
 
