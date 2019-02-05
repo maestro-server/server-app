@@ -49,11 +49,6 @@ const volume = () => {
                     fill: filled
                 }
             },
-            before_patch: {
-                createEmptyChecksum: {
-                    entity: name
-                }
-            },
             after_patch: {
                 auditHookPatched: {
                     entity: name,
