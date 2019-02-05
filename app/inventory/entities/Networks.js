@@ -59,10 +59,20 @@ const network = () => {
                     fill: filled
                 }
             },
+            before_update: {
+                createEmptyChecksum: {
+                    entity: name
+                }
+            },
             after_update: {
                 auditHookUpdated: {
                     entity: name,
                     fill: filled
+                }
+            },
+            before_patch: {
+                createEmptyChecksum: {
+                    entity: name
                 }
             },
             after_patch: {
