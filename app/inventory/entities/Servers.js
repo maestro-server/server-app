@@ -42,10 +42,20 @@ const servers = () => {
                     fill: hooks
                 }
             },
+            before_update: {
+                createEmptyChecksum: {
+                    entity: name
+                }
+            },
             after_update: {
                 auditHookUpdated: {
                     entity: name,
                     fill: hooks
+                }
+            },
+            before_patch: {
+                createEmptyChecksum: {
+                    entity: name
                 }
             },
             after_patch: {
