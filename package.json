@@ -21,7 +21,9 @@
         "coverage": "nyc --reporter=lcov mocha test/**/*js --timeout 5000 --exit",
         "migrate": "node ./node_modules/mongodb-migrate -runmm -cfg .migration-config.js up",
         "create_migrate": "node ./node_modules/mongodb-migrate -runmm create",
-        "down_migrate": "node ./node_modules/mongodb-migrate -runmm -cfg .migration-config.js down"
+        "down_migrate": "node ./node_modules/mongodb-migrate -runmm -cfg .migration-config.js down",
+        "demo_populate": "gulp test_populate_demo",
+        "demo_destroy": "node ./node_modules/mongodb-migrate -runmm -c devtools/migration_demo/ -cfg .migration-config.js down"
     },
     "dependencies": {
         "app-module-path": "~2.2.0",

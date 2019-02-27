@@ -105,7 +105,7 @@ module.exports = {
     active: Joi.boolean(),
     status: Joi.string().valid('Active', 'Avaliable', 'Stopped').default('Active'),
     environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'),
-    family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS', 'AutoScaling', 'AutoScalingPlan', 'ServerlessLayer').default("Application"),
+    family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS', 'AutoScaling', 'AutoScalingPlan', 'ServerlessLayer', 'MachineLearning').default("Application"),
     created_at: Joi.any(),
     metas: Joi.any(),
     checksum: Joi.string()

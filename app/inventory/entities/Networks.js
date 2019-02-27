@@ -42,7 +42,7 @@ const network = () => {
 
         access: 'roles',
 
-        validators: require('../validators/network'),
+        validators: require('../validators/network')(singleFilled),
 
         dao: Networks,
 
