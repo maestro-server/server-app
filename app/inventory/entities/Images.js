@@ -38,6 +38,11 @@ const images = () => {
                     fill: filled
                 }
             },
+            before_update: {
+                createEmptyChecksum: {
+                    entity: name
+                }
+            },
             after_update: {
                 auditHookUpdated: {
                     entity: name,

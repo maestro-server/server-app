@@ -81,6 +81,7 @@ const Persistence = (Entity, user = {}, FactoryDBRepository = DFactoryDBReposito
                     .findOne(prepared)
                     .then(validAccessEmpty)
                     .then(updateMerge(post)(Entity))
+                    .then(entityHooks('before_update'))
                     .then((preparedData) => {
                       return DBRepository
                           .update(prepared, preparedData, fill);
