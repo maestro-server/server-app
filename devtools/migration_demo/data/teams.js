@@ -3,45 +3,29 @@
 const _ = require('lodash');
 
 const template = {
-    "name": "Maestro"
+    "name": "Maestro",
+    email: "maestro@team.com"
 }
 
 
 const merge = [
     {
-        "name": "Maestro",
-        "contacts": [
-            {
-                "channel": "Slack",
-                "value": "maestroserver"
-            }
-        ]
+        "name": "SRE - Engineers"
     },
     {
-        "name": "ERP",
-        "contacts": [
-            {
-                "channel": "Email",
-                "value": "it@mycompany.com"
-            },
-            {
-                "channel": "HelpFresh",
-                "value": "helpdesk.com.it"
-            }
-        ]
+        "name": "SysAdmin"
     },
     {
-        "name": "Advertising agency",
-        "contacts": [
-            {
-                "channel": "Asana",
-                "value": "asana.com"
-            }
-        ]
-
+        "name": "Developer"
+    },
+    {
+        "name": "Mananger"
+    },
+    {
+        "name": "Architecture"
     }
 ]
 
-const data = _.map(merge, (v) => _.merge(template, v));
+const data = _.map(merge, (v) => _.assign({}, template, v));
 
 module.exports = data;

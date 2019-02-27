@@ -1,63 +1,52 @@
 'use strict';
 
 const _ = require('lodash');
+const uuidv4 = require('./uuidv4');
+const merge = []
 
-const template = {
-    "name": "Maestro - Clients"
+for (let isx = 0; isx < 100; isx++) {
+    const tmp = {
+        "name": "snap-"+uuidv4('xxxxxxxx'),
+        "owner_id" : uuidv4('xxxxxxxxxxx'),
+        "progress" : "100%",
+        "snapshot_id" : "snap-"+uuidv4('xxxxxxxx'),
+        "start_time" : String(Date.now()),
+        "volume_id" : "vol-"+uuidv4('xxxxxxxx'),
+        "volume_size" : _.random(50, 1000),
+        "datacenters": "#name::AWS - US East/West",
+        "status" : "completed"
+    }
+    merge.push(tmp);
 }
 
-
-const merge = [
-    {
-        "name": "Maestro - Client",
-        "clients": ["#name::Maestro"]
-    },
-    {
-        "name": "Maestro - Servers",
-        "clients": ["#name::Maestro"]
-    },
-    {
-        "name": "Maestro - Discovery",
-        "clients": ["#name::Maestro"]
-    },
-    {
-        "name": "Maestro - Reports",
-        "clients": ["#name::Maestro"]
-    },
-    {
-        "name": "Maestro - Analytics",
-        "clients": ["#name::Maestro"]
-    },
-    {
-        "name": "Maestro - Data",
-        "clients": ["#name::Maestro"]
-    },
-    {
-        "name": "Maestro - Audit",
-        "clients": ["#name::Maestro"]
-    },
-    {
-        "name": "Maestro - WS",
-        "clients": ["#name::Maestro"]
-    },
-    {
-        "name": "Maestro - Managers",
-        "clients": ["#name::Maestro"]
-    },
-    {
-        "name": "ERP - Spring",
-        "clients": ["#name::ERP"]
-    },
-    {
-        "name": "Hotsites",
-        "clients": ["#name::Advertising agency"]
-    },
-    {
-        "name": "LandingPages",
-        "clients": ["#name::Advertising agency"]
+for (let isx = 0; isx < 10; isx++) {
+    const tmp = {
+        "name": "snap-"+uuidv4('xxxxxxxx'),
+        "owner_id" : uuidv4('xxxxxxxxxxx'),
+        "progress" : "100%",
+        "snapshot_id" : "snap-"+uuidv4('xxxxxxxx'),
+        "start_time" : String(Date.now()),
+        "volume_id" : "vol-"+uuidv4('xxxxxxxx'),
+        "volume_size" : _.random(50, 1000),
+        "datacenters": "#name::AWS - Staging",
+        "status" : "completed"
     }
-]
+    merge.push(tmp);
+}
 
-const data = _.map(merge, (v) => _.assign({}, template, v));
+for (let isx = 0; isx < 20; isx++) {
+    const tmp = {
+        "name": "snap-"+uuidv4('xxxxxxxx'),
+        "owner_id" : "647496772601",
+        "progress" : "100%",
+        "snapshot_id" : "snap-"+uuidv4('xxxxxxxx'),
+        "start_time" : String(Date.now()),
+        "volume_id" : "vol-"+uuidv4('xxxxxxxx'),
+        "volume_size" : _.random(50, 1000),
+        "datacenters": "#name::Azure - US East",
+        "status" : "completed"
+    }
+    merge.push(tmp);
+}
 
-module.exports = _.reverse(data);
+module.exports = merge;

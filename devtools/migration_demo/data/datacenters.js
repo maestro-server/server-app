@@ -3,38 +3,87 @@
 const _ = require('lodash');
 
 const template = {
-    "name": "Maestro - Clients",
-    "clients": ["#client[Maestro]"],
-}
+    "regions": [],
+    "metas": {
+        "ownProvider": false
+    },
+    "sucessed": true
+};
 
 
 const merge = [
     {
-        "name": "Maestro - Clients"
+        "name": "AWS - US East/West",
+        "zones": [
+            "us-east-1a",
+            "us-east-1b",
+            "us-east-1c",
+            "us-east-1d",
+            "us-east-1e",
+            "us-east-1f",
+            "us-west-2a",
+            "us-west-2b",
+            "us-west-2c"
+        ],
+        "regions": [
+            "us-east-1 (N. Virginia)",
+            "us-west-2 (Oregon)"
+        ],
+        "provider": "AWS"
     },
     {
-        "name": "Maestro - Servers"
+        "name": "Digital Ocean",
+        "regions": [
+            "nyc1"
+        ],
+        "provider": "Digital Ocean",
     },
     {
-        "name": "Maestro - Discovery"
+        "name": "Azure - US East",
+        "zones": [
+            "Zone 1",
+            "Zone 2",
+            "Zone 3"
+        ],
+        "regions": [
+            "eastus"
+        ],
+        "provider": "Azure",
+        "sucessed": true,
     },
     {
-        "name": "Maestro - Reports"
+        "name": "AWS - Staging",
+        "zones": [
+            "us-east-1a",
+            "us-east-1b",
+            "us-east-1c",
+            "us-east-1d",
+            "us-east-1e",
+            "us-east-1f"
+        ],
+        "regions": [
+            "us-east-1 (N. Virginia)"
+        ],
+        "provider": "AWS"
     },
     {
-        "name": "Maestro - Analytics"
-    },
-    {
-        "name": "Maestro - Data"
-    },
-    {
-        "name": "Maestro - Audit"
-    },
-    {
-        "name": "Maestro - WS"
+        "name": "Openstack - DBs",
+        "zones": [
+            "RegionOneA",
+            "RegionTwoA",
+            "RegionOneB",
+            "RegionTwoB"
+        ],
+        "regions": [
+            "RegionOne",
+            "RegionTwo"
+        ],
+        "provider": "OpenStack",
+
+
     }
 ]
 
-const data = _.map(merge, (v) => _.merge(template, v));
+const data = _.map(merge, (v) => _.assign({}, template, v));
 
 module.exports = data;

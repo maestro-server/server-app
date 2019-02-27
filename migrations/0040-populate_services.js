@@ -49,7 +49,7 @@ exports.up = function (db, next) {
         {name: 'Azure', family: ['Cache'], tags: ['azure'], owner: true},
         {name: 'Google Cloud', family: ['Cache'], tags: ['gcloud'], owner: true},
         {name: 'Akamai', family: ['Cache', 'ApiGateway', 'CDN'], tags: [], owner: true},
-        {name: 'CloudFlare', family: ['Cache', 'ApiGateway', 'CDN'], tags: ['waf'], owner: true},
+        {name: 'CloudFlare', family: ['Cache', 'ApiGateway', 'CDN', 'DNS'], tags: ['waf'], owner: true},
         {name: 'GridGain Systems', family: ['Cache'], tags: [], owner: true},
 
         {name: 'Redis', family: ['Cache', 'Database'], tags: ['key-value', 'nosql'], owner: false},
@@ -152,6 +152,7 @@ exports.up = function (db, next) {
         {name: 'Panamax', family: ['ContainerOrchestration'], tags: ['container'], owner: false},
         {name: 'Tsuro', family: ['ContainerOrchestration'], tags: ['container'], owner: false},
 
+        {name: 'DockerHub', family: ['Repository'], tags: ['container'], owner: true},
 
         {name: 'CloudWatch (AWS)', family: ['Monitor'], tags: ['aws'], owner: true},
         {name: 'Azure Monitoring', family: ['Monitor'], tags: ['azure'], owner: true},

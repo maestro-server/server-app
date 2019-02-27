@@ -7,13 +7,10 @@ let gulp = require('gulp'),
 module.exports = function (gulp, $) {
     'use strict';
 
-    gulp.task('test_e2e', function () {
-        return gulp.src(['test/e2e/**/*.js'])
+    gulp.task('test_populate_demo', function () {
+        return gulp.src(['devtools/migration_demo/populate.js'])
             .pipe(mocha({
-                timeout: 6000,
-                'check-leaks': true,
-                ui: 'bdd',
-                reporter: 'nyan'
+                timeout: 6000
             }));
     });
 };

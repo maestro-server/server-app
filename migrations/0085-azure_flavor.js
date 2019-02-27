@@ -3503,7 +3503,9 @@ exports.up = function (db, next) {
     ];
 
     let result = list.map(e => {
-        const r = _.mapKeys(e, (v, k) => _.snakeCase(_.toLower(k)));
+        let r = _.mapKeys(e, (v, k) => _.snakeCase(_.toLower(k)));
+
+        _.set(r, 'name', _.get(r, 'size'))
 
         return Object.assign(r, attach);
     });
