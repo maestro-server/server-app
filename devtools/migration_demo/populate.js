@@ -25,6 +25,8 @@ describe('demo setup', function () {
     const images = require('./data/images.js');
     const network = require('./data/network.js');
 
+    const rzones = require('./data/zones.js');
+
     const makeDC = require('./data/servers_blueprint_dc.js');
 
     const servers = require('./data/servers.js');
@@ -98,24 +100,29 @@ describe('demo setup', function () {
 
     const popDcs = (ff, srv = false) => {
         const regions = _.get(ff, 'regions');
-        const zones = _.get(ff, 'zones');
+        const provider = _.get(ff, 'provider');
+
         let obj = ff;
 
         if (regions) {
             const rg = regions[_.random(0, regions.length-1)];
             obj["region"] = rg;
-        }
 
-        if (zones) {
-            let zn = null
+            const zones1 = _.get(rzones, provider);
+            const zones = _.get(zones1, rg);
 
-            if(srv) {
-                zn = zones[_.random(0, zones.length-1)];
-            } else {
-                zn = zones;
+            if (zones) {
+                let zn = null
+
+                if(srv) {
+                    zn = zones[_.random(0, zones.length-1)];
+                } else {
+                    zn = zones;
+                }
+
+                console.log(zn)
+                obj["zone"] = zn;
             }
-
-            obj["zone"] = zn;
         }
 
         return _.pick(obj, ['_id', 'name', 'email', 'region', 'zone', 'provider']);
@@ -216,7 +223,7 @@ describe('demo setup', function () {
                 value = relData(value, 'clients', clients);
 
                 createItem(entity, value, done, (res) => {
-                    [entity][key] = _.merge({}, _.get(res, 'body'), value);
+                    system[key] = _.merge({}, _.get(res, 'body'), value);
                 });
             });
         });
