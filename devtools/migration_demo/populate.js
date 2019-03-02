@@ -2,7 +2,7 @@
 
 // demo populate, connect on real env, carefull
 
-require('dotenv').config({path: '.env'});
+require('dotenv').config({path: '.env.load'});
 const uuidv4 = require('./data/uuidv4');
 
 let chai = require('chai'),
@@ -15,6 +15,9 @@ describe('demo setup', function () {
 
     let app, mock;
 
+    const HTTP_ENDPOINT = "http://localhost:8888";
+    const path = (end) => `${HTTP_ENDPOINT}/${end}`;
+
     const user = require('./data/user.js')[0];
     const datacenters = require('./data/datacenters.js');
     const clients = require('./data/clients.js');
@@ -24,8 +27,11 @@ describe('demo setup', function () {
     const snapshots = require('./data/snapshots.js');
     const images = require('./data/images.js');
     const network = require('./data/network.js');
-
+    const deps = require('./data/deps.js');
     const rzones = require('./data/zones.js');
+
+    const reports = require('./data/reports.js');
+    const graphs = require('./data/analytics.js');
 
     const makeDC = require('./data/servers_blueprint_dc.js');
 
@@ -45,7 +51,9 @@ describe('demo setup', function () {
                     cleaner_lines('volumes', {'owner.email': user.email}),
                     cleaner_lines('snapshots', {'owner.email': user.email}),
                     cleaner_lines('images', {'owner.email': user.email}),
-                    cleaner_lines('networks', {'owner.email': user.email})
+                    cleaner_lines('networks', {'owner.email': user.email}),
+                    cleaner_lines('graphs', {'owner.email': user.email}),
+                    cleaner_lines('reports', {'owner.email': user.email})
                 ]);
             })
             .then((e) => {
@@ -75,15 +83,14 @@ describe('demo setup', function () {
             });
     };
 
-    const relData = function (value, field, lrel, inject = null) {
-        let index = _.get(value, field);
+    const parseEntity = (index, lrel, inject = null) => {
 
         const pop = (rel) => {
             const s = rel.split('#')[1].split('::');
             const found = _.find(lrel, (o) => o[s[0]] == s[1]);
 
             if (!inject)
-                inject = (ff) => _.pick(ff, ['_id', 'name', 'email']);
+                inject = (ff) => _.pick(ff, ['_id', 'name', 'email', 'family']);
 
             return inject(found);
         };
@@ -93,6 +100,13 @@ describe('demo setup', function () {
 
         if (_.isString(index))
             index = pop(index);
+
+        return index;
+    }
+
+    const relData = function (value, field, lrel, inject = null) {
+        let index = _.get(value, field);
+        index = parseEntity(index, lrel, inject);
 
         _.set(value, field, index)
         return value;
@@ -230,6 +244,7 @@ describe('demo setup', function () {
     });
 
     describe('create Images, Snapshots and Networks', function () {
+        return
         const data = {snapshots, images, network};
 
         _.forEach(data, (lst, entity) => {
@@ -265,8 +280,41 @@ describe('demo setup', function () {
         });
     });
 
+    describe('sync deps', function () {
+        return
+        const entity = "applications/deps";
+
+        it(`Deps`, function (done) {
+
+            let tree = {};
+
+            _.forEach(deps, (val, key) => {
+                if(key.indexOf("root") == -1) {
+
+                    const idk = _.get(parseEntity(key, applications), '_id');
+
+                    val.map((obj) => {
+
+                        const nobj = parseEntity(
+                            obj['name'],
+                            applications,
+                            (xx) => _.pick(xx, ['_id', 'name', 'family', 'environment'])
+                            )
+
+                        return _.merge(obj, nobj);
+                    });
+
+                    tree[idk] = val;
+                }
+            });
+
+            createItem(entity, {tree}, done, () => {});
+        });
+    });
+
 
     describe('create Servers', function () {
+        return
         const entity = "servers";
 
         _.forEach(servers, (value) => {
@@ -284,6 +332,39 @@ describe('demo setup', function () {
                 });
             });
         });
+    });
+
+
+
+
+
+    describe('activated hooks', function () {
+        const entity = {reports, graphs};
+
+        _.forEach(entity, (objt, key) => {
+
+            _.forEach(objt, (value) => {
+                it(`Create ${key} - ${value.name}`, function (done) {
+
+                    relData(value, 'apps', applications);
+
+                    request(HTTP_ENDPOINT)
+                        .post("/" + key)
+                        .set('Authorization', `JWT ${user.token}`)
+                        .send(value)
+                        .expect(console.log)
+                        .expect(201)
+                        .end(function (err) {
+                            if (err) return done(err);
+                            done(err);
+                        });
+
+                });
+            });
+
+        });
+
+
     });
 
 
