@@ -1,9 +1,7 @@
 node_modules
 .DS_Store
 .env
-.env.test
-.env.production
-.env.development
+.env.*
 .idea/
 .happypack/
 npm-debug*
