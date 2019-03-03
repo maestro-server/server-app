@@ -1,7 +1,7 @@
 node_modules
 .DS_Store
 .env
-.env.load
+.env.*
 .idea/
 .happypack/
 npm-debug*
