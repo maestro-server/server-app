@@ -442,7 +442,24 @@ exports.up = function (db, next) {
         {name: 'Customized', family: ['AutoScaling'], tags: ['auto'], owner: false},
         {name: 'AutoScaling (Azure)', family: ['AutoScaling'], tags: ['microsoft', 'azure'], owner: true},
         {name: 'AutoScaling (Google Cloud)', family: ['AutoScaling'], tags: ['gcloud'], owner: true},
-        {name: 'AutoScaling (AWS)', family: ['AutoScaling'], tags: ['aws'], owner: true}
+        {name: 'AutoScaling (AWS)', family: ['AutoScaling'], tags: ['aws'], owner: true},
+
+        {name: 'Lex (AWS)', family: ['MachineLearning'], tags: ['aws', 'bot'], owner: true},
+        {name: 'SageMaker (AWS)', family: ['MachineLearning'], tags: ['aws'], owner: true},
+        {name: 'Comprehend (AWS)', family: ['MachineLearning'], tags: ['aws'], owner: true},
+        {name: 'DeepLens (AWS)', family: ['MachineLearning'], tags: ['aws'], owner: true},
+        {name: 'Learning (AWS)', family: ['MachineLearning'], tags: ['aws'], owner: true},
+        {name: 'Rekognition (AWS)', family: ['MachineLearning'], tags: ['aws'], owner: true},
+
+        {name: 'Transcribe (AWS)', family: ['MachineLearning'], tags: ['aws'], owner: true},
+        {name: 'Translate (AWS)', family: ['MachineLearning'], tags: ['aws'], owner: true},
+        {name: 'Personalize (AWS)', family: ['MachineLearning'], tags: ['aws'], owner: true},
+        {name: 'Forecast (AWS)', family: ['MachineLearning'], tags: ['aws'], owner: true},
+        {name: 'Textract (AWS)', family: ['MachineLearning'], tags: ['aws'], owner: true},
+
+        {name: 'Watson (IBM)', family: ['MachineLearning'], tags: ['ibm', 'bot'], owner: true},
+        {name: 'DialogFlow (GoogleCloud)', family: ['MachineLearning'], tags: ['gcloud', 'bot'], owner: true},
+        {name: 'Luiz (Azure)', family: ['MachineLearning'], tags: ['aws', 'bot'], owner: true}
     ];
 
     let result = list.map(e => Object.assign(e, attach));
