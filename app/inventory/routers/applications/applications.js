@@ -175,7 +175,7 @@ module.exports = function (router) {
          *  </code>
          * </pre>
          * @apiParam (Body x-www) {String} [environment] Envronment, ['Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox']
-         * @apiParam (Body x-www) {String} [family=Application] Family, ['Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'Serveless', 'ApiGateway', 'ContainerOrchestration', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS', 'AutoScaling']
+         * @apiParam (Body x-www) {String} [family=Application] Family, ['Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'Serveless', 'ApiGateway', 'ContainerOrchestration', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS', 'AutoScaling', 'ServerlessLayer', 'MachineLearning']
          * @apiParam (Body x-www) {Array} [deps List of dependencies, [Array of Objects]
          * <br/>
          * <pre class="prettyprint language-json" data-type="json">
