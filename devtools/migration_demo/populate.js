@@ -15,8 +15,7 @@ describe('demo setup', function () {
 
     let app, mock;
 
-    const HTTP_ENDPOINT = "http://localhost:8888";
-    const path = (end) => `${HTTP_ENDPOINT}/${end}`;
+    const HTTP_ENDPOINT = process.env.HTTP_ENDPOINT || "http://localhost:8888";
 
     const user = require('./data/user.js')[0];
     const datacenters = require('./data/datacenters.js');
@@ -36,6 +35,8 @@ describe('demo setup', function () {
     const makeDC = require('./data/servers_blueprint_dc.js');
 
     const servers = require('./data/servers.js');
+    const skipped = false;
+
 
     before(function (done) {
 
@@ -61,7 +62,6 @@ describe('demo setup', function () {
 
                 app.once('start', done);
                 mock = app.listen(1341);
-
             }).catch(console.log);
     });
 
@@ -102,13 +102,13 @@ describe('demo setup', function () {
             index = pop(index);
 
         return index;
-    }
+    };
 
     const relData = function (value, field, lrel, inject = null) {
         let index = _.get(value, field);
         index = parseEntity(index, lrel, inject);
 
-        _.set(value, field, index)
+        _.set(value, field, index);
         return value;
     };
 
@@ -126,7 +126,7 @@ describe('demo setup', function () {
             const zones = _.get(zones1, rg);
 
             if (zones) {
-                let zn = null
+                let zn = null;
 
                 if(srv) {
                     zn = zones[_.random(0, zones.length-1)];
@@ -134,7 +134,6 @@ describe('demo setup', function () {
                     zn = zones;
                 }
 
-                console.log(zn)
                 obj["zone"] = zn;
             }
         }
@@ -143,10 +142,10 @@ describe('demo setup', function () {
     };
 
     const createStorage = (item) => {
-        const tmst = []
+        const tmst = [];
 
         _.forEach(item, (val, key) => {
-            const l = uuidv4('xx')
+            const l = uuidv4('xx');
 
             if (val == '#built') {
                 const stg = {
@@ -178,7 +177,7 @@ describe('demo setup', function () {
         });
 
         return tmst;
-    }
+    };
 
 
     describe('create new user', function () {
@@ -229,6 +228,9 @@ describe('demo setup', function () {
     });
 
     describe('create System', function () {
+        if(skipped)
+            return;
+
         const entity = "system";
 
         _.forEach(system, (value, key) => {
@@ -244,7 +246,8 @@ describe('demo setup', function () {
     });
 
     describe('create Images, Snapshots and Networks', function () {
-        return
+        if(skipped)
+            return;
         const data = {snapshots, images, network};
 
         _.forEach(data, (lst, entity) => {
@@ -281,7 +284,6 @@ describe('demo setup', function () {
     });
 
     describe('sync deps', function () {
-        return
         const entity = "applications/deps";
 
         it(`Deps`, function (done) {
@@ -314,7 +316,8 @@ describe('demo setup', function () {
 
 
     describe('create Servers', function () {
-        return
+        if(skipped)
+            return;
         const entity = "servers";
 
         _.forEach(servers, (value) => {
@@ -366,7 +369,4 @@ describe('demo setup', function () {
 
 
     });
-
-
-
 });

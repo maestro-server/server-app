@@ -122,7 +122,7 @@ const json = {
     ],
     "#name::Analytics Workers": [
         {
-            "name": "#name::name::DB - MongoDB",
+            "name": "#name::DB - MongoDB",
             "endpoint": "tcp"
         },
         {
