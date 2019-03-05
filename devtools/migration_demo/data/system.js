@@ -55,8 +55,12 @@ const merge = [
     {
         "name": "LandingPages",
         "clients": ["#name::Advertising agency"]
+    },
+    {
+        "name": "ChatBot - Order",
+        "clients": ["#name::Advertising agency"]
     }
-]
+];
 
 const data = _.map(merge, (v) => _.assign({}, template, v));
 

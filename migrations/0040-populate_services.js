@@ -404,6 +404,8 @@ exports.up = function (db, next) {
         {name: 'Microsoft Active Directory (AD)', family: ['Auth'], tags: ['microsoft'], owner: false},
         {name: 'LDAP', family: ['Auth'], tags: ['microsoft'], owner: false},
         {name: 'FreeIPA', family: ['Auth'], tags: ['microsoft'], owner: false},
+        {name: 'Cognito (AWS)', family: ['Auth'], tags: ['aws', 'auth'], owner: true},
+        {name: 'Auth0', family: ['Auth'], tags: ['oauth'], owner: true},
 
 
         {name: 'Microsoft IIS', tags: ['microsoft', 'webservice'], owner: false},
@@ -415,7 +417,7 @@ exports.up = function (db, next) {
         {name: 'Drizzle', tags: [], owner: false},
 
 
-        {name: 'Oracle EBS (Service BUS)', tags: ['oracle', 'jms', 'ebs'], owner: false},
+        {name: 'Oracle EBS (Service BUS)', family: ['Broker', 'Applications'], tags: ['oracle', 'jms', 'ebs'], owner: false},
         {name: 'Oracle Enterprise Manager', tags: ['oracle'], owner: false},
         {name: 'Oracle Forms and Reports', tags: ['oracle'], owner: false},
         {name: 'Oracle Forms Runtime', tags: ['oracle'], owner: false},
@@ -456,6 +458,8 @@ exports.up = function (db, next) {
         {name: 'Personalize (AWS)', family: ['MachineLearning'], tags: ['aws'], owner: true},
         {name: 'Forecast (AWS)', family: ['MachineLearning'], tags: ['aws'], owner: true},
         {name: 'Textract (AWS)', family: ['MachineLearning'], tags: ['aws'], owner: true},
+
+        {name: 'Polly (AWS)', family: ['MachineLearning'], tags: ['aws', 'voice'], owner: true},
 
         {name: 'Watson (IBM)', family: ['MachineLearning'], tags: ['ibm', 'bot'], owner: true},
         {name: 'DialogFlow (GoogleCloud)', family: ['MachineLearning'], tags: ['gcloud', 'bot'], owner: true},

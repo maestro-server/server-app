@@ -10,7 +10,7 @@ const template = {
     "role": {},
     "tags": [],
     "system": []
-}
+};
 
 
 const merge = [
@@ -905,6 +905,15 @@ const merge = [
     },
 
     {
+        "family": "CDN",
+        "size": "xlarge",
+        "name": "CloudFlare - Hotsites",
+        "own": 1,
+        "environment": "Production",
+        "provider": "CloudFlare"
+    },
+
+    {
         "name": "MySQL - HotSites - Prd",
         "status": "Active",
         "family": "Database",
@@ -987,14 +996,247 @@ const merge = [
         "system": ["#name::Hotsites"]
     },
     {
-        "name": "CloudFlare - Hotsites",
+        "name": "Lambda - Order Catalog",
         "status": "Active",
-        "family": "DNS",
+        "family": "Serverless",
         "environment": "Production",
-        "provider": "CloudFlare",
-        "size": "small",
+        "provider": "Lambda (AWS)",
+        "size": "xlarge",
+        "role": {
+            "memory": 500,
+            "timeout": 1000,
+            "handler": "HANDLER::xxx"
+        },
         "own": 1,
-        "system": ["#name::Hotsites"]
+        "system": ["#name::ChatBot - Order"],
+        "datacenters": "#name::AWS - US East/West"
+    },
+    {
+        "name": "Lambda - Order Fullfilment",
+        "status": "Active",
+        "family": "Serverless",
+        "environment": "Production",
+        "provider": "Lambda (AWS)",
+        "size": "large",
+        "role": {
+            "memory": 100,
+            "timeout": 1000,
+            "handler": "HANDLER::xxx"
+        },
+        "own": 1,
+        "system": ["#name::ChatBot - Order"],
+        "datacenters": "#name::AWS - US East/West"
+    },
+    {
+        "name": "Lambda - Handler Error",
+        "status": "Active",
+        "family": "Serverless",
+        "environment": "Production",
+        "provider": "Lambda (AWS)",
+        "size": "small",
+        "role": {
+            "memory": 20,
+            "timeout": 300,
+            "handler": "HANDLER::xxx"
+        },
+        "own": 1,
+        "system": ["#name::ChatBot - Order"],
+        "datacenters": "#name::AWS - US East/West"
+    },
+    {
+        "name": "Lambda - Order Outage",
+        "status": "Active",
+        "family": "Serverless",
+        "environment": "Production",
+        "provider": "Lambda (AWS)",
+        "size": "medium",
+        "role": {
+            "memory": 100,
+            "timeout": 1000,
+            "handler": "HANDLER::xxx"
+        },
+        "own": 1,
+        "system": ["#name::ChatBot - Order"],
+        "datacenters": "#name::AWS - US East/West"
+    },
+    {
+        "name": "Lambda - Parsers",
+        "status": "Active",
+        "family": "Serverless",
+        "environment": "Production",
+        "provider": "Lambda (AWS)",
+        "size": "xlarge",
+        "role": {
+            "memory": 500,
+            "timeout": 1000,
+            "handler": "HANDLER::xxx"
+        },
+        "own": 1,
+        "system": ["#name::ChatBot - Order"],
+        "datacenters": "#name::AWS - US East/West"
+    },
+    {
+        "name": "Lambda - Register",
+        "status": "Active",
+        "family": "Serverless",
+        "environment": "Production",
+        "provider": "Lambda (AWS)",
+        "size": "large",
+        "role": {
+            "memory": 300,
+            "timeout": 500,
+            "handler": "HANDLER::xxx"
+        },
+        "own": 1,
+        "system": ["#name::ChatBot - Order"],
+        "datacenters": "#name::AWS - US East/West"
+    },
+    {
+        "name": "API Gateway - Bot",
+        "status": "Active",
+        "family": "ApiGateway",
+        "environment": "Production",
+        "provider": "ApiGateway (AWS)",
+        "size": "xlarge",
+        "role": {
+            "endpoint": "http://myapi.gateway.bot.com"
+        },
+        "own": 1,
+        "system": ["#name::ChatBot - Order"],
+        "datacenters": "#name::AWS - US East/West"
+    },
+    {
+        "name": "IA - NPL - ChatBot",
+        "status": "Active",
+        "family": "MachineLearning",
+        "environment": "Production",
+        "provider": "Lex (AWS)",
+        "size": "xlarge",
+        "role": {
+            "endpoint": "http://myapi.lex.bot.com"
+        },
+        "own": 1,
+        "system": ["#name::ChatBot - Order"],
+        "datacenters": "#name::AWS - US East/West"
+    },
+    {
+        "name": "ChatBot - Slack",
+        "status": "Active",
+        "family": "MachineLearning",
+        "environment": "Production",
+        "provider": "Slack",
+        "size": "large",
+        "role": {
+            "endpoint": "http://chatbot.slack"
+        },
+        "own": 1,
+        "system": ["#name::ChatBot - Order"],
+        "datacenters": "#name::AWS - US East/West"
+    },
+    {
+        "name": "DB - Order",
+        "status": "Active",
+        "family": "Database",
+        "environment": "Production",
+        "provider": "DynamoDB  (AWS)",
+        "size": "8xlarge",
+        "own": 1,
+        "system": ["#name::ChatBot - Order"],
+        "datacenters": "#name::AWS - US East/West"
+    },
+    {
+        "name": "Autheticator - Order",
+        "status": "Active",
+        "family": "Auth",
+        "environment": "Production",
+        "provider": "Cognito  (AWS)",
+        "size": "2xlarge",
+        "own": 1,
+        "system": ["#name::ChatBot - Order"],
+        "datacenters": "#name::AWS - US East/West"
+    },
+    {
+        "name": "CloudLogs - ChatBot",
+        "status": "Active",
+        "family": "Logs",
+        "environment": "Production",
+        "provider": "CloudWatch  (AWS)",
+        "size": "16xlarge",
+        "own": 1,
+        "system": ["#name::ChatBot - Order"],
+        "datacenters": "#name::AWS - US East/West"
+    },
+    {
+        "name": "Client - Admin - ChatBot",
+        "family": "Application",
+        "environment": "Production",
+        "language": "JavaScript (Single Page Application)",
+        "cluster": "12 Factor",
+        "description": "SPA application - Stack stack: ReactJS, Redux",
+        "role": {
+            "role": "Application",
+            "ports": 80,
+            "endpoint": "http://chatbot.pizza.io",
+            "path": "/home/client-admin-bot/www/statics"
+        },
+        "tags": [
+            {
+                    "key": "cost-id",
+                "value": "567uhjg"
+            },
+            {
+                "key": "environment",
+                "value": "production"
+            }
+        ],
+        "deploy": [
+            {
+                "type": "Continuos Integration (CI)",
+                "provider": "Jenkins"
+            },
+            {
+                "type": "Continuos Deployment (CD)",
+                "provider": "Jenkins"
+            }
+        ],
+        "own": 0,
+        "system": ["#name::ChatBot - Order"]
+    },
+
+    {
+        "name": "Backend - ChatBot",
+        "family": "Application",
+        "environment": "Production",
+        "language": "Go",
+        "cluster": "12 Factor",
+        "role": {
+            "role": "Application",
+            "endpoint": "http://backend.chatbot.bot",
+            "path": "/home/backend/",
+            "code": "./run"
+        },
+        "tags": [
+            {
+                "key": "cost-id",
+                "value": "567uhjg"
+            },
+            {
+                "key": "environment",
+                "value": "production"
+            }
+        ],
+        "deploy": [
+            {
+                "type": "Continuos Integration (CI)",
+                "provider": "Jenkins"
+            },
+            {
+                "type": "Continuos Deployment (CD)",
+                "provider": "Jenkins"
+            }
+        ],
+        "own": 0,
+        "system": ["#name::ChatBot - Order"]
     }
 ];
 
