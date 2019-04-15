@@ -14,6 +14,7 @@ const scheme = {
     regions: Joi.array().unique(),
     provider: Joi.string().required(),
     sucessed: Joi.boolean(),
+    reports: Joi.array(),
     owner,
     auth: Joi.array(),
     roles: Joi.array().items(roles).unique('_id'),
