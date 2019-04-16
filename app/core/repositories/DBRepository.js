@@ -85,8 +85,8 @@ const DBRepository = (Entity, options = {}) => {
 
                 if(!_.has(options, 'ignoreValid'))
                   data = factoryValid(data, Entity.validators.update);
-
-                return new DB(data)
+                console.log(data)
+                return new DB(data, filter)
                     .updateAndModify(filter, options)
                     .then(validAccessUpdater)
                     .then((e) => _.pick(e.get(), resFilled))
@@ -142,8 +142,9 @@ const DBRepository = (Entity, options = {}) => {
         create(post, fill = Entity.filled, resFilled = Entity.singleFilled) {
             return new Promise((resolve, reject) => {
                 let data = findFilledFormat(post, fill);
+    
                 data = factoryValid(data, Entity.validators.create);
-
+                
                 return new DB(data)
                     .save()
                     .then((e) => _.pick(e.get(), resFilled))

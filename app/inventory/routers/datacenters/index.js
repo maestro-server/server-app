@@ -121,5 +121,11 @@ module.exports = function (router) {
          * @apiName GetCountServersDcTeam
          * @apiGroup Teams
          */
-        .get('/teams/:id/datacenters/:idu/servers/count', authenticate(),  WrapperSyncerApp('count').find);
+        .get('/teams/:id/datacenters/:idu/servers/count', authenticate(),  WrapperSyncerApp('count').find)
+        /**
+         * @api {post} /teams/:id/datacenters/count do. Create Analytics
+         * @apiName GetDatacenterAnalyticsTeams
+         * @apiGroup Teams
+         */
+        .get('/teams/:id/datacenters/:idu/analytics', authenticate(),  WrapperPersistenceApp(PersistenceDC)('createAnalytics').create);
 };

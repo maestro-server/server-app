@@ -95,12 +95,14 @@ const Persistence = (Entity, user = {}, FactoryDBRepository = DFactoryDBReposito
         patch (_id, post, owner, access = Access.ROLE_WRITER) {
 
             return new Promise((resolve, reject) => {
+            
                 const entityHooks = hookFactory(Entity, {_id, user});
                 const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password', '_id']);
                 const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
-
+                
                 return DBRepository
                     .patch(prepared, post, fill)
+                    .then(console.log)
                     .then(entityHooks('after_patch'))
                     .then(resolve)
                     .catch(reject);
