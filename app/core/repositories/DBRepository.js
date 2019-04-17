@@ -85,7 +85,7 @@ const DBRepository = (Entity, options = {}) => {
 
                 if(!_.has(options, 'ignoreValid'))
                   data = factoryValid(data, Entity.validators.update);
-                console.log(data)
+
                 return new DB(data, filter)
                     .updateAndModify(filter, options)
                     .then(validAccessUpdater)

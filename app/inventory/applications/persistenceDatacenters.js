@@ -26,7 +26,7 @@ const ApplicationDatacenters = (Entity, PersistenceServices = DPersistenceServic
                 .findOne(req.params.id, req.user)
                 .then(notExist)
                 .then(DatacentersCreateAnalytics(req)(PersistenceServices))
-                .then(DatacentersAttachReports(req)())
+                .then(DatacentersAttachReports(req)(PersistenceServices))
                 .then(e => res.json(e))
                 .catch(next);
         }
