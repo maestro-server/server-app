@@ -12,7 +12,10 @@ const jsonParser = require('core/applications/transforms/jsonParser');
 const regexFilterQuery = require('core/services/transforms/regexFilterQuery');
 const notExist = require('core/applications/validator/validNotExist');
 
+const CallReportApi = require('reports/applications/transform/callReportApi');
 const {ReportHTTPService} = require('core/services/HTTPService');
+
+
 
 const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) => {
 
@@ -30,20 +33,9 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
 
             PersistenceServices(Entity)
                 .create(bodyWithOwner)
-                .then((e) => {
-                    const data = {
-                        "report_id": e["_id"],
-                        "component": e['component'],
-                        "filters": JSON.stringify(e['filters'], null, 2),
-                        owner_user
-                    };
-
-                    return ReportHTTPService()
-                        .create(`/reports/${e['report']}`, data);
-                })
+                .then(CallReportApi(owner_user).create)
                 .then(e => res.status(201).json(e))
                 .catch(next);
-
         },
 
         update(req, res, next) {
@@ -59,17 +51,7 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
 
             PersistenceServices(Entity)
                 .update(req.params.id, bodyWithOwner, req.user)
-                .then((e) => {
-                    const data = {
-                        "report_id": req.params.id,
-                        "component": e['component'],
-                        "filters": JSON.stringify(e['filters'], null, 2),
-                        owner_user
-                    };
-
-                    return ReportHTTPService()
-                        .create(`/reports/${e['report']}`, data);
-                })
+                .then(CallReportApi(owner_user, req).update)
                 .then(e => res.status(201).json(e))
                 .catch(next);
         },
@@ -87,17 +69,7 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
 
             PersistenceServices(Entity)
                 .patch(req.params.id, bodyWithOwner, req.user)
-                .then((e) => {
-                    const data = {
-                        "report_id": e["_id"],
-                        "component": e['component'],
-                        "filters": JSON.stringify(e['filters'], null, 2),
-                        owner_user
-                    };
-
-                    return ReportHTTPService()
-                        .create(`/reports/${e['report']}`, data);
-                })
+                .then(CallReportApi(owner_user).patch)
                 .then(e => res.status(201).json(e))
                 .catch(next);
 
@@ -107,10 +79,7 @@ const ApplicationReport = (Entity, PersistenceServices = DPersistenceServices) =
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user, Access.ROLE_ADMIN)
                 .then(validAccessEmpty)
-                .then(({_id, report, msg, status}) => {
-                    if (status == 'finished')
-                        return ReportHTTPService().remove(`/reports/${_id}__${report}_${msg}`);
-                })
+                .then(CallReportApi().remove)
                 .then(() => PersistenceServices(Entity).remove(req.params.id, req.user))
                 .then(e => res.status(204).json(e))
                 .catch(next);

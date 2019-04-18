@@ -10,7 +10,7 @@ const validNotFound = require('core/applications/validator/validNotFound');
 const notExist = require('core/applications/validator/validNotExist');
 const Access = require('core/entities/accessRole');
 
-const aclRoles = require('./transforms/aclRoles');
+const aclRoles = require('core/applications/transforms/aclRoles');
 const jsonParser = require('./transforms/jsonParser');
 const mapRelationToObjectID = require('./transforms/mapRelationToObjectID');
 const {transfID} = require('core/applications/transforms/mapRelationToObjectID');
