@@ -23,10 +23,14 @@ const createTemplate = (name, req) => {
 };
 
 const DatacentersCreateAnalytics = (req) => (PersistenceServices) => (data) => {
-    const {name} = data;
+    const {name, _id} = data;
 
     const report = "general";
-    const filters = [{ field: "active", filter: "true", comparer: "equal", typ: "boolean" }];
+    const filters = [
+        { field: "active", filter: "true", comparer: "equal", typ: "boolean" },
+        { field:"datacenters", subfield:"_id", subfilter: _id, typ:"object" }
+        ];
+
     const common = {report, filters};
 
     const reports = createTemplate(name, req);
