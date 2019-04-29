@@ -18,7 +18,7 @@ const createTemplate = ({component, _id}, user) => {
         "enabled": true,
         "period_type": "interval",
         "task": "reports",
-        "run_immediately": true,
+        "run_immediately": false,
         'source': "report",
         "interval":{"period":"days","every":"1"},
         "endpoint": "reports/general",
