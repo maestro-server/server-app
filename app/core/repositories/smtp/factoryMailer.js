@@ -2,11 +2,13 @@
 
 const nodemailer = require('nodemailer');
 const hbs = require('nodemailer-express-handlebars');
+const templatepath = process.cwd()+"/templates/emkts/";
 
 const factoryMailer = {
     transporter: false,
+    
 
-    options: {viewPath: process.cwd()+"/templates/emkts/", extName: ".hbs"},
+    options: {viewPath: templatepath, extName: ".hbs", viewEngine: {partialsDir: templatepath}},
 
     connected: false,
 
