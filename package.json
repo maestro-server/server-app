@@ -1,6 +1,6 @@
 {
     "name": "server-app",
-    "version": "0.5.14",
+    "version": "0.5.15",
     "description": "Server app - Maestro",
     "author": "Felipe Klerk Signorini &lt;felipeklerk@yahoo.com.br&gt;",
     "main": "server.js",
