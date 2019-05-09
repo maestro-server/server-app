@@ -44,7 +44,7 @@ jobs:
         - cat ./coverage/lcov.info | ./node_modules/.bin/codeclimate-test-reporter
 
     - stage: build docker image - base
-      if: branch != master
+      if: branch != master AND type != pull_request
       node_js: 8
       script:
         - docker build -f Dockerfile -t $REPO .
