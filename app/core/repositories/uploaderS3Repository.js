@@ -21,7 +21,15 @@ const UploaderRepository = (folder) => {
         upload(_id, type) {
             return new Promise((resolve) => {
 
-                const s3 = new aws.S3();
+                let options = {};
+
+                if(process.env.AWS_ENDPOINT) {
+                    let endpoint = new aws.Endpoint(process.env.AWS_ENDPOINT);
+                    options = {endpoint};
+                }
+
+                const s3 = new aws.S3(options);
+
                 const S3_BUCKET = process.env.AWS_S3_BUCKET_NAME;
                 const PATH = S3_BUCKET + '/' + folder;
                 const filename = `${_id}.${mapsFile(type)}`;
@@ -38,6 +46,8 @@ const UploaderRepository = (folder) => {
                     if (err) {
                         throw new UploaderError(err);
                     }
+
+                    console.log(data)
 
                     const returnData = {
                         signedRequest: data,
