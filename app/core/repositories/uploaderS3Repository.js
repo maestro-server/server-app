@@ -47,8 +47,6 @@ const UploaderRepository = (folder) => {
                         throw new UploaderError(err);
                     }
 
-                    console.log(data)
-
                     const returnData = {
                         signedRequest: data,
                         url: `https://s3.amazonaws.com/${S3_BUCKET}/${folder}/${filename}`,
