@@ -162,6 +162,7 @@ gulp eslint
 | AWS_SECRET_ACCESS_KEY                | XXXX                     |                                            |
 | AWS_DEFAULT_REGION                   | us-east-1                |                                            |
 | AWS_S3_BUCKET_NAME                   | maestroserver            |                                            |
+| AWS_ENDPOINT                         | ny3.spacesdigitalocean   | S3 endpoint                                |
 | MAESTRO_UPLOAD_TYPE                  | S3/Local                 | Upload mode                                |
 | LOCAL_DIR                            | /public/static/          | Where files will be uploaded               |
 | PWD                                  | $rootDirectory           | PWD process                                |
