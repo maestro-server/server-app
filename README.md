@@ -130,42 +130,44 @@ gulp eslint
 
 ### Env variables ###
 
-| Env Variables                        | Example                  | Description                                |
-|--------------------------------------|--------------------------|--------------------------------------------|
-| MAESTRO_PORT                         | 8888                     |                                            |
-| NODE_ENV                             | development|production   |                                            |
-| MAESTRO_MONGO_URI                    | mongodb://localhost:27017| DB string connection                       |
-| MAESTRO_MONGO_DATABASE               | maestro-client           | Database name                              |
-|                                      |                          |                                            |
-| MAESTRO_SECRETJWT                    | XXXX                     | Secret key - session                       |
-| MAESTRO_SECRETJWT_FORGOT             | XXXX                     | Secret key - forgot request                |
-| MAESTRO_SECRET_CRYPTO_FORGOT         | XXXX                     | Secret key - forgot content                |
-| MAESTRO_SECRETJWT_PUBLIC             | XXXX                     | Secret key - public shared                 |
-| MAESTRO_SECRETJWT_PRIVATE            | XXX                      | Secret Key - JWT private connections       |
-| MAESTRO_NOAUTH                       | XXX                      | Secret Pass to validate private connections|
-|                                      |                          |                                            |
-| MAESTRO_DISCOVERY_URI                | http://localhost:5000    | Url Discovery-app (flask)                  |
-| MAESTRO_REPORT_URI                   | http://localhost:5005    | Url Reports-app (flask)                    |
-| MAESTRO_ANALYTICS_URI                | http://localhost:5020    | Url Analytics-app (flask)                  |
-| MAESTRO_AUDIT_URI                    | http://localhost:10900   | Url Audit-app (krakenjs)                   |
-| MAESTRO_TIMEOUT                      | 1000                     | Timeout micro service request              |
-|                                      |                          |                                            |
-| SMTP_PORT                            | 1025                     |                                            |
-| SMTP_HOST                            | localhost                |                                            |
-| SMTP_SENDER                          | felipeklerkk@XXXX        |                                            |
-| SMTP_IGNORE                          | true|false               |                                            |
-| SMTP_USETSL                          | true|false               |                                            |
-| SMTP_USERNAME                        |                          |                                            |
-| SMTP_PASSWORD                        |                          |                                            |
-|                                      |                          |                                            |
-| AWS_ACCESS_KEY_ID                    | XXXX                     |                                            |
-| AWS_SECRET_ACCESS_KEY                | XXXX                     |                                            |
-| AWS_DEFAULT_REGION                   | us-east-1                |                                            |
-| AWS_S3_BUCKET_NAME                   | maestroserver            |                                            |
-| AWS_ENDPOINT                         | ny3.spacesdigitalocean   | S3 endpoint                                |
-| MAESTRO_UPLOAD_TYPE                  | S3/Local                 | Upload mode                                |
-| LOCAL_DIR                            | /public/static/          | Where files will be uploaded               |
-| PWD                                  | $rootDirectory           | PWD process                                |
+| Env Variables                        | Example                      | Description                                                                 |
+|--------------------------------------|------------------------------|-----------------------------------------------------------------------------|
+| MAESTRO_PORT                         | 8888                         |                                                                             |
+| NODE_ENV                             | development|production       |                                                                             |
+| MAESTRO_MONGO_URI                    | mongodb://localhost:27017    | DB string connection                                                        |
+| MAESTRO_MONGO_DATABASE               | maestro-client               | Database name                                                               |
+|                                      |                              |                                                                             |
+| MAESTRO_SECRETJWT                    | XXXX                         | Secret key - session                                                        |
+| MAESTRO_SECRETJWT_FORGOT             | XXXX                         | Secret key - forgot request                                                 |
+| MAESTRO_SECRET_CRYPTO_FORGOT         | XXXX                         | Secret key - forgot content                                                 |
+| MAESTRO_SECRETJWT_PUBLIC             | XXXX                         | Secret key - public shared                                                  |
+| MAESTRO_SECRETJWT_PRIVATE            | XXX                          | Secret Key - JWT private connections                                        |
+| MAESTRO_NOAUTH                       | XXX                          | Secret Pass to validate private connections                                 |
+|                                      |                              |                                                                             |
+| MAESTRO_DISCOVERY_URI                | http://localhost:5000        | Url Discovery-app (flask)                                                   |
+| MAESTRO_REPORT_URI                   | http://localhost:5005        | Url Reports-app (flask)                                                     |
+| MAESTRO_ANALYTICS_URI                | http://localhost:5020        | Url Analytics-app (flask)                                                   |
+| MAESTRO_AUDIT_URI                    | http://localhost:10900       | Url Audit-app (krakenjs)                                                    |
+| MAESTRO_TIMEOUT                      | 1000                         | Timeout micro service request                                               |
+|                                      |                              |                                                                             |
+| SMTP_PORT                            | 1025                         |                                                                             |
+| SMTP_HOST                            | localhost                    |                                                                             |
+| SMTP_SENDER                          | felipeklerkk@XXXX            |                                                                             |
+| SMTP_IGNORE                          | true|false                   |                                                                             |
+| SMTP_USETSL                          | true|false                   |                                                                             |
+| SMTP_USERNAME                        |                              |                                                                             |
+| SMTP_PASSWORD                        |                              |                                                                             |
+|                                      |                              |                                                                             |
+| AWS_ACCESS_KEY_ID                    | XXXX                         |                                                                             |
+| AWS_SECRET_ACCESS_KEY                | XXXX                         |                                                                             |
+| AWS_DEFAULT_REGION                   | us-east-1                    |                                                                             |
+| AWS_S3_BUCKET_NAME                   | maestroserver                |                                                                             |
+| AWS_ENDPOINT                         | ny3.spacesdigitalocean       | S3 endpoint                                                                 |
+| MAESTRO_UPLOAD_TYPE                  | S3/Local                     | Upload mode                                                                 |
+| LOCAL_DIR                            | /public/static/              | Where files will be uploaded                                                |
+| PWD                                  | $rootDirectory               | PWD process                                                                 |
+|                                      |                              |                                                                             |
+| HTTP_ENDPOINT                        | https://api.maestroserver.io | Used only for demo-maestroserver, endpopint to be use for populate database |
 
 ### Contribute ###
 
