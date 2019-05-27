@@ -1,0 +1,13 @@
+FROM keymetrics/pm2:8-alpine
+MAINTAINER maestro@maestroserver.io
+
+# Bundle APP files
+WORKDIR /data
+
+COPY ./ ./
+
+RUN apk --no-cache add --virtual native-deps g++ gcc libgcc libstdc++ linux-headers make python tini
+RUN npm install
+RUN npm rebuild bcrypt --build-from-source
+
+ENTRYPOINT ["npm","run","demo_populate"]

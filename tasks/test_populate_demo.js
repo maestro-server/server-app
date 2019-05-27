@@ -10,7 +10,8 @@ module.exports = function (gulp, $) {
     gulp.task('test_populate_demo', function () {
         return gulp.src(['devtools/migration_demo/populate.js'])
             .pipe(mocha({
-                timeout: 6000
+                timeout: 6000,
+		exit: true
             }));
     });
 };
