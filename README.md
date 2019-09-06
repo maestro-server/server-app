@@ -154,7 +154,7 @@ gulp eslint
 | SMTP_HOST                            | localhost                    |                                                                             |
 | SMTP_SENDER                          | felipeklerkk@XXXX            |                                                                             |
 | SMTP_IGNORE                          | true|false                   |                                                                             |
-| SMTP_USETSL                          | true|false                   |                                                                             |
+| SMTP_USETLS                          | true|false                   |                                                                             |
 | SMTP_USERNAME                        |                              |                                                                             |
 | SMTP_PASSWORD                        |                              |                                                                             |
 |                                      |                              |                                                                             |
