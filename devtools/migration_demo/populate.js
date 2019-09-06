@@ -70,11 +70,10 @@ describe('demo setup', function () {
     });
 
     const createItem = function (col, value, done, callback) {
-        request(mock)
+        request(HTTP_ENDPOINT)
             .post('/' + col)
             .set('Authorization', `JWT ${user.token}`)
             .send(value)
-            .expect(console.log)
             .expect(201)
             .expect(callback)
             .end(function (err) {
@@ -182,7 +181,7 @@ describe('demo setup', function () {
 
     describe('create new user', function () {
         it('Create account - success', function (done) {
-            request(mock)
+            request(HTTP_ENDPOINT)
                 .post('/users')
                 .send(user)
                 .expect(201)
@@ -197,7 +196,7 @@ describe('demo setup', function () {
 
     describe('get token', function () {
         it('Exist user - get my token', function (done) {
-            request(mock)
+            request(HTTP_ENDPOINT)
                 .post('/users/auth')
                 .send(user)
                 .expect(200)
@@ -355,7 +354,6 @@ describe('demo setup', function () {
                         .post("/" + key)
                         .set('Authorization', `JWT ${user.token}`)
                         .send(value)
-                        .expect(console.log)
                         .expect(201)
                         .end(function (err) {
                             if (err) return done(err);
