@@ -2,7 +2,7 @@
 
 exports.up = function (db, next) {
     let pets = db.collection('adminer');
-    pets.insert({
+    pets.insertOne({
         'value': {
             tables: [
                 {
@@ -308,5 +308,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'reports_options'}, [], {}, {remove: true}, next);
+    pets.findOneAndDelete({key: 'reports_options'}, next);
 };

@@ -3,7 +3,7 @@
 
 exports.up = function (db, next) {
     let pets = db.collection('adminer');
-    pets.insert({
+    pets.insertOne({
         "value": {
           environment: ['Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'],
           size: ['nano', 'small', 'medium', 'large', 'xlarge', '2xlarge', '4xlarge', '8xlarge', '16xlarge', '32xlarge']
@@ -17,5 +17,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'env_options'}, [], {}, {remove: true}, next);
+    pets.findOneAndDelete({key: 'env_options'}, next);
 };

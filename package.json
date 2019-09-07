@@ -19,11 +19,11 @@
         "docs-analytics": "gulp apidocs --name analytics",
         "docs": "gulp apidocs --name inventory && gulp apidocs --name identity && gulp apidocs --name reports && gulp apidocs --name adminer && gulp apidocs --name analytics",
         "coverage": "nyc --reporter=lcov mocha test/**/*js --timeout 5000 --exit",
-        "migrate": "node ./node_modules/mongodb-migrate -runmm -cfg .migration-config.js up",
-        "create_migrate": "node ./node_modules/mongodb-migrate -runmm create",
-        "down_migrate": "node ./node_modules/mongodb-migrate -runmm -cfg .migration-config.js down",
+        "migrate": "node ./node_modules/mongodb-migrate-maestroserver -runmm -cfg .migration-config.js up",
+        "create_migrate": "node ./node_modules/mongodb-migrate-maestroserver -runmm create",
+        "down_migrate": "node ./node_modules/mongodb-migrate-maestroserver -runmm -cfg .migration-config.js down",
         "demo_populate": "gulp test_populate_demo",
-        "demo_destroy": "node ./node_modules/mongodb-migrate -runmm -c devtools/migration_demo/ -cfg .migration-config.js down"
+        "demo_destroy": "node ./node_modules/mongodb-migrate-maestroserver -runmm -c devtools/migration_demo/ -cfg .migration-config.js down"
     },
     "dependencies": {
         "app-module-path": "~2.2.0",
@@ -44,7 +44,7 @@
         "kraken-js": "^2.2.0",
         "lodash": "^4.17.11",
         "minipass": "^2.3.4",
-        "mongodb-migrate": "~2.0.2",
+        "mongodb-migrate-maestroserver": "^2.0.2",
         "mongorito": "~2.2.0",
         "nodemailer": "^4.6.8",
         "nodemailer-express-handlebars": "^3.0.0",
