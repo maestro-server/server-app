@@ -3,7 +3,7 @@
 
 exports.up = function (db, next) {
     let pets = db.collection('adminer');
-    pets.insert({
+    pets.insertOne({
         "value": {
             families: ['Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'Repository', 'DNS', 'CI/CD', 'Auth', 'NAS', 'AutoScaling', 'AutoScalingPlan', 'ETL', 'BigData'],
             role: ['Application', 'Worker', 'Jobs', 'Testing', 'Standard'],
@@ -19,5 +19,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'application_options'}, [], {}, {remove: true}, next);
+    pets.findOneAndDelete({key: 'application_options'}, next);
 };

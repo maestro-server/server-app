@@ -2,7 +2,7 @@
 
 exports.up = function (db, next) {
     let pets = db.collection('adminer');
-    pets.insert({
+    pets.insertOne({
         "value": {
             provider: ['AWS', 'OpenStack', 'Azure', 'IBM BlueMix', 'Digital Ocean', 'Linode', 'RackSpace',
                 'Google CloudEngine', 'LocaWeb Jelastic', 'Heroku', 'OVH', 'GoDaddy'],
@@ -119,5 +119,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'datacenter_options'}, [], {}, {remove: true}, next);
+    pets.findOneAndDelete({key: 'datacenter_options'}, next);
 };

@@ -2,7 +2,7 @@
 
 exports.up = function(db, next){
   let pets = db.collection('adminer');
-  pets.insert({
+  pets.insertOne({
       "value": {
           channels: ['Email', 'HipChat', 'Slack', 'MS Teams', 'RocketChat', 'Skype', 'Phone', 'Glitter']
       },
@@ -15,5 +15,5 @@ exports.up = function(db, next){
 exports.down = function(db, next){
   let pets = db.collection('adminer');
 
-  pets.findAndModify({key: 'clients_options'}, [], {}, {remove: true}, next);
+  pets.findOneAndDelete({key: 'clients_options'}, next);
 };

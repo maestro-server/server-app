@@ -3,7 +3,7 @@
 
 exports.up = function (db, next) {
     let pets = db.collection('adminer');
-    pets.insert({
+    pets.insertOne({
         "value": {
             status: ['Active', 'Avaliable', 'Stopped', 'Deleted', 'Error']
         },
@@ -16,5 +16,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'status_volume_options'}, [], {}, {remove: true}, next);
+    pets.findOneAndDelete({key: 'status_volume_options'}, next);
 };

@@ -3,7 +3,7 @@
 
 exports.up = function (db, next) {
     let pets = db.collection('adminer');
-    pets.insert({
+    pets.insertOne({
         "value": {
           ia_type: ['bot', 'translate', 'recognition']
         },
@@ -16,5 +16,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'env_options'}, [], {}, {remove: true}, next);
+    pets.findOneAndDelete({key: 'env_options'}, next);
 };

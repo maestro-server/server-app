@@ -3,7 +3,7 @@
 
 exports.up = function (db, next) {
     let pets = db.collection('adminer');
-    pets.insert({
+    pets.insertOne({
         "value": {
             managers: ['SystV', 'SystemCtl', 'Upstart']
         },
@@ -16,5 +16,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'services_options'}, [], {}, {remove: true}, next);
+    pets.findOneAndDelete({key: 'services_options'}, next);
 };

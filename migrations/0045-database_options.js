@@ -3,7 +3,7 @@
 
 exports.up = function (db, next) {
     let pets = db.collection('adminer');
-    pets.insert({
+    pets.insertOne({
         "value": {
             types: ['Relational', 'Document Store', 'Key Value', 'Graph', 'MultiModel', 'Object', 'XML DB', 'TimeSeries', 'Scientific', 'Outher'],
             role: ['Master', 'Replica', 'Arbiter', 'Clusterized'],
@@ -26,5 +26,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'database_options'}, [], {}, {remove: true}, next);
+    pets.findOneAndDelete({key: 'database_options'}, next);
 };

@@ -1,10 +1,17 @@
 'use strict'
 require('dotenv').config();
 
-const dbpath = require('./app/core/libs/dbpath')();
+const uri = process.env.MAESTRO_MONGO_URI || 'mongodb://localhost';
+const db = process.env.MAESTRO_MONGO_DATABASE || 'maestro-client';
 
 module.exports = {
     "mongoAppDb": {
-        "connectionString": dbpath
+        "connectionString": uri,
+        "database": db,
+        "strOpts":
+            {
+                useUnifiedTopology: true,
+                useNewUrlParser: true
+            }
     }
 }

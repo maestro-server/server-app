@@ -3,7 +3,7 @@
 
 exports.up = function (db, next) {
     let pets = db.collection('adminer');
-    pets.insert({
+    pets.insertOne({
         "value": {
             check: ['Public URL', 'Private URL', 'Admin', 'WebSocket', 'TCP/IP', 'Unix Sock', 'HealthCheck']
         },
@@ -16,5 +16,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'system_options'}, [], {}, {remove: true}, next);
+    pets.findOneAndDelete({key: 'system_options'}, next);
 };

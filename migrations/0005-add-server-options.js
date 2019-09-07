@@ -2,7 +2,7 @@
 
 exports.up = function (db, next) {
     let pets = db.collection('adminer');
-    pets.insert({
+    pets.insertOne({
         'value': {
             serverType: ['Virtual', 'Exalogic', 'Exadata', 'Physical', 'PSeries'],
             status: ['Active', 'Avaliable', 'Stopped'],
@@ -19,5 +19,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'server_options'}, [], {}, {remove: true}, next);
+    pets.findOneAndDelete({key: 'server_options'}, next);
 };

@@ -473,5 +473,5 @@ exports.up = function (db, next) {
 };
 
 exports.down = function (db, next) {
-    db.collection('services').remove(next);
+    db.collection('services').deleteOne(next);
 };

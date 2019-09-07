@@ -3,7 +3,7 @@
 
 exports.up = function (db, next) {
     let pets = db.collection('adminer');
-    pets.insert({
+    pets.insertOne({
         "value": {
             protocol: ['rest', 'http', 'graphQL', 'falcor', 'thrift', 'soap', 'xml-rpc',
                 'gRPC', 'gossip', 'beep', 'cts', 'wps', 'wscl', 'wsfl', 'wcf', 'xins'],
@@ -19,5 +19,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findAndModify({key: 'deps_options'}, [], {}, {remove: true}, next);
+    pets.findOneAndDelete({key: 'deps_options'}, next);
 };
