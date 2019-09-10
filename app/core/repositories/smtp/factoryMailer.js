@@ -8,7 +8,7 @@ const factoryMailer = {
     transporter: false,
 
 
-    options: {viewPath: templatepath, extName: ".hbs", viewEngine: {partialsDir: templatepath}},
+    options: {viewPath: templatepath, extName: ".hbs", viewEngine: {partialsDir: templatepath, defaultLayout: false}},
 
     connected: false,
 
