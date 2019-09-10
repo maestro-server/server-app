@@ -17,12 +17,12 @@ const factoryMailer = {
         const smtpConfig = {
             host: process.env.SMTP_HOST,
             port: process.env.SMTP_PORT,
-            ignoreTLS: process.env.SMTP_IGNORE
+            ignoreTLS: process.env.SMTP_IGNORE || false,
+            secure: process.env.SMTP_USETLS || false
         };
 
-        if(process.env.SMTP_USETLS) {
+        if(process.env.SMTP_USERNAME) {
             Object.assign(smtpConfig, {
-                secure: process.env.SMTP_USETLS,
                 auth: {
                     user: process.env.SMTP_USERNAME,
                     pass: process.env.SMTP_PASSWORD
