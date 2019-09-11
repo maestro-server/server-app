@@ -1,7 +1,7 @@
 "use strict";
 
 const _ = require('lodash');
-const {ObjectId} = require('mongorito');
+const {ObjectId} = require('core/repositories/daos/mongorito/');
 const NotFoundError = require('core/errors/factoryError')('NotFoundError');
 
 

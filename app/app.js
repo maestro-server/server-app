@@ -7,7 +7,7 @@ const kraken = require('kraken-js');
 
 const db_connect = require('core/libs/db_run');
 const dbpath = require('core/libs/dbpath')();
-const Mongorito = require('mongorito');
+const Mongorito = require('core/repositories/daos/mongorito/');
 
 /*
  * Create and configure application. Also exports application instance for use by tests.

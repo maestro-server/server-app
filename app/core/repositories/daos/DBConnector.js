@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const {Model} = require('mongorito');
+const {Model} = require('core/repositories/daos/mongorito/');
 
 const bcrypt = require('bcrypt');
 const crypto = require('core/libs/crypto');
