@@ -10,7 +10,7 @@
         "e2e": "gulp test_e2e",
         "unit": "gulp test_unit",
         "lint": "gulp eslint",
-        "tdd": "gulp tdd",
+        "tdd": "gulp tdd_single",
         "package": "docker build -t 'server-maestro' .",
         "docs-inventory": "gulp apidocs --name inventory",
         "docs-identity": "gulp apidocs --name identity",

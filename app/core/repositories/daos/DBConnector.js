@@ -3,28 +3,8 @@
 const _ = require('lodash');
 const {Model} = require('core/repositories/daos/mongorito/');
 
-const bcrypt = require('bcrypt');
-const crypto = require('core/libs/crypto');
-
 
 class Dao extends Model {
-
-    configure() {
-        super.configure();
-        this.before('save', 'passHash');
-    }
-
-    /**
-     * Password Hashing
-     */
-    passHash() {
-        if (this.get('password'))
-            this.set('password', this.makeHash(this.get('password')));
-    }
-
-    makeHash(string) {
-        return bcrypt.hashSync(string, crypto.getCryptLevel());
-    }
 
     updateFull(filter, options) {
         const opts = _.get(options, 'oUpdater', '');
@@ -66,9 +46,6 @@ class Dao extends Model {
     updateFactory(entity, entry, options) {
 
         return this._collection()
-            .tap(() => {
-                return this._runHooks('before', 'update');
-            })
             .then((collection) => {
                 const subs = entry ? {[entry]: this.get()} : this.get();
                 return collection.update(entity, subs, options);
@@ -82,9 +59,6 @@ class Dao extends Model {
     updateManyFactory(entity, entry, options) {
 
         return this._collection()
-            .tap(() => {
-                return this._runHooks('before', 'update');
-            })
             .then((collection) => {
                 const subs = entry ? {[entry]: this.get()} : this.get();
                 return collection.updateMany(entity, subs, options);

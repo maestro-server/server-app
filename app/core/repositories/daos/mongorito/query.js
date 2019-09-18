@@ -4,7 +4,7 @@
 * Dependencies
 */
 
-const toObjectId = require('../util/to-objectid');
+const toObjectId = require('./util/to-objectid');
 const Promise = require('bluebird');
 const assign = require('object-assign');
 const is = require('is_js');
