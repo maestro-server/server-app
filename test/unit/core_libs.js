@@ -104,7 +104,7 @@ describe('unit - core', function () {
 
 
     it('libs - in_maker - single str', function (done) {
-        const {ObjectId} = require('core/repositories/daos/mongorito/');
+        const {ObjectId} = require('mongodb');
         const inMaker = require('core/libs/in_maker');
         const str = "5a32943514ea552585daf6b1";
 
@@ -116,7 +116,7 @@ describe('unit - core', function () {
     });
 
     it('libs - in_maker - array str', function (done) {
-        const {ObjectId} = require('core/repositories/daos/mongorito/');
+        const {ObjectId} = require('mongodb');
         const inMaker = require('core/libs/in_maker');
 
         const setup = ["5a32943514ea552585daf6b1", "5a32943514ea552585daf6b2", "5a32943514ea552585daf6b3"];

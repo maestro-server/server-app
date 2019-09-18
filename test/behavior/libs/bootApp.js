@@ -6,7 +6,7 @@ const express = require('express');
 const kraken = require('kraken-js');
 
 const db_connect = require('core/libs/db_run');
-const Mongorito = require('core/repositories/daos/mongorito/');
+const Mongorito = require('core/repositories/daos/mongorito/libs/mongorito');
 const dbpath = require('core/libs/dbpath')();
 const path = require('path');
 
