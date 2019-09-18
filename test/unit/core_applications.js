@@ -199,7 +199,7 @@ describe('unit - core', function () {
      */
 
     it('applications - transform - mapRelationToObjectID - simple object', function (done) {
-        const {ObjectId} = require('core/repositories/daos/mongorito/');
+        const {ObjectId} = require('mongodb');
         const strIDtoObject = require('core/applications/transforms/mapRelationToObjectID');
         const str = "5a32943514ea552585daf6b1"
 
@@ -218,7 +218,7 @@ describe('unit - core', function () {
     });
 
     it('applications - transform - mapRelationToObjectID - array simple str', function (done) {
-        const {ObjectId} = require('core/repositories/daos/mongorito/');
+        const {ObjectId} = require('mongodb');
         const strIDtoObject = require('core/applications/transforms/mapRelationToObjectID');
         const str = "5a32943514ea552585daf6b1";
         const str2 = "5a2af615a6bbb1d69d4e83e7";
@@ -238,7 +238,7 @@ describe('unit - core', function () {
     });
 
     it('applications - transform - mapRelationToObjectID - array object', function (done) {
-        const {ObjectId} = require('core/repositories/daos/mongorito/');
+        const {ObjectId} = require('mongodb');
         const strIDtoObject = require('core/applications/transforms/mapRelationToObjectID');
         const str = "5a32943514ea552585daf6b1";
         const str2 = "5a2af615a6bbb1d69d4e83e7";
@@ -258,7 +258,7 @@ describe('unit - core', function () {
     });
 
     it('applications - transform - transfID - object simple str', function (done) {
-        const {ObjectId} = require('core/repositories/daos/mongorito/');
+        const {ObjectId} = require('mongodb');
         const {transfID} = require('core/applications/transforms/mapRelationToObjectID');
         const str = "5a32943514ea552585daf6b1";
 
@@ -276,7 +276,7 @@ describe('unit - core', function () {
     });
 
     it('applications - transform - transfID - deeper object', function (done) {
-        const {ObjectId} = require('core/repositories/daos/mongorito/');
+        const {ObjectId} = require('mongodb');
         const {transfID} = require('core/applications/transforms/mapRelationToObjectID');
         const str = "5a32943514ea552585daf6b1";
 

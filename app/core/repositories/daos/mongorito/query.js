@@ -1,18 +1,10 @@
 'use strict';
 
-/**
-* Dependencies
-*/
-
-const toObjectId = require('./util/to-objectid');
+const toObjectId = require('./libs/to-objectid');
 const Promise = require('bluebird');
 const assign = require('object-assign');
 const is = require('is_js');
 
-
-/**
-* Query
-*/
 
 function Query (collection, model, key) {
 	this.collection = collection;
