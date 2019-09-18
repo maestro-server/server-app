@@ -1,6 +1,6 @@
 'use strict';
 
-const toObjectId = require('./libs/to-objectid');
+const toObjectId = require('./to-objectid');
 const Promise = require('bluebird');
 const assign = require('object-assign');
 const is = require('is_js');
