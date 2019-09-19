@@ -1,30 +1,30 @@
 'use strict';
 
-const Promise = require('bluebird');
 const _ = require('lodash');
-const Mongorito = require('./mongorito/libs/mongorito');
-const Model = require('core/repositories/daos/mongorito/');
+const Promise = require('bluebird');
+const Connector = require('./connector/connector');
+const Model = require('./connector/model');
 const bcrypt = require('bcrypt');
 const crypto = require('core/libs/crypto');
 
 class Dao extends Model {
 
     _db() {
-        let db = this.db ? this.db() : Mongorito._connection;
+        let db = this.db ? this.db() : Connector._connection;
         return Promise.resolve(db);
     }
 
     _collection() {
         return this._db().then((db) => {
             if (_.isString(this.collection))
-                return Mongorito._collection(db, this.collection);
+                return Connector._collection(db, this.collection);
     
             let defaultName = this.constructor.name.toLowerCase();
             let name = _.result(this, 'collection', defaultName);
 
             this.collection = this.constructor.prototype.collection = name;
     
-            return Mongorito._collection(db, this.collection);
+            return Connector._collection(db, this.collection);
         });
     }
 

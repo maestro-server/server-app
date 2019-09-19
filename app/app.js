@@ -7,7 +7,7 @@ const kraken = require('kraken-js');
 
 const db_connect = require('core/libs/db_run');
 const dbpath = require('core/libs/dbpath')();
-const Mongorito = require('core/repositories/daos/mongorito/libs/mongorito');
+const Connector = require('core/repositories/daos/connector/connector');
 
 /*
  * Create and configure application. Also exports application instance for use by tests.
@@ -21,7 +21,7 @@ const options = {
          */
 
         db_connect(function *() {
-            yield Mongorito.connect(dbpath);
+            yield  Connector.connect(dbpath);
             next(null, config);
             console.log("Maestro: Mongo online");
         });

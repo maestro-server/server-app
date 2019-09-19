@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const toObjectId = require('./to-objectid');
+const toObjectId = require('./libs/to-objectid');
 const Promise = require('bluebird');
 
 class Query {
