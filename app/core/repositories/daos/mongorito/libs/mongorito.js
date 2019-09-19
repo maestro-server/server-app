@@ -12,14 +12,6 @@ const MongoClient = mongodb.MongoClient;
 
 class Mongorito {}
 
-/**
- * Connect to a MongoDB database and return connection object
- *
- * @param {String} urls - connection urls (as arguments)
- * @see http://mongodb.github.io/node-mongodb-native/2.0/api/MongoClient.html#.connect
- * @api public
- */
-
 Mongorito.connect = function () {
 	// parse arguments
 	let args = Array.prototype.slice.call(arguments);
@@ -28,36 +20,31 @@ Mongorito.connect = function () {
 	let options = {};
 
 	args.forEach(function (arg) {
-		if (_.isString(arg)) {
+		if (_.isString(arg))
 			urls.push(arg);
-		}
 
-		if (_.isObject(arg)) {
+		if (_.isObject(arg))
 			options = arg;
-		}
 	});
 
-	urls = urls.map(function (url) {
-		if (!url.startsWith('mongodb://')) {
+	urls = urls.map((url) => {
+		if (!url.startsWith('mongodb://'))
 			url = 'mongodb://' + url;
-		}
 
 		return url;
 	});
 
-	let self = this;
-	let connection = MongoClient.connect(urls.join(','), options).then(function (db) {
-		if (!self.db) {
+	let connection = MongoClient.connect(urls.join(','), options).then((db) => {
+		if (!this.db) {
 			db.url = urls.join(',');
-			self.db = db;
+			this.db = db;
 		}
 
 		return db;
 	});
 
-	if (!this._connection) {
+	if (!this._connection)
 		this._connection = connection;
-	}
 
 	return connection;
 };
@@ -95,18 +82,14 @@ Mongorito._collection = function (db, name) {
 	let url = db.url;
 	let collections = this._collections[url];
 
-	if (!collections) {
+	if (!collections)
 		collections = this._collections[url] = {};
-	}
 
-	if (collections[name]) {
+	if (collections[name])
 		return collections[name];
-	}
 
 	let collection = db.collection(name);
-
 	collections[name] = collection;
-
 	return collections[name];
 };
 
