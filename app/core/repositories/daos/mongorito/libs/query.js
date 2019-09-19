@@ -4,26 +4,19 @@ const _ = require('lodash');
 const toObjectId = require('./to-objectid');
 const Promise = require('bluebird');
 
-function Query (collection, model, key) {
-	this.collection = collection;
-	this.model = model;
-	this.query = {};
-	this.options = {
-		populate: {},
-		sort: {},
-		fields: {}
-	};
-	this.lastKey = key;
+class Query {
+	constructor(collection, model, key) {
+		this.collection = collection;
+		this.model = model;
+		this.query = {};
+		this.options = {
+			populate: {},
+			sort: {},
+			fields: {}
+		};
+		this.lastKey = key;
+	}
 }
-
-
-/**
- * Set "where" condition
- *
- * @param {String} key - key
- * @param {Mixed} value - value
- * @api public
- */
 
 Query.prototype.where = function (key, value) {
 	// if object was passed instead of key-value pair
@@ -31,46 +24,27 @@ Query.prototype.where = function (key, value) {
 	if (_.isObject(key)) {
 		let conditions = key;
 		let keys = Object.keys(conditions);
-		let self = this;
 
-		keys.forEach(function (key) {
-			self.where(key, conditions[key]);
-		});
+		keys.forEach((k) => this.where(k, conditions[k]));
 	}
 
 	if (_.isString(key)) {
-		// if only one argument was supplied
-		// save the key in this.lastKey
-		// for future methods, like .equals()
 		if (_.isUndefined(value)) {
 			this.lastKey = key;
 			return this;
 		}
 
-		// if value is a regular expression
-		// use $regex modifier
-		if (_.isRegExp(value)) {
+		if (_.isRegExp(value))
 			value = { $regex: value };
-		}
 
-		if (_.isArray(value)) {
+		if (_.isArray(value))
 			value = { $in: value };
-		}
 
 		this.query[key] = value;
 	}
 
 	return this;
 };
-
-
-/**
- * Match documents using $elemMatch
- *
- * @param {String} key
- * @param {Object} value
- * @api public
- */
 
 Query.prototype.matches = function (key, value) {
 	if (this.lastKey) {
@@ -80,7 +54,6 @@ Query.prototype.matches = function (key, value) {
 	}
 
 	this.query[key] = { $elemMatch: value };
-
 	return this;
 };
 
@@ -88,81 +61,42 @@ Query.prototype.match = function () {
 	return this.matches.apply(this, arguments);
 };
 
-
-/**
- * Include fields in a result
- *
- * @param {String} key
- * @param {Mixed} value
- * @api public
- */
-
 Query.prototype.include = function (key, value) {
-	let self = this;
-
 	if (Array.isArray(key)) {
 		let fields = key;
+		fields.forEach((k) => this.include(k));
 
-		fields.forEach(function (key) {
-			self.include(key);
-		});
 	} else if (_.isObject(key)) {
 		let fields = key;
 		let keys = Object.keys(fields);
 
-		keys.forEach(function (key) {
-			self.include(key, fields[key]);
-		});
+		keys.forEach((k) => this.include(k, fields[k]));
 	}
 
-	if (_.isString(key)) {
+	if (_.isString(key))
 		this.options.fields[key] = value === undefined ? 1 : value;
-	}
 
 	return this;
 };
-
-
-/**
- * Exclude fields from result
- *
- * @param {String} key
- * @param {String} value
- * @api public
- */
 
 Query.prototype.exclude = function (key, value) {
-	let self = this;
 
 	if (Array.isArray(key)) {
 		let fields = key;
+		fields.forEach((k) => this.exclude(k));
 
-		fields.forEach(function (key) {
-			self.exclude(key);
-		});
 	} else if (_.isObject(key)) {
 		let fields = key;
 		let keys = Object.keys(fields);
 
-		keys.forEach(function (key) {
-			self.exclude(key, fields[key]);
-		});
+		keys.forEach((k) => this.exclude(k, fields[k]));
 	}
 
-	if (_.isString(key)) {
+	if (_.isString(key))
 		this.options.fields[key] = value === undefined ? 0 : value;
-	}
 
 	return this;
 };
-
-
-/**
- * Search using text index
- *
- * @param {String} text
- * @api public
- */
 
 Query.prototype.search = function (text) {
 	this.where({
@@ -174,53 +108,22 @@ Query.prototype.search = function (text) {
 	return this;
 };
 
-/**
- * Get distinct
- *
- * @param {String} field for distinct
- * @param {Object} query - query to filter the results
- * @see http://mongodb.github.io/node-mongodb-native/2.0/api/Collection.html#distinct
- * @api public
- */
-
 Query.prototype.distinct = function (field, query) {
-	let self = this;
 	this.where(query);
-	return this.collection.then(function (collection) {
-		return collection.distinct(field, self.query);
-	});
+	return this.collection.then((collection) => collection.distinct(field, this.query));
 };
 
-/**
- * Aggregation query
- *
- * @param {String} pipeline aggregation pipeline
- * @param {Object} options - Options to be passed to aggregation pipeline
- * @see http://mongodb.github.io/node-mongodb-native/2.0/api/Collection.html#aggregate
- * @api public
- */
-
 Query.prototype.aggregate = function (pipeline) {
-	return this.collection.then(function (collection) {
+	return this.collection.then((collection) => {
 		let cursor = collection.aggregate(pipeline, { cursor: { batchSize: 1 } });
 		return cursor
 			.toArray()
-			.then(function (docs) {
+			.then((docs) => {
 				cursor.close();
 				return docs;
 			});
 	});
 };
-
-
-
-
-/**
- * Set query limit
- *
- * @param {Number} limit - limit number
- * @api public
- */
 
 Query.prototype.limit = function (limit) {
 	this.options.limit = limit;
@@ -228,68 +131,30 @@ Query.prototype.limit = function (limit) {
 	return this;
 };
 
-
-/**
- * Set query skip
- *
- * @param {Number} skip - skip number
- * @api public
- */
-
 Query.prototype.skip = function (skip) {
 	this.options.skip = skip;
 
 	return this;
 };
 
-
-/**
- * Sort query results
- *
- * @param {Object} sort - sort params
- * @see http://mongodb.github.io/node-mongodb-native/2.0/api/Cursor.html#sort
- * @api public
- */
-
 Query.prototype.sort = function (key, value) {
-	if (_.isObject(key)) {
+	if (_.isObject(key))
 		_.assign(this.options.sort, key);
-	}
 
-	if (_.isString(key) && value) {
+	if (_.isString(key) && value)
 		this.options.sort[key] = value;
-	}
 
 	return this;
 };
 
-
-/**
- * Same as .where(), only less flexible
- *
- * @param {String} key - key
- * @param {Mixed} value - value
- * @api public
- */
-
 Query.prototype.equals = function (value) {
 	let key = this.lastKey;
-
 	this.lastKey = null;
 
 	this.query[key] = value;
 
 	return this;
 };
-
-
-/**
- * Set property that must or mustn't exist in resulting docs
- *
- * @param {String} key - key
- * @param {Boolean} exists - exists or not
- * @api public
- */
 
 Query.prototype.exists = function (key, exists) {
 	if (this.lastKey) {
@@ -303,47 +168,17 @@ Query.prototype.exists = function (key, exists) {
 	return this;
 };
 
-
-/**
- * Query population
- *
- * @param {String} key - key
- * @param {Model} model - model to populate with
- * @see http://mongorito.com/guides/query-population/
- * @api public
- */
-
 Query.prototype.populate = function (key, model) {
 	this.options.populate[key] = model;
 
 	return this;
 };
 
-
-/**
- * Count documents
- *
- * @param {Object} query - find conditions, same as this.where()
- * @api public
- */
-
 Query.prototype.count = function (query) {
-	let self = this;
-
 	this.where(query);
 
-	return this.collection.then(function (collection) {
-		return collection.count(self.query);
-	});
+	return this.collection.then((collection) => collection.count(this.query));
 };
-
-
-/**
- * Find documents
- *
- * @param {Object} query - find conditions, same as this.where()
- * @api public
- */
 
 Query.prototype.find = function (query, options) {
 	let Model = this.model;
@@ -377,39 +212,38 @@ Query.prototype.find = function (query, options) {
 
 	// find
 	return this.collection
-		.then(function (collection) {
+		.then((collection) => {
 			let cursor = collection.find(query, options);
 
 			return cursor
 				.toArray()
-				.then(function (docs) {
+				.then((docs) => {
 					cursor.close();
-
 					return docs;
 				});
 		})
-		.map(function (doc) {
-			return Promise.each(populate, function (key) {
+		.map((doc) => {
+			return Promise.each(populate, (key) => {
 				let childModel = options.populate[key];
 				let idsArray = doc[key];
 
 				let promise = childModel.findById(idsArray);
 
-				return promise.then(function (subdocs) {
+				return promise.then((subdocs) => {
 					// reorder the received documents as ordered in the IDs Array
 					let orderedDocuments = idsArray.slice();
-					subdocs.map(doc => {
-						let id = toObjectId(doc.get('_id'));
+					subdocs.map((dc) => {
+						let id = toObjectId(dc.get('_id'));
 						for (let index in idsArray) {
 							if (idsArray[index].equals && idsArray[index].equals(id)) {
-								orderedDocuments[index] = doc;
+								orderedDocuments[index] = dc;
 							}
 						}
 					});
 
 					doc[key] = orderedDocuments;
 				});
-			}).then(function () {
+			}).then(() => {
 				return new Model(doc, {
 					populate: options.populate
 				});
@@ -417,53 +251,23 @@ Query.prototype.find = function (query, options) {
 		});
 };
 
-
-/**
- * Find one document
- *
- * @param {Object} query - find conditions, same as this.where()
- * @api public
- */
-
 Query.prototype.findOne = function (query) {
 	return this.find(query)
-		.then(function (docs) {
-			return docs[0];
-		});
+		.then((docs) => docs[0]);
 };
-
-
-/**
- * Find documents by ID
- *
- * @param {ObjectID} id - document id or Array of document ids
- * @api public
- */
 
 Query.prototype.findById = function (id) {
 	if (Array.isArray(id)) {
-		let ids = id.map(id => toObjectId(id));
+		let ids = id.map((iid) => toObjectId(iid));
 		return this.find({ _id: { $in: ids } });
 	}
+
 	return this.findOne({ _id: toObjectId(id) });
 };
 
-
-/**
- * Remove documents
- *
- * @param {Object} query - remove conditions, same as this.where()
- * @api public
- */
-
 Query.prototype.remove = function (query) {
-	let self = this;
-
 	this.where(query);
-
-	return this.collection.then(function (collection) {
-		return collection.remove(self.query, self.options);
-	});
+	return this.collection.then((collection) => collection.remove(this.query, this.options));
 };
 
 // Setting up functions that
@@ -513,10 +317,5 @@ methods.forEach(function (method) {
 		return this;
 	};
 });
-
-
-/**
- * Expose Query
- */
 
 module.exports = Query;
