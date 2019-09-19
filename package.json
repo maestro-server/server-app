@@ -44,7 +44,7 @@
         "kraken-js": "^2.2.0",
         "lodash": "^4.17.15",
         "minipass": "^2.3.4",
-        "mongodb": "^2.0.48",
+        "mongodb": "^3.3.2",
         "mongodb-migrate-maestroserver": "^2.1.1",
         "nodemailer": "^4.7.0",
         "nodemailer-express-handlebars": "^3.1.0",

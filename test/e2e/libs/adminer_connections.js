@@ -5,7 +5,12 @@ let MongoClient = require("mongodb").MongoClient;
 const dbpath = require('../../../app/core/libs/dbpath')();
 
 module.exports = function (done, conn = dbpath) {
-    MongoClient.connect(conn)
+    const strOpts = {
+        useUnifiedTopology: true,
+        useNewUrlParser: true
+      };
+
+    MongoClient.connect(conn, strOpts)
         .then((db) => {
             let pets = db.collection('adminer');
 

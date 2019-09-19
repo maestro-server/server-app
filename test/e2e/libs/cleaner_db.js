@@ -27,17 +27,21 @@ const interactC = function (db, collections) {
 };
 
 module.exports = function (collections, done, mock, conn = dbpath) {
+  const strOpts = {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+  };
 
-    MongoClient.connect(conn)
-        .then((db) => {
+  MongoClient.connect(conn, strOpts)
+      .then((db) => {
 
-          const pros = interactC(db, collections);
+        const pros = interactC(db, collections);
 
-          Promise.all(pros)
-            .then(() => {
-              done();
-              db.close();
-              //mock.close(done);
-            });
-        });
+        Promise.all(pros)
+          .then(() => {
+            done();
+            db.close();
+            //mock.close(done);
+          });
+      });
 };
