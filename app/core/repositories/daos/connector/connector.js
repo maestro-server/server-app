@@ -13,11 +13,14 @@ const MongoClient = mongodb.MongoClient;
 class Connector {}
 
 Connector.connect = function () {
-	// parse arguments
 	let args = Array.prototype.slice.call(arguments);
 
 	let urls = [];
 	let options = {};
+	const strOpts = {
+		useUnifiedTopology: true,
+		useNewUrlParser: true
+	};
 
 	args.forEach(function (arg) {
 		if (_.isString(arg))
@@ -26,8 +29,10 @@ Connector.connect = function () {
 		if (_.isObject(arg))
 			options = arg;
 	});
+	
+	
 
-	let connection = MongoClient.connect(urls.join(','), options).then((db) => {
+	let connection = MongoClient.connect(urls.join(','), strOpts, options).then((db) => {
 		if (!this.db) {
 			db.url = urls.join(',');
 			this.db = db;
