@@ -72,23 +72,19 @@ Model.drop = function () {
 
 Model.index = function () {
 	let args = Array.prototype.slice.call(arguments);
-
-	return this._collection().then(function (collection) {
-		return collection.ensureIndex.apply(collection, args);
-	});
+	return this._collection().then((collection) => collection.ensureIndex.apply(collection, args));
 };
 
 Model.indexes = function () {
 	let args = Array.prototype.slice.call(arguments);
 
-	return this._collection().then(function (collection) {
+	return this._collection().then((collection) => {
 		let cursor = collection.listIndexes.apply(collection, args);
 
 		return cursor
 			.toArray()
-			.then(function (indexes) {
+			.then((indexes) => {
 				cursor.close();
-
 				return indexes;
 			});
 	});
@@ -123,7 +119,6 @@ const methods = [
 
 methods.forEach(function (method) {
 	Model[method] = function () {
-		// collection, model
 		let query = new Query(this._collection(), this);
 		query[method].apply(query, arguments);
 

@@ -1,10 +1,8 @@
 'use strict';
 
+const _ = require('lodash');
 const toObjectId = require('./to-objectid');
 const Promise = require('bluebird');
-const assign = require('object-assign');
-const is = require('is_js');
-
 
 function Query (collection, model, key) {
 	this.collection = collection;
@@ -30,7 +28,7 @@ function Query (collection, model, key) {
 Query.prototype.where = function (key, value) {
 	// if object was passed instead of key-value pair
 	// iterate over that object and call .where(key, value)
-	if (is.object(key)) {
+	if (_.isObject(key)) {
 		let conditions = key;
 		let keys = Object.keys(conditions);
 		let self = this;
@@ -40,22 +38,22 @@ Query.prototype.where = function (key, value) {
 		});
 	}
 
-	if (is.string(key)) {
+	if (_.isString(key)) {
 		// if only one argument was supplied
 		// save the key in this.lastKey
 		// for future methods, like .equals()
-		if (is.undefined(value)) {
+		if (_.isUndefined(value)) {
 			this.lastKey = key;
 			return this;
 		}
 
 		// if value is a regular expression
 		// use $regex modifier
-		if (is.regexp(value)) {
+		if (_.isRegExp(value)) {
 			value = { $regex: value };
 		}
 
-		if (is.array(value)) {
+		if (_.isArray(value)) {
 			value = { $in: value };
 		}
 
@@ -108,7 +106,7 @@ Query.prototype.include = function (key, value) {
 		fields.forEach(function (key) {
 			self.include(key);
 		});
-	} else if (is.object(key)) {
+	} else if (_.isObject(key)) {
 		let fields = key;
 		let keys = Object.keys(fields);
 
@@ -117,7 +115,7 @@ Query.prototype.include = function (key, value) {
 		});
 	}
 
-	if (is.string(key)) {
+	if (_.isString(key)) {
 		this.options.fields[key] = value === undefined ? 1 : value;
 	}
 
@@ -142,7 +140,7 @@ Query.prototype.exclude = function (key, value) {
 		fields.forEach(function (key) {
 			self.exclude(key);
 		});
-	} else if (is.object(key)) {
+	} else if (_.isObject(key)) {
 		let fields = key;
 		let keys = Object.keys(fields);
 
@@ -151,7 +149,7 @@ Query.prototype.exclude = function (key, value) {
 		});
 	}
 
-	if (is.string(key)) {
+	if (_.isString(key)) {
 		this.options.fields[key] = value === undefined ? 0 : value;
 	}
 
@@ -254,11 +252,11 @@ Query.prototype.skip = function (skip) {
  */
 
 Query.prototype.sort = function (key, value) {
-	if (is.object(key)) {
-		assign(this.options.sort, key);
+	if (_.isObject(key)) {
+		_.assign(this.options.sort, key);
 	}
 
-	if (is.string(key) && value) {
+	if (_.isString(key) && value) {
 		this.options.sort[key] = value;
 	}
 
@@ -350,17 +348,17 @@ Query.prototype.count = function (query) {
 Query.prototype.find = function (query, options) {
 	let Model = this.model;
 
-	query = assign({}, this.query, query);
+	query = _.assign({}, this.query, query);
 
 	// query options
-	options = assign({}, this.options, options);
+	options = _.assign({}, this.options, options);
 
 	// fields to populate
 	let populate = Object.keys(options.populate);
 
 	// ensure _id is ObjectId
 	if (query._id) {
-		if (is.object(query._id)) {
+		if (_.isObject(query._id)) {
 			if (query._id.$in) {
 				let convertedIds = [];
 

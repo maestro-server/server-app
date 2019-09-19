@@ -71,9 +71,7 @@ class Dao extends Model {
             let value = this.get(key);
     
             if (Array.isArray(value)) {
-                value = value.map(function (doc) {
-                    return doc.get('_id');
-                });
+                value = value.map((doc) => doc.get('_id'));
             } else {
                 value = value.get('_id');
             }
