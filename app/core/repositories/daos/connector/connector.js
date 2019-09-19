@@ -5,14 +5,14 @@ const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
 /**
-* Mongorito
+* Connector
 *
 * Main class, manages mongodb connection and collections
 */
 
-class Mongorito {}
+class Connector {}
 
-Mongorito.connect = function () {
+Connector.connect = function () {
 	// parse arguments
 	let args = Array.prototype.slice.call(arguments);
 
@@ -56,7 +56,7 @@ Mongorito.connect = function () {
  * @api public
  */
 
-Mongorito.disconnect = function () {
+Connector.disconnect = function () {
 	return this.db.close();
 };
 
@@ -67,8 +67,8 @@ Mongorito.disconnect = function () {
  * @api public
  */
 
-Mongorito.close = function () {
-	return Mongorito.disconnect.apply(this, arguments);
+Connector.close = function () {
+	return Connector.disconnect.apply(this, arguments);
 };
 
 
@@ -78,7 +78,7 @@ Mongorito.close = function () {
  * @api private
  */
 
-Mongorito._collection = function (db, name) {
+Connector._collection = function (db, name) {
 	let url = db.url;
 	let collections = this._collections[url];
 
@@ -100,6 +100,6 @@ Mongorito._collection = function (db, name) {
  * @api private
  */
 
-Mongorito._collections = {};
+Connector._collections = {};
 
-module.exports = Mongorito;
+module.exports = Connector;

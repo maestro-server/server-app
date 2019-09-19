@@ -1,9 +1,9 @@
 'use strict';
 
-const Mongorito = require('./libs/mongorito');
+const Connector = require('./connector');
 const Promise = require('bluebird');
 const _ = require('lodash');
-const Query = require('./libs/query');
+const Query = require('./query');
 
 class Model {
     constructor(attrs, options) {
@@ -15,7 +15,7 @@ class Model {
 }
 
 Model._db = function () {
-	let db = this.prototype.db ? this.prototype.db() : Mongorito._connection;
+	let db = this.prototype.db ? this.prototype.db() : Connector._connection;
 
 	return Promise.resolve(db);
 };
@@ -23,13 +23,13 @@ Model._db = function () {
 Model._collection = function () {
 	return this._db().then((db) => {
 		if (_.isString(this.prototype.collection)) {
-			return Mongorito._collection(db, this.prototype.collection);
+			return Connector._collection(db, this.prototype.collection);
 		}
 
 		let defaultName = this.name.toLowerCase();
 		let name = _.result(this.prototype, 'collection', defaultName);
 		this.prototype.collection = name;
-		return Mongorito._collection(db, name);
+		return Connector._collection(db, name);
 	});
 };
 

@@ -1,18 +1,6 @@
 'use strict';
 
-/**
- * Dependencies
- */
-
-const ObjectId = require('mongodb').ObjectId;
-
-
-/**
- * Expose `to-objectid`
- */
-
-module.exports = toObjectId;
-
+const {ObjectId} = require('mongodb');
 
 /**
  * Ensure that ids are always instances of ObjectId
@@ -25,3 +13,5 @@ function toObjectId (id) {
 
 	return new ObjectId(id);
 }
+
+module.exports = toObjectId;
