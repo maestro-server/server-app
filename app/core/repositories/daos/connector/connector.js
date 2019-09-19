@@ -27,13 +27,6 @@ Connector.connect = function () {
 			options = arg;
 	});
 
-	urls = urls.map((url) => {
-		if (!url.startsWith('mongodb://'))
-			url = 'mongodb://' + url;
-
-		return url;
-	});
-
 	let connection = MongoClient.connect(urls.join(','), options).then((db) => {
 		if (!this.db) {
 			db.url = urls.join(',');
