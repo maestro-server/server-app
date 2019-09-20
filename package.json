@@ -9,6 +9,7 @@
         "test": "mocha test/**/*js --timeout 5000 --reporter spec --exit",
         "e2e": "gulp test_e2e",
         "unit": "gulp test_unit",
+        "integration": "gulp test_integration",
         "lint": "gulp eslint",
         "tdd": "gulp tdd_single",
         "package": "docker build -t 'server-maestro' .",

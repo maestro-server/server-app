@@ -8,6 +8,7 @@ const kraken = require('kraken-js');
 const db_connect = require('core/libs/db_run');
 const Connector = require('core/repositories/daos/connector/connector');
 const dbpath = require('core/libs/dbpath')();
+const dbname = require('core/libs/dbname')();
 const path = require('path');
 
 module.exports = function (conn = dbpath) {
@@ -15,7 +16,7 @@ module.exports = function (conn = dbpath) {
     basedir: path.resolve(__dirname, '../../../app/'),
       onconfig: function (config, next) {
           db_connect(function *() {
-              yield Connector.connect(conn);
+              yield Connector.connect(conn, dbname);
               next(null, config);
           });
       }

@@ -176,6 +176,18 @@ describe('integration - core', function () {
                         .and.notify(done);
                 });
             });
+
+            describe('remove', function () {
+                it('remove', function (done) {
+                    const {unique_id} = data;
+                    const tt = DBRepository(Entity).remove({unique_id}, {name: "change"});
+
+                    expect(tt)
+                        .to.be.fulfilled
+                        .and.to.eventually.have.property("isUpdater")
+                        .and.notify(done);
+                });
+            });
         });
 
 

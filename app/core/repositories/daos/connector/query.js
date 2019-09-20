@@ -12,7 +12,7 @@ class Query {
 		this.options = {
 			populate: {},
 			sort: {},
-			fields: {}
+			projection: {}
 		};
 		this.lastKey = key;
 	}
@@ -63,18 +63,18 @@ Query.prototype.match = function () {
 
 Query.prototype.include = function (key, value) {
 	if (Array.isArray(key)) {
-		let fields = key;
-		fields.forEach((k) => this.include(k));
+		let projection = key;
+		projection.forEach((k) => this.include(k));
 
 	} else if (_.isObject(key)) {
-		let fields = key;
-		let keys = Object.keys(fields);
+		let projection = key;
+		let keys = Object.keys(projection);
 
-		keys.forEach((k) => this.include(k, fields[k]));
+		keys.forEach((k) => this.include(k, projection[k]));
 	}
 
 	if (_.isString(key))
-		this.options.fields[key] = value === undefined ? 1 : value;
+		this.options.projection[key] = value === undefined ? 1 : value;
 
 	return this;
 };
@@ -82,18 +82,18 @@ Query.prototype.include = function (key, value) {
 Query.prototype.exclude = function (key, value) {
 
 	if (Array.isArray(key)) {
-		let fields = key;
-		fields.forEach((k) => this.exclude(k));
+		let projection = key;
+		projection.forEach((k) => this.exclude(k));
 
 	} else if (_.isObject(key)) {
-		let fields = key;
-		let keys = Object.keys(fields);
+		let projection = key;
+		let keys = Object.keys(projection);
 
-		keys.forEach((k) => this.exclude(k, fields[k]));
+		keys.forEach((k) => this.exclude(k, projection[k]));
 	}
 
 	if (_.isString(key))
-		this.options.fields[key] = value === undefined ? 0 : value;
+		this.options.projection[key] = value === undefined ? 0 : value;
 
 	return this;
 };
@@ -267,7 +267,7 @@ Query.prototype.findById = function (id) {
 
 Query.prototype.remove = function (query) {
 	this.where(query);
-	return this.collection.then((collection) => collection.remove(this.query, this.options));
+	return this.collection.then((collection) => collection.deleteMany(this.query, this.options));
 };
 
 // Setting up functions that

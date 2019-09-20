@@ -12,34 +12,24 @@ const MongoClient = mongodb.MongoClient;
 
 class Connector {}
 
-Connector.connect = function () {
-	let args = Array.prototype.slice.call(arguments);
+Connector.connect = function (path, dbname, options = {}) {
 
-	let urls = [];
-	let options = {};
+	this.url = path;
+	this.dbname = path;
+
 	const strOpts = {
 		useUnifiedTopology: true,
 		useNewUrlParser: true
 	};
 
-	args.forEach(function (arg) {
-		if (_.isString(arg))
-			urls.push(arg);
+	let connection = MongoClient.connect(path, strOpts, options)
+		.then((client) => {
+			if (!this.db)
+				this.db = client.db(dbname);
 
-		if (_.isObject(arg))
-			options = arg;
-	});
-	
-	
-
-	let connection = MongoClient.connect(urls.join(','), strOpts, options).then((db) => {
-		if (!this.db) {
-			db.url = urls.join(',');
-			this.db = db;
-		}
-
-		return db;
-	});
+			return this.db;
+		})
+		.catch(console.log);
 
 	if (!this._connection)
 		this._connection = connection;
@@ -77,7 +67,7 @@ Connector.close = function () {
  */
 
 Connector._collection = function (db, name) {
-	let url = db.url;
+	const url = this.url;
 	let collections = this._collections[url];
 
 	if (!collections)

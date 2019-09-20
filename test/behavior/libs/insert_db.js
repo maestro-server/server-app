@@ -3,6 +3,7 @@
 const _ = require('lodash');
 let MongoClient = require("mongodb").MongoClient;
 const dbpath = require('core/libs/dbpath')();
+const dbname = require('core/libs/dbname')();
 
 module.exports = function (data, table, done, conn = dbpath) {
     const strOpts = {
@@ -11,8 +12,10 @@ module.exports = function (data, table, done, conn = dbpath) {
       };
 
     MongoClient.connect(conn, strOpts)
-        .then((db) => {
+        .then((client) => {
+            const db = client.db(dbname);
+
             let pets = db.collection(table);
-            pets.insert(data, done);
+            pets.insertMany(data, done);
         });
 };

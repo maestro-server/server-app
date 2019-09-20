@@ -93,7 +93,7 @@ class Dao extends Model {
         });
     
         return this._collection()
-            .then((collection) => collection.insert(attrs))
+            .then((collection) => collection.insertOne(attrs))
             .then((inserted) => {
                 let doc = inserted.ops[0];
                 this.set('_id', doc._id);
@@ -109,7 +109,7 @@ class Dao extends Model {
         this.set('updated_at', new Date());
     
         return this._collection()
-            .then((collection) => collection.update({ _id: attrs._id }, attrs))
+            .then((collection) => collection.updateOne({ _id: attrs._id }, attrs))
             .return(this);
     }
     
@@ -122,12 +122,6 @@ class Dao extends Model {
         return bcrypt.hashSync(string, crypto.getCryptLevel());
     }
     
-    remove() {
-        return this._collection()
-            .then((collection) => collection.remove({ _id: this.get('_id') }))
-            .return(this);
-    }
-    
     inc(props) {
         let id = this.get('_id');
     
@@ -135,7 +129,7 @@ class Dao extends Model {
             throw new Error('Can\'t atomically increment a property of unsaved document.');
     
         return this._collection()
-            .then( (collection) => collection.update({ _id: id }, { '$inc': props }))
+            .then( (collection) => collection.updateOne({ _id: id }, { '$inc': props }))
             .then(() => {
                 Object.keys(props).forEach((key) => {
                     let value = this.get(key);
@@ -151,7 +145,20 @@ class Dao extends Model {
         const opp = `update${opts}Factory`;
         this.set('updated_at', new Date());
 
-        return this[opp](filter, null, options);
+        let entity = filter
+        let entry = null
+
+        this.passHash();
+
+        return this._collection()
+            .then((collection) => {
+                const subs = entry ? {[entry]: this.get()} : this.get();
+                return collection.replaceOne(entity, subs, options);
+            })
+            .then((e) => {
+                return this.isUpdater = e.result;
+            })
+            .return(this);
     }
 
     updateAndModify(filter, options) {
@@ -190,7 +197,7 @@ class Dao extends Model {
         return this._collection()
             .then((collection) => {
                 const subs = entry ? {[entry]: this.get()} : this.get();
-                return collection.update(entity, subs, options);
+                return collection.updateOne(entity, subs, options);
             })
             .then((e) => {
                 return this.isUpdater = e.result;

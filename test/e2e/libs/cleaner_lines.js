@@ -2,9 +2,7 @@
 
 let MongoClient = require("mongodb").MongoClient;
 const dbpath = require('../../../app/core/libs/dbpath')();
-
-
-
+const dbname = require('../../../app/core/libs/dbname')();
 
 module.exports = function (collections, filter, conn = dbpath) {
     return new Promise((resolve, reject) => {
@@ -15,10 +13,11 @@ module.exports = function (collections, filter, conn = dbpath) {
           };
 
         MongoClient.connect(conn, strOpts)
-            .then((db) => {
+            .then((client) => {
+                const db = client.db(dbname);
                 let pets = db.collection(collections);
-                pets.remove(filter, () => {
-                    db.close();
+                pets.deleteMany(filter, () => {
+                    client.close();
                     resolve();
                 });
             }).catch(reject)

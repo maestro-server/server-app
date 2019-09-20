@@ -12,7 +12,7 @@ module.exports = function (gulp, $) {
                 timeout: 6000,
                 'check-leaks': true,
                 ui: 'bdd',
-                reporter: 'tap' //spec, tap
+                reporter: 'nyan'
             }));
     });
 };
