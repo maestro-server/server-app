@@ -3,6 +3,7 @@
 const _ = require('lodash');
 let MongoClient = require("mongodb").MongoClient;
 const dbpath = require('../../../app/core/libs/dbpath')();
+const dbname = require('../../../app/core/libs/dbname')();
 
 module.exports = function (done, conn = dbpath) {
     const strOpts = {
@@ -11,7 +12,8 @@ module.exports = function (done, conn = dbpath) {
       };
 
     MongoClient.connect(conn, strOpts)
-        .then((db) => {
+        .then((client) => {
+            const db = client.db(dbname);
             let pets = db.collection('adminer');
 
             const data = [

@@ -408,7 +408,6 @@ describe('e2e users', function () {
             request(mock)
                 .post('/users/forgot')
                 .send(data)
-                .expect(e => console.log(e))
                 .expect(204)
                 .end(function (err) {
                     if (err) return done(err);

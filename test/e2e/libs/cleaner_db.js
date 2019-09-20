@@ -3,6 +3,7 @@
 const _ = require('lodash');
 let MongoClient = require("mongodb").MongoClient;
 const dbpath = require('../../../app/core/libs/dbpath')();
+const dbname = require('../../../app/core/libs/dbname')();
 
 const interactC = function (db, collections) {
   let pros=[];
@@ -18,7 +19,7 @@ const interactC = function (db, collections) {
     }
 
     db.collection(collection.tb, ids, (err1, coll) => {
-        pros.push(coll.remove({}));
+        pros.push(coll.deleteMany({}));
     });
 
   });
@@ -33,14 +34,14 @@ module.exports = function (collections, done, mock, conn = dbpath) {
   };
 
   MongoClient.connect(conn, strOpts)
-      .then((db) => {
-
+      .then((client) => {
+        const db = client.db(dbname);
         const pros = interactC(db, collections);
 
         Promise.all(pros)
           .then(() => {
             done();
-            db.close();
+            client.close();
             //mock.close(done);
           });
       });

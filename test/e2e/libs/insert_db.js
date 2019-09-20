@@ -2,6 +2,7 @@
 
 let MongoClient = require("mongodb").MongoClient;
 const dbpath = require('../../../app/core/libs/dbpath')();
+const dbname = require('../../../app/core/libs/dbname')();
 
 module.exports = function (data, table, done, conn = dbpath) {
     const strOpts = {
@@ -10,8 +11,9 @@ module.exports = function (data, table, done, conn = dbpath) {
       };
 
     MongoClient.connect(conn, strOpts)
-        .then((db) => {
+        .then((client) => {
+            const db = client.db(dbname);
             let pets = db.collection(table);
-            pets.insert(data, done);
+            pets.insertOne(data, done);
         });
 };

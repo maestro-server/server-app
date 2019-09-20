@@ -7,6 +7,7 @@ const kraken = require('kraken-js');
 
 const db_connect = require('core/libs/db_run');
 const dbpath = require('core/libs/dbpath')();
+const dbname = require('core/libs/dbname')();
 const Connector = require('core/repositories/daos/connector/connector');
 
 /*
@@ -21,7 +22,7 @@ const options = {
          */
 
         db_connect(function *() {
-            yield  Connector.connect(dbpath);
+            yield  Connector.connect(dbpath, dbname);
             next(null, config);
             console.log("Maestro: Mongo online");
         });
