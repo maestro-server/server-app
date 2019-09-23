@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const Event = require('../repositories/dao/events');
+const Events = require('../repositories/dao/events');
 
 const report = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'msg', 'context', 'description', 'status'];
@@ -18,7 +18,7 @@ const report = () => {
 
         validators: require('../validators/events'),
 
-        dao: Event,
+        dao: Events,
 
         defaults: {},
 

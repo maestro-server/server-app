@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const Scheduler = require('../repositories/dao/scheduler');
+const Schedulers = require('../repositories/dao/scheduler');
 
 const scheduler = () => {
     const resFilled = ['_id', 'updated_at', 'created_at', 'name',
@@ -20,7 +20,7 @@ const scheduler = () => {
 
         validators: require('../validators/scheduler'),
 
-        dao: Scheduler,
+        dao: Schedulers,
 
         mapRelations: ['link'],
 

@@ -2,5 +2,5 @@
 
 const Dao = require('core/repositories/daos/DBConnector');
 
-class Report extends Dao {}
-module.exports = Report;
+class Reports extends Dao {}
+module.exports = Reports;

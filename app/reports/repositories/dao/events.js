@@ -2,5 +2,5 @@
 
 const Dao = require('core/repositories/daos/DBConnector');
 
-class Event extends Dao {}
-module.exports = Event;
+class Events extends Dao {}
+module.exports = Events;

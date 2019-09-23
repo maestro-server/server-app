@@ -2,5 +2,5 @@
 
 const Dao = require('core/repositories/daos/DBConnector');
 
-class Scheduler extends Dao {}
-module.exports = Scheduler;
+class Schedulers extends Dao {}
+module.exports = Schedulers;
