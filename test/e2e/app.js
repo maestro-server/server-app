@@ -33,7 +33,11 @@ describe('e2e applications', function () {
         family: "Application",
         tags: [{key: 'Tager', value: 'ValueTager'}]
     }, {
-err
+        name: "MySecondeapplication",
+        description: "My app description",
+        role: {role: 'Application'},
+        family: "DNS",
+        thisFieldMustnApper: 'NotApper'
     }];
 
     let friend = {
