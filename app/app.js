@@ -22,7 +22,7 @@ const options = {
          */
 
         db_connect(function *() {
-            yield  Connector.connect(dbpath, dbname);
+            yield Connector.connect(dbpath, dbname);
             next(null, config);
             console.log("Maestro: Mongo online");
         });
