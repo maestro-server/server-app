@@ -199,9 +199,9 @@ const os = [
     { "base": "Linux", "dist": "CentOS", "version": "7" },
     { "base": "Linux", "dist": "CentOS", "version": "7" },
     { "base": "Windows", "dist": "Enterprise", "version": "10" }
-]
+];
 
-const env = ["Production", "Production", "Production", "Staging", "Development", "UTA", "SandBox"]
+const env = ["Production", "Production", "Production", "Staging", "Development", "UTA", "SandBox"];
 
 const storage = [
     '#attach',
@@ -211,11 +211,11 @@ const storage = [
     '#built',
     '#built',
     '#skip'
-]
+];
 
 
 // ============================================ starting
-let servers = []
+let servers = [];
 
 function createTemplate(obj, ix) {
     let template = {
@@ -260,7 +260,7 @@ function createTemplate(obj, ix) {
 function populate(ex = 1) {
 
     _.forEach(blue, (obj) => {
-        let lp = _.get(obj, '__qtd') * ex
+        let lp = _.get(obj, '__qtd') * ex;
 
         for (let ix = 0; ix <= lp; ix++) {
             servers.push(createTemplate(obj, ix));

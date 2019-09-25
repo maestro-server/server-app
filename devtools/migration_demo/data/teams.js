@@ -5,7 +5,7 @@ const _ = require('lodash');
 const template = {
     "name": "Maestro",
     email: "maestro@team.com"
-}
+};
 
 
 const merge = [
@@ -24,7 +24,7 @@ const merge = [
     {
         "name": "Architecture"
     }
-]
+];
 
 const data = _.map(merge, (v) => _.assign({}, template, v));
 

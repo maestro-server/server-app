@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 const uuidv4 = require('./uuidv4');
-const merge = []
+const merge = [];
 
 for (let isx = 0; isx < 100; isx++) {
     const tmp = {
@@ -15,7 +15,7 @@ for (let isx = 0; isx < 100; isx++) {
         "volume_size" : _.random(50, 1000),
         "datacenters": "#name::AWS - US East/West",
         "status" : "completed"
-    }
+    };
     merge.push(tmp);
 }
 
@@ -30,7 +30,7 @@ for (let isx = 0; isx < 10; isx++) {
         "volume_size" : _.random(50, 1000),
         "datacenters": "#name::AWS - Staging",
         "status" : "completed"
-    }
+    };
     merge.push(tmp);
 }
 
@@ -45,7 +45,7 @@ for (let isx = 0; isx < 20; isx++) {
         "volume_size" : _.random(50, 1000),
         "datacenters": "#name::Azure - US East",
         "status" : "completed"
-    }
+    };
     merge.push(tmp);
 }
 

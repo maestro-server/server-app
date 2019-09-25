@@ -2,12 +2,12 @@
 
 const _ = require('lodash');
 const uuidv4 = require('./uuidv4');
-const merge = []
+const merge = [];
 
-const images = ["ubuntu-lucid", "centos-7"]
+const images = ["ubuntu-lucid", "centos-7"];
 
 for (let isx = 0; isx < 150; isx++) {
-    const img = images[_.random(0, images.length-1)]
+    const img = images[_.random(0, images.length-1)];
 
     const tmp = {
 
@@ -21,12 +21,12 @@ for (let isx = 0; isx < 150; isx++) {
         "root_device_type": "instance-store",
         "datacenters": "#name::AWS - US East/West",
         "status": "available"
-    }
+    };
     merge.push(tmp);
 }
 
 for (let isx = 0; isx < 10; isx++) {
-    const img = images[_.random(0, images.length-1)]
+    const img = images[_.random(0, images.length-1)];
 
     const tmp = {
 
@@ -40,7 +40,7 @@ for (let isx = 0; isx < 10; isx++) {
         "root_device_type": "instance-store",
         "datacenters": "#name::AWS - Staging",
         "status": "available"
-    }
+    };
     merge.push(tmp);
 }
 module.exports = merge;

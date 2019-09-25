@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 const template = {
     "name": "Maestro - Clients"
-}
+};
 
 
 const merge = [

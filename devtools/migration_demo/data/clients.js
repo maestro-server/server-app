@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 const template = {
     "name": "Maestro"
-}
+};
 
 
 const merge = [
@@ -40,7 +40,7 @@ const merge = [
         ]
 
     }
-]
+];
 
 const datac = _.map(merge, (v) => _.assign({}, template, v));
 

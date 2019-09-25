@@ -3,11 +3,11 @@
 const _ = require('lodash');
 const uuidv4 = require('./uuidv4');
 const ipf = require('./ip');
-const merge = []
+const merge = [];
 
-const vpc = ["AWS - US East/West", "AWS - Staging"]
-const zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
-const regions = ["us-east1", "us-west2"]
+const vpc = ["AWS - US East/West", "AWS - Staging"];
+const zones = ["us-east-1a", "us-east-1b", "us-east-1c"];
+const regions = ["us-east1", "us-west2"];
 
 //==========================================================subnet
 for (let isx = 0; isx < 5; isx++) {
@@ -25,13 +25,13 @@ for (let isx = 0; isx < 5; isx++) {
         "datacenters": "#name::" + vpc[_.random(0, vpc.length - 1)],
         "status": "available",
         "tags": []
-    }
+    };
     merge.push(tmp);
 }
 
 //==========================================================vcl
 for (let isx = 0; isx < 2; isx++) {
-    const ip = `10.${_.random(0, 100)}.0.0/16`
+    const ip = `10.${_.random(0, 100)}.0.0/16`;
     const tmp = {
         "name": "vpc - " + uuidv4('xxxxxxxxx'),
         "image_id": ip,
@@ -51,14 +51,14 @@ for (let isx = 0; isx < 2; isx++) {
         "datacenters": "#name::" + vpc[_.random(0, vpc.length - 1)],
         "status": "available",
         "tags": []
-    }
+    };
 
     merge.push(tmp);
 }
 
 //==========================================================security group
 for (let isx = 0; isx < 2; isx++) {
-    const ip = `10.${_.random(0, 100)}.0.0/16`
+    const ip = `10.${_.random(0, 100)}.0.0/16`;
     const tmp = {
         "unique_id": "sg-"+ uuidv4('xxxxxxxxxxxxxxxxxxxx'),
         "name": "sc-"+ uuidv4('xxxxxxxxx'),
@@ -144,14 +144,14 @@ for (let isx = 0; isx < 2; isx++) {
         "family": "SecurityGroup",
         "datacenters": "#name::" + vpc[_.random(0, vpc.length - 1)],
         "tags": []
-    }
+    };
 
     merge.push(tmp);
 }
 
 //==========================================================vpc peering
 for (let isx = 0; isx < 2; isx++) {
-    const ip = `10.${_.random(0, 100)}.0.0/16`
+    const ip = `10.${_.random(0, 100)}.0.0/16`;
     const tmp = {
         "name": "vpc peering - " + uuidv4('xxxxxxxxx'),
         "unique_id":
@@ -200,7 +200,7 @@ for (let isx = 0; isx < 2; isx++) {
         "family": "VpcPeering",
         "datacenters": "#name::" + vpc[_.random(0, vpc.length - 1)],
         "tags": []
-    }
+    };
 
     merge.push(tmp);
 }
@@ -208,7 +208,6 @@ for (let isx = 0; isx < 2; isx++) {
 
 //==========================================================netwrokacl
 for (let isx = 0; isx < 2; isx++) {
-    const ip = `10.${_.random(0, 100)}.0.0/16`
     const tmp = {
         "name": "acl network - " + uuidv4('xxxxxxxxx'),
         "associations": [],
@@ -247,7 +246,7 @@ for (let isx = 0; isx < 2; isx++) {
         "family": "NetworkAcl",
         "datacenters": "#name::" + vpc[_.random(0, vpc.length - 1)],
         "tags": []
-    }
+    };
 
     for (let xx = 0; xx < _.random(1, 8); xx++) {
         tmp["associations"].push(
@@ -264,8 +263,8 @@ for (let isx = 0; isx < 2; isx++) {
 
 //==========================================================network interface
 for (let isx = 0; isx < 2; isx++) {
-    const ip = `10.${_.random(0, 100)}.0.0`
-    const pip = ipf(true)
+    const ip = `10.${_.random(0, 100)}.0.0`;
+    const pip = ipf(true);
 
     const tmp = {
         "name": "network interface - " + uuidv4('xxxxxxxxx'),
@@ -318,14 +317,14 @@ for (let isx = 0; isx < 2; isx++) {
         "family": "NetworkInterfaces",
         "datacenters": "#name::" + vpc[_.random(0, vpc.length - 1)],
         "tags": []
-    }
+    };
 
     merge.push(tmp);
 }
 
 //==========================================================route table
 for (let isx = 0; isx < 20; isx++) {
-    const ip = `10.${_.random(0, 100)}.0.0/16`
+    const ip = `10.${_.random(0, 100)}.0.0/16`;
     const tmp = {
         "name": "route table - " + uuidv4('xxxxxxxxx'),
         "associations": [
@@ -360,7 +359,7 @@ for (let isx = 0; isx < 20; isx++) {
         "family": "RouteTable",
         "datacenters": "#name::" + vpc[_.random(0, vpc.length - 1)],
         "tags": []
-    }
+    };
 
     merge.push(tmp);
 }

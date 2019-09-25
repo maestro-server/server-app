@@ -31,6 +31,6 @@ const validate = (singleFilled) => {
         delete: {},
         list: {}
     };
-}
+};
 
 module.exports = validate;

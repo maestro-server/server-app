@@ -4,9 +4,9 @@ const _ = require('lodash');
 const uuidv4 = require('./uuidv4');
 
 
-const aws_instance = ['t2.micro', 'm5.medium', 'm5.large', 'm5.xlarge', 'm5.2xlarge', 'm5.4xlarge', 'r3.large', 'c3.4xlarge']
-const azure_instance = ['Standard_B1ms', "Standard_B1s", 'Standard_B2s', 'Standard_B4ms', 'Standard_B8ms', 'Standard_F2s']
-const do_instance = ['1gb', '2gb', '4gb', '8gb', '16gb']
+const aws_instance = ['t2.micro', 'm5.medium', 'm5.large', 'm5.xlarge', 'm5.2xlarge', 'm5.4xlarge', 'r3.large', 'c3.4xlarge'];
+const azure_instance = ['Standard_B1ms', "Standard_B1s", 'Standard_B2s', 'Standard_B4ms', 'Standard_B8ms', 'Standard_F2s'];
+const do_instance = ['1gb', '2gb', '4gb', '8gb', '16gb'];
 
 function makeDC(provider) {
 
@@ -42,7 +42,7 @@ function makeDC(provider) {
             "backups": true,
             "virtio": true
         }
-    }
+    };
 
 
     return _.get(dv_blue, provider, {});

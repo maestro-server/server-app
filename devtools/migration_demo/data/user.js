@@ -6,6 +6,6 @@ const data = {
     password: "demo123",
     token: null,
     _id: null
-}
+};
 
 module.exports = [data];

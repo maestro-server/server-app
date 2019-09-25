@@ -5,8 +5,7 @@
 require('dotenv').config({path: '.env.load'});
 const uuidv4 = require('./data/uuidv4');
 
-let chai = require('chai'),
-    request = require('supertest'),
+let request = require('supertest'),
     cleaner_lines = require('../../test/e2e/libs/cleaner_lines'),
     _ = require('lodash');
 
@@ -57,7 +56,7 @@ describe('demo setup', function () {
                     cleaner_lines('reports', {'owner.email': user.email})
                 ]);
             })
-            .then((e) => {
+            .then(() => {
                 app = require('../../test/e2e/libs/bootApp')();
 
                 app.once('start', done);
@@ -152,7 +151,7 @@ describe('demo setup', function () {
                     "name": "/dev/xv"+l+key,
                     "mount": "/dev/xsd"+uuidv4('x'),
                     "status": "Active"
-                }
+                };
                 tmst.push(stg);
             }
 
@@ -165,10 +164,10 @@ describe('demo setup', function () {
                     "delete_termination": true,
                     "status": "Active",
                     "unique_id": "vol-"+uuidv4('xxxxxxxxxxxxxxxxx')
-                }
+                };
                 tmst.push(_.omit(stg, ["size", "delete_termination"]));
 
-                createItem("volumes", stg, ()=>{}, (res) => {
+                createItem("volumes", stg, ()=>{}, () => {
                     //console.log(res);
                 });
             }
@@ -300,7 +299,7 @@ describe('demo setup', function () {
                             obj['name'],
                             applications,
                             (xx) => _.pick(xx, ['_id', 'name', 'family', 'environment'])
-                            )
+                            );
 
                         return _.merge(obj, nobj);
                     });
@@ -326,8 +325,8 @@ describe('demo setup', function () {
                 relData(value, 'applications', applications);
                 value['storage'] = createStorage(_.get(value, 'storage', []));
 
-                const dc = popDcs(datacenters[_.random(0, datacenters.length-1)], true)
-                value['datacenters'] = _.assign({}, dc, makeDC(_.get(dc, 'provider')))
+                const dc = popDcs(datacenters[_.random(0, datacenters.length-1)], true);
+                value['datacenters'] = _.assign({}, dc, makeDC(_.get(dc, 'provider')));
 
                 createItem(entity, value, done, (res) => {
                     _.merge(value, _.get(res, 'body'));

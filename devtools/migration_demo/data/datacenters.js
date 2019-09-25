@@ -82,7 +82,7 @@ const merge = [
 
 
     }
-]
+];
 
 const data = _.map(merge, (v) => _.assign({}, template, v));
 
