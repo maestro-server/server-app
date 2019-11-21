@@ -229,7 +229,7 @@ describe('demo setup', function () {
         if(skipped)
             return;
 
-        const entity = "system";
+        const entity = "systems";
 
         _.forEach(system, (value, key) => {
             it(`Create ${entity} - ${value.name}`, function (done) {
