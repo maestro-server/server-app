@@ -2,5 +2,5 @@
 
 const Dao = require('core/repositories/daos/DBConnector');
 
-class Volume extends Dao {}
-module.exports = Volume;
+class Volumes extends Dao {}
+module.exports = Volumes;
