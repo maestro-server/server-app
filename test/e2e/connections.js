@@ -336,7 +336,10 @@ describe('e2e connections', function () {
                 .expect(/_link/)
                 .expect(function (res) {
                     var conn = res.body['conn']
-                    var decoded = jwt.decode(conn, process.env.MAESTRO_SECRETJWT);
+
+                    var decoded = jwt.decode(conn, process.env.MAESTRO_SECRETJWT  || 'defaultSecretKey');
+
+                     
                     expect(decoded).to.deep.equal({username: 'aaccess', password: 'asecret'});
                 })
                 .expect(function (res) {
@@ -359,7 +362,7 @@ describe('e2e connections', function () {
                 .expect(/_link/)
                 .expect(function (res) {
                     var conn = res.body['conn']
-                    var decoded = jwt.decode(conn, process.env.MAESTRO_SECRETJWT);
+                    var decoded = jwt.decode(conn, process.env.MAESTRO_SECRETJWT  || 'defaultSecretKey');
                     expect(decoded).to.deep.equal({access: 'aaccess', secret: 'asecret'});
                 })
                 .expect(function (res) {
