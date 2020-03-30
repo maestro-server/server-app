@@ -44,7 +44,7 @@ const CallReportApi = (owner_user = null, req = null) => {
 
         remove({_id, report, msg, status}) {
             if (status == 'finished')
-                return ReportHTTPService().remove(`/reports/${_id}__${report}_${msg}`);
+                return ReportHTTPService().remove(`/reports/${_id}_${report}`);
         }
     };
 };
