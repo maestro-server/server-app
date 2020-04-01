@@ -17,7 +17,7 @@ const UploaderRepository = (folder) => {
                 const {authorization, host} = headers;
 
                 resolve({
-                    signedRequest: `http://${host}/users/upload?ext=${mapsFile(type)}&folder=${folder}`,
+                    signedRequest: `//${host}/users/upload?ext=${mapsFile(type)}&folder=${folder}`,
                     filename: `${folder}/${filename}`,
                     headers: {"Content-type": CONTENT_UPLOAD_DEFAULT, "Authorization": authorization}
                 });
