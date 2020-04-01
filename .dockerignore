@@ -6,7 +6,11 @@ docs
 node_modules
 tasks
 test
-.*
+.e*
+.n*
+.t*
+.y*
+.c*
 
 .DS_Store
 .env*
