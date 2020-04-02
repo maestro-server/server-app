@@ -177,7 +177,7 @@ Query.prototype.populate = function (key, model) {
 Query.prototype.count = function (query) {
 	this.where(query);
 
-	return this.collection.then((collection) => collection.count(this.query));
+	return this.collection.then((collection) => collection.countDocuments(this.query));
 };
 
 Query.prototype.find = function (query, options) {
