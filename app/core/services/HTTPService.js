@@ -4,6 +4,7 @@ const _ = require('lodash/fp');
 const Connector = require('../libs/request');
 const privateToken = require('core/configs/private_token.js');
 const HTTPError = require('core/errors/factoryError')('HTTPError');
+const ServiceDisabledError = require('core/errors/factoryError')('ServiceDisabledError');
 
 const HTTPService = (url) => (header = {}) => {
 
@@ -26,10 +27,9 @@ const HTTPService = (url) => (header = {}) => {
 
                         if(_.has(e.response.data, 'error'))
                             reject(HTTPError(e.response.data.error));
+                    } 
 
-                    } else {
-                        reject(HTTPError(e.toString()));
-                    }
+                    reject(HTTPError(e.toString()));
                 });
         });
     };
@@ -61,23 +61,45 @@ const HTTPService = (url) => (header = {}) => {
     };
 };
 
+
+const get_url = (name, dft) => process.env[`MAESTRO_${name}_URI`] || dft;
+const get_enabled = (name) => process.env[`MAESTRO_${name}_DISABLED`] || false;
+
+const service_disabled = (name) => {
+    const enabled = get_enabled(name);
+    if (enabled)
+        throw new ServiceDisabledError(`${name} service was disabled`);
+};
+
 const DiscoveryHTTPService = (header = {}) => {
-    const url = process.env.MAESTRO_DISCOVERY_URI || 'http://localhost:5000';
+    const name = 'DISCOVERY';
+    service_disabled(name);
+
+    const url = get_url(name, 'http://localhost:5000');
     return HTTPService(url)(header);
 };
 
 const ReportHTTPService = (header = {}) => {
-    const url = process.env.MAESTRO_REPORT_URI || 'http://localhost:5005';
+    const name = 'REPORT';
+    service_disabled(name);
+    
+    const url = get_url(name, 'http://localhost:5005');
     return HTTPService(url)(header);
 };
 
 const AnalyticsHTTPService = (header = {}) => {
-    const url = process.env.MAESTRO_ANALYTICS_URI || 'http://localhost:5020';
+    const name = 'ANALYTICS';
+    service_disabled(name);
+    
+    const url = get_url(name, 'http://localhost:5020');
     return HTTPService(url)(header);
 };
 
 const AuditHTTPService = (header = {}) => {
-    const url = process.env.MAESTRO_AUDIT_URI || 'http://localhost:10900';
+    const name = 'AUDIT';
+    service_disabled(name);
+    
+    const url = get_url(name, 'http://localhost:10900');
     return HTTPService(url)(header);
 };
 
