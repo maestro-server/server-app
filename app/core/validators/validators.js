@@ -64,7 +64,7 @@ module.exports = {
     }),
     auth: Joi.object().keys({
         name: Joi.string().max(100),
-        type: Joi.string().valid('PKI', 'AD', 'LDAP', 'Password'),
+        type: Joi.string(),
         username: Joi.string().max(100),
         key: Joi.string().max(100)
     }),
@@ -104,7 +104,7 @@ module.exports = {
     datacenters: Joi.object(),
     active: Joi.boolean(),
     status: Joi.string().valid('Active', 'Avaliable', 'Stopped').default('Active'),
-    environment: Joi.string().valid('Production', 'Staging', 'Development', 'UTA', 'Training', 'SandBox'),
+    environment: Joi.string(),
     family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS', 'AutoScaling', 'AutoScalingPlan', 'ServerlessLayer', 'MachineLearning').default("Application"),
     created_at: Joi.any(),
     metas: Joi.any(),
