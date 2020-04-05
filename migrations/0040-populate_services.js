@@ -274,9 +274,12 @@ exports.up = function (db, next) {
         {name: 'Hacoon', family: ['VPN'], tags: [], owner: false},
         {name: 'Check Point', family: ['VPN'], tags: [], owner: false},
         {name: 'Cisco', family: ['VPN'], tags: [], owner: false},
+        {name: 'Global Protect', family: ['VPN'], tags: [], owner: false},
 
 
         {name: 'RDS (AWS)', family: ['Database', 'MySql', 'Oracle'], tags: ['aws'], owner: true},
+        {name: 'Neptune (AWS)', family: ['Database', 'Graph'], tags: ['aws'], owner: true},
+
         {name: 'CloudSearch (AWS)', family: ['Database', 'NoSQL', 'Search'], tags: ['aws'], owner: true},
         {name: 'Aurora (AWS)', family: ['MySql'], tags: ['relational', 'aws'], owner: true},
         {name: 'DynamoDB (AWS)', family: ['Database'], tags: ['aws', 'key-value', 'nosql'], owner: true},
@@ -312,7 +315,8 @@ exports.up = function (db, next) {
         {name: 'CloudData', family: ['Database'], tags: ['nosql'], owner: false},
         {name: 'Druid', family: ['Database'], tags: ['nosql'], owner: false},
         {name: 'ArangoDB', family: ['Database'], tags: ['multi'], owner: false},
-        {name: 'OrientDB', family: ['Database'], tags: ['multi'], owner: false},
+        {name: 'CoachDB', family: ['Database'], tags: ['multi'], owner: false},
+
         {name: 'gunDB', family: ['Database'], tags: [], owner: false},
         {name: 'RethinkDB', family: ['Database'], tags: ['nosql'], owner: false},
         {name: 'Riak', family: ['Database'], tags: ['nosql'], owner: false},
@@ -390,7 +394,7 @@ exports.up = function (db, next) {
         {name: 'Solano Labs', family: ['CI/CD'], tags: ['cd', 'ci'], owner: true},
 
         {name: 'Jenkins', family: ['CI/CD'], tags: ['cd', 'ci'], owner: false},
-        {name: 'Bamboo', family: ['CI/CD'], tags: ['cd', 'ci'], owner: false},
+        {name: 'Atlassian Bamboo', family: ['CI/CD'], tags: ['cd', 'ci'], owner: false},
         {name: 'GitLabs', family: ['CI/CD'], tags: ['cd', 'ci'], owner: false},
         {name: 'PHPCI', family: ['CI/CD'], tags: ['cd', 'ci'], owner: false},
         {name: 'TeamCity', family: ['CI/CD'], tags: ['cd', 'ci'], owner: false},
@@ -399,6 +403,7 @@ exports.up = function (db, next) {
         {name: 'Cruise Control', family: ['CI/CD'], tags: ['cd', 'ci'], owner: false},
         {name: 'Integrity', family: ['CI/CD'], tags: ['cd', 'ci'], owner: false},
         {name: 'StriderCD', family: ['CI/CD'], tags: ['cd', 'ci'], owner: false},
+        {name: 'RunDeck', family: ['CI/CD'], tags: ['cd', 'ci'], owner: false},
 
 
         {name: 'Microsoft Active Directory (AD)', family: ['Auth'], tags: ['microsoft'], owner: false},
@@ -463,7 +468,10 @@ exports.up = function (db, next) {
 
         {name: 'Watson (IBM)', family: ['MachineLearning'], tags: ['ibm', 'bot'], owner: true},
         {name: 'DialogFlow (GoogleCloud)', family: ['MachineLearning'], tags: ['gcloud', 'bot'], owner: true},
-        {name: 'Luiz (Azure)', family: ['MachineLearning'], tags: ['aws', 'bot'], owner: true}
+        {name: 'Luiz (Azure)', family: ['MachineLearning'], tags: ['aws', 'bot'], owner: true},
+
+        {name: 'Atlassian Confluence', family: ['Corporate'], tags: ['documentation', 'ci'], owner: true},
+        {name: 'Okta', family: ['Corporate', 'Auth'], tags: ['documentation', 'ci'], owner: true}
     ];
 
     let result = list.map(e => Object.assign(e, attach));

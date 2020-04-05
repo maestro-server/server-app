@@ -4,7 +4,7 @@ exports.up = function(db, next){
   let pets = db.collection('adminer');
   pets.insertOne({
       "value": {
-          channels: ['Email', 'HipChat', 'Slack', 'MS Teams', 'RocketChat', 'Skype', 'Phone', 'Glitter']
+          channels: ['Email', 'HipChat', 'Slack', 'MS Teams', 'RocketChat', 'Skype', 'Phone', 'Glitter', 'Zoom']
       },
       "key": "clients_options",
       "active": true,

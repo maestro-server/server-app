@@ -8,7 +8,7 @@ exports.up = function (db, next) {
             families: ['Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'Repository', 'DNS', 'CI/CD', 'Auth', 'NAS', 'AutoScaling', 'AutoScalingPlan', 'ETL', 'BigData'],
             role: ['Application', 'Worker', 'Jobs', 'Testing', 'Standard'],
             deploy: ['Git (Github, Bibucket)', 'Continuos Integration (CI)', 'Continuos Deployment (CD)', 'FTP', 'SFTP', 'Others'],
-            clusters: ['No', 'Master/Slave', '12 Factor', 'ZooKeeper', 'Leader election']
+            clusters: ['No', 'Master/Slave', 'Master/Master', '12 Factor', 'ZooKeeper', 'Leader election']
         },
         "key": "application_options",
         "active": true,

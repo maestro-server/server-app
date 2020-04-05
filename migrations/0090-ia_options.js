@@ -16,5 +16,5 @@ exports.up = function (db, next) {
 exports.down = function (db, next) {
     let pets = db.collection('adminer');
 
-    pets.findOneAndDelete({key: 'env_options'}, next);
+    pets.findOneAndDelete({key: 'ia_options'}, next);
 };
