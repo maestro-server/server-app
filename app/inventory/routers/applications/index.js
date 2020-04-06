@@ -19,7 +19,7 @@ const WrappeAuditApp = WrapperPersistenceApp(PersistenceAudit)();
 const DependenciesApp = require('inventory/applications/dependenciesApplication');
 const WrappeDepsApp = WrapperPersistenceApp(DependenciesApp)();
 
-const PersistenceRelation = require('../../applications/persistenceSystem')(Server);
+const PersistenceRelation = require('../../applications/persistenceRelationSystem')(Server);
 const WrapperRelationsApp = WrapperPersistenceApp(PersistenceRelation)();
 
 module.exports = function (router) {

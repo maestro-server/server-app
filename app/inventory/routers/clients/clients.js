@@ -7,7 +7,7 @@ const System = require('../../entities/System');
 
 const PersistenceApp = require('core/applications/persistenceApplication')(Client);
 const PersistenceAudit = require('core/applications/persistenceAudit')(Client);
-const PersistenceRelation = require('../../applications/persistenceSystem')(System)(Client);
+const PersistenceRelation = require('../../applications/persistenceRelationSystem')(System)(Client);
 
 const AccessApp = require('core/applications/accessApplication')(Client);
 

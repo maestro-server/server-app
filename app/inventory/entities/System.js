@@ -35,17 +35,26 @@ const system = () => {
                     fill: filled
                 }
             },
+            before_create: {
+                systemHookEntryApp: {}
+            },
             after_update: {
                 auditHookUpdated: {
                     entity: name,
                     fill: filled
                 }
             },
+            before_update: {
+                systemHookEntryApp: {}
+            },
             after_patch: {
                 auditHookPatched: {
                     entity: name,
                     fill: filled
-                }
+                },
+            },
+            before_patch: {
+                systemHookEntryApp: {}
             },
             after_delete: {
                 auditHookDeleted: {

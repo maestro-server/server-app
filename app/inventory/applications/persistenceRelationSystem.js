@@ -3,7 +3,7 @@
 const _ = require('lodash');
 
 const PersistenceServices = require('core/services/PersistenceServices');
-const PersistenceSystem = require('../services/PersistenceServices');
+const PersistenceRelationSystem = require('../services/PersistenceServices');
 const notExist = require('core/applications/validator/validNotExist');
 const hateaosTransform = require('core/applications/transforms/hateoasTransform');
 
@@ -19,7 +19,7 @@ const persistenceSystem = (IEntity) => (Entity) => {
                     const entitier = _.pick(e, 'name', '_id', 'family');
                     const data = {[Entity.name]: entitier};
 
-                    return PersistenceSystem(IEntity)
+                    return PersistenceRelationSystem(IEntity)
                         .addList(ids, data, req.user);
                 })
                 .then(hateaosTransform(Entity).singleTransform)
@@ -37,7 +37,7 @@ const persistenceSystem = (IEntity) => (Entity) => {
                     const entitier = _.pick(e, 'name', '_id');
                     const data = {[Entity.name]: entitier};
 
-                    return PersistenceSystem(IEntity)
+                    return PersistenceRelationSystem(IEntity)
                         .removeList(ids, data, req.user);
                 })
                 .then(e => res.status(204).json(e))

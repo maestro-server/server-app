@@ -4,11 +4,15 @@ const _ = require('lodash');
 const fs = require('fs');
 let hookies={};
 
-fs.readdirSync(__dirname + '/').forEach(file => {
-  if (file.match(/\.js$/) !== null && file !== 'factory.js') {
-    const name = file.replace('.js', '');
-    hookies[name] = require('./' + file);
-  }
+const hooksPath = [__dirname + '/', __dirname + '/../../inventory/hooks/']
+
+hooksPath.forEach(dir => {
+    fs.readdirSync(dir).forEach(file => {
+        if (file.match(/\.js$/) !== null && file !== 'factory.js') {
+            const name = file.replace('.js', '');
+            hookies[name] = require(dir + file);
+        }
+    });
 });
 
 const execHooks = (configs, name, data={}) => {

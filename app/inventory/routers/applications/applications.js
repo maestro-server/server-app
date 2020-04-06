@@ -9,7 +9,7 @@ const AccessApp = require('core/applications/accessApplication')(Application);
 const DependenciesApp = require('inventory/applications/dependenciesApplication')(Application);
 const PersistenceAudit = require('core/applications/persistenceAudit')(Application);
 
-const PersistenceRelation = require('../../applications/persistenceSystem')(Server)(Application);
+const PersistenceRelation = require('../../applications/persistenceRelationSystem')(Server)(Application);
 
 module.exports = function (router) {
 

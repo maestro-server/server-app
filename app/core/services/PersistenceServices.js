@@ -95,13 +95,14 @@ const Persistence = (Entity, user = {}, FactoryDBRepository = DFactoryDBReposito
         patch (_id, post, owner, access = Access.ROLE_WRITER) {
 
             return new Promise((resolve, reject) => {
-
                 const entityHooks = hookFactory(Entity, {_id, user});
                 const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password', '_id']);
-                const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
+                const access_rule = accessMergeTransform(owner, Entity.access, {_id}, access);
+
+                const ebody = entityHooks('before_patch')([access_rule, post, fill])
 
                 return DBRepository
-                    .patch(prepared, post, fill)
+                    .patch(...ebody)
                     .then(entityHooks('after_patch'))
                     .then(resolve)
                     .catch(reject);
@@ -111,9 +112,10 @@ const Persistence = (Entity, user = {}, FactoryDBRepository = DFactoryDBReposito
         create (post) {
             return new Promise((resolve, reject) => {
                 const entityHooks = hookFactory(Entity, {user});
+                const ebody = entityHooks('before_create')(post)
 
                 return DBRepository
-                    .create(post)
+                    .create(ebody)
                     .then(entityHooks('after_create'))
                     .then(resolve)
                     .catch(reject);
@@ -124,10 +126,11 @@ const Persistence = (Entity, user = {}, FactoryDBRepository = DFactoryDBReposito
 
             return new Promise((resolve, reject) => {
                 const entityHooks = hookFactory(Entity, {_id, user});
-                const prepared = accessMergeTransform(owner, Entity.access, {_id}, access);
+                const access_rule = accessMergeTransform(owner, Entity.access, {_id}, access);
+                const ebody = entityHooks('before_delete')([access_rule, body])
 
                 return DBRepository
-                    .remove(prepared, body)
+                    .remove(...ebody)
                     .then(entityHooks('after_delete'))
                     .then(resolve)
                     .catch(reject);
