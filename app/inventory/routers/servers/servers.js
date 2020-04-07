@@ -29,6 +29,23 @@ module.exports = function (router) {
          *     }
      */
 
+        /**
+         *
+         * @api {get} /versions Service versions
+         * @apiName GetVersionsPing
+         * @apiGroup Ping
+         *
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     [{
+         *        name: (String),
+         *        message: (String),
+         *        version: (Float),
+         *        status: (String) [UP|DOWN]
+         *     }]
+         */
+
 
      /** @api {get} /servers a. List your servers
      * @apiName GetServer
