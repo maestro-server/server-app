@@ -99,7 +99,7 @@ const Persistence = (Entity, user = {}, FactoryDBRepository = DFactoryDBReposito
                 const fill = _.difference(Entity.filled, ['owner', Entity.access, 'password', '_id']);
                 const access_rule = accessMergeTransform(owner, Entity.access, {_id}, access);
 
-                const ebody = entityHooks('before_patch')([access_rule, post, fill])
+                const ebody = entityHooks('before_patch')([access_rule, post, fill]);
 
                 return DBRepository
                     .patch(...ebody)
@@ -127,7 +127,7 @@ const Persistence = (Entity, user = {}, FactoryDBRepository = DFactoryDBReposito
             return new Promise((resolve, reject) => {
                 const entityHooks = hookFactory(Entity, {_id, user});
                 const access_rule = accessMergeTransform(owner, Entity.access, {_id}, access);
-                const ebody = entityHooks('before_delete')([access_rule, body])
+                const ebody = entityHooks('before_delete')([access_rule, body]);
 
                 return DBRepository
                     .remove(...ebody)

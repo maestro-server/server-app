@@ -1,6 +1,8 @@
 'use strict';
 
 const {name:app, version, description} = require('../../../package.json');
+const authenticate = require('identity/middlewares/authenticate');
+const healthCheckApplication = require('core/applications/healthCheckApplication')();
 
 module.exports = function (router) {
 
@@ -17,4 +19,6 @@ module.exports = function (router) {
           ...bag
         });
     });
+
+    router.get('/versions', authenticate(), healthCheckApplication.ping);
 };

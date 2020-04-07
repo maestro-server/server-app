@@ -471,6 +471,10 @@ exports.up = function (db, next) {
         {name: 'Luiz (Azure)', family: ['MachineLearning'], tags: ['aws', 'bot'], owner: true},
 
         {name: 'Atlassian Confluence', family: ['Corporate'], tags: ['documentation', 'ci'], owner: true},
+        {name: 'Google analytics', family: ['Corporate'], tags: ['analytics'], owner: true},
+        {name: 'Protheus', family: ['Corporate'], tags: ['erp'], owner: false},
+        {name: 'SAP', family: ['Corporate'], tags: ['erp'], owner: false},
+        {name: 'Sales force', family: ['Corporate'], tags: ['erp'], owner: false},
         {name: 'Okta', family: ['Corporate', 'Auth'], tags: ['documentation', 'ci'], owner: true}
     ];
 

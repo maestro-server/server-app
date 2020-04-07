@@ -53,9 +53,6 @@ const system = () => {
                     fill: filled
                 },
             },
-            before_patch: {
-                systemHookEntryApp: {}
-            },
             after_delete: {
                 auditHookDeleted: {
                     entity: name,

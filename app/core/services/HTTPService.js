@@ -27,7 +27,7 @@ const HTTPService = (url) => (header = {}) => {
 
                         if(_.has(e.response.data, 'error'))
                             reject(HTTPError(e.response.data.error));
-                    } 
+                    }
 
                     reject(HTTPError(e.toString()));
                 });
@@ -82,7 +82,7 @@ const DiscoveryHTTPService = (header = {}) => {
 const ReportHTTPService = (header = {}) => {
     const name = 'REPORT';
     service_disabled(name);
-    
+
     const url = get_url(name, 'http://localhost:5005');
     return HTTPService(url)(header);
 };
@@ -90,7 +90,7 @@ const ReportHTTPService = (header = {}) => {
 const AnalyticsHTTPService = (header = {}) => {
     const name = 'ANALYTICS';
     service_disabled(name);
-    
+
     const url = get_url(name, 'http://localhost:5020');
     return HTTPService(url)(header);
 };
@@ -98,7 +98,7 @@ const AnalyticsHTTPService = (header = {}) => {
 const AuditHTTPService = (header = {}) => {
     const name = 'AUDIT';
     service_disabled(name);
-    
+
     const url = get_url(name, 'http://localhost:10900');
     return HTTPService(url)(header);
 };

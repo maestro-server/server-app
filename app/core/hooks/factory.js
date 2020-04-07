@@ -15,6 +15,7 @@ hooksPath.forEach(dir => {
     });
 });
 
+
 const execHooks = (configs, name, data={}) => {
   if(hookies[name]) {
     hookies[name](configs)(data);
