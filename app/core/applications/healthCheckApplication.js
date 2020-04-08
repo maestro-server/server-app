@@ -3,7 +3,15 @@
 const _ = require('lodash');
 const Services = require('core/services/HTTPService');
 const healthTransform = require('core/applications/transforms/healthTransform');
+const {name:app, version, description} = require('../../../package.json');
 
+
+const addServerService = (results) => {
+    let cname = _.startCase(app);
+    const status = 'UP';
+    results.unshift({name: cname, version, description, status});
+    return results;
+}
 
 const HealthCheck = () => {
 
@@ -42,6 +50,7 @@ const HealthCheck = () => {
 
             return Promise.all(abstract_catch(prs))
                 .then(healthTransform(names))
+                .then(addServerService)
                 .then(e => res.json(e))
                 .catch(next);
         }
