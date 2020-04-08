@@ -10,7 +10,7 @@ const healthJsonMaker = (service, result) => {
         'object': service,
     };
 
-    if(result.name.indexOf('Error') > -1) {
+    if(result && result.name.indexOf('Error') > -1) {
         _.set(robj, 'message', result['errors']);
         _.set(robj, 'status', 'DOWN');
     } else {
