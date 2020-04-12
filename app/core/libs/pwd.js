@@ -4,5 +4,4 @@
  */
 'use strict';
 
-module.exports = () => process.env.PWD ? process.env.PWD : process.cwd();
-  
+module.exports = () => process.env.MAESTRO_TMP ? process.env.MAESTRO_TMP : process.cwd();

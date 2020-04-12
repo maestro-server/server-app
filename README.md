@@ -165,9 +165,11 @@ gulp eslint
 | AWS_ENDPOINT                         | ny3.spacesdigitalocean       | S3 endpoint                                                                 |
 | MAESTRO_UPLOAD_TYPE                  | S3/Local                     | Upload mode                                                                 |
 | LOCAL_DIR                            | /public/static/              | Where files will be uploaded                                                |
-| PWD                                  | $rootDirectory               | PWD process                                                                 |
+| MAESTRO_TMP                          | $rootDirectory               | Tmp folder used on upload files process                                     |
 |                                      |                              |                                                                             |
-| HTTP_ENDPOINT                        | https://api.maestroserver.io | Used only for demo-maestroserver, endpopint to be use for populate database |
+| MAESTRO_AUDIT_DISABLED               | false                        | Disable the audit service                                                   |
+| MAESTRO_REPORT_DISABLED              | false                        | Disable the report service                                                  |
+| MAESTRO_DISCOVERY_DISABLED           | false                        | Disable the discovery service                                               |
 
 ### Contribute ###
 
