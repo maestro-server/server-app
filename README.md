@@ -164,7 +164,7 @@ gulp eslint
 | AWS_S3_BUCKET_NAME                   | maestroserver                |                                                                             |
 | AWS_ENDPOINT                         | ny3.spacesdigitalocean       | S3 endpoint                                                                 |
 | MAESTRO_UPLOAD_TYPE                  | S3/Local                     | Upload mode                                                                 |
-| LOCAL_DIR                            | public/static/               | Where files will be uploaded                                                |
+| LOCAL_DIR                            | /public/static/              | Where files will be uploaded                                                |
 | MAESTRO_TMP                          | $rootDirectory               | Tmp folder used on upload files process                                     |
 |                                      |                              |                                                                             |
 | MAESTRO_AUDIT_DISABLED               | false                        | Disable the audit service                                                   |
