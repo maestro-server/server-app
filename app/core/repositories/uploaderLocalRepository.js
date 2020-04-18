@@ -9,15 +9,21 @@ const {CONTENT_UPLOAD_DEFAULT, LOCAL_DIR_DEFAULT} = require('core/configs/upload
 
 const UploaderRepository = (folder) => {
 
+    const base_api = (host) => {
+        const url = process.env.API_URL || `//${host}`;
+        return url.replace(/\/$/, "");
+    };
+
     return {
         upload(_id, type, headers) {
             const filename = `${_id}.${mapsFile(type)}`;
 
             return new Promise((resolve) => {
                 const {authorization, host} = headers;
-
+                const url = base_api(host);
+                
                 resolve({
-                    signedRequest: `//${host}/users/upload?ext=${mapsFile(type)}&folder=${folder}`,
+                    signedRequest: `${url}/users/upload?ext=${mapsFile(type)}&folder=${folder}`,
                     filename: `${folder}/${filename}`,
                     headers: {"Content-type": CONTENT_UPLOAD_DEFAULT, "Authorization": authorization}
                 });
