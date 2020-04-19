@@ -10,7 +10,8 @@ const volume = () => {
 
     const singleFilled = [...resFilled, 'kms_key_id', 'roles', 'owner', 'source_volume_id', 'active',
         'storage_account_type', 'write_accelerator_enabled', 'vhd', 'diff_disk_settings', 'create_option',
-        'migration_id', 'image_id', 'volume_type', 'snapshot_id', 'project_id', 'service', 'droplets_ids'];
+        'migration_id', 'image_id', 'volume_type', 'snapshot_id', 'project_id', 'service', 'droplets_ids',
+        'snapshot_id'];
 
     const filled = [..._.slice(singleFilled, 2)];  // delete id
 

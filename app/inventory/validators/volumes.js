@@ -1,10 +1,10 @@
 'use strict';
 
 const Joi = require('joi');
-const {roles, tags, owner, created_at, unique_id, active} = require('core/validators/validators');
+const {roles, tags, owner, created_at, unique_id, active, status} = require('core/validators/validators');
 
 const schema = Joi.object().keys({
-    status: Joi.string().valid('Active', 'Avaliable', 'Stopped').default('Active'),
+    status,
     name: Joi.string().min(3).max(80).required(),
     size: Joi.number().required(),
     encrypted: Joi.string().max(30),
