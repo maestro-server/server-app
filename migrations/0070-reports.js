@@ -33,7 +33,7 @@ exports.up = function (db, next) {
                                 },
                         {key: 'status', type: 'select', opts: ['active', 'avaliable', 'stopped']},
                         {key: 'metas', type: 'object', leaf: ['security_groups']},
-                        {key: 'datacenters', type: 'object', leaf: ['name', 'provider', 'region', 'zone', 'type', 'instance', 'subnet_id', 'virtualization_type', 'hypervisor', 'root_device_type', 'architecture', 'cloudwatch_monitoring']},
+                        {key: 'datacenters', type: 'object', leaf: ['_id', 'name', 'provider', 'region', 'zone', 'type', 'instance', 'subnet_id', 'virtualization_type', 'hypervisor', 'root_device_type', 'architecture', 'cloudwatch_monitoring']},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'roles', type: 'array', leaf:
                                 {type: 'object', leaf: ['name', 'refs']}},
@@ -69,7 +69,7 @@ exports.up = function (db, next) {
                                 {type: 'string'}},
                         {key: 'targets', type: 'array', leaf:
                                 {type: 'string'}},
-                        {key: 'datacenters', type: 'object', leaf: ['name', 'provider', 'region', 'zone', 'type', 'instance', 'subnet_id', 'virtualization_type', 'hypervisor', 'root_device_type', 'architecture', 'cloudwatch_monitoring']},
+                        {key: 'datacenters', type: 'object', leaf: ['_id', 'name', 'provider', 'region', 'zone', 'type', 'instance', 'subnet_id', 'virtualization_type', 'hypervisor', 'root_device_type', 'architecture', 'cloudwatch_monitoring']},
                         {key: 'owner', type: 'object', leaf: ['name', 'refs']},
                         {key: 'tags', type: 'array', leaf:
                                 {type: 'object', leaf: ['key', 'value']}
