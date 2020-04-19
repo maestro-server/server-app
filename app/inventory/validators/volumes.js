@@ -24,6 +24,7 @@ const schema = Joi.object().keys({
     roles: Joi.array().items(roles).unique('_id'),
     tags: Joi.array().items(tags),
     unique_id: unique_id.required(),
+    snapshot_id: Joi.string().max(50),
     active,
     created_at
 });
