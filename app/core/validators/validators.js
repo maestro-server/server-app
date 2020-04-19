@@ -103,7 +103,7 @@ module.exports = {
     unique_id: Joi.alternatives([Joi.string(), Joi.number()]),
     datacenters: Joi.object(),
     active: Joi.boolean(),
-    status: Joi.string().valid('Active', 'Avaliable', 'Stopped').default('Active'),
+    status: Joi.string().default('Active'),
     environment: Joi.string(),
     family: Joi.string().valid('Application', 'Loadbalance', 'Broker', 'Database', 'Serverless', 'ApiGateway', 'ContainerOrchestration', 'ServiceMesh', 'Cache', 'CDN', 'ObjectStorage', 'Monitor', 'Logs', 'SMTP', 'ServiceDiscovery', 'VPN', 'CI/CD', 'DNS', 'Repository', 'Auth', 'NAS', 'AutoScaling', 'AutoScalingPlan', 'ServerlessLayer', 'MachineLearning', 'Corporate').default("Application"),
     created_at: Joi.any(),
