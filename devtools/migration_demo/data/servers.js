@@ -12,9 +12,11 @@ const blue = [
                 "name": "Ngnix", "version": "1.14", "setup": {
                     "bin": "/bin/httpd",
                     "user": "apache",
-                    "init": "SystemCtl",
-                    "start": "systemctl httpd start",
-                    "stop": "systemctl httpd stop"
+                    "init": {
+                        "init": "SystemCtl",
+                        "start": "systemctl httpd start",
+                        "stop": "systemctl httpd stop"
+                    }
                 }
             }],
             [{ "name": "Haproxy", "version": "1.7" }]
@@ -61,9 +63,10 @@ const blue = [
             [{ "name": "Ngnix", "version": "1.14" }, { "name": "NodeJs", "version": "8.11", "setup": {
                 "bin": "/bin/node",
                 "user": "app",
-                "init": "pm2",
-                "start": "pm2 start 0",
-                "stop": "pm2 stop 0"
+                "init": {
+                    "start": "pm2 start 0",
+                    "stop": "pm2 stop 0"
+                }
             }}]
         ],
         "__sizeinc": 1,
@@ -88,9 +91,11 @@ const blue = [
             [{ "name": "Apache", "version": "2.15" }, { "name": "PHP", "version": "7.1", "setup": {
                 "bin": "/bin/php-fpm",
                 "user": "apache",
-                "init": "SystemCtl",
-                "start": "systemctl php-fpm start",
-                "stop": "systemctl php-fpm stop"
+                "init": {
+                    "init": "SystemCtl",
+                    "start": "systemctl php-fpm start",
+                    "stop": "systemctl php-fpm stop"
+                }
             } }]
         ],
         "__sizeinc": 1,
@@ -104,9 +109,11 @@ const blue = [
             [{ "name": "MySQL", "version": "5.7", "setup": {
                 "bin": "/bin/mysql",
                 "user": "mysql",
-                "init": "SystemCtl",
-                "start": "systemctl mysql start",
-                "stop": "systemctl mysql stop"
+                "init": {
+                    "init": "SystemCtl",
+                    "start": "systemctl mysql start",
+                    "stop": "systemctl mysql stop"
+                }
             } }]
         ],
         "__sizeinc": 3,
@@ -182,9 +189,11 @@ const blue = [
             [{ "name": "Ngnix", "version": "1.14" }, { "name": "NodeJs", "version": "8.11", "setup": {
                 "bin": "/bin/node",
                 "user": "app",
-                "init": "pm2",
-                "start": "pm2 start 0",
-                "stop": "pm2 stop 0"
+                "init": {
+                    "init": "pm2",
+                    "start": "pm2 start 0",
+                    "stop": "pm2 stop 0"
+                }
             }}]
         ],
         "__sizeinc": 1,
