@@ -48,6 +48,7 @@ jobs:
       node_js: 8
       script:
         - docker build -f Dockerfile -t $REPO .
+      after_success:
         - docker login -u $DOCKER_USER -p $DOCKER_PASS
         - docker tag $REPO $DOCKER_USER/$REPO:$TRAVIS_BRANCH
         - docker push $DOCKER_USER/$REPO:$TRAVIS_BRANCH
@@ -57,6 +58,10 @@ jobs:
       node_js: 8
       script:
         - docker build -f Dockerfile -t $REPO .
+        - docker build -f DockerfileDevTools -t populate-demo .
+      after_success:
         - docker login -u $DOCKER_USER -p $DOCKER_PASS
         - docker tag $REPO $DOCKER_USER/$REPO:latest
+        - docker tag $REPO $DOCKER_USER/populate-demo:latest
         - docker push $DOCKER_USER/$REPO:latest
+        - docker push $DOCKER_USER/populate-demo:latest
