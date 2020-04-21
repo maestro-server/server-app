@@ -67,6 +67,7 @@ const get_enabled = (name) => process.env[`MAESTRO_${name}_DISABLED`] || false;
 
 const service_disabled = (name) => {
     const enabled = get_enabled(name);
+
     if (enabled)
         throw new ServiceDisabledError(`${name} service was disabled`);
 };
