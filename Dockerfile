@@ -6,7 +6,14 @@ WORKDIR /data
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
-COPY ./ ./
+COPY app/ app/
+COPY templates templates/
+COPY migrations migrations/
+COPY .migration-config.js .
+COPY package.json .
+COPY pm2.json .
+COPY server.js .
+
 RUN mkdir -p /data/public/static/users/ && mkdir -p /data/public/static/teams/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 RUN npm install --only=production

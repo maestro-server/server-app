@@ -1,15 +1,13 @@
 language: node_js
-node_js:
-  - '8'
 addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
     packages:
     - g++-5
-addons:
   code_climate:
     repo_token: 818b5b0a5d1c18b8e8fcc6ebb84e7a37364425a25e72d47ed1fb62ca74309cdb
+
 env:
   - CXX=g++-5 DB=mongodb NODE_ENV=test
 cache:
@@ -17,7 +15,6 @@ cache:
     - node_modules
 services:
   - mongodb
-  - docker
 before_install:
   - npm install -g node-gyp istanbul
   - sudo apt-get update -qq
@@ -32,6 +29,8 @@ jobs:
       node_js:
         - '8'
         - '7'
+        - '9'
+        - '10'
       script:
         - npm run test
 
@@ -55,12 +54,12 @@ jobs:
 
     - stage: build docker image - latest
       if: branch = master
+      env:
+      - IMAGE=$REPO DFILE=Dockerfile
+      - IMAGE=populate-demo DFILE=DockerfileDevTools
       node_js: 8
       script:
         - docker login -u $DOCKER_USER -p $DOCKER_PASS
-        - docker build -f Dockerfile -t $REPO .
-        - docker tag $REPO $DOCKER_USER/$REPO:latest
-        - docker push $DOCKER_USER/$REPO:latest
-        - docker build -f DockerfileDevTools -t populate-demo .
-        - docker tag $REPO $DOCKER_USER/populate-demo:latest
-        - docker push $DOCKER_USER/populate-demo:latest
+        - docker build -f $DFILE -t IMAGE .
+        - docker tag IMAGE $DOCKER_USER/IMAGE:latest
+        - docker push $DOCKER_USER/IMAGE:latest
