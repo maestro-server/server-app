@@ -57,11 +57,10 @@ jobs:
       if: branch = master
       node_js: 8
       script:
-        - docker build -f Dockerfile -t $REPO .
-        - docker build -f DockerfileDevTools -t populate-demo .
-      after_success:
         - docker login -u $DOCKER_USER -p $DOCKER_PASS
+        - docker build -f Dockerfile -t $REPO .
         - docker tag $REPO $DOCKER_USER/$REPO:latest
-        - docker tag $REPO $DOCKER_USER/populate-demo:latest
         - docker push $DOCKER_USER/$REPO:latest
+        - docker build -f DockerfileDevTools -t populate-demo .
+        - docker tag $REPO $DOCKER_USER/populate-demo:latest
         - docker push $DOCKER_USER/populate-demo:latest
