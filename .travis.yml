@@ -1,4 +1,6 @@
 language: node_js
+node_js:
+  - '8'
 addons:
   apt:
     sources:
@@ -7,7 +9,6 @@ addons:
     - g++-5
   code_climate:
     repo_token: 818b5b0a5d1c18b8e8fcc6ebb84e7a37364425a25e72d47ed1fb62ca74309cdb
-
 env:
   - CXX=g++-5 DB=mongodb NODE_ENV=test
 cache:
@@ -15,6 +16,7 @@ cache:
     - node_modules
 services:
   - mongodb
+  - docker
 before_install:
   - npm install -g node-gyp istanbul
   - sudo apt-get update -qq
@@ -26,8 +28,6 @@ before_script:
 jobs:
   include:
     - stage: test
-      node_js:
-        - '8'
       script:
         - npm run test
 
@@ -41,7 +41,6 @@ jobs:
 
     - stage: build docker image - base
       if: branch != master
-      node_js: 8
       script:
         - docker build -f Dockerfile -t $REPO .
       after_success:
@@ -51,12 +50,11 @@ jobs:
 
     - stage: build docker image - latest
       if: branch = master
-      node_js: 8
-      env:
-        - IMAGE=$REPO DFILE=Dockerfile
-        - IMAGE=populate-demo DFILE=DockerfileDevTools
       script:
         - docker login -u $DOCKER_USER -p $DOCKER_PASS
-        - docker build -f $DFILE -t IMAGE .
-        - docker tag IMAGE $DOCKER_USER/IMAGE:latest
-        - docker push $DOCKER_USER/IMAGE:latest
+        - docker build -f Dockerfile -t $REPO .
+        - docker tag $REPO $DOCKER_USER/$REPO:latest
+        - docker push $DOCKER_USER/$REPO:latest
+        - docker build -f DockerfileDevTools -t populate-demo .
+        - docker tag populate-demo $DOCKER_USER/populate-demo:latest
+        - docker push $DOCKER_USER/populate-demo:latest
