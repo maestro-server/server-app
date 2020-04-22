@@ -7,6 +7,7 @@ const uuidv4 = require('./data/uuidv4');
 
 let request = require('supertest'),
     cleaner_lines = require('../../test/e2e/libs/cleaner_lines'),
+    clearner_dropDB = require('../../test/e2e/libs/cleaner_dropDB'),
     _ = require('lodash');
 
 
@@ -15,6 +16,7 @@ describe('demo setup', function () {
     let app, mock;
 
     const HTTP_ENDPOINT = process.env.HTTP_ENDPOINT || "http://localhost:8888";
+    const sandbox_dbname = process.env.MAESTRO_SANDBOX_DBNAME || 'maestro-reports';
 
     const user = require('./data/user.js')[0];
     const datacenters = require('./data/datacenters.js');
@@ -36,7 +38,6 @@ describe('demo setup', function () {
     const servers = require('./data/servers.js');
     const skipped = false;
 
-
     before(function (done) {
 
         cleaner_lines('users', {name: user.name})
@@ -53,7 +54,8 @@ describe('demo setup', function () {
                     cleaner_lines('images', {'owner.email': user.email}),
                     cleaner_lines('networks', {'owner.email': user.email}),
                     cleaner_lines('graphs', {'owner.email': user.email}),
-                    cleaner_lines('reports', {'owner.email': user.email})
+                    cleaner_lines('reports', {'owner.email': user.email}),
+                    clearner_dropDB(sandbox_dbname)
                 ]);
             })
             .then(() => {
@@ -67,6 +69,8 @@ describe('demo setup', function () {
     after(function (done) {
         mock.close(done);
     });
+
+
 
     const createItem = function (col, value, done, callback) {
         request(HTTP_ENDPOINT)
