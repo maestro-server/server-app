@@ -28,9 +28,6 @@ jobs:
     - stage: test
       node_js:
         - '8'
-        - '7'
-        - '9'
-        - '10'
       script:
         - npm run test
 
@@ -54,10 +51,10 @@ jobs:
 
     - stage: build docker image - latest
       if: branch = master
-      env:
-      - IMAGE=$REPO DFILE=Dockerfile
-      - IMAGE=populate-demo DFILE=DockerfileDevTools
       node_js: 8
+      env:
+        - IMAGE=$REPO DFILE=Dockerfile
+        - IMAGE=populate-demo DFILE=DockerfileDevTools
       script:
         - docker login -u $DOCKER_USER -p $DOCKER_PASS
         - docker build -f $DFILE -t IMAGE .
