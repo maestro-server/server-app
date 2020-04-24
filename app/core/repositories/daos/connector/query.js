@@ -208,9 +208,7 @@ Query.prototype.find = function (query, options) {
 		}
 	}
 
-
-
-	// find
+    // find
 	return this.collection
 		.then((collection) => {
 			let cursor = collection.find(query, options);

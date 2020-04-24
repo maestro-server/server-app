@@ -142,9 +142,9 @@ const DBRepository = (Entity, options = {}) => {
         create(post, fill = Entity.filled, resFilled = Entity.singleFilled) {
             return new Promise((resolve, reject) => {
                 let data = findFilledFormat(post, fill);
-    
+
                 data = factoryValid(data, Entity.validators.create);
-                
+
                 return new DB(data)
                     .save()
                     .then((e) => _.pick(e.get(), resFilled))
