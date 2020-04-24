@@ -6,7 +6,7 @@ const name = `${coll}_active_name`
 exports.up = function (db, next) {
     let pets = db.collection(coll);
     pets.createIndex({
-        "name": 1
+        "email": 1
     }, {name}, next);
 };
 
