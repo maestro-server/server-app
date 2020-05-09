@@ -15,19 +15,21 @@ To test out the demo, [Demo Online](http://demo.maestroserver.io "Demo Online")
 
 # Maestro Server - Server API #
 
-Server App is main application, yours responsibility is:
+Server app is the main service; also they act as a middleware to authenticate and authorize users, it connect to the database and connect to others services.
 
- - Authentication and authorization
- - Validate and create entities (crud ops)
- - Proxy to others micro services
+* Authentication and authorization
+* Validate and create entities (crud ops)
+* Proxy to others services
 
-We using DDD to organize the code, has infra, repositories, entities (values objects), interfaces, application, and domain.
+------
+
+* Server is made with `KrakenJs <http://krakenjs.com/>`_.
+* We use DDD to organize the code, they have an infra, repositories, entities (values objects), interfaces, application, and domain folders. `DDD in Node Apps <https://blog.codeminer42.com/nodejs-and-good-practices-354e7d763626>`_
+
 
 ![arch](http://docs.maestroserver.io/en/latest/_images/fluxo_data.png)
 
-Constructed with KrakenJs, we create a lot of middleware and organize by domain.
-
-**Core API, organized by modules:**
+**Core API:**
 
 * Core
 * Profile and authetication
@@ -46,13 +48,13 @@ Constructed with KrakenJs, we create a lot of middleware and organize by domain.
 * Jobs
 * Inventory
 
-## TechStack ##
+## TechStack: ##
 
 * NodeJs 8.11.2
 * MongoDB 3.4
 * AWS S3 (If using S3 upload)
 
-## Service relations ##
+## Connect to: ##
 * Maestro Discovery
 * Maestro Reports
 * Maestro Analytics
