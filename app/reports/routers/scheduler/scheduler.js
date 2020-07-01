@@ -12,7 +12,7 @@ module.exports = function (router) {
 
     router
         /**
-         * @api {get} /schedules a. List your schedule
+         * @api {get} /scheduler a. List your schedule
          * @apiName List all active schedule, have a posibility to use filters, pagination, queries and etc.
          * @apiGroup Schedules
          *
@@ -60,7 +60,7 @@ module.exports = function (router) {
          */
         .get('/', authenticate(), PersistenceAppScheduler.find)
         /**
-         * @api {get} /schedules/count b. Count total schedules
+         * @api {get} /scheduler/count b. Count total schedules
          * @apiName Get total schedules.
          * @apiGroup Schedules
          *
@@ -82,7 +82,7 @@ module.exports = function (router) {
          */
         .get('/count', authenticate(), PersistenceApp.count)
         /**
-         * @api {get} /schedules/:id c. Get single schedule
+         * @api {get} /scheduler/:id c. Get single schedule
          * @apiName Get single schedule.
          * @apiGroup Schedules
          *
@@ -109,7 +109,7 @@ module.exports = function (router) {
          */
         .get('/:id', authenticate(), PersistenceApp.findOne)
         /**
-         * @api {get} /schedules/:id/events d. Get all events
+         * @api {get} /scheduler/:id/events d. Get all events
          * @apiName Get events of schedule.
          * @apiGroup Schedules
          *
@@ -134,7 +134,7 @@ module.exports = function (router) {
          */
         .get('/:id/events', authenticate(), PersistenceAppScheduler.findEvents)
         /**
-         * @api {post} /schedules/ e. Create single schedule
+         * @api {post} /scheduler/ e. Create single schedule
          * @apiName PostSchedules
          * @apiGroup Schedules
          *
@@ -187,7 +187,7 @@ module.exports = function (router) {
          */
         .post('/', authenticate(), PersistenceApp.create)
         /**
-         * @api {put} /schedules/:id f. Full Update schedule
+         * @api {put} /scheduler/:id f. Full Update schedule
          * @apiName PatchSingleSchedules
          * @apiGroup Schedules
          *
@@ -213,7 +213,7 @@ module.exports = function (router) {
          */
         .put('/:id', authenticate(), PersistenceApp.update)
         /**
-         * @api {patch} /schedules/:id g. Update schedule
+         * @api {patch} /scheduler/:id g. Update schedule
          * @apiName PutSingleSchedules
          * @apiGroup Schedules
          * @apiDescription Use patch to partial update.
@@ -242,7 +242,7 @@ module.exports = function (router) {
          */
         .patch('/:id', authenticate(), PersistenceApp.patch)
         /**
-         * @api {delete} /schedules/:id h. Delete single schedule
+         * @api {delete} /scheduler/:id h. Delete single schedule
          * @apiName DeleteSingleSchedules
          * @apiGroup Schedules
          *
@@ -261,7 +261,7 @@ module.exports = function (router) {
          */
         .delete('/:id', authenticate(), PersistenceAppScheduler.remove)
         /**
-         * @api {post} /schedules/template i. Create a template scheduler
+         * @api {post} /scheduler/template i. Create a template scheduler
          * @apiName PostTemplateSchedules
          * @apiGroup Schedules
          *
@@ -295,7 +295,7 @@ module.exports = function (router) {
          * Roles
          */
                  /**
-         * @api {post} /schedules/:id/roles/ j. Add access Role
+         * @api {post} /scheduler/:id/roles/ j. Add access Role
          * @apiName PostRoleSchedules
          * @apiGroup Schedules
          *
@@ -320,7 +320,7 @@ module.exports = function (router) {
          */
         .post('/:id/roles', authenticate(), AccessApp.create)
         /**
-         * @api {put} /schedules/:id/roles l. Update access role
+         * @api {put} /scheduler/:id/roles l. Update access role
          * @apiName PutRoleSchedules
          * @apiGroup Schedules
          * @apiDescription Update all access roles, remember if you don´t send your access, after success you lose the access it´s
@@ -353,7 +353,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/', authenticate(), AccessApp.update)
         /**
-         * @api {put} /schedules/:id/roles/:idu m. Update specific access role
+         * @api {put} /scheduler/:id/roles/:idu m. Update specific access role
          * @apiName PutSingleRoleSchedules
          * @apiGroup Schedules
          * @apiDescription Update access level one role to one schedule
@@ -376,7 +376,7 @@ module.exports = function (router) {
          */
         .put('/:id/roles/:idu', authenticate(), AccessApp.updateSingle)
         /**
-         * @api {delete} /schedules/:id/roles/:idu n. Delete one role
+         * @api {delete} /scheduler/:id/roles/:idu n. Delete one role
          * @apiName DeleteRoleSchedules
          * @apiGroup Schedules
          * @apiDescription Delete unique role.

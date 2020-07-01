@@ -25,6 +25,12 @@ const schema = Joi.object().keys({
     tags: Joi.array().items(tags),
     unique_id: unique_id.required(),
     snapshot_id: Joi.string().max(50),
+    sectors: Joi.string(),
+    sectorsize: Joi.string(),
+    support_discard: Joi.string(),
+    model: Joi.string(),
+    host: Joi.string(),
+    holders: Joi.array(),
     active,
     created_at
 });

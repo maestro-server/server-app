@@ -1,13 +1,16 @@
 'use strict';
 
 const ValidatorError = require('core/errors/factoryError')('ValidatorError');
+const MapFileType = require('core/repositories/maps/mapFileType');
 
+
+// TODO - Figure out a better way to validate files.
 const validateFile = (file, opts) => {
 
     const defaultParams = {
-        maxsize: 1630240, //~1 mb,
-        minsize: 1024, // 1 kbs
-        type: ["image/jpeg", "image/png"]
+        maxsize: process.env.MAESTRO_UPLOAD_MAXSIZE | 16302400, //~10 mb,
+        minsize: process.env.MAESTRO_UPLOAD_MINSIZE | 1, // 1 kbs
+        type: MapFileType().getFyleTypes()
     };
 
     const config = Object.assign({}, defaultParams, opts);
@@ -27,11 +30,12 @@ const validateFile = (file, opts) => {
 
         typeValidate() {
             const fileType = file.type;
+
             if (config.type.indexOf(fileType) > -1) {
                 return true;
             }
 
-            error.push("We only acceptable jpg or png");
+            error.push("We only acceptable jpg, png, json and csv");
             return false;
         },
 

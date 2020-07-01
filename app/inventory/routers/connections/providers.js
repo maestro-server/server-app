@@ -31,7 +31,7 @@ module.exports = function (router) {
     .get('/', authenticate(), PersistenceConnection.info)
 
     /**
-     * @api {get} /providers/rules a. Rules for providers
+     * @api {get} /providers/rules c. Rules for providers
      * @apiName GetRulesConnection
      * @apiGroup Connections
      *
@@ -50,5 +50,52 @@ module.exports = function (router) {
      *     }
      */
 
-    .get('/rules', authenticate(), PersistenceConnection.rules);
+    .get('/rules', authenticate(), PersistenceConnection.rules)
+
+    /**
+     * @api {get} /providers/rules/:provider c. Single provider rule
+     * @apiName GetSingleRulesConnection
+     * @apiGroup Connections
+     *
+     *
+     * @apiPermission JWT
+     * @apiHeader (Auth) {String} Authorization JWT {Token}
+     *
+     * @apiError (Error) PermissionError Token don`t have permission
+     * @apiError (Error) Unauthorized Invalid Token
+     * @apiError (Error) NotFound List is empty
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *        values: {
+     *          "permission": []
+     *        }
+     *     }
+     */
+
+    .get('/rules/:provider', authenticate(), PersistenceConnection.single_rules)
+
+    /**
+     * @api {get} /providers/:provider b. Connection details regarding the provider
+     * @apiName GetSingleAvailConnection
+     * @apiGroup Connections
+     *
+     *
+     * @apiPermission JWT
+     * @apiHeader (Auth) {String} Authorization JWT {Token}
+     *
+     * @apiError (Error) PermissionError Token don`t have permission
+     * @apiError (Error) Unauthorized Invalid Token
+     * @apiError (Error) NotFound List is empty
+     *
+     * @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *        name: <string>,
+     *        data: []
+     *     }
+     */
+
+    .get('/:provider', authenticate(), PersistenceConnection.single);
 };

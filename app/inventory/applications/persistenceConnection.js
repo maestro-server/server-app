@@ -16,6 +16,8 @@ const {DiscoveryHTTPService} = require('core/services/HTTPService');
 
 const ApplicationConnection = (Entity, PersistenceServices = DPersistenceServices) => {
 
+    const formatProvider = (label) => _.toLower(label).replace(/\s/g, "");
+
     return {
         info(req, res, next) {
 
@@ -25,10 +27,28 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                 .catch(next);
         },
 
+        single(req, res, next) {
+            const provider = _.get(req.params, 'provider');
+
+            DiscoveryHTTPService()
+                .find(`/available/info/${provider}`)
+                .then(e => res.json(e))
+                .catch(next);
+        },
+
         rules(req, res, next) {
 
             DiscoveryHTTPService()
                 .find('/available/rules')
+                .then(e => res.json(e))
+                .catch(next);
+        },
+
+        single_rules(req, res, next) {
+            const provider = _.get(req.params, 'provider');
+
+            DiscoveryHTTPService()
+                .find(`/available/rules/${provider}`)
                 .then(e => res.json(e))
                 .catch(next);
         },
@@ -52,8 +72,9 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                     DatacentersConnection(req.body, req, PersistenceServices, Entity).connected()
                 ])
                 .then(e => {
+                    const {provider} = e[0];
                     DiscoveryHTTPService()
-                        .find('/available/rules')
+                        .find(`/available/rules/${formatProvider(provider)}`)
                         .then(SchedulerBatch(req, e[0])(PersistenceServices).batch)
                         .catch(console.error);
                 })
@@ -83,7 +104,7 @@ const ApplicationConnection = (Entity, PersistenceServices = DPersistenceService
                 .then(notExist)
                 .then((e) => {
                     return DiscoveryHTTPService()
-                        .update(`/crawler/${e.service}/${req.params.id}/${req.params.command}`);
+                        .update(`/crawler/${e.provider}/${req.params.id}/${req.params.command}`);
                 })
                 .then(e => res.json(e))
                 .catch(next);

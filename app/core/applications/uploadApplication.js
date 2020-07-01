@@ -14,6 +14,13 @@ const PersistenceApp = (Entity, UploadService = DUploaderService) => {
                 .catch(next);
         },
 
+        readFile(req, res, next) {
+            UploadService(Entity)
+                .readImage(req, req.user)
+                .then(e => res.json(e))
+                .catch(next);
+        },
+
         receiverFile(req, res, next) {
             UploadService(Entity)
                 .uploadImage(req, req.user)

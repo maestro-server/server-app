@@ -10,3 +10,5 @@ coverage/
 public/static/users
 public/static/teams
 public/static/company
+private/
+_private/

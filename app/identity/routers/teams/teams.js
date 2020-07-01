@@ -110,7 +110,27 @@ module.exports = function (router) {
         .get('/upload', authenticate(), UploaderApp.uploader)
 
         /**
-         * @api {put} /teams/upload d. Upload file in local server (used only local upload is enabled)
+         * @api {get} /teams/upload e. Read a private file
+         * @apiName ReadUploadTeams
+         * @apiGroup Teams
+         *
+         * @apiParam (query) {String} filename Filename path
+         *
+         * @apiPermission JWT (Read | Write | Admin)
+         * @apiHeader (Auth) {String} Authorization Private JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound List is empty
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {}
+         */
+        .get('/upload/file/', UploaderApp.readFile)
+
+        /**
+         * @api {put} /teams/upload f. Upload file in local server (used only local upload is enabled)
          * @apiName PutUploadTeams
          * @apiGroup Teams
          *
@@ -133,7 +153,7 @@ module.exports = function (router) {
         .put('/upload', authenticate(), UploaderApp.receiverFile)
 
         /**
-         * @api {get} /teams/:id e. Get single team
+         * @api {get} /teams/:id g. Get single team
          * @apiName GetSingleTeam
          * @apiGroup Teams
          *
@@ -159,7 +179,7 @@ module.exports = function (router) {
          */
         .get('/:id', authenticate(), PersistenceApp.findOne)
         /**
-         * @api {post} /teams/ f. Create team
+         * @api {post} /teams/ h. Create team
          * @apiName PostTeamMembers
          * @apiGroup Teams
          *
@@ -186,7 +206,7 @@ module.exports = function (router) {
          */
         .post('/', authenticate(), PersistenceApp.create)
         /**
-         * @api {patch} /teams/:id g. Update partial teams
+         * @api {patch} /teams/:id i. Update partial teams
          * @apiName PatchSingleTeam
          * @apiGroup Teams
          *
@@ -208,7 +228,7 @@ module.exports = function (router) {
          */
         .patch('/:id', authenticate(), PersistenceApp.patch)
         /**
-         * @api {put} /teams/:id h. Update single teams
+         * @api {put} /teams/:id j. Update single teams
          * @apiName PutSingleTeam
          * @apiGroup Teams
          *
@@ -230,7 +250,7 @@ module.exports = function (router) {
          */
         .put('/:id', authenticate(), PersistenceApp.update)
         /**
-         * @api {delete} /teams/:id i. Delete team
+         * @api {delete} /teams/:id l. Delete team
          * @apiName DeleteSingleTeam
          * @apiGroup Teams
          *
@@ -249,7 +269,7 @@ module.exports = function (router) {
         .delete('/:id', authenticate(), PersistenceApp.remove)
 
         /**
-         * @api {get} /teams/:id/audit h. Get changed history
+         * @api {get} /teams/:id/audit m. Get changed history
          * @apiName GetAuditTeams
          * @apiGroup Teams
          *
@@ -275,7 +295,7 @@ module.exports = function (router) {
         .get('/:id/audit', authenticate(), PersistenceAudit.find)
 
         /**
-         * @api {post} /teams/:id/members j. Add member on team
+         * @api {post} /teams/:id/members n. Add member on team
          * @apiName PostSingleTeamMembers
          * @apiGroup Teams
          *
@@ -300,7 +320,7 @@ module.exports = function (router) {
          */
         .post('/:id/members', authenticate(), AccessApp.create)
         /**
-         * @api {put} /teams/:id/members l. Update all members
+         * @api {put} /teams/:id/members o. Update all members
          * @apiName PutTeamMembers
          * @apiGroup Teams
          *
@@ -331,7 +351,7 @@ module.exports = function (router) {
          */
         .put('/:id/members/', authenticate(), AccessApp.update)
         /**
-         * @api {put} /teams/:id/members/:idu m. Update single member
+         * @api {put} /teams/:id/members/:idu p. Update single member
          * @apiName PutTeamMembersSingle
          * @apiGroup Teams
          *
@@ -358,7 +378,7 @@ module.exports = function (router) {
         .put('/:id/members/:idu', authenticate(), AccessApp.updateSingle)
 
         /**
-         * @api {delete} /teams/:id/members/:idu n. Delete single member team
+         * @api {delete} /teams/:id/members/:idu q. Delete single member team
          * @apiName DeleteTeamMembers
          * @apiGroup Teams
          *

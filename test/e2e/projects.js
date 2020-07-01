@@ -370,7 +370,7 @@ describe('e2e projects', function () {
               });
       });
 
-      it('Exist project -  autocomplete', function (done) {
+      it('Exist project - autocomplete', function (done) {
           request(mock)
               .get('/projects/autocomplete')
               .query({complete: "Second"})

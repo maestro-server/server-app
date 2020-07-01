@@ -70,21 +70,6 @@ describe('unit - profile', function () {
             .and.notify(done);
     });
 
-    it('services - libs - decodePassForgot - test secret KEy', function (done) {
-        const jwt = require('jwt-simple');
-        const config = require('identity/config/auth_config');
-        const Crypto = require('core/libs/crypto');
-        const user = "token";
-        const crypt = Crypto.encrypt(JSON.stringify(user));
-
-        const token = jwt.encode(crypt, config.jwtSecret.secretOrKey);
-        const decode = require('identity/services/libs/decodePassForgot');
-        const res = decode({token});
-
-        expect(res).to.rejected
-            .and.notify(done);
-    });
-
 
     /*
      ------------------------------------------------------- trasnforms

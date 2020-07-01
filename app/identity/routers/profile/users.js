@@ -92,7 +92,7 @@ module.exports = function (router) {
          */
         .get('/autocomplete', authenticate(), PersistenceApp.autocomplete)
         /**
-         * @api {get} /users/upload d. Signed upload workflow
+         * @api {get} /users/upload e. Signed upload workflow
          * @apiName GetUploadUsers
          * @apiGroup Users
          * @apiDescription Its only to mark and create a token authetication, to upload new files.
@@ -113,7 +113,27 @@ module.exports = function (router) {
         .get('/upload', authenticate(), UploaderApp.uploader)
 
         /**
-         * @api {put} /users/upload d. Upload file in local server (used only local upload is enabled)
+         * @api {get} /users/upload f. Read a private file
+         * @apiName ReadUploadUsers
+         * @apiGroup Users
+         *
+         * @apiParam (query) {String} filename Filename path
+         *
+         * @apiPermission JWT (Read | Write | Admin)
+         * @apiHeader (Auth) {String} Authorization Private JWT {Token}
+         *
+         * @apiError (Error) PermissionError Token don`t have permission
+         * @apiError (Error) Unauthorized Invalid Token
+         * @apiError (Error) NotFound List is empty
+         *
+         * @apiSuccessExample {json} Success-Response:
+         *     HTTP/1.1 200 OK
+         *     {}
+         */
+        .get('/upload/file/', UploaderApp.readFile)
+
+        /**
+         * @api {put} /users/upload g. Upload file in local server (used only local upload is enabled)
          * @apiName PutUploadUsers
          * @apiGroup Users
          *
@@ -139,7 +159,7 @@ module.exports = function (router) {
           res.json({});
          })
         /**
-         * @api {get} /users/:id e. Get single profile
+         * @api {get} /users/:id h. Get single profile
          * @apiName GetSingleUsers
          * @apiGroup Users
          *
@@ -162,7 +182,7 @@ module.exports = function (router) {
         .get('/:id', authenticate(), PersistenceApp.findOne)
 
         /**
-         * @api {post} /users/auth a. Authenticate
+         * @api {post} /users/auth i. Authenticate
          * @apiName PostAuth
          * @apiGroup Auth
          *
@@ -183,7 +203,7 @@ module.exports = function (router) {
         .post('/auth', AuthApp.login)
 
         /**
-         * @api {patch} /users/pass b. Update exist password
+         * @api {patch} /users/pass j. Update exist password
          * @apiName PatchAuth
          * @apiGroup Auth
          *
@@ -201,7 +221,7 @@ module.exports = function (router) {
         .patch('/auth/pass', authenticate(), AuthApp.updateExistPassword)
 
         /**
-         * @api {post} /users/forgot c. Send a forgot email
+         * @api {post} /users/forgot l. Send a forgot email
          * @apiName PostForgotAuth
          * @apiGroup Auth
          * @apiDescription Send a email with url callback for recorver
@@ -219,7 +239,7 @@ module.exports = function (router) {
          */
         .post('/forgot', AuthApp.forgot)
         /**
-         * @api {put} /users/forgot/change d. Change password
+         * @api {put} /users/forgot/change m. Change password
          * @apiName PutForgotChangeAuth
          * @apiGroup Auth
          *

@@ -10,7 +10,7 @@ const DatacentersAttachReports = require('../services/DatacentersAttachReports')
 const ApplicationDatacenters = (Entity, PersistenceServices = DPersistenceServices) => {
 
     return {
-        findOrphans(req, res, next) {
+              findOrphans(req, res, next) {
 
             PersistenceServices(Entity)
                 .findOne(req.params.id, req.user)

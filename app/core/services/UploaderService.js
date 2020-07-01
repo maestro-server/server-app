@@ -16,13 +16,24 @@ const UploaderService = (Entity) => {
         signed ({query, headers}, owner) {
 
             return new Promise((resolve, reject) => {
-                const type = query.filetype;
+                const {filetype:type, filename} = query;
                 const {_id} = owner;
 
                 validateFile({type}).check();
 
                 return UploaderRepository
-                    .upload(_id, type, headers)
+                    .upload(_id, type, filename, headers)
+                    .then(resolve)
+                    .catch(reject);
+            });
+        },
+
+        readImage({query}) {
+            const {filename} = query;
+
+            return new Promise((resolve, reject) => {
+                return UploaderRepository
+                    .readfiles(filename)
                     .then(resolve)
                     .catch(reject);
             });

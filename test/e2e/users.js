@@ -115,8 +115,9 @@ describe('e2e users', function () {
         it('Exist user - Upload Files', function (done) {
             request(mock)
                 .get('/users/upload')
-                .query({filetype:'image/jpeg'})
+                .query({filetype:'image/jpeg', filename: 'my.jpg'})
                 .set('Authorization', `JWT ${user.token}`)
+                .expect(console.log)
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .expect(/filename/)
@@ -143,6 +144,18 @@ describe('e2e users', function () {
             request(mock)
                 .get('/users/upload')
                 .expect(401)
+                .end(function (err) {
+                    if (err) return done(err);
+                    done(err);
+                });
+        });
+
+        it('Smoke test in audit', function (done) {
+            request(mock)
+                .get('/me/audit')
+                .set('Authorization', `JWT ${user.token}`)
+                .expect(501)
+                .expect('Content-Type', /json/)
                 .end(function (err) {
                     if (err) return done(err);
                     done(err);
@@ -240,6 +253,8 @@ describe('e2e users', function () {
                     done(err);
                 });
         });
+
+
     });
 
     /**

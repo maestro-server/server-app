@@ -30,6 +30,7 @@ describe('e2e architectures', function () {
     };
 
     let servers = [{
+        name: "Myserver",
         hostname: "Myserver",
         ipv4_private: "127.0.0.1",
         ipv4_public: "127.0.0.1",
@@ -42,6 +43,7 @@ describe('e2e architectures', function () {
         auth: [{name: 'mykey', type: 'PKI', username: 'signorini', key: 'master.pem'}],
         tags: [{key: 'Tager', value: 'ValueTager'}],
     }, {
+        name: "Myserver",
         hostname: "Secondserver",
         ipv4_private: "127.0.0.4",
         ipv4_public: "127.0.0.4",

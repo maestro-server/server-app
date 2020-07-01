@@ -23,9 +23,9 @@ describe('unit - core', function () {
     it('repositories - maps - mapFileType', function (done) {
         const map = require('core/repositories/maps/mapFileType');
 
-        const test1 = map("image/jpeg");
-        const test2 = map("image/png");
-        const test3 = map("default");
+        const test1 = map("image/jpeg").getExtesion();
+        const test2 = map("image/png").getExtesion();
+        const test3 = map("default").getExtesion();
 
         expect(test1).to.equal('jpg');
         expect(test2).to.equal('png');

@@ -37,6 +37,7 @@ module.exports = {
     }),
     storage: Joi.object().keys({
         name: Joi.string().max(100),
+        device_name: Joi.string().max(100),
         size: Joi.number().positive().max(99924),
         root: Joi.string().max(10),
         status: Joi.string().max(10),
@@ -53,7 +54,8 @@ module.exports = {
         create_option: Joi.string().max(100),
         vhd: Joi.string(),
         diff_disk_settings: Joi.string(),
-        delete_termination: Joi.any()
+        delete_termination: Joi.any(),
+        partitions: Joi.array()
     }),
     services: Joi.object().keys({
         name: Joi.string(),

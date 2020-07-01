@@ -166,12 +166,15 @@ gulp eslint
 | AWS_S3_BUCKET_NAME                   | maestroserver                |                                                                             |
 | AWS_ENDPOINT                         | ny3.spacesdigitalocean       | S3 endpoint                                                                 |
 | MAESTRO_UPLOAD_TYPE                  | S3/Local                     | Upload mode                                                                 |
-| LOCAL_DIR                            | /public/static/              | Where files will be uploaded                                                |
+| LOCAL_DIR                            | /public/static               | Upload public folder, as an example avatar images.                          |
+| PRIVATE_LOCAL_DIR                    | /private                     | Upload private folder, as an example ansible facts json.                    |
 | MAESTRO_TMP                          | $rootDirectory               | Tmp folder used on upload files process                                     |
 |                                      |                              |                                                                             |
 | MAESTRO_AUDIT_DISABLED               | false                        | Disable the audit service                                                   |
 | MAESTRO_REPORT_DISABLED              | false                        | Disable the report service                                                  |
 | MAESTRO_DISCOVERY_DISABLED           | false                        | Disable the discovery service                                               |
+| MAESTRO_UPLOAD_MAXSIZE               | 16302400                     | Upload max size allowed in bytes                                            |
+| MAESTRO_UPLOAD_MINSIZE               | 1                            | Upload min size allowed in bytes                                            | 
 
 ### Contribute ###
 

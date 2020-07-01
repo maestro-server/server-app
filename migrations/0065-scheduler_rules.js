@@ -46,6 +46,10 @@ exports.up = function (db, next) {
                             every: 6,
                             period: 'hours'
                         },
+                        'storage-list': {
+                            every: 5,
+                            period: 'hours'
+                        },
                         'cdns-list': {
                             every: 5,
                             period: 'days'
