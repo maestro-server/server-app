@@ -32,7 +32,7 @@ const MapFileType = (type=null) => {
         },
 
         getType(ext) {
-            return _.findKey(maps, _.partial(_.isEqual, ext));
+            return _.findKey(maps, _.partial(_.isEqual, ext)) | "application/json";
         }
     };
 };

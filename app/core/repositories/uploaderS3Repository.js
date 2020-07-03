@@ -105,7 +105,10 @@ const UploaderRepository = (folder) => {
                         let dt = data.Body;
 
                         if(data.ContentType.indexOf("image") === -1)
-                            dt = dt.toString('utf-8');
+                            dt = dt.toString();
+
+                        if(data.ContentType.indexOf("application/json") !== -1)
+                            dt = JSON.parse(dt);
 
                         resolve(dt);
                     })
