@@ -164,6 +164,7 @@ gulp eslint
 | AWS_SECRET_ACCESS_KEY                | XXXX                         |                                                                             |
 | AWS_DEFAULT_REGION                   | us-east-1                    |                                                                             |
 | AWS_S3_BUCKET_NAME                   | maestroserver                |                                                                             |
+| AWS_S3_PRIVATE_BUCKET_NAME           | privatemaestro               | Used to upload internal files, as an example ansible facts and tf states    |
 | AWS_ENDPOINT                         | ny3.spacesdigitalocean       | S3 endpoint                                                                 |
 | MAESTRO_UPLOAD_TYPE                  | S3/Local                     | Upload mode                                                                 |
 | LOCAL_DIR                            | /public/static               | Upload public folder, as an example avatar images.                          |

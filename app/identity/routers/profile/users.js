@@ -1,6 +1,7 @@
 'use strict';
 
 const authenticate = require('identity/middlewares/authenticate');
+const authenticate_private = require('identity/middlewares/authenticate_private');
 
 const User = require('identity/entities/Users');
 const UserAuth = require('identity/entities/Auth');
@@ -130,7 +131,7 @@ module.exports = function (router) {
          *     HTTP/1.1 200 OK
          *     {}
          */
-        .get('/upload/file/', UploaderApp.readFile)
+        .get('/upload/file/', authenticate_private(), UploaderApp.readFile)
 
         /**
          * @api {put} /users/upload g. Upload file in local server (used only local upload is enabled)
