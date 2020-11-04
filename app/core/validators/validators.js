@@ -55,7 +55,8 @@ module.exports = {
         vhd: Joi.string(),
         diff_disk_settings: Joi.string(),
         delete_termination: Joi.any(),
-        partitions: Joi.array()
+        partitions: Joi.array(),
+        mounts: Joi.array()
     }),
     services: Joi.object().keys({
         name: Joi.string(),
