@@ -230,6 +230,7 @@ function createTemplate(obj, ix) {
     let template = {
         "unique_id": "i-" + uuidv4('xxxxxxxxxxxxxxxxx'),
         "hostname": _.get(obj, 'prefix') + uuidv4('xxxxxxxxxxxxxxxxx') + '-' + ix,
+        "name": _.get(obj, 'prefix') + uuidv4('xxxxxxxxxxxxxxxxx') + '-' + ix,
         "role": _.get(obj, 'role'),
         "ipv4_private": ip(),
         "ipv4_public": ip(true),
