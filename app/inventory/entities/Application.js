@@ -9,7 +9,7 @@ const app = () => {
     'name', 'status', 'family', 'environment', 'provider', 'own', 'tables',
     'system.name', 'system._id', 'engine', 'size', 'deps', 'role', 'spec', 'asm_groups', 'domain', 'loadbalance_names', 'instances',
     'language', 'cluster', 'dataguard', 'type', 'storage_types', 'queues', 'urls', 'cache_behavior', 'cache_nodes',
-    'crs_version', 'modal', 'pdbs', 'datacenters.name', 'datacenters',
+    'crs_version', 'modal', 'pdbs', 'datacenters',
     'deploy', 'tags', 'description', 'read_status', 'state', 'active'];
 
     const singleFilled = [...resFilled, 'roles', 'system', 'owner'];
