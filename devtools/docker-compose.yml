@@ -7,6 +7,6 @@ services:
       - "1025:25"
       - "1080:80"
   mongodb:
-    image: mongo
+    image: mongo:4.4.9
     ports:
       - "27017:27017"
