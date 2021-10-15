@@ -1,4 +1,4 @@
-FROM keymetrics/pm2:8-alpine
+FROM keymetrics/pm2:14-alpine
 RUN apk --no-cache add --virtual native-deps g++ gcc libgcc libstdc++ linux-headers make python tini
 
 # Bundle APP files
